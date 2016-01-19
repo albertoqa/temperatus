@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import org.springframework.stereotype.Component;
 import temperatus.util.Animation;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,5 +34,29 @@ public class BaseController implements Initializable{
 
     public StackPane getVistaHolder() {
         return vistaHolder;
+    }
+
+
+
+
+    @FXML
+    private void goHome() {
+        VistaNavigator.loadVista(Constants.HOME);
+    }
+    @FXML
+    private void goArchive() {
+        VistaNavigator.loadVista(Constants.ARCHIVED);
+    }
+    @FXML
+    private void goNewProject() {
+
+    }
+    @FXML
+    private void goIButtons() {
+
+    }
+    @FXML
+    private void goConfiguration() {
+        VistaNavigator.openModal(Constants.CONFIG, "Configuration");
     }
 }
