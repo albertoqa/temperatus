@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.util.ArrayList?>
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="782.0" text="Configuration" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="734.0">
+         <children>
+            <SplitPane dividerPositions="0.22054939249867933" prefHeight="338.0" prefWidth="484.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane maxWidth="240.0" minHeight="0.0" minWidth="-Infinity" prefHeight="506.0" prefWidth="180.0">
+                     <children>
+                        <Accordion layoutX="-32.0" layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <panes>
+                            <TitledPane animated="false" text="General">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox layoutX="-0.5999999999999996" layoutY="-10.0" prefWidth="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-11.400000000000006" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <Label fx:id="generalView" prefHeight="22.0" prefWidth="250.0" text="    General config">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin></Label>
+                                                <Label fx:id="importExport" prefHeight="22.0" prefWidth="250.0" text="    Import/Export" />
+                                                <Label fx:id="defaultsView" prefHeight="22.0" prefWidth="250.0" text="    Defaults" />
+
+                                                 <fx:define>
+                                                     <ArrayList fx:id="menuLabels">
+                                                         <fx:reference source="generalView" />
+                                                         <fx:reference source="importExport" />
+                                                         <fx:reference source="defaultsView" />
+                                                     </ArrayList>
+                                                 </fx:define>
+
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane animated="false" text="Formulas">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </TitledPane>
+                            <TitledPane animated="false" text="Graphics">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </TitledPane>
+                          </panes>
+                        </Accordion>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="563.0">
+                     <children>
+                        <StackPane fx:id="selectedView" layoutX="194.0" layoutY="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Nothig selected" />
+                           </children></StackPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+            <Button fx:id="saveButton" layoutX="588.0" layoutY="449.0" mnemonicParsing="false" text="Save" />
+            <Button fx:id="cancelButton" layoutX="653.0" layoutY="449.0" mnemonicParsing="false" onAction="#cancelAction" text="Cancel" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>

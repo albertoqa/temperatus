@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-dic-2015 14:25:06 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="temperatus.model.pojo.Experiment" table="EXPERIMENT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="author" type="string">
+            <column name="AUTHOR" length="30" not-null="true" />
+        </property>
+        <property name="dateIni" type="date">
+            <column name="DATE_INI" length="8" />
+        </property>
+        <property name="dateEnd" type="date">
+            <column name="DATE_END" length="8" />
+        </property>
+        <property name="observations" type="java.lang.String">
+            <column name="OBSERVATIONS" />
+        </property>
+        <property name="projectId" type="java.lang.Integer">
+            <column name="PROJECT_ID" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:h2:file:/Users/alberto/Desktop/h2/database</property>
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="hibernate.connection.password">temperatus2015</property>
+        <property name="hibernate.connection.username">aquesada</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+
+        <mapping resource="mapper/Button.hbm.xml"/>
+        <mapping resource="mapper/Data.hbm.xml"/>
+        <mapping resource="mapper/Experiment.hbm.xml"/>
+        <mapping resource="mapper/Game.hbm.xml"/>
+        <mapping resource="mapper/GamePosition.hbm.xml"/>
+        <mapping resource="mapper/Ibutton.hbm.xml"/>
+        <mapping resource="mapper/Position.hbm.xml"/>
+        <mapping resource="mapper/Project.hbm.xml"/>
+        <mapping resource="mapper/Test.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
