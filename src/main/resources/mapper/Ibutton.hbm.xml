@@ -8,9 +8,9 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="position" class="temperatus.model.pojo.Position" fetch="select">
+        <property name="defaultPositionId" type="java.lang.Integer">
             <column name="DEFAULTPOS" />
-        </many-to-one>
+        </property>
         <property name="serial" type="string">
             <column name="SERIAL" length="200" />
         </property>

@@ -14,9 +14,8 @@ public interface ProjectService {
     void delete(Project project);
     List<Project> getAll();
     void saveOrUpdate(Project project);
-    List<String> getAuthorsInvolved(int id);
-    int getIdByName(String name);
 
+    int getIdByName(String name);
     List<String> getAllProjectNames();
 
 }

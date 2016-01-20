@@ -39,7 +39,7 @@ public class Project implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "NAME", length = 100)
+	@Column(name = "NAME", length = 100, unique = true)
 	public String getName() {
 		return this.name;
 	}

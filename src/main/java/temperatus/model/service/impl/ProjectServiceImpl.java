@@ -45,11 +45,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<String> getAuthorsInvolved(int id) {
-        return projectDao.getAuthorsInvolved(id);
-    }
-
-    @Override
     public int getIdByName(String name) {
         return projectDao.getIdByName(name);
     }

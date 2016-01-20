@@ -13,16 +13,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Record implements java.io.Serializable {
 
 	private Integer id;
-	private Ibutton ibutton;
-	private Position position;
 	private Integer misionId;
+	private Integer ibuttonId;
+	private Integer positionId;
 
 	public Record() {
 	}
 
-	public Record(Ibutton ibutton, Position position, Integer misionId) {
-		this.ibutton = ibutton;
-		this.position = position;
+	public Record(Integer misionId, Integer ibutton, Integer position) {
+		this.ibuttonId = ibutton;
+		this.positionId = position;
 		this.misionId = misionId;
 	}
 
@@ -38,27 +38,7 @@ public class Record implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IBUTTON_ID")
-	public Ibutton getIbutton() {
-		return this.ibutton;
-	}
-
-	public void setIbutton(Ibutton ibutton) {
-		this.ibutton = ibutton;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "POSITION_ID")
-	public Position getPosition() {
-		return this.position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
-
-	@Column(name = "MISION_ID")
+	@Column(name = "MISSION_ID")
 	public Integer getMisionId() {
 		return this.misionId;
 	}
@@ -67,4 +47,21 @@ public class Record implements java.io.Serializable {
 		this.misionId = misionId;
 	}
 
+	@Column(name = "IBUTTON_ID")
+	public Integer getIbuttonId() {
+		return ibuttonId;
+	}
+
+	public void setIbuttonId(Integer ibuttonId) {
+		this.ibuttonId = ibuttonId;
+	}
+
+	@Column(name = "POSITION_ID")
+	public Integer getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
+	}
 }

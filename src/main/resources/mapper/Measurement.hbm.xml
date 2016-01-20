@@ -8,9 +8,9 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="record" class="temperatus.model.pojo.Record" fetch="select">
+        <property name="recordId" type="java.lang.Integer">
             <column name="RECORD_ID" />
-        </many-to-one>
+        </property>
         <property name="date" type="date">
             <column name="DATE" length="8" />
         </property>

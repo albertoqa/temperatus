@@ -14,17 +14,17 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Measurement implements java.io.Serializable {
 
 	private Integer id;
-	private Record record;
 	private Date date;
 	private String data;
+	private Integer recordId;
 
 	public Measurement() {
 	}
 
-	public Measurement(Record record, Date date, String data) {
-		this.record = record;
+	public Measurement(Date date, String data, Integer recordId) {
 		this.date = date;
 		this.data = data;
+		this.recordId = recordId;
 	}
 
 	@Id
@@ -37,16 +37,6 @@ public class Measurement implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "RECORD_ID")
-	public Record getRecord() {
-		return this.record;
-	}
-
-	public void setRecord(Record record) {
-		this.record = record;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -68,4 +58,12 @@ public class Measurement implements java.io.Serializable {
 		this.data = data;
 	}
 
+	@Column(name = "RECORD_ID")
+	public Integer getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(Integer recordId) {
+		this.recordId = recordId;
+	}
 }

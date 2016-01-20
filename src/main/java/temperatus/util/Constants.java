@@ -22,6 +22,8 @@ public class Constants {
 
     public static final String ARCHIVED = "/fxml/Archived.fxml";
 
+    public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
+
     //#########################################################################//
 
 

@@ -8,14 +8,14 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="ibutton" class="temperatus.model.pojo.Ibutton" fetch="select">
+        <property name="ibuttonId" type="java.lang.Integer">
             <column name="IBUTTON_ID" />
-        </many-to-one>
-        <many-to-one name="position" class="temperatus.model.pojo.Position" fetch="select">
+        </property>
+        <property name="positionId" type="java.lang.Integer">
             <column name="POSITION_ID" />
-        </many-to-one>
+        </property>
         <property name="misionId" type="java.lang.Integer">
-            <column name="MISION_ID" />
+            <column name="MISSION_ID" />
         </property>
     </class>
 </hibernate-mapping>

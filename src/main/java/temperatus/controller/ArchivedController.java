@@ -6,7 +6,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import temperatus.model.service.MisionService;
+import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 
 import java.net.URL;
@@ -26,7 +26,7 @@ public class ArchivedController implements Initializable{
     ProjectService projectService;
 
     @Autowired
-    MisionService misionService;
+    MissionService missionService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +41,7 @@ public class ArchivedController implements Initializable{
         for (String project : projects) {
             TreeItem<String> projectItem = new TreeItem<String>(project);
             rootItem.getChildren().add(projectItem);
-            List<Integer> experiments = misionService.getMisionNamesRelatedToProject(project);
+            /*List<Integer> experiments = misionService.getMisionNamesRelatedToProject(project);
             for (Integer experiment : experiments) {
                 TreeItem<String> experimentItem = new TreeItem<String>(String.valueOf(experiment));
                 projectItem.getChildren().add(experimentItem);
@@ -49,8 +49,8 @@ public class ArchivedController implements Initializable{
                 for (String test : tests) {
                     TreeItem<String> testItem = new TreeItem<String>(test);
                     experimentItem.getChildren().add(testItem);
-                }*/
-            }
+                }
+            }*/
         }
         treeView.setRoot(rootItem);
     }

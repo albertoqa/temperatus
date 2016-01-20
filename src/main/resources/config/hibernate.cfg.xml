@@ -11,12 +11,13 @@
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
         <mapping resource="mapper/Record.hbm.xml"/>
-        <mapping resource="mapper/Mision.hbm.xml"/>
+        <mapping resource="mapper/Mission.hbm.xml"/>
         <mapping resource="mapper/Measurement.hbm.xml"/>
         <mapping resource="mapper/Game.hbm.xml"/>
         <mapping resource="mapper/GamePosition.hbm.xml"/>
         <mapping resource="mapper/Ibutton.hbm.xml"/>
         <mapping resource="mapper/Position.hbm.xml"/>
         <mapping resource="mapper/Project.hbm.xml"/>
+        <mapping resource="mapper/Subject.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

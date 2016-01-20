@@ -13,17 +13,17 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Ibutton implements java.io.Serializable {
 
 	private Integer id;
-	private Position position;
 	private String serial;
 	private String model;
+	private Integer defaultPositionId;
 
 	public Ibutton() {
 	}
 
-	public Ibutton(Position position, String serial, String model) {
-		this.position = position;
+	public Ibutton(String serial, String model, Integer defaultPositionId) {
 		this.serial = serial;
 		this.model = model;
+		this.defaultPositionId = defaultPositionId;
 	}
 
 	@Id
@@ -36,16 +36,6 @@ public class Ibutton implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEFAULTPOS")
-	public Position getPosition() {
-		return this.position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
 	}
 
 	@Column(name = "SERIAL", length = 200)
@@ -66,4 +56,12 @@ public class Ibutton implements java.io.Serializable {
 		this.model = model;
 	}
 
+	@Column(name = "DEFAULTPOS")
+	public Integer getDefaultPositionId() {
+		return defaultPositionId;
+	}
+
+	public void setDefaultPositionId(Integer defaultPositionId) {
+		this.defaultPositionId = defaultPositionId;
+	}
 }

@@ -49,7 +49,7 @@ public class BaseController implements Initializable{
     }
     @FXML
     private void goNewProject() {
-
+        VistaNavigator.openModal(Constants.NEW_PROJECT, "New Project");
     }
     @FXML
     private void goIButtons() {
