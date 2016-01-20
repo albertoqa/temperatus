@@ -1,5 +1,5 @@
 package temperatus.model.pojo;
-// Generated 08-dic-2015 14:25:06 by Hibernate Tools 4.3.1.Final
+// Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
 
@@ -53,5 +53,6 @@ public class Position implements java.io.Serializable {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 08-dic-2015 14:25:06 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="temperatus.model.pojo.Button" table="BUTTON" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Record" table="RECORD" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
@@ -14,8 +14,8 @@
         <many-to-one name="position" class="temperatus.model.pojo.Position" fetch="select">
             <column name="POSITION_ID" />
         </many-to-one>
-        <many-to-one name="test" class="temperatus.model.pojo.Test" fetch="select">
-            <column name="TEST_ID" />
-        </many-to-one>
+        <property name="misionId" type="java.lang.Integer">
+            <column name="MISION_ID" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+
+	<type-mapping>
+		<sql-type jdbc-type="CLOB" hibernate-type="java.lang.String" />
+	</type-mapping>
+
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="GAME"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="GAME_POSITION"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="IBUTTON"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="MEASUREMENT"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="MISION"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="POSITION"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="PROJECT"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="RECORD"/>
+  <table-filter match-catalog="DATABASE" match-schema="PUBLIC" match-name="SUBJECT"/>
+  
+
+</hibernate-reverse-engineering>

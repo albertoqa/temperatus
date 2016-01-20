@@ -1,7 +1,8 @@
 package temperatus.model.pojo;
-// Generated 08-dic-2015 14:25:06 by Hibernate Tools 4.3.1.Final
+// Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
+import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -14,13 +15,15 @@ public class Project implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
+	private Date dateIni;
 	private String observations;
 
 	public Project() {
 	}
 
-	public Project(String name, String observations) {
+	public Project(String name, Date dateIni, String observations) {
 		this.name = name;
+		this.dateIni = dateIni;
 		this.observations = observations;
 	}
 
@@ -43,6 +46,16 @@ public class Project implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "DATE_INI", length = 8)
+	public Date getDateIni() {
+		return this.dateIni;
+	}
+
+	public void setDateIni(Date dateIni) {
+		this.dateIni = dateIni;
 	}
 
 	@Column(name = "OBSERVATIONS")
