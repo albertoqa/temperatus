@@ -13,15 +13,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class GamePosition implements java.io.Serializable {
 
 	private Integer id;
-	private Game game;
-	private Position position;
+	private Integer gameId;
+	private Integer positionId;
 
 	public GamePosition() {
 	}
 
-	public GamePosition(Game game, Position position) {
-		this.game = game;
-		this.position = position;
+	public GamePosition(Integer gameId, Integer positionId) {
+		this.gameId = gameId;
+		this.positionId = positionId;
 	}
 
 	@Id
@@ -36,24 +36,21 @@ public class GamePosition implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "GAME_ID")
-	public Game getGame() {
-		return this.game;
+	@Column(name = "GAME_ID")
+	public Integer getGameId() {
+		return gameId;
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
+	public void setGameId(Integer gameId) {
+		this.gameId = gameId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "POSITION_ID")
-	public Position getPosition() {
-		return this.position;
+	@Column(name = "POSITION_ID")
+	public Integer getPositionId() {
+		return positionId;
 	}
 
-	public void setPosition(Position position) {
-		this.position = position;
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
 	}
-
 }

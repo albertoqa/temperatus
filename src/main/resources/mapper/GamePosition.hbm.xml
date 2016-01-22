@@ -8,11 +8,11 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="game" class="temperatus.model.pojo.Game" fetch="select">
+        <property name="gameId" type="java.lang.Integer">
             <column name="GAME_ID" />
-        </many-to-one>
-        <many-to-one name="position" class="temperatus.model.pojo.Position" fetch="select">
+        </property>
+        <property name="positionId" type="java.lang.Integer">
             <column name="POSITION_ID" />
-        </many-to-one>
+        </property>
     </class>
 </hibernate-mapping>
