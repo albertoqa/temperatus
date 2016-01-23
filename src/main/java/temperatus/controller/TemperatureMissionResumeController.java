@@ -102,7 +102,7 @@ public class TemperatureMissionResumeController implements Initializable {
 			System.out.println("\t[Sample rate (s): " + sampleRate + ", Sample Count: " + sampleCount + "Total Sample Count: " + totalSampleCount + "]\n");
 
 			for(int i = 0; i < sampleCount; i++) {
-				System.out.println("\t\t " + mc.getMissionSample(0, i) + String.valueOf(new Date(mc.getMissionSampleTimeStamp(0, i))) + ", C�");
+				System.out.println("\t\t " + mc.getMissionSample(0, i) + String.valueOf(new Date(mc.getMissionSampleTimeStamp(0, i))) + ", C");
 			}
 
 		} finally {

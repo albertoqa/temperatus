@@ -48,7 +48,7 @@
       <AnchorPane fx:id="bottomPane" prefHeight="30.0" style="-fx-background-color: #bcbcc7;" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="30.0" layoutY="7.0" text="No iButton found" AnchorPane.leftAnchor="30.0" />
-            <Label layoutX="834.0" layoutY="7.0" text="29/01/2016 23:15:45" AnchorPane.rightAnchor="38.0" />
+            <Label fx:id="clock" layoutX="834.0" layoutY="7.0" text="29/01/2016 23:15:45" AnchorPane.rightAnchor="38.0" />
          </children>
       </AnchorPane>
    </bottom>
