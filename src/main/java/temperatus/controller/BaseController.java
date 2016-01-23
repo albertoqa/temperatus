@@ -72,7 +72,7 @@ public class BaseController implements Initializable{
     }
     @FXML
     private void goIButtons() {
-
+        VistaNavigator.loadVista(Constants.CONNECTED);
     }
     @FXML
     private void goConfiguration() {

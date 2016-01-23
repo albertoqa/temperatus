@@ -24,6 +24,8 @@ public class Constants {
 
     public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
 
+    public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
+
     //#########################################################################//
 
 
@@ -32,6 +34,8 @@ public class Constants {
     public static final String LANGUAGE = "language";
     public static final String DEFAULT_LANGUAGE = "en_US";
 
+    public static final double MIN_HEIGHT = 800.0;
+    public static final double MIN_WIDTH = 1000.0;
 
     //#########################################################################//
     // * Constants for language names

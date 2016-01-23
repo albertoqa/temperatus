@@ -94,6 +94,8 @@ public class SplashController implements Initializable{
         SpringFxmlLoader loader = new SpringFxmlLoader();
         Pane pane = loader.load(getClass().getResource(Constants.BASE));
         stage.setScene(new Scene(pane));
+        stage.setMinHeight(Constants.MIN_HEIGHT);   // TODO set this attributes dinamically, depending on the screen resolution
+        stage.setMinWidth(Constants.MIN_WIDTH);
         VistaNavigator.setBaseController(loader.getController());
         VistaNavigator.loadVista(Constants.HOME);
     }
