@@ -1,7 +1,10 @@
 package temperatus.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.springframework.stereotype.Component;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,5 +19,10 @@ public class ConnectedDevicesController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    @FXML
+    private void newMission() {
+        VistaNavigator.loadVista(Constants.NEW_MISSION);
     }
 }

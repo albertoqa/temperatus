@@ -19,9 +19,6 @@ public class TemperatureMissionResumeController implements Initializable {
 
 	// This class only support temperature readers!
 
-
-
-
 	@Override public void initialize(URL location, ResourceBundle resources) {
 
 	}

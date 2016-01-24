@@ -17,7 +17,7 @@
                   <HBox alignment="CENTER" layoutX="24.0" prefHeight="69.0" prefWidth="200.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button mnemonicParsing="false" text="New Project" />
-                        <Button mnemonicParsing="false" text="New Experiment" />
+                        <Button onAction="#newMission" mnemonicParsing="false" text="New Experiment" />
                         <Button mnemonicParsing="false" text="Configure Mission" />
                      </children>
                   </HBox>

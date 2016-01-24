@@ -24,6 +24,7 @@ public class Constants {
     public static final String PROJECT_INFO = "/fxml/archived/ProjectInfo.fxml";
 
     public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
+    public static final String NEW_MISSION = "/fxml/mission/NewMission.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 
