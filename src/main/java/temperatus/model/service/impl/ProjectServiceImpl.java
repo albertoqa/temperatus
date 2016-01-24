@@ -45,6 +45,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project getByName(String name) {
+        return projectDao.getByName(name);
+    }
+
+    @Override
     public int getIdByName(String name) {
         return projectDao.getIdByName(name);
     }

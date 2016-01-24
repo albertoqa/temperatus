@@ -15,6 +15,7 @@ public interface ProjectService {
     List<Project> getAll();
     void saveOrUpdate(Project project);
 
+    Project getByName(String name);
     int getIdByName(String name);
     List<String> getAllProjectNames();
 

@@ -1,5 +1,7 @@
 package temperatus.model.dao;
 
+import temperatus.model.pojo.Project;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public interface ProjectDao extends GenericDao {
 
+    Project getByName(String name);
     int getIdByName(String name);
     List<String> getAllProjectNames();
 

@@ -1,13 +1,19 @@
 package temperatus.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import temperatus.controller.archived.ProjectInfoController;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.List;
@@ -21,10 +27,11 @@ public class ArchivedController implements Initializable{
 
     @FXML
     private TreeView<String> treeView;
+    @FXML
+    private StackPane stackPane;
 
     @Autowired
     ProjectService projectService;
-
     @Autowired
     MissionService missionService;
 
@@ -53,6 +60,31 @@ public class ArchivedController implements Initializable{
             }*/
         }
         treeView.setRoot(rootItem);
+        addTreeViewListener();
+    }
+
+    private void loadProjectInfoView(String projectName) {
+        ProjectInfoController projectInfoController = VistaNavigator.setViewInStackPane(stackPane, Constants.PROJECT_INFO);
+        projectInfoController.setProject(projectService.getByName(projectName));
+    }
+
+    private void addTreeViewListener() {
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue,
+                                Object newValue) {
+
+                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+
+                if(selectedItem.getValue().equals(treeView.getRoot().getValue())) {
+                    // TODO nothing selected
+                } else if(selectedItem.getParent().getValue().equals(treeView.getRoot().getValue())) {
+                    loadProjectInfoView(selectedItem.getValue());
+                } else {
+                    //loadMissionInfoView(selectedItem.getValue()); //TODO
+                }
+            }
+        });
     }
 
 }

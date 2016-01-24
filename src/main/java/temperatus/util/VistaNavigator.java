@@ -54,7 +54,7 @@ public class VistaNavigator {
         return loader.getController();
     }
 
-    public static void setViewInStackPane(StackPane stackPane, String fxml) {
+    public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {
         SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
 
@@ -62,6 +62,7 @@ public class VistaNavigator {
             Animation.fadeOutIn(stackPane.getChildren().get(0), node);
         }
         stackPane.getChildren().setAll(node);
+        return loader.getController();
     }
 }
 

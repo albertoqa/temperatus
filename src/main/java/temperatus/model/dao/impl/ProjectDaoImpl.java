@@ -2,6 +2,7 @@ package temperatus.model.dao.impl;
 
 import org.springframework.stereotype.Repository;
 import temperatus.model.dao.ProjectDao;
+import temperatus.model.pojo.Project;
 
 import java.util.List;
 
@@ -10,6 +11,14 @@ import java.util.List;
  */
 @Repository
 public class ProjectDaoImpl extends GenericDaoImpl implements ProjectDao{
+
+    @Override
+    public Project getByName(String name) {
+        return (Project) this.sessionFactory.getCurrentSession()
+                .createQuery("from Project where name=:name")
+                .setParameter("name", name)
+                .uniqueResult();
+    }
 
     @Override
     public int getIdByName(String name) {

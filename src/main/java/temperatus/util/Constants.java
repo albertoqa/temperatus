@@ -21,13 +21,13 @@ public class Constants {
     public static final String CONFIG_DEFAULTS = "/fxml/configuration/Defaults.fxml";
 
     public static final String ARCHIVED = "/fxml/Archived.fxml";
+    public static final String PROJECT_INFO = "/fxml/archived/ProjectInfo.fxml";
 
     public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 
     //#########################################################################//
-
 
     public static Preferences prefs = Preferences.userRoot().node("temperatus");
 

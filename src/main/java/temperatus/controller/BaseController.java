@@ -68,6 +68,7 @@ public class BaseController implements Initializable{
     }
     @FXML
     private void goNewProject() {
+        //TODO reload treeView if new Project Inserted
         VistaNavigator.openModal(Constants.NEW_PROJECT, "New Project");
     }
     @FXML
