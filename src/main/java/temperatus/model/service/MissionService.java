@@ -10,9 +10,9 @@ import java.util.List;
 public interface MissionService {
 
     Mission getById(int id);
-    void save(Mission Mission);
-    void delete(Mission Mission);
+    void save(Mission mission);
+    void delete(Mission mission);
     List<Mission> getAll();
-    void saveOrUpdate(Mission Mission);
+    void saveOrUpdate(Mission mission);
 
 }
