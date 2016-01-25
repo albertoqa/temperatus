@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.model.Choice;
 import temperatus.model.pojo.Project;
+import temperatus.model.service.GameService;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
+import temperatus.model.service.SubjectService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -30,6 +32,10 @@ public class NewMissionController implements Initializable {
     ProjectService projectService;
     @Autowired
     MissionService missionService;
+    @Autowired
+    GameService gameService;
+    @Autowired
+    SubjectService subjectService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,6 +53,14 @@ public class NewMissionController implements Initializable {
     @FXML
     private void newProject() {
         VistaNavigator.openModal(Constants.NEW_PROJECT, "New project");
+    }
+    @FXML
+    private void newGame() {
+        VistaNavigator.openModal(Constants.NEW_GAME, "New Game");
+    }
+    @FXML
+    private void newSubject() {
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, "New Subject");
     }
 
 }

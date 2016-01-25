@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.time.ZoneId;
@@ -32,12 +33,14 @@ public class NewProjectController implements Initializable {
     @FXML
     private TextArea observationsInput;
 
-    @Autowired
-    ProjectService projectService;
+    @Autowired ProjectService projectService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        if(VistaNavigator.baseController.getVistaHolder().getChildren().get(0).getId().equals("Archived")) {
+            //VistaNavigator.baseController.getVistaHolder().getChildren().get(0).
+            //TODO reload treeView or whatever
+        }
     }
 
     @FXML
@@ -51,6 +54,9 @@ public class NewProjectController implements Initializable {
         System.out.println(project.getId());
 
         //TODO show alert and close
+        Animation.fadeInOutClose(titledPane);
+
+
     }
 
     @FXML
