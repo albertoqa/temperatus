@@ -26,15 +26,6 @@
                                                    </VBox.margin></Label>
                                                 <Label fx:id="importExport" prefHeight="22.0" prefWidth="250.0" text="    Import/Export" />
                                                 <Label fx:id="defaultsView" prefHeight="22.0" prefWidth="250.0" text="    Defaults" />
-
-                                                 <fx:define>
-                                                     <ArrayList fx:id="menuLabels">
-                                                         <fx:reference source="generalView" />
-                                                         <fx:reference source="importExport" />
-                                                         <fx:reference source="defaultsView" />
-                                                     </ArrayList>
-                                                 </fx:define>
-
                                              </children>
                                           </VBox>
                                        </children>
@@ -51,6 +42,24 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                               </content>
                             </TitledPane>
+                              <TitledPane animated="false" text="Games">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox layoutX="-0.5999999999999996" layoutY="-10.0" prefWidth="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-11.400000000000006" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <Label fx:id="gamesGeneral" prefHeight="22.0" prefWidth="250.0" text="    General">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="gamesManage" prefHeight="22.0" prefWidth="250.0" text="    Manage" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
                           </panes>
                         </Accordion>
                      </children>
@@ -67,6 +76,18 @@
             </SplitPane>
             <Button fx:id="saveButton" layoutX="588.0" layoutY="449.0" mnemonicParsing="false" text="Save" />
             <Button fx:id="cancelButton" layoutX="653.0" layoutY="449.0" mnemonicParsing="false" onAction="#cancelAction" text="Cancel" />
-         </children></AnchorPane>
+         </children>
+
+        <fx:define>
+            <ArrayList fx:id="menuLabels">
+                <fx:reference source="generalView" />
+                <fx:reference source="importExport" />
+                <fx:reference source="defaultsView" />
+                <fx:reference source="gamesGeneral" />
+            </ArrayList>
+        </fx:define>
+
+
+    </AnchorPane>
   </content>
 </TitledPane>

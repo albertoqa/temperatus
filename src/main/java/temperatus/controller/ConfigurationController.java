@@ -40,6 +40,7 @@ public class ConfigurationController implements Initializable {
                 put("generalView", "/fxml/configuration/General.fxml");
                 put("importExport", "/fxml/configuration/ImportExport.fxml");
                 put("defaultsView", "/fxml/configuration/Defaults.fxml");
+                put("gamesGeneral", "/fxml/configuration/GamesGeneral.fxml");
             }});
 
     private int selectedLabelIndex = -1;    // Index of the label currently selected
