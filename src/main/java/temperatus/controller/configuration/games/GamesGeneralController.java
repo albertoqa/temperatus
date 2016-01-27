@@ -1,4 +1,4 @@
-package temperatus.controller.configuration;
+package temperatus.controller.configuration.games;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

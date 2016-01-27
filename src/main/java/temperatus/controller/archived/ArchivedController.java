@@ -1,4 +1,4 @@
-package temperatus.controller;
+package temperatus.controller.archived;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,7 +9,8 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import temperatus.controller.archived.ProjectInfoController;
+import temperatus.controller.Reloadable;
+import temperatus.controller.archived.info.ProjectInfoController;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Constants;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 17/1/16.
  */
 @Component
-public class ArchivedController implements Initializable{
+public class ArchivedController extends Reloadable implements Initializable{
 
     @FXML
     private TreeView<String> treeView;
@@ -38,6 +39,10 @@ public class ArchivedController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadTreeViewData();
+    }
+
+    public <T> void addElement(T element) {
+        System.out.println("Adding element");
     }
 
     private void loadTreeViewData() {
@@ -87,4 +92,8 @@ public class ArchivedController implements Initializable{
         });
     }
 
+    @Override
+    public void reload() {
+        System.out.println("reloading");
+    }
 }

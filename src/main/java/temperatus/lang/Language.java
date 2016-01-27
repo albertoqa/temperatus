@@ -17,7 +17,6 @@ public class Language {
     private ResourceBundle resourceBundle;
     private Locale locale;
 
-
     private Language() {
         loadLanguage();
     }

@@ -1,4 +1,4 @@
-package temperatus.controller;
+package temperatus.controller.configuration;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

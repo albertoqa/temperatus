@@ -1,4 +1,4 @@
-package temperatus.controller;
+package temperatus.controller.button;
 
 import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.adapter.DSPortAdapter;

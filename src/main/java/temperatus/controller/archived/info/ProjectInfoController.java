@@ -1,4 +1,4 @@
-package temperatus.controller.archived;
+package temperatus.controller.archived.info;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,7 +51,7 @@ public class ProjectInfoController implements Initializable {
     private void setProjectInfo() throws ControlledTemperatusException {
 
         if(project == null) {
-            throw new ControlledTemperatusException();
+            throw new ControlledTemperatusException("");
         }
 
         projectName.setText(project.getName());

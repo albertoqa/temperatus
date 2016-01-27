@@ -1,4 +1,4 @@
-package temperatus.controller.mission;
+package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,17 +25,12 @@ import java.util.ResourceBundle;
 @Component
 public class NewMissionController implements Initializable {
 
-    @FXML
-    private ChoiceBox projectChooser;
+    @FXML private ChoiceBox projectChooser;
 
-    @Autowired
-    ProjectService projectService;
-    @Autowired
-    MissionService missionService;
-    @Autowired
-    GameService gameService;
-    @Autowired
-    SubjectService subjectService;
+    @Autowired ProjectService projectService;
+    @Autowired MissionService missionService;
+    @Autowired GameService gameService;
+    @Autowired SubjectService subjectService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

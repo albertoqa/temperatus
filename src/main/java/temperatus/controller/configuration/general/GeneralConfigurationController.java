@@ -1,4 +1,4 @@
-package temperatus.controller.configuration;
+package temperatus.controller.configuration.general;
 
 import javafx.fxml.Initializable;
 import org.springframework.stereotype.Component;
