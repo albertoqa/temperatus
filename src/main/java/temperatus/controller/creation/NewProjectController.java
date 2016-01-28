@@ -12,6 +12,7 @@ import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.time.ZoneId;
@@ -61,7 +62,7 @@ public class NewProjectController extends AbstractCreation implements Initializa
 
         //TODO show alert and close
         Animation.fadeInOutClose(titledPane);
-        getCaller().reload();
+        VistaNavigator.getController().reload();
     }
 
     @Override

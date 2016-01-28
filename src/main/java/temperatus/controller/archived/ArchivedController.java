@@ -9,7 +9,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import temperatus.controller.Reloadable;
+import temperatus.controller.AbstractController;
 import temperatus.controller.archived.info.ProjectInfoController;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 17/1/16.
  */
 @Component
-public class ArchivedController extends Reloadable implements Initializable{
+public class ArchivedController implements Initializable, AbstractController{
 
     @FXML
     private TreeView<String> treeView;
@@ -38,11 +38,8 @@ public class ArchivedController extends Reloadable implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        VistaNavigator.setController(this);
         loadTreeViewData();
-    }
-
-    public <T> void addElement(T element) {
-        System.out.println("Adding element");
     }
 
     private void loadTreeViewData() {
@@ -94,6 +91,6 @@ public class ArchivedController extends Reloadable implements Initializable{
 
     @Override
     public void reload() {
-        System.out.println("reloading");
+        loadTreeViewData(); //TODO reload only what changed
     }
 }

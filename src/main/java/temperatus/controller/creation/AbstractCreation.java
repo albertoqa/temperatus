@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import temperatus.controller.Reloadable;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.util.Animation;
 
@@ -28,19 +27,6 @@ public abstract class AbstractCreation {
     protected void showAlert(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType, message);
         alert.show();
-    }
-
-    /**
-     * Controller who call this
-     */
-    private Reloadable caller;
-
-    public Reloadable getCaller() {
-        return caller;
-    }
-
-    public void setCaller(Reloadable caller) {
-        this.caller = caller;
     }
 
 }

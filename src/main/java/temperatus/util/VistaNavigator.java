@@ -7,14 +7,23 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import temperatus.controller.AbstractController;
 import temperatus.controller.BaseController;
-import temperatus.controller.Reloadable;
-import temperatus.controller.creation.AbstractCreation;
 
 /**
  * Utility class for controlling navigation between vistas.
  */
 public class VistaNavigator {
+
+    public static AbstractController controller;
+
+    public static AbstractController getController() {
+        return controller;
+    }
+
+    public static void setController(AbstractController controller) {
+        VistaNavigator.controller = controller;
+    }
 
     /**
      * The main application layout controller.
@@ -44,18 +53,6 @@ public class VistaNavigator {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         return stage;
-    }
-
-    public static <T> T openModal(String url, String title, Object t) {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
-        Parent root = loader.load(VistaNavigator.class.getResource(url));
-        Scene scene = createModalScene(root);
-        Stage stage = createModalStage(scene, title);
-        Animation.fadeOutIn(null, root);
-        stage.show();
-        System.out.println(t.getClass());
-        ((AbstractCreation) loader.getController()).setCaller((Reloadable) t);
-        return loader.getController();
     }
 
     public static <T> T openModal(String url, String title) {
