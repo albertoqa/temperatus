@@ -1,16 +1,16 @@
 package temperatus.controller.archived;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
-import temperatus.controller.archived.info.ProjectInfoController;
+import temperatus.model.TreeElement;
+import temperatus.model.pojo.Project;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Constants;
@@ -27,9 +27,7 @@ import java.util.ResourceBundle;
 public class ArchivedController implements Initializable, AbstractController{
 
     @FXML
-    private TreeView<String> treeView;
-    @FXML
-    private StackPane stackPane;
+    private TreeTableView<TreeElement> treeTable;
 
     @Autowired
     ProjectService projectService;
@@ -38,13 +36,43 @@ public class ArchivedController implements Initializable, AbstractController{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        final TreeItem<TreeElement> root = new TreeItem<>(new TreeElement());
+        root.setExpanded(true);
+        treeTable.setShowRoot(false);
+        treeTable.setRoot(root);
+
+        List<Project> projects = projectService.getAll();
+        projects.stream().forEach((project) -> {
+            root.getChildren().add(new TreeItem<>(new TreeElement(project)));
+        });
+
+        TreeTableColumn<TreeElement, String> nameColumn =
+                new TreeTableColumn<>("Project");
+        nameColumn.setPrefWidth(150);
+        nameColumn.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<TreeElement, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getName())
+        );
+
+        TreeTableColumn<TreeElement, String> dateColumn =
+                new TreeTableColumn<>("Start Date");
+        dateColumn.setPrefWidth(190);
+        dateColumn.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<TreeElement, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getDate().toString())
+        );
+
+        treeTable.getColumns().setAll(nameColumn, dateColumn);
+
+
         VistaNavigator.setController(this);
-        loadTreeViewData();
+        //loadTreeViewData();
     }
 
-    private void loadTreeViewData() {
+    //private void loadTreeViewData() {
 
-        List<String> projects = projectService.getAllProjectNames();
+        /*List<String> projects = projectService.getAllProjectNames();
         TreeItem<String> rootItem = new TreeItem<String>("Projects");
         rootItem.setExpanded(true);
         for (String project : projects) {
@@ -59,18 +87,23 @@ public class ArchivedController implements Initializable, AbstractController{
                     TreeItem<String> testItem = new TreeItem<String>(test);
                     experimentItem.getChildren().add(testItem);
                 }
-            }*/
+            }
         }
         treeView.setRoot(rootItem);
-        addTreeViewListener();
-    }
+        addTreeViewListener();*/
+    //}
 
-    private void loadProjectInfoView(String projectName) {
+    /*private void loadProjectInfoView(String projectName) {
         ProjectInfoController projectInfoController = VistaNavigator.setViewInStackPane(stackPane, Constants.PROJECT_INFO);
         projectInfoController.setProject(projectService.getByName(projectName));
+    }*/
+
+    @FXML
+    private void newProject() {
+        VistaNavigator.openModal(Constants.NEW_PROJECT, "new project");
     }
 
-    private void addTreeViewListener() {
+    /*private void addTreeViewListener() {
         treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue,
@@ -87,10 +120,10 @@ public class ArchivedController implements Initializable, AbstractController{
                 }
             }
         });
-    }
+    }*/
 
     @Override
     public void reload() {
-        loadTreeViewData(); //TODO reload only what changed
+        //loadTreeViewData(); //TODO reload only what changed
     }
 }
