@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<StackPane id="Home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
+<StackPane id="Home" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="456.0" prefWidth="600.0">
          <children>
-            <GridPane alignment="CENTER" layoutX="200.0" layoutY="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+            <GridPane alignment="CENTER" layoutY="182.0" prefHeight="361.0" prefWidth="600.0" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="182.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="126.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="474.0" minWidth="10.0" prefWidth="474.0" />
@@ -25,7 +25,7 @@
                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#archivedView" text="Button" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button mnemonicParsing="false" text="Button" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <Button mnemonicParsing="false" text="Button" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                  <Button fx:id="configuration" mnemonicParsing="false" text="Button" onAction="#openConfiguration" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                  <Button fx:id="configuration" mnemonicParsing="false" onAction="#openConfiguration" text="Button" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                   <Label text="Ver misiones archivadas" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Nuevo proyecto" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Detectar iButtons" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -34,11 +34,11 @@
             </GridPane>
             <VBox alignment="CENTER" layoutX="104.0" layoutY="-59.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Temperatus">
-                     <font>
-                        <Font size="28.0" />
-                     </font>
-                  </Label>
+                  <ImageView fitHeight="200.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/temperatus.jpg" />
+                     </image>
+                  </ImageView>
                </children>
             </VBox>
          </children>

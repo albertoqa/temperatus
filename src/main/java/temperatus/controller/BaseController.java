@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.springframework.stereotype.Component;
@@ -26,11 +28,12 @@ public class BaseController implements Initializable{
 
     @FXML private StackPane vistaHolder;
     @FXML private Label clock;
+    @FXML private ListView<String> menu;
 
     public void setView(Node node) {
         if(vistaHolder.getChildren().size() > 0) {
             // avoid to set the same controller twice
-            // remember to set the id of all fxml
+            // remember to set the id of all fxml set in the baseView
             if(vistaHolder.getChildren().get(0).getId().equals(node.getId())){
                 return;
             }
@@ -41,6 +44,8 @@ public class BaseController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        menu.getItems().addAll("  Home", "  Archive","  Devices","  Configuration");
+
         startClock();
     }
 
@@ -57,27 +62,22 @@ public class BaseController implements Initializable{
         return vistaHolder;
     }
 
+    @FXML
+    private void menuActions(MouseEvent event) {
+        switch(menu.getSelectionModel().getSelectedIndex()){
+            case 0: {
+                VistaNavigator.loadVista(Constants.HOME);
+            } break;
+            case 1: {
+                VistaNavigator.loadVista(Constants.ARCHIVED);
+            } break;
+            case 2: {
+                VistaNavigator.loadVista(Constants.CONNECTED);
+            } break;
+            case 3: {
+                VistaNavigator.openModal(Constants.CONFIG, "Configuration");
+            } break;
+        }
+    }
 
-    @FXML
-    private void goHome() {
-        VistaNavigator.loadVista(Constants.HOME);
-    }
-    @FXML
-    private void goArchive() {
-        VistaNavigator.loadVista(Constants.ARCHIVED);
-    }
-    @FXML
-    private void goNewProject() {
-        //TODO reload treeView if new Project Inserted
-        VistaNavigator.openModal(Constants.NEW_PROJECT, "New Project");
-
-    }
-    @FXML
-    private void goIButtons() {
-        VistaNavigator.loadVista(Constants.CONNECTED);
-    }
-    @FXML
-    private void goConfiguration() {
-        VistaNavigator.openModal(Constants.CONFIG, "Configuration");
-    }
 }
