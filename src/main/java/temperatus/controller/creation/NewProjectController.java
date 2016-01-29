@@ -62,7 +62,7 @@ public class NewProjectController extends AbstractCreation implements Initializa
 
         //TODO show alert and close
         Animation.fadeInOutClose(titledPane);
-        VistaNavigator.getController().reload();
+        VistaNavigator.getController().reload(project);
     }
 
     @Override

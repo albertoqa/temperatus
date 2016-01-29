@@ -5,7 +5,7 @@ package temperatus.controller;
  */
 public interface AbstractController {
 
-    default void reload() {
+    default void reload(Object object) {
         System.out.println("Nothing to reload...");
     }
 

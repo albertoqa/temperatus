@@ -78,18 +78,16 @@ public class ArchivedController implements Initializable, AbstractController {
             });
 
             TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>("  Project");
-            nameColumn.setPrefWidth(286.33);
             nameColumn.setCellValueFactory(param -> param.getValue().getValue().nameProperty());
 
             TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>("  Start Date");
-            dateColumn.setPrefWidth(226.33);
             dateColumn.setCellValueFactory(param -> param.getValue().getValue().dateProperty());
 
             TreeTableColumn<TreeElement, String> authorsColumn = new TreeTableColumn<>("  Author");
-            authorsColumn.setPrefWidth(218.33);
             authorsColumn.setCellValueFactory(param -> param.getValue().getValue().authorsProperty());
 
             treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
+            treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
 
             treeTable.getSelectionModel()
                     .selectedItemProperty()
@@ -111,6 +109,10 @@ public class ArchivedController implements Initializable, AbstractController {
         });
 
         VistaNavigator.setController(this);
+    }
+
+    private void addNewProjectToTree(Project project) {
+        treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement(project)));
     }
 
     @FXML
@@ -176,7 +178,9 @@ public class ArchivedController implements Initializable, AbstractController {
     }
 
     @Override
-    public void reload() {
+    public void reload(Object object) {
+        treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement((Project) object)));
+
         //loadTreeViewData(); //TODO reload only what changed
     }
 
