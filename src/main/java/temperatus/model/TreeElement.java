@@ -1,9 +1,8 @@
 package temperatus.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
-
-import java.util.Date;
 
 /**
  * Created by alberto on 29/1/16.
@@ -11,9 +10,9 @@ import java.util.Date;
 public class TreeElement {
 
     int id;
-    String name;
-    Date date;
-    String authors;
+    SimpleStringProperty name;
+    SimpleStringProperty date;
+    SimpleStringProperty authors;
     Class aClass;
 
     public TreeElement() {
@@ -21,17 +20,17 @@ public class TreeElement {
 
     public TreeElement(Project project) {
         this.id = project.getId();
-        this.name = project.getName();
-        this.date = project.getDateIni();
-        this.authors = "";
+        this.name = new SimpleStringProperty(project.getName());
+        this.date = new SimpleStringProperty(project.getDateIni().toString());
+        this.authors = new SimpleStringProperty("");
         this.aClass = Project.class;
     }
 
     public TreeElement(Mission mission) {
         this.id = mission.getId();
-        this.name = mission.getName();
-        this.date = mission.getDateIni();
-        this.authors = mission.getAuthor();
+        this.name = new SimpleStringProperty(mission.getName());
+        this.date = new SimpleStringProperty(mission.getDateIni().toString());
+        this.authors = new SimpleStringProperty(mission.getAuthor());
         this.aClass = Mission.class;
     }
 
@@ -44,27 +43,39 @@ public class TreeElement {
     }
 
     public String getName() {
+        return name.get();
+    }
+
+    public SimpleStringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public Date getDate() {
+    public String getDate() {
+        return date.get();
+    }
+
+    public SimpleStringProperty dateProperty() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(String date) {
+        this.date.set(date);
     }
 
     public String getAuthors() {
+        return authors.get();
+    }
+
+    public SimpleStringProperty authorsProperty() {
         return authors;
     }
 
     public void setAuthors(String authors) {
-        this.authors = authors;
+        this.authors.set(authors);
     }
 
     public Class getaClass() {

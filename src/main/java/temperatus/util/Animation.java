@@ -34,7 +34,25 @@ public final class Animation {
         return fadeIn;
     }
 
-    private static FadeTransition fadeOut(Node node, Boolean invisivel, Boolean play){
+    public static void fadeInTransition(Node node) {
+        if(node.getOpacity() < 0.5) {
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(DURACAO), node);
+            fadeOut.setFromValue(0);
+            fadeOut.setToValue(100);
+            fadeOut.play();
+        }
+    }
+
+    public static void fadeOutTransition(Node node) {
+        if(node.getOpacity() > 0.5) {
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(DURACAO), node);
+            fadeOut.setFromValue(100);
+            fadeOut.setToValue(0);
+            fadeOut.play();
+        }
+    }
+
+    public static FadeTransition fadeOut(Node node, Boolean invisivel, Boolean play){
         FadeTransition fadeOut = new FadeTransition(Duration.millis(DURACAO), node);
         fadeOut.setFromValue(VISIVEL);
         if(invisivel){
