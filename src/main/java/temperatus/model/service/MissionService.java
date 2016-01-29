@@ -15,4 +15,6 @@ public interface MissionService {
     List<Mission> getAll();
     void saveOrUpdate(Mission mission);
 
+    List<Mission> getAllForProject(int projectId);
+
 }

@@ -13,21 +13,26 @@ public class TreeElement {
     int id;
     String name;
     Date date;
+    String authors;
+    Class aClass;
 
     public TreeElement() {
-        this.id = -1;
-        this.name = "";
-        this.date = new Date();
     }
 
     public TreeElement(Project project) {
         this.id = project.getId();
         this.name = project.getName();
         this.date = project.getDateIni();
+        this.authors = "";
+        this.aClass = Project.class;
     }
 
     public TreeElement(Mission mission) {
-
+        this.id = mission.getId();
+        this.name = mission.getName();
+        this.date = mission.getDateIni();
+        this.authors = mission.getAuthor();
+        this.aClass = Mission.class;
     }
 
     public int getId() {
@@ -52,5 +57,21 @@ public class TreeElement {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
+    public Class getaClass() {
+        return aClass;
+    }
+
+    public void setaClass(Class aClass) {
+        this.aClass = aClass;
     }
 }

@@ -44,5 +44,10 @@ public class MissionServiceImpl implements MissionService {
         missionDao.saveOrUpdate(Mission);
     }
 
+    @Override
+    public List<Mission> getAllForProject(int projectId) {
+        return missionDao.getAllForProject(projectId);
+    }
+
 
 }

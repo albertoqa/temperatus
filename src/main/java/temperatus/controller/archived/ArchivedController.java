@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
 import temperatus.model.TreeElement;
+import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
@@ -44,27 +45,40 @@ public class ArchivedController implements Initializable, AbstractController{
 
         List<Project> projects = projectService.getAll();
         projects.stream().forEach((project) -> {
-            root.getChildren().add(new TreeItem<>(new TreeElement(project)));
+            TreeItem<TreeElement> treeItemProject = new TreeItem<>(new TreeElement(project));
+
+            List<Mission> missions = missionService.getAllForProject(project.getId());
+            treeItemProject.setExpanded(true);
+
+            missions.stream().forEach((mission) -> {
+                treeItemProject.getChildren().add(new TreeItem<>(new TreeElement(mission)));
+            });
+
+            root.getChildren().add(treeItemProject);
         });
 
         TreeTableColumn<TreeElement, String> nameColumn =
-                new TreeTableColumn<>("Project");
-        nameColumn.setPrefWidth(150);
+                new TreeTableColumn<>("  Project");
         nameColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<TreeElement, String> param) ->
                         new ReadOnlyStringWrapper(param.getValue().getValue().getName())
         );
 
         TreeTableColumn<TreeElement, String> dateColumn =
-                new TreeTableColumn<>("Start Date");
-        dateColumn.setPrefWidth(190);
+                new TreeTableColumn<>("  Start Date");
         dateColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<TreeElement, String> param) ->
                         new ReadOnlyStringWrapper(param.getValue().getValue().getDate().toString())
         );
 
-        treeTable.getColumns().setAll(nameColumn, dateColumn);
+        TreeTableColumn<TreeElement, String> authorsColumn =
+                new TreeTableColumn<>("  Author");
+        authorsColumn.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<TreeElement, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getAuthors())
+        );
 
+        treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
 
         VistaNavigator.setController(this);
         //loadTreeViewData();
