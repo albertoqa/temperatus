@@ -39,6 +39,8 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Label projectAuthors;
 
     @FXML private AnchorPane projectInfoPane;
+    @FXML private AnchorPane missionInfoPane;
+
     @FXML private TextField editableProjectName;
     @FXML private TextArea editableProjectObservations;
     @FXML private DatePicker editableProjectDate;
@@ -93,6 +95,7 @@ public class ArchivedController implements Initializable, AbstractController {
                     .selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> {
                         if (newValue.getValue().getaClass().equals(Project.class)) {
+                            Animation.fadeOutTransition(missionInfoPane);
                             Animation.fadeInTransition(projectInfoPane);
                             Project project = projectService.getById(newValue.getValue().getId());
                             List<Mission> missions = missionService.getAllForProject(newValue.getValue().getId());
@@ -104,6 +107,7 @@ public class ArchivedController implements Initializable, AbstractController {
                             //projectAuthors.setText(missions.get(0).getAuthor());
                         } else {
                             Animation.fadeOutTransition(projectInfoPane);
+                            Animation.fadeInTransition(missionInfoPane);
                         }
                     });
         });
@@ -173,15 +177,20 @@ public class ArchivedController implements Initializable, AbstractController {
 
     }
 
+    @FXML
+    private void missionInfo() {
+        VistaNavigator.loadVista(Constants.MISSION_INFO);
+    }
+
     private TreeElement getSelectedElement() {
         return treeTable.getSelectionModel().getSelectedItem().getValue();
     }
 
     @Override
     public void reload(Object object) {
-        treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement((Project) object)));
-
-        //loadTreeViewData(); //TODO reload only what changed
+        if(object instanceof Project) {
+            treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement((Project) object)));
+        }
     }
 
     private void notEditingVisibility() {

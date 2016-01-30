@@ -21,7 +21,7 @@ public class Constants {
     public static final String CONFIG_DEFAULTS = "/fxml/configuration/Defaults.fxml";
 
     public static final String ARCHIVED = "/fxml/Archived.fxml";
-    public static final String PROJECT_INFO = "/fxml/archived/ProjectInfo.fxml";
+    public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
 
     public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
     public static final String NEW_MISSION = "/fxml/mission/NewMission.fxml";
