@@ -15,13 +15,13 @@ public class Measurement implements java.io.Serializable {
 
 	private Integer id;
 	private Date date;
-	private String data;
+	private Integer data;
 	private Integer recordId;
 
 	public Measurement() {
 	}
 
-	public Measurement(Date date, String data, Integer recordId) {
+	public Measurement(Date date, Integer data, Integer recordId) {
 		this.date = date;
 		this.data = data;
 		this.recordId = recordId;
@@ -50,11 +50,11 @@ public class Measurement implements java.io.Serializable {
 	}
 
 	@Column(name = "DATA")
-	public String getData() {
+	public Integer getData() {
 		return this.data;
 	}
 
-	public void setData(String data) {
+	public void setData(Integer data) {
 		this.data = data;
 	}
 

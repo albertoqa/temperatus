@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="721.0" stylesheets="@../styles/Metro-UI.css" text="New Subject" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewSubjectController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #227dd5;">
+         <children>
+            <Label fx:id="nameLabel" layoutX="96.0" layoutY="46.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="14.0" />
+               </font></Label>
+            <Label fx:id="observationsLabel" layoutX="53.0" layoutY="135.0" text="Observations:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="14.0" />
+               </font></Label>
+            <TextField fx:id="nameInput" layoutX="180.0" layoutY="41.0" prefHeight="29.0" prefWidth="345.0" />
+            <TextArea fx:id="observationsInput" layoutX="180.0" layoutY="136.0" prefHeight="128.0" prefWidth="349.0" />
+            <Button fx:id="saveButton" layoutX="520.0" layoutY="507.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Save" />
+            <Button fx:id="cancelButton" layoutX="605.0" layoutY="507.0" mnemonicParsing="false" onAction="#cancel" styleClass="btn" text="Cancel" />
+            <RadioButton fx:id="isPerson" layoutX="180.0" layoutY="94.0" mnemonicParsing="false" selected="true" text="Person" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="isObject" layoutX="277.0" layoutY="94.0" mnemonicParsing="false" text="Object" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="14.0" />
+               </font>
+            </RadioButton>
+            <AnchorPane fx:id="personDataPane" layoutX="40.0" layoutY="281.0" prefHeight="200.0" prefWidth="641.0">
+               <children>
+                  <RadioButton fx:id="isMale" layoutX="25.0" layoutY="31.0" mnemonicParsing="false" selected="true" text="M" />
+                  <RadioButton fx:id="isFemale" layoutX="82.0" layoutY="31.0" mnemonicParsing="false" text="W" />
+                  <Label fx:id="ageLabel" layoutX="67.0" layoutY="80.0" text="Age:" textFill="WHITE">
+                     <font>
+                        <Font name="Avenir Light" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="weightLabel" layoutX="24.0" layoutY="123.0" text="Weight (kg):" textFill="WHITE">
+                     <font>
+                        <Font name="Avenir Light" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="sizeLabel" layoutX="332.0" layoutY="80.0" text="Size (cm):" textFill="WHITE">
+                     <font>
+                        <Font name="Avenir Light" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="ageInput" layoutX="114.0" layoutY="77.0" />
+                  <TextField fx:id="weightInput" layoutX="115.0" layoutY="120.0" />
+                  <TextField fx:id="sizeInput" layoutX="411.0" layoutY="78.0" />
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+  </content>
+</TitledPane>

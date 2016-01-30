@@ -43,4 +43,11 @@ public class RecordServiceImpl implements RecordService {
     public void saveOrUpdate(Record record) {
         recordDao.saveOrUpdate(record);
     }
+
+    @Override
+    public Record getByMissionId(int missionId) {
+        return recordDao.getByMissionId(missionId);
+    }
+
+
 }

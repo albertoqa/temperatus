@@ -34,9 +34,12 @@ public class VistaNavigator {
         VistaNavigator.baseController = baseController;
     }
 
-    public static void loadVista(String fxml) {
+    public static <T> T loadVista(String fxml) {
         SpringFxmlLoader loader = new SpringFxmlLoader();
-        baseController.setView((Node) loader.load(VistaNavigator.class.getResource(fxml)));
+        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
+        baseController.setView(node);
+        return loader.getController();
+
     }
 
     public static Scene createModalScene(Parent root) {

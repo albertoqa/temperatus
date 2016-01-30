@@ -68,9 +68,9 @@ public class NewProjectController extends AbstractCreation implements Initializa
 
     @Override
     void translate() {
-        nameLabel.setText("Name");
-        observationsLabel.setText("Observations");
-        startDateLabel.setText("Number of Buttons");
+        nameLabel.setText("Name:");
+        observationsLabel.setText("Observations:");
+        startDateLabel.setText("Date:");
         saveButton.setText("Save");
         cancelButton.setText("Cancel");
     }

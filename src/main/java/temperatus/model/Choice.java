@@ -21,6 +21,22 @@ public class Choice {
         this.displayString = displayString;
     }
 
+    public String getDisplayString() {
+        return displayString;
+    }
+
+    public void setDisplayString(String displayString) {
+        this.displayString = displayString;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return displayString;

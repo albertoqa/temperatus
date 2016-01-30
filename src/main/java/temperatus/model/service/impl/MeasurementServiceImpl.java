@@ -43,4 +43,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     public void saveOrUpdate(Measurement measurement) {
         measurementDao.saveOrUpdate(measurement);
     }
+
+    @Override
+    public List<Measurement> getAllByRecordId(int recordId) {
+        return measurementDao.getAllByRecordId(recordId);
+    }
 }

@@ -4,33 +4,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane id="NewMission" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="595.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
+<?import javafx.scene.text.Font?>
+<StackPane id="NewMission" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="595.0" prefWidth="661.0" stylesheets="@../../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label layoutX="27.0" layoutY="26.0" text="New Mission" />
-            <Separator layoutX="27.0" layoutY="60.0" prefHeight="0.0" prefWidth="603.0" />
-            <Label layoutX="66.0" layoutY="82.0" text="Project:" />
-            <ChoiceBox fx:id="projectChooser" layoutX="159.0" layoutY="77.0" prefWidth="150.0" />
-            <Label layoutX="71.0" layoutY="138.0" text="Name:" />
-            <Label layoutX="74.0" layoutY="182.0" text="Author:" />
-            <Label layoutX="58.0" layoutY="231.0" text="Date start:" />
-            <Label layoutX="49.0" layoutY="282.0" text="Observations:" />
-            <Label layoutX="59.0" layoutY="369.0" text="Game used:" />
-            <Label layoutX="65.0" layoutY="421.0" text="Subject:" />
-            <ChoiceBox layoutX="161.0" layoutY="364.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="161.0" layoutY="416.0" prefWidth="150.0" />
-            <TextArea layoutX="161.0" layoutY="281.0" prefHeight="69.0" prefWidth="408.0" />
-            <DatePicker layoutX="159.0" layoutY="226.0" />
-            <TextField layoutX="159.0" layoutY="177.0" />
-            <TextField layoutX="159.0" layoutY="133.0" />
-            <Button layoutX="436.0" layoutY="364.0" mnemonicParsing="false" text="New Game" />
-            <Button layoutX="431.0" layoutY="416.0" mnemonicParsing="false" text="New Subject" />
-            <Button onAction="#newProject" layoutX="432.0" layoutY="77.0" mnemonicParsing="false" text="New Project" />
-            <Pane layoutX="421.0" layoutY="505.0" prefHeight="56.0" prefWidth="200.0" style="-fx-background-color: #808080;">
+            <Label layoutX="32.0" layoutY="27.0" text="New Mission">
+               <font>
+                  <Font name="Avenir Light" size="28.0" />
+               </font></Label>
+            <Separator layoutX="27.0" layoutY="67.0" prefHeight="0.0" prefWidth="603.0" />
+            <Label layoutX="62.0" layoutY="92.0" text="Project:" />
+            <ChoiceBox fx:id="projectChooser" layoutX="155.0" layoutY="87.0" prefWidth="150.0" />
+            <Label layoutX="67.0" layoutY="148.0" text="Name:" />
+            <Label layoutX="70.0" layoutY="192.0" text="Author:" />
+            <Label layoutX="54.0" layoutY="241.0" text="Date start:" />
+            <Label layoutX="45.0" layoutY="292.0" text="Observations:" />
+            <Label layoutX="55.0" layoutY="379.0" text="Game used:" />
+            <Label layoutX="61.0" layoutY="431.0" text="Subject:" />
+            <ChoiceBox fx:id="gameChooser" layoutX="157.0" layoutY="374.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="subjectChooser" layoutX="157.0" layoutY="426.0" prefWidth="150.0" />
+            <TextArea layoutX="157.0" layoutY="291.0" prefHeight="69.0" prefWidth="408.0" />
+            <DatePicker layoutX="155.0" layoutY="236.0" />
+            <TextField layoutX="155.0" layoutY="187.0" />
+            <TextField layoutX="155.0" layoutY="143.0" />
+            <Button layoutX="432.0" layoutY="374.0" mnemonicParsing="false" onAction="#newGame" styleClass="btn" text="New Game" />
+            <Button layoutX="427.0" layoutY="426.0" mnemonicParsing="false" onAction="#newSubject" styleClass="btn" text="New Subject" />
+            <Button layoutX="428.0" layoutY="87.0" mnemonicParsing="false" onAction="#newProject" styleClass="btn" text="New Project" />
+            <Pane layoutX="417.0" layoutY="515.0" prefHeight="56.0" prefWidth="200.0" style="-fx-background-color: #808080;">
                <children>
-                  <Button layoutX="26.0" layoutY="14.0" mnemonicParsing="false" text="Continue" />
-                  <Button layoutX="110.0" layoutY="14.0" mnemonicParsing="false" text="Cancel" />
+                  <Button layoutX="3.0" layoutY="15.0" mnemonicParsing="false" onAction="#continueToRecords" styleClass="btn" text="Continue" />
+                  <Button layoutX="110.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancel" styleClass="btn" text="Cancel" />
                </children>
             </Pane>
          </children>

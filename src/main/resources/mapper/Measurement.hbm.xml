@@ -11,10 +11,10 @@
         <property name="recordId" type="java.lang.Integer">
             <column name="RECORD_ID" />
         </property>
-        <property name="date" type="date">
+        <property name="date" type="timestamp">
             <column name="DATE" length="8" />
         </property>
-        <property name="data" type="java.lang.String">
+        <property name="data" type="java.lang.Integer">
             <column name="DATA" />
         </property>
     </class>

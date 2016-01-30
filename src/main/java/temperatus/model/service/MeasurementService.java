@@ -15,4 +15,5 @@ public interface MeasurementService {
     List<Measurement> getAll();
     void saveOrUpdate(Measurement measurement);
 
+    List<Measurement> getAllByRecordId(int recordId);
 }

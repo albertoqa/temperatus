@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
+import temperatus.controller.creation.NewMissionController;
 import temperatus.model.TreeElement;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
@@ -97,6 +98,8 @@ public class ArchivedController implements Initializable, AbstractController {
                         if (newValue.getValue().getaClass().equals(Project.class)) {
                             Animation.fadeOutTransition(missionInfoPane);
                             Animation.fadeInTransition(projectInfoPane);
+                            projectInfoPane.setDisable(false);
+                            missionInfoPane.setDisable(true);
                             Project project = projectService.getById(newValue.getValue().getId());
                             List<Mission> missions = missionService.getAllForProject(newValue.getValue().getId());
 
@@ -108,6 +111,8 @@ public class ArchivedController implements Initializable, AbstractController {
                         } else {
                             Animation.fadeOutTransition(projectInfoPane);
                             Animation.fadeInTransition(missionInfoPane);
+                            projectInfoPane.setDisable(true);
+                            missionInfoPane.setDisable(false);
                         }
                     });
         });
@@ -174,12 +179,14 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @FXML
     private void newMission() {
-
+        NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
+        missionController.setProject(getSelectedElement().getId());
     }
 
     @FXML
     private void missionInfo() {
-        VistaNavigator.loadVista(Constants.MISSION_INFO);
+        MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
+        missionInfoController.setData(getSelectedElement().getId());
     }
 
     private TreeElement getSelectedElement() {

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
+import temperatus.util.Animation;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,7 +32,6 @@ public class NewGameController extends AbstractCreation implements Initializable
     @FXML TextField numButtonsInput;
 
     @Autowired GameService gameService;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +67,11 @@ public class NewGameController extends AbstractCreation implements Initializable
         game.setNumButtons(numButtons);
 
         gameService.save(game); // TODO throw exception if game with same name already exists
+
+        Animation.fadeInOutClose(titledPane);
+        if(VistaNavigator.getController() != null) {
+            VistaNavigator.getController().reload(game);
+        }
 
         // TODO show sucess
     }
