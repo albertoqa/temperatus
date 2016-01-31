@@ -54,5 +54,8 @@ public class Position implements java.io.Serializable {
 		this.picture = picture;
 	}
 
-
+	@Override
+	public String toString() {
+		return place;
+	}
 }

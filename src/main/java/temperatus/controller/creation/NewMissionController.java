@@ -114,6 +114,9 @@ public class NewMissionController implements Initializable, AbstractController {
 
         missionService.save(mission);
 
+        NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
+        newRecordController.loadData(mission);
+
         // TODO get mission default positions
         // TODO detect iButtons and look for them in the db, if they appear and the selected game has the same position of the default
         // TODO position of the button, set automatically that button to that position

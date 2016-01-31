@@ -15,4 +15,6 @@ public interface GamePositionService {
     List<GamePosition> getAll();
     void saveOrUpdate(GamePosition gamePosition);
 
+    List<GamePosition> getAllForGame(int gameId);
+
 }

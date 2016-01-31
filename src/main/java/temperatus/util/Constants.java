@@ -27,6 +27,7 @@ public class Constants {
     public static final String NEW_MISSION = "/fxml/mission/NewMission.fxml";
     public static final String NEW_GAME = "/fxml/mission/NewGame.fxml";
     public static final String NEW_SUBJECT = "/fxml/NewSubject.fxml";
+    public static final String NEW_RECORD = "/fxml/mission/NewRecord.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 

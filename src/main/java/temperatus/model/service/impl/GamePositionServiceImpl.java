@@ -43,4 +43,10 @@ public class GamePositionServiceImpl implements GamePositionService {
     public void saveOrUpdate(GamePosition gamePosition) {
         gamePositionDao.saveOrUpdate(gamePosition);
     }
+
+    @Override
+    public List<GamePosition> getAllForGame(int gameId) {
+        return gamePositionDao.getAllForGame(gameId);
+    }
+
 }
