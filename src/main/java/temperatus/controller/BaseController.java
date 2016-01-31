@@ -32,14 +32,19 @@ public class BaseController implements Initializable{
 
     public void setView(Node node) {
         if(vistaHolder.getChildren().size() > 0) {
-            Animation.fadeOutIn(vistaHolder.getChildren().get(0), node);
+            //avoid to set the same controller twice
+            // remember to set the id of all fxml set in the baseView
+            if(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1).getId().equals(node.getId())){
+                return;
+            }
+            Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
         }
         vistaHolder.getChildren().setAll(node);
     }
 
     public void pushViewToStack(Node node) {
         if(vistaHolder.getChildren().size() > 0) {
-            Animation.fadeOutIn(vistaHolder.getChildren().get(0), node);
+            Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
         }
         vistaHolder.getChildren().add(node);
     }
