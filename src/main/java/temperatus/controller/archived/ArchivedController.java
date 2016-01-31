@@ -185,7 +185,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @FXML
     private void missionInfo() {
-        MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
+        MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
         missionInfoController.setData(getSelectedElement().getId());
     }
 

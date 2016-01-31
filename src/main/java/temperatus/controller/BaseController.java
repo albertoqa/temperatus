@@ -32,19 +32,29 @@ public class BaseController implements Initializable{
 
     public void setView(Node node) {
         if(vistaHolder.getChildren().size() > 0) {
-            // avoid to set the same controller twice
-            // remember to set the id of all fxml set in the baseView
-            if(vistaHolder.getChildren().get(0).getId().equals(node.getId())){
-                return;
-            }
             Animation.fadeOutIn(vistaHolder.getChildren().get(0), node);
         }
         vistaHolder.getChildren().setAll(node);
     }
 
+    public void pushViewToStack(Node node) {
+        if(vistaHolder.getChildren().size() > 0) {
+            Animation.fadeOutIn(vistaHolder.getChildren().get(0), node);
+        }
+        vistaHolder.getChildren().add(node);
+    }
+
+    public void popViewFromStack() {
+        if(vistaHolder.getChildren().size() >= 2) {
+            Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 2));
+        }
+        vistaHolder.getChildren().remove(vistaHolder.getChildren().size() - 1);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         menu.getItems().addAll("  Home", "  Archive","  Devices","  Configuration");
+        menu.getSelectionModel().select(0);
 
         startClock();
     }

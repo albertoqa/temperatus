@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.model.pojo.*;
 import temperatus.model.service.*;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -97,6 +96,6 @@ public class MissionInfoController implements Initializable {
 
     @FXML
     private void back() {
-        VistaNavigator.loadVista(Constants.ARCHIVED);
+        VistaNavigator.popViewFromStack();
     }
 }

@@ -5,11 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.Choice;
 import temperatus.model.pojo.Game;
+import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.GameService;
@@ -20,6 +25,8 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -31,6 +38,12 @@ public class NewMissionController implements Initializable, AbstractController {
     @FXML private ChoiceBox projectChooser;
     @FXML private ChoiceBox gameChooser;
     @FXML private ChoiceBox subjectChooser;
+
+    @FXML private TextField nameInput;
+    @FXML private TextArea observationsInput;
+    @FXML private TextField authorInput;
+    @FXML private DatePicker dateInput;
+
 
     @Autowired ProjectService projectService;
     @Autowired MissionService missionService;
@@ -81,7 +94,31 @@ public class NewMissionController implements Initializable, AbstractController {
     }
 
     @FXML
-    private void continueToRecords() {
+    private void continueToRecords() throws ControlledTemperatusException {
+        Mission mission = new Mission();
+        mission.setName(nameInput.getText());
+        mission.setAuthor(authorInput.getText());
+        mission.setObservations(observationsInput.getText());
+
+        Date startDate = null;
+        try {
+            startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        } catch (Exception e){
+            throw new ControlledTemperatusException("Invalid date");
+        }
+
+        mission.setDateIni(startDate);
+        mission.setGameId(((Choice) gameChooser.getSelectionModel().getSelectedItem()).getId());
+        mission.setProjectId(((Choice) projectChooser.getSelectionModel().getSelectedItem()).getId());
+        mission.setSubjectId(((Choice) subjectChooser.getSelectionModel().getSelectedItem()).getId());
+
+        missionService.save(mission);
+
+        // TODO get mission default positions
+        // TODO detect iButtons and look for them in the db, if they appear and the selected game has the same position of the default
+        // TODO position of the button, set automatically that button to that position
+        // TODO set default position to iButton
+        // TODO set default position to Game
 
     }
 
