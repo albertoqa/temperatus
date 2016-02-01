@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 31/1/16.
  */
 @Component
-public class NewRecordController implements Initializable{
+public class NewRecordController implements Initializable {
 
     @FXML private VBox idBox;
     @FXML private VBox positionBox;
@@ -38,9 +38,8 @@ public class NewRecordController implements Initializable{
     // Si no, dejarlas en blanco
 
     // Cada vez que se detecte un botón, comprobar si esta guardado en la base de datos
-        // Si esta, buscar su posición por defecto
-            // Comprobar si su posición por defecto coincide con algunas de las posiciones por defecto del juego y asignarlos
-
+    // Si esta, buscar su posición por defecto
+    // Comprobar si su posición por defecto coincide con algunas de las posiciones por defecto del juego y asignarlos
 
 
     @Autowired
@@ -79,26 +78,39 @@ public class NewRecordController implements Initializable{
 
 
         // En la tabla necesito:
-            // ID -> autoincrement
-            // Selector de Posiciones -> positions
-            // Selector de Sources -> ibuttons detectados + select file from computer
+        // ID -> autoincrement
+        // Selector de Posiciones -> positions
+        // Selector de Sources -> ibuttons detectados + select file from computer
 
-       for(int i = 0; i < game.getNumButtons(); i++){
+        for (int i = 0; i < game.getNumButtons(); i++) {
 
-           int index = i;
+            int index = i;
 
-           ChoiceBox<Position> choiceBoxPositions = new ChoiceBox<>();
-           choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
+            ChoiceBox<Position> choiceBoxPositions = new ChoiceBox<>();
+            choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
 
-           if(defaultPositions.size() > i) {
-               choiceBoxPositions.getSelectionModel().select(defaultPositions.get(i));
-           }
+            if (defaultPositions.size() > i) {
+                choiceBoxPositions.getSelectionModel().select(defaultPositions.get(i));
+            }
 
-           //TODO choicebox of sources
 
-           addNewRow(index, choiceBoxPositions);
 
-       }
+            //TODO choicebox of sources
+
+            addNewRow(index, choiceBoxPositions);
+
+        }
+
+        /* Choose a file from the sistem
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            actionStatus.setText("File selected: " + selectedFile.getName());
+         } else {
+            actionStatus.setText("File selection cancelled.");
+        }
+         */
 
 
     }
@@ -116,6 +128,8 @@ public class NewRecordController implements Initializable{
         posBox.setPrefHeight(prefHeight);
 
         positionBox.getChildren().add(posBox);
+
+        //TODO add choicebox of sources
     }
 
 
