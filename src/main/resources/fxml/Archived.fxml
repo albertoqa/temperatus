@@ -133,7 +133,7 @@
                         <Button fx:id="deleteMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Delete" />
                         <Button fx:id="saveMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Save" visible="false" />
                         <Button fx:id="cancelMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Cancel" visible="false" />
-                        <Button disable="true" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Button" visible="false" />
+                        <Button fx:id="addDataToMissionButton" mnemonicParsing="false" onAction="#addDataToMission" prefWidth="100.0" styleClass="btn" text="Add Data" />
                         <Button fx:id="missionInfoButton" mnemonicParsing="false" onAction="#missionInfo" prefWidth="100.0" styleClass="btn" text="Complete info" />
                      </children>
                   </VBox>

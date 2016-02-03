@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
+import temperatus.controller.creation.NewRecordController;
 import temperatus.model.TreeElement;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
@@ -187,6 +188,13 @@ public class ArchivedController implements Initializable, AbstractController {
     private void missionInfo() {
         MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
         missionInfoController.setData(getSelectedElement().getId());
+    }
+
+    @FXML
+    private void addDataToMission() {   // TODO remember to remove if not needed
+        Mission mission = missionService.getById(getSelectedElement().getId());
+        NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
+        newRecordController.loadData(mission);
     }
 
     private TreeElement getSelectedElement() {
