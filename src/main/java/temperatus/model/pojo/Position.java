@@ -58,4 +58,25 @@ public class Position implements java.io.Serializable {
 	public String toString() {
 		return place;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Position position = (Position) o;
+
+		if (!id.equals(position.id)) return false;
+		if (!place.equals(position.place)) return false;
+		return !(picture != null ? !picture.equals(position.picture) : position.picture != null);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id.hashCode();
+		result = 31 * result + place.hashCode();
+		result = 31 * result + (picture != null ? picture.hashCode() : 0);
+		return result;
+	}
 }
