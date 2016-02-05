@@ -8,10 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import temperatus.model.pojo.Game;
-import temperatus.model.pojo.GamePosition;
-import temperatus.model.pojo.Mission;
-import temperatus.model.pojo.Position;
+import temperatus.model.SourceChoice;
+import temperatus.model.pojo.*;
 import temperatus.model.service.*;
 
 import java.net.URL;
@@ -93,11 +91,22 @@ public class NewRecordController implements Initializable {
                 choiceBoxPositions.getSelectionModel().select(defaultPositions.get(i));
             }
 
+            //TODO create one selection for FileChooser
+            //TODO create one selection for each connected iButton
+
+            ChoiceBox<SourceChoice> choiceBoxSource = new ChoiceBox<>();
+
+            SourceChoice ibutton = new SourceChoice();
+            ibutton.setIbutton(new Ibutton("WSMA00239122", "DSL9902", 0));
+            //sourceChoice.setObject(new FileChooser());
+            SourceChoice file = new SourceChoice();
+
+            choiceBoxSource.setItems(FXCollections.observableArrayList(ibutton, file));
 
 
             //TODO choicebox of sources
 
-            addNewRow(index, choiceBoxPositions);
+            addNewRow(index, choiceBoxPositions, choiceBoxSource);
 
         }
 
@@ -115,7 +124,7 @@ public class NewRecordController implements Initializable {
 
     }
 
-    private void addNewRow(int index, ChoiceBox<Position> posBox) {
+    private void addNewRow(int index, ChoiceBox<Position> posBox, ChoiceBox<SourceChoice> srcBox) {
         Label id = new Label(String.valueOf(index));
         id.setPrefHeight(prefHeight);
         id.setMaxHeight(prefHeight);
@@ -128,6 +137,12 @@ public class NewRecordController implements Initializable {
         posBox.setPrefHeight(prefHeight);
 
         positionBox.getChildren().add(posBox);
+
+        srcBox.setMinHeight(prefHeight);
+        srcBox.setMaxHeight(prefHeight);
+        srcBox.setPrefHeight(prefHeight);
+
+        sourceBox.getChildren().add(srcBox);
 
         //TODO add choicebox of sources
     }

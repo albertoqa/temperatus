@@ -28,6 +28,7 @@
                      <children>
                         <VBox fx:id="idBox" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="117.0" spacing="10.0" />
                         <VBox fx:id="positionBox" alignment="TOP_CENTER" layoutX="117.0" prefHeight="441.0" prefWidth="142.0" spacing="10.0" />
+                        <VBox fx:id="sourceBox" alignment="TOP_CENTER" layoutX="299.0" layoutY="0" prefHeight="441.0" prefWidth="142.0" spacing="10.0" />
                      </children>
                   </AnchorPane>
               </content>
