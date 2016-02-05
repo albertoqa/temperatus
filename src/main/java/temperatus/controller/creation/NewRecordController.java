@@ -1,11 +1,14 @@
 package temperatus.controller.creation;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.model.SourceChoice;
@@ -102,6 +105,21 @@ public class NewRecordController implements Initializable {
             SourceChoice file = new SourceChoice();
 
             choiceBoxSource.setItems(FXCollections.observableArrayList(ibutton, file));
+
+            choiceBoxSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SourceChoice>() {
+                @Override public void changed(ObservableValue<? extends SourceChoice> observableValue, SourceChoice oldChoice, SourceChoice newChoice) {
+                    if (newChoice.getIbutton() != null) {
+
+                    } else if (newChoice.getFile() == null){
+                        FileChooser fileChooser = new FileChooser();
+                        SourceChoice sourceChoice = new SourceChoice();
+                        sourceChoice.setFile(fileChooser.showOpenDialog(null));
+
+                        choiceBoxSource.getItems().add(sourceChoice);
+
+                    }
+                }
+            });
 
 
             //TODO choicebox of sources
