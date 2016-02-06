@@ -4,20 +4,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import temperatus.exception.ControlledTemperatusException;
+import temperatus.controller.AbstractController;
 import temperatus.util.Animation;
 
 /**
+ * Creation controllers (for example: newGame, newSubject...) have save/cancel button and a titledPane
+ * they must implement save/cancel
+ * <p>
  * Created by alberto on 27/1/16.
  */
-public abstract class AbstractCreation {
+public abstract class AbstractCreationController implements AbstractController {
 
     @FXML TitledPane titledPane;
     @FXML Button saveButton;
     @FXML Button cancelButton;
 
-    abstract void save() throws ControlledTemperatusException;
-    abstract void translate();
+    abstract void save();
 
     @FXML
     private void cancel() {
