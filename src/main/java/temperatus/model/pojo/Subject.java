@@ -15,7 +15,7 @@ public class Subject implements java.io.Serializable {
     private Integer id;
     private Boolean isPerson;
     private String name;
-    private Boolean sex;
+    private Boolean sex;    // true = male, false = female
     private Integer age;
     private Double weight;
     private Double size;

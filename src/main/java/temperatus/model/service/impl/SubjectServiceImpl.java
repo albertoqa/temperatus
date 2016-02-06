@@ -3,6 +3,7 @@ package temperatus.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.SubjectDao;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
@@ -25,7 +26,12 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void save(Subject subject) {
+    public void save(Subject subject) throws ControlledTemperatusException {
+
+        if(subject.getName().length() < 1 || subject.getName().length() > 300) {
+            throw new ControlledTemperatusException("Invalid name length");
+        }
+
         subjectDao.save(subject);
     }
 

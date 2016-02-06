@@ -1,5 +1,6 @@
 package temperatus.model.service;
 
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Subject;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface SubjectService {
 
     Subject getById(int id);
-    void save(Subject subject);
+    void save(Subject subject) throws ControlledTemperatusException;
     void delete(Subject subject);
     List<Subject> getAll();
     void saveOrUpdate(Subject subject);

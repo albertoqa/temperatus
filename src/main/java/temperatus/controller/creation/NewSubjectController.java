@@ -7,8 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Language;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
@@ -85,29 +87,55 @@ public class NewSubjectController extends AbstractCreationController implements 
     @FXML
     void save() {
 
-        Subject subject = new Subject();
-        subject.setName(nameInput.getText());
-        subject.setObservations(observationsInput.getText());
+        String name;
+        String observations;
 
-        if (person.getSelectedToggle() == isPerson) {
-            subject.setIsPerson(true);
-            subject.setAge(Integer.valueOf(ageInput.getText()));
-            subject.setWeight(Double.valueOf(weightInput.getText()));
-            subject.setSize(Double.valueOf(sizeInput.getText()));
-            if (gender.getSelectedToggle() == isMale) {
-                subject.setSex(true);
+        try {
+            logger.info("Saving subject...");
+
+            name = nameInput.getText();
+            observations = observationsInput.getText();
+
+            Subject subject = new Subject();
+            subject.setName(name);
+            subject.setObservations(observations);
+
+            // if subject is not a person only set the name and observations
+            if (person.getSelectedToggle() == isPerson) {
+                subject.setIsPerson(true);
+                subject.setAge(Integer.valueOf(ageInput.getText()));
+                subject.setWeight(Double.valueOf(weightInput.getText()));
+                subject.setSize(Double.valueOf(sizeInput.getText()));
+                if (gender.getSelectedToggle() == isMale) {
+                    subject.setSex(true);   // true = male
+                } else {
+                    subject.setSex(false);  // false = female
+                }
             } else {
-                subject.setSex(false);
+                subject.setIsPerson(false);
             }
-        } else {
-            subject.setIsPerson(false);
-        }
 
-        subjectService.save(subject);
+            subjectService.save(subject);
 
-        Animation.fadeInOutClose(titledPane);
-        if (VistaNavigator.getController() != null) {
-            VistaNavigator.getController().reload(subject);
+            Animation.fadeInOutClose(titledPane);
+            if (VistaNavigator.getController() != null) {
+                VistaNavigator.getController().reload(subject);
+            }
+
+            logger.info("Saved: " + subject);
+
+        } catch (NumberFormatException ex) {
+            logger.warn("Invalid input number (age, weight or size)");
+            // TODO show alert
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Exception: " + ex.getMessage());
+            // TODO show alert
+        } catch (ConstraintViolationException ex) {
+            logger.warn("Duplicate entry");
+            // TODO show alert
+        } catch (Exception ex) {
+            logger.warn("Unknown exception" + ex.getMessage());
+            // TODO show alert
         }
     }
 
