@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import temperatus.lang.Language;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
@@ -22,8 +22,8 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 17/1/16.
  */
-@Component
-public class SplashController implements Initializable{
+@Controller
+public class SplashController implements Initializable, AbstractController {
 
     @FXML
     private Label subtitle;
@@ -51,7 +51,8 @@ public class SplashController implements Initializable{
 
     private Task createSleepTask() {
         Task task = new Task<Void>() {
-            @Override public Void call() {
+            @Override
+            public Void call() {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {

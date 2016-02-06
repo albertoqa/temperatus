@@ -9,4 +9,8 @@ public interface AbstractController {
         System.out.println("Nothing to reload...");
     }
 
+    default void transtale() {
+        System.out.println("Nothing to translate...");
+    }
+
 }
