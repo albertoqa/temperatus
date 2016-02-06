@@ -3,6 +3,7 @@ package temperatus.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.ProjectDao;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
@@ -25,7 +26,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void save(Project project) {
+    public void save(Project project) throws ControlledTemperatusException {
+
+        if(project.getName().length() < 1) {
+            throw new ControlledTemperatusException("Name cannot be empty");
+        } else if(project.getName().length() > 100) {
+            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        }
+
         projectDao.save(project);
     }
 

@@ -3,6 +3,7 @@ package temperatus.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.GameDao;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
@@ -25,7 +26,16 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void save(Game game) {
+    public void save(Game game) throws ControlledTemperatusException {
+
+        if(game.getTitle().length() < 1) {
+            throw new ControlledTemperatusException("Name cannot be empty");
+        } else if(game.getTitle().length() > 100) {
+            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        } else if(game.getNumButtons() > 30 || game.getNumButtons() < 1) {
+            throw new ControlledTemperatusException("Invalid number of iButtons");
+        }
+
         gameDao.save(game);
     }
 

@@ -2,16 +2,19 @@ package temperatus.controller.creation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Language;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
 import temperatus.util.Animation;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -21,7 +24,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 26/1/16.
  */
 @Component
-public class NewGameController extends AbstractCreation implements Initializable {
+public class NewGameController extends AbstractCreationController implements Initializable {
 
     @FXML Label nameLabel;
     @FXML Label observationsLabel;
@@ -33,58 +36,62 @@ public class NewGameController extends AbstractCreation implements Initializable
 
     @Autowired GameService gameService;
 
+    private final Language language = Language.getInstance();
+    static Logger logger = Logger.getLogger(NewGameController.class.getName());
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         translate();
     }
 
-    @Override @FXML
-    protected void save() throws ControlledTemperatusException{
+    @Override
+    @FXML
+    protected void save() {
 
-        String name = nameInput.getText();
-        String observations = observationsInput.getText();
-        Integer numButtons = 0;
+        String name;
+        String observations;
+        Integer numButtons;
 
         try {
+            name = nameInput.getText();
+            observations = observationsInput.getText();
             numButtons = Integer.parseInt(numButtonsInput.getText());
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Invalid number of buttons");
+
+            Game game = new Game(name, numButtons, observations);
+            gameService.save(game);
+
+            Animation.fadeInOutClose(titledPane);
+            if (VistaNavigator.getController() != null) {
+                VistaNavigator.getController().reload(game);
+            }
+
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Exception: " + ex.getMessage());
+            // TODO show alert
+        } catch (NumberFormatException ex) {
+            logger.warn("Invalid input for number of buttons");
+            //showAlert(Alert.AlertType.ERROR, "Invalid number of buttons");
+        } catch (ConstraintViolationException ex) {
+            logger.warn("Duplicate entry");
+            // TODO show alert
+        } catch (Exception ex) {
+            logger.warn("Unknown exception" + ex.getMessage());
+            // TODO show alert
         }
-
-        // TODO show warnings!
-        if(name.length() < 3 || name.length() > 20) {
-            showAlert(Alert.AlertType.ERROR, "Invalid name lenght");
-        } else if(observations.length() > 300) {
-            showAlert(Alert.AlertType.ERROR, "Invalid observations lenght");
-        } else if(numButtons < 0 || numButtons > 30) {
-            showAlert(Alert.AlertType.ERROR, "Invalid number of buttons");
-        }
-
-        Game game = new Game();
-
-        game.setTitle(name);
-        game.setObservations(observations);
-        game.setNumButtons(numButtons);
-
-        gameService.save(game); // TODO throw exception if game with same name already exists
-
-        Animation.fadeInOutClose(titledPane);
-        if(VistaNavigator.getController() != null) {
-            VistaNavigator.getController().reload(game);
-        }
-
-        // TODO show sucess
     }
 
     @Override
-    void translate() {
-        nameLabel.setText("Name");
-        observationsLabel.setText("Observations");
-        numButtonsLabel.setText("Number of Buttons");
-        saveButton.setText("Save");
-        cancelButton.setText("Cancel");
+    public void translate() {
+        titledPane.setText(language.get(Constants.NEWGAME));
+        saveButton.setText(language.get(Constants.SAVE));
+        cancelButton.setText(language.get(Constants.CANCEL));
+        nameLabel.setText(language.get(Constants.NAMELABEL));
+        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
+        nameInput.setPromptText(language.get(Constants.NAMEPROMP));
+        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMP));
+        numButtonsLabel.setText(language.get(Constants.NUMBUTTONSLABEL));
+        numButtonsInput.setPromptText(language.get(Constants.NUMBUTTONSPROMP));
     }
-
-
 
 }
