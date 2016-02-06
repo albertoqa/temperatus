@@ -33,7 +33,7 @@
             <Button layoutX="428.0" layoutY="87.0" mnemonicParsing="false" onAction="#newProject" styleClass="btn" text="New Project" />
             <Pane layoutX="417.0" layoutY="515.0" prefHeight="56.0" prefWidth="200.0" style="-fx-background-color: #808080;">
                <children>
-                  <Button layoutX="3.0" layoutY="15.0" mnemonicParsing="false" onAction="#continueToRecords" styleClass="btn" text="Continue" />
+                  <Button layoutX="3.0" layoutY="15.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Continue" />
                   <Button layoutX="110.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancel" styleClass="btn" text="Cancel" />
                </children>
             </Pane>
