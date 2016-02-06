@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import temperatus.model.dao.RecordDao;
 import temperatus.model.pojo.Record;
 
+import java.util.List;
+
 /**
  * Created by alberto on 26/12/15.
  */
@@ -11,12 +13,12 @@ import temperatus.model.pojo.Record;
 public class RecordDaoImpl extends GenericDaoImpl implements RecordDao {
 
     @Override
-    public Record getByMissionId(int missionId) {
-        return (Record) this.sessionFactory.getCurrentSession()
+    public List<Record> getByMissionId(int missionId) {
+        return this.sessionFactory.getCurrentSession()
                 .createQuery(
                         "from Record where misionId = :missionId")
                 .setParameter("missionId", missionId)
-                .uniqueResult();
+                .list();
     }
 
 }

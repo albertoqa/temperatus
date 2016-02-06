@@ -10,7 +10,7 @@ public class Constants {
     //#########################################################################//
     //* Convenience constants for fxml layouts managed by the navigator.
 
-    public static final String WELCOME = "/fxml/Welcome.fxml";
+    public static final String SPLASH = "/fxml/Welcome.fxml";
 
     public static final String BASE = "/fxml/Base.fxml";
     public static final String HOME = "/fxml/Home.fxml";

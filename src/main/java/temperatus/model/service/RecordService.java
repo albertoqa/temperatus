@@ -15,6 +15,6 @@ public interface RecordService {
     List<Record> getAll();
     void saveOrUpdate(Record record);
 
-    Record getByMissionId(int missionId);
+    List<Record> getByMissionId(int missionId);
 
 }

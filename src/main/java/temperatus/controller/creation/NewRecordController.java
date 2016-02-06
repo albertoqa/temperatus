@@ -11,9 +11,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import temperatus.controller.archived.MissionInfoController;
+import temperatus.exception.ControlledTemperatusException;
+import temperatus.importer.IbuttonDataImporter;
 import temperatus.model.SourceChoice;
 import temperatus.model.pojo.*;
 import temperatus.model.service.*;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,6 +58,8 @@ public class NewRecordController implements Initializable {
     PositionService positionService;
     @Autowired
     RecordService recordService;
+    @Autowired
+    MeasurementService measurementService;
 
     private Mission mission;
     private Game game;
@@ -121,25 +128,54 @@ public class NewRecordController implements Initializable {
                 }
             });
 
-
-            //TODO choicebox of sources
-
             addNewRow(index, choiceBoxPositions, choiceBoxSource);
 
         }
 
-        /* Choose a file from the sistem
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(null);
+    }
 
-        if (selectedFile != null) {
-            actionStatus.setText("File selected: " + selectedFile.getName());
-         } else {
-            actionStatus.setText("File selection cancelled.");
+    @FXML
+    private void save() throws ControlledTemperatusException {
+
+        for(int i = 0; i < game.getNumButtons(); i++) {
+
+            Position position = ((ChoiceBox<Position>) positionBox.getChildren().get(i)).getSelectionModel().getSelectedItem();
+            SourceChoice sourceChoice = ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem();
+
+            if(sourceChoice == null || position == null) {
+                // TODO
+                continue;
+            }
+
+            Ibutton ibutton = new Ibutton();
+            List<Measurement> measurements = null;
+
+            if(sourceChoice.getFile() != null) {
+                IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(sourceChoice.getFile());
+
+                ibutton.setModel(ibuttonDataImporter.getDeviceModel());
+                ibutton.setSerial(ibuttonDataImporter.getDeviceSerial());
+
+                measurements = ibuttonDataImporter.getMeasurements();
+            }
+
+            ibuttonService.save(ibutton);
+            int positionId = position.getId();
+
+            Record record = new Record(mission.getId(), ibutton.getId(), positionId);
+            recordService.save(record);
+            int recordId = record.getId();
+
+            for(Measurement measurement: measurements) {
+                measurement.setRecordId(recordId);
+                measurementService.save(measurement);
+            }
+
         }
-         */
 
-
+        // Load mission info //TODO
+        MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
+        missionInfoController.setData(mission.getId());
     }
 
     private void addNewRow(int index, ChoiceBox<Position> posBox, ChoiceBox<SourceChoice> srcBox) {
@@ -161,8 +197,6 @@ public class NewRecordController implements Initializable {
         srcBox.setPrefHeight(prefHeight);
 
         sourceBox.getChildren().add(srcBox);
-
-        //TODO add choicebox of sources
     }
 
 

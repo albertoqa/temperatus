@@ -34,11 +34,8 @@ public class IbuttonDataImporter extends AbstractImporter {
     private static final String UNIT_HEADER = "Unit";
     private static final String VALUE_HEADER = "Value";
 
-    private int recordId;
-
-    public IbuttonDataImporter(File fileToRead, int recordId) {
+    public IbuttonDataImporter(File fileToRead) {
         super(fileToRead);
-        this.recordId = recordId;
         readData();
     }
 
@@ -63,8 +60,15 @@ public class IbuttonDataImporter extends AbstractImporter {
             // Read the iButton info data
             for(line = 0; line < csvRecords.size(); line++) {
                 //TODO save ibutton info
+                CSVRecord csvRecord = csvRecords.get(line);
 
-                if(isHeaderLine(csvRecords.get(line))) {
+                if(csvRecord.get(0).contains("Part Number")) {
+                    deviceModel = csvRecord.get(0).split(":")[1];
+                    deviceModel.replace(" ", "");
+                } else if(csvRecord.get(0).contains("Registration Number")) {
+                    deviceSerial = csvRecord.get(0).split(":")[1];
+                    deviceSerial.replace(" ", "");
+                }else if(isHeaderLine(csvRecord)) {
                     line++;
                     break;
                 }
@@ -78,7 +82,7 @@ public class IbuttonDataImporter extends AbstractImporter {
                 Integer measurementData = Integer.parseInt(record.get(VALUE_HEADER));
                 //TODO check if unit is C or F
 
-                Measurement measurement = new Measurement(measurementDate, measurementData, recordId);
+                Measurement measurement = new Measurement(measurementDate, measurementData, null); // recordId must be set before save to db
                 measurements.add(measurement);
 
                 line++;

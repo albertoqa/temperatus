@@ -45,7 +45,7 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Record getByMissionId(int missionId) {
+    public List<Record> getByMissionId(int missionId) {
         return recordDao.getByMissionId(missionId);
     }
 

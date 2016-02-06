@@ -54,14 +54,14 @@ public class SplashController implements Initializable{
             @Override public Void call() {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
-                    /*try { // TODO uncoment
+                    try {
                         Thread.sleep(100);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
                             updateMessage("Cancelled");
                             break;
                         }
-                    }*/
+                    }
                     updateProgress(i, max);
                 }
                 return null;

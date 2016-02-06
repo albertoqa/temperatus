@@ -19,7 +19,7 @@
                   <TableColumn prefWidth="148.0" text="Default Position" />
               </columns>
             </TableView>
-            <Button layoutX="682.0" layoutY="195.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="85.0" styleClass="btn" text="Save" />
+            <Button onAction="#save" layoutX="682.0" layoutY="195.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="85.0" styleClass="btn" text="Save" />
             <Button layoutX="682.0" layoutY="225.0" mnemonicParsing="false" styleClass="btn" text="Cancel" />
             <Button layoutX="683.0" layoutY="570.0" mnemonicParsing="false" styleClass="btn" text="Refresh" />
             <ScrollPane layoutX="27.0" layoutY="81.0" maxHeight="1.7976931348623157E308" prefHeight="441.0" prefWidth="601.0">

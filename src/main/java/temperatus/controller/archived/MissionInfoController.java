@@ -13,6 +13,7 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,8 +48,9 @@ public class MissionInfoController implements Initializable {
     private Mission mission;
     private Game game;
     private Subject subject;
-    private Record record;
-    private List<Measurement> measurements;
+
+    private HashMap<Record, List<Measurement>> dataMap;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,8 +62,14 @@ public class MissionInfoController implements Initializable {
         project = projectService.getById(mission.getProjectId());
         game = gameService.getById(mission.getGameId());
         subject = subjectService.getById(mission.getSubjectId());
-        record = recordService.getByMissionId(missionId);
-        measurements = measurementService.getAllByRecordId(record.getId());
+
+        List<Record> records = recordService.getByMissionId(missionId);
+
+        dataMap = new HashMap<>();
+        for(Record record: records) {
+            List<Measurement> measurements = measurementService.getAllByRecordId(record.getId());
+            dataMap.put(record, measurements);
+        }
 
         //TODO throw exception if == null
 
@@ -84,13 +92,17 @@ public class MissionInfoController implements Initializable {
 
         subjectName.setText(subject.getName());
 
+        for(Record record: dataMap.keySet()) {
+            List<Measurement> measurements = dataMap.get(record);
 
-        XYChart.Series<Date, Number> series = new XYChart.Series<Date, Number>();
-        series.setName("My data");
-        measurements.stream().forEach((measurement) -> {
-            series.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
-        });
-        lineChart.getData().add(series);
+            XYChart.Series<Date, Number> series = new XYChart.Series<Date, Number>();
+            series.setName(record.getPositionId().toString());  //TODO change to Position name
+            measurements.stream().forEach((measurement) -> {
+                series.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
+            });
+            lineChart.getData().add(series);
+
+        }
 
     }
 
