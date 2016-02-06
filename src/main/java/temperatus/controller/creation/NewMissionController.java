@@ -10,8 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import temperatus.controller.AbstractController;
-import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.Choice;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Mission;
@@ -33,7 +31,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 24/1/16.
  */
 @Component
-public class NewMissionController implements Initializable, AbstractController {
+public class NewMissionController extends AbstractCreationController implements Initializable {
 
     @FXML private ChoiceBox projectChooser;
     @FXML private ChoiceBox gameChooser;
@@ -43,7 +41,6 @@ public class NewMissionController implements Initializable, AbstractController {
     @FXML private TextArea observationsInput;
     @FXML private TextField authorInput;
     @FXML private DatePicker dateInput;
-
 
     @Autowired ProjectService projectService;
     @Autowired MissionService missionService;
@@ -94,7 +91,7 @@ public class NewMissionController implements Initializable, AbstractController {
     }
 
     @FXML
-    private void continueToRecords() throws ControlledTemperatusException {
+    void save() {
         Mission mission = new Mission();
         mission.setName(nameInput.getText());
         mission.setAuthor(authorInput.getText());
@@ -104,7 +101,7 @@ public class NewMissionController implements Initializable, AbstractController {
         try {
             startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         } catch (Exception e){
-            throw new ControlledTemperatusException("Invalid date");
+
         }
 
         mission.setDateIni(startDate);
@@ -158,6 +155,11 @@ public class NewMissionController implements Initializable, AbstractController {
             subjectChooser.getItems().add(choice);
             subjectChooser.getSelectionModel().select(choice);
         }
+    }
+
+    @Override
+    public void translate() {
+
     }
 
 }

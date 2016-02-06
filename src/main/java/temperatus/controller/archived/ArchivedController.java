@@ -208,6 +208,11 @@ public class ArchivedController implements Initializable, AbstractController {
         }
     }
 
+    @Override
+    public void translate() {
+
+    }
+
     private void notEditingVisibility() {
         saveProjectButton.setVisible(false);
         cancelProjectButton.setVisible(false);

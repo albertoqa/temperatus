@@ -12,7 +12,6 @@ import javafx.stage.FileChooser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.archived.MissionInfoController;
-import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.model.SourceChoice;
 import temperatus.model.pojo.*;
@@ -135,7 +134,7 @@ public class NewRecordController implements Initializable {
     }
 
     @FXML
-    private void save() throws ControlledTemperatusException {
+    private void save(){
 
         for(int i = 0; i < game.getNumButtons(); i++) {
 
