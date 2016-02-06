@@ -8,7 +8,7 @@ import java.util.prefs.Preferences;
 public class Constants {
 
     //#########################################################################//
-    //* Convenience constants for fxml layouts managed by the navigator.
+    //* Convenience constants for fxml layouts
 
     public static final String SPLASH = "/fxml/Welcome.fxml";
 
@@ -44,7 +44,40 @@ public class Constants {
     //#########################################################################//
     // * Constants for language names
 
+    // Base controller
     public static final String RIGHTS = "rights";
+    public static final String LHOME = "home";
+    public static final String ARCHIVE = "archive";
+    public static final String DEVICES = "devices";
+    public static final String CONFIGURATION = "configuration";
 
+    // New project
+    public static final String NEWPROJECT = "newProject";
+    public static final String NAMEPROMP = "namePromp";
+    public static final String OBSERVATIONSPROMP = "observationsPromp";
+    public static final String NAMELABEL = "nameLabel";
+    public static final String OBSERVATIONSLABEL = "observationsLabel";
+    public static final String STARTDATELABEL = "startDateLabel";
+
+    // New Game
+    public static final String NEWGAME = "newGame";
+    public static final String NUMBUTTONSPROMP = "numButtonsPromp";
+    public static final String NUMBUTTONSLABEL = "numButtonsLabel";
+
+    // New Subject
+    public static final String AGELABEL = "ageLabel";
+    public static final String AGEPROMP = "agePromp";
+    public static final String WEIGHTLABEL = "weightLabel";
+    public static final String WEIGHTPROMP = "weightPromp";
+    public static final String SIZELABEL = "sizeLabel";
+    public static final String SIZEPROMP = "sizePromp";
+    public static final String ISPERSON = "isPerson";
+    public static final String ISOBJECT = "isObject";
+    public static final String ISMALE = "isMale";
+    public static final String ISFEMALE = "isFemale";
+
+    // Common
+    public static final String SAVE = "save";
+    public static final String CANCEL = "cancel";
 
 }
