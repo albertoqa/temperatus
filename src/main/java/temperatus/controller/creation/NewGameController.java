@@ -54,6 +54,8 @@ public class NewGameController extends AbstractCreationController implements Ini
         Integer numButtons;
 
         try {
+            logger.info("Saving game...");
+
             name = nameInput.getText();
             observations = observationsInput.getText();
             numButtons = Integer.parseInt(numButtonsInput.getText());
@@ -65,6 +67,8 @@ public class NewGameController extends AbstractCreationController implements Ini
             if (VistaNavigator.getController() != null) {
                 VistaNavigator.getController().reload(game);
             }
+
+            logger.info("Saved" + game);
 
         } catch (ControlledTemperatusException ex) {
             logger.warn("Exception: " + ex.getMessage());
