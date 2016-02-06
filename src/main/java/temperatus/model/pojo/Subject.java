@@ -12,102 +12,141 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "SUBJECT", schema = "PUBLIC", catalog = "DATABASE")
 public class Subject implements java.io.Serializable {
 
-	private Integer id;
-	private Boolean isPerson;
-	private String name;
-	private Boolean sex;
-	private Integer age;
-	private Double weight;
-	private Double size;
-	private String observations;
+    private Integer id;
+    private Boolean isPerson;
+    private String name;
+    private Boolean sex;
+    private Integer age;
+    private Double weight;
+    private Double size;
+    private String observations;
 
-	public Subject() {
-	}
+    public Subject() {
+    }
 
-	public Subject(Boolean isPerson, String name, Boolean sex, Integer age, Double weight, Double size,
-			String observations) {
-		this.isPerson = isPerson;
-		this.name = name;
-		this.sex = sex;
-		this.age = age;
-		this.weight = weight;
-		this.size = size;
-		this.observations = observations;
-	}
+    public Subject(Boolean isPerson, String name, Boolean sex, Integer age, Double weight, Double size,
+                   String observations) {
+        this.isPerson = isPerson;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.weight = weight;
+        this.size = size;
+        this.observations = observations;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "IS_PERSON")
-	public Boolean getIsPerson() {
-		return this.isPerson;
-	}
+    @Column(name = "IS_PERSON", nullable = false)
+    public Boolean getIsPerson() {
+        return this.isPerson;
+    }
 
-	public void setIsPerson(Boolean isPerson) {
-		this.isPerson = isPerson;
-	}
+    public void setIsPerson(Boolean isPerson) {
+        this.isPerson = isPerson;
+    }
 
-	@Column(name = "NAME", length = 300)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "NAME", length = 300, unique = true, nullable = false)
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Column(name = "SEX")
-	public Boolean getSex() {
-		return this.sex;
-	}
+    @Column(name = "SEX")
+    public Boolean getSex() {
+        return this.sex;
+    }
 
-	public void setSex(Boolean sex) {
-		this.sex = sex;
-	}
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
 
-	@Column(name = "AGE")
-	public Integer getAge() {
-		return this.age;
-	}
+    @Column(name = "AGE")
+    public Integer getAge() {
+        return this.age;
+    }
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
-	@Column(name = "WEIGHT", precision = 17, scale = 0)
-	public Double getWeight() {
-		return this.weight;
-	}
+    @Column(name = "WEIGHT", precision = 17, scale = 0)
+    public Double getWeight() {
+        return this.weight;
+    }
 
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
 
-	@Column(name = "SIZE", precision = 17, scale = 0)
-	public Double getSize() {
-		return this.size;
-	}
+    @Column(name = "SIZE", precision = 17, scale = 0)
+    public Double getSize() {
+        return this.size;
+    }
 
-	public void setSize(Double size) {
-		this.size = size;
-	}
+    public void setSize(Double size) {
+        this.size = size;
+    }
 
-	@Column(name = "OBSERVATIONS")
-	public String getObservations() {
-		return this.observations;
-	}
+    @Column(name = "OBSERVATIONS")
+    public String getObservations() {
+        return this.observations;
+    }
 
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Subject subject = (Subject) o;
+
+        if (!id.equals(subject.id)) return false;
+        if (!isPerson.equals(subject.isPerson)) return false;
+        if (!name.equals(subject.name)) return false;
+        if (sex != null ? !sex.equals(subject.sex) : subject.sex != null) return false;
+        if (age != null ? !age.equals(subject.age) : subject.age != null) return false;
+        if (weight != null ? !weight.equals(subject.weight) : subject.weight != null) return false;
+        if (size != null ? !size.equals(subject.size) : subject.size != null) return false;
+        return !(observations != null ? !observations.equals(subject.observations) : subject.observations != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + isPerson.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (weight != null ? weight.hashCode() : 0);
+        result = 31 * result + (size != null ? size.hashCode() : 0);
+        result = 31 * result + (observations != null ? observations.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", isPerson=" + isPerson +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

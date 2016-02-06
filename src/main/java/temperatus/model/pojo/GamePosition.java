@@ -12,45 +12,75 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "GAME_POSITION", schema = "PUBLIC", catalog = "DATABASE")
 public class GamePosition implements java.io.Serializable {
 
-	private Integer id;
-	private Integer gameId;
-	private Integer positionId;
+    private Integer id;
+    private Integer gameId;
+    private Integer positionId;
 
-	public GamePosition() {
-	}
+    public GamePosition() {
+    }
 
-	public GamePosition(Integer gameId, Integer positionId) {
-		this.gameId = gameId;
-		this.positionId = positionId;
-	}
+    public GamePosition(Integer gameId, Integer positionId) {
+        this.gameId = gameId;
+        this.positionId = positionId;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "GAME_ID")
-	public Integer getGameId() {
-		return gameId;
-	}
+    @Column(name = "GAME_ID", unique = true, nullable = false)
+    public Integer getGameId() {
+        return gameId;
+    }
 
-	public void setGameId(Integer gameId) {
-		this.gameId = gameId;
-	}
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
+    }
 
-	@Column(name = "POSITION_ID")
-	public Integer getPositionId() {
-		return positionId;
-	}
+    @Column(name = "POSITION_ID", unique = true, nullable = false)
+    public Integer getPositionId() {
+        return positionId;
+    }
 
-	public void setPositionId(Integer positionId) {
-		this.positionId = positionId;
-	}
+    public void setPositionId(Integer positionId) {
+        this.positionId = positionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GamePosition that = (GamePosition) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!gameId.equals(that.gameId)) return false;
+        return positionId.equals(that.positionId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + gameId.hashCode();
+        result = 31 * result + positionId.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "GamePosition{" +
+                "id=" + id +
+                ", gameId=" + gameId +
+                ", positionId=" + positionId +
+                '}';
+    }
 }

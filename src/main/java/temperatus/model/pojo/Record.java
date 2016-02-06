@@ -12,56 +12,89 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "RECORD", schema = "PUBLIC", catalog = "DATABASE")
 public class Record implements java.io.Serializable {
 
-	private Integer id;
-	private Integer misionId;
-	private Integer ibuttonId;
-	private Integer positionId;
+    private Integer id;
+    private Integer misionId;
+    private Integer ibuttonId;
+    private Integer positionId;
 
-	public Record() {
-	}
+    public Record() {
+    }
 
-	public Record(Integer misionId, Integer ibutton, Integer position) {
-		this.ibuttonId = ibutton;
-		this.positionId = position;
-		this.misionId = misionId;
-	}
+    public Record(Integer misionId, Integer ibutton, Integer position) {
+        this.ibuttonId = ibutton;
+        this.positionId = position;
+        this.misionId = misionId;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "MISSION_ID")
-	public Integer getMisionId() {
-		return this.misionId;
-	}
+    @Column(name = "MISSION_ID", nullable = false)
+    public Integer getMisionId() {
+        return this.misionId;
+    }
 
-	public void setMisionId(Integer misionId) {
-		this.misionId = misionId;
-	}
+    public void setMisionId(Integer misionId) {
+        this.misionId = misionId;
+    }
 
-	@Column(name = "IBUTTON_ID")
-	public Integer getIbuttonId() {
-		return ibuttonId;
-	}
+    @Column(name = "IBUTTON_ID", nullable = false)
+    public Integer getIbuttonId() {
+        return ibuttonId;
+    }
 
-	public void setIbuttonId(Integer ibuttonId) {
-		this.ibuttonId = ibuttonId;
-	}
+    public void setIbuttonId(Integer ibuttonId) {
+        this.ibuttonId = ibuttonId;
+    }
 
-	@Column(name = "POSITION_ID")
-	public Integer getPositionId() {
-		return positionId;
-	}
+    @Column(name = "POSITION_ID", nullable = false)
+    public Integer getPositionId() {
+        return positionId;
+    }
 
-	public void setPositionId(Integer positionId) {
-		this.positionId = positionId;
-	}
+    public void setPositionId(Integer positionId) {
+        this.positionId = positionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Record record = (Record) o;
+
+        if (!id.equals(record.id)) return false;
+        if (!misionId.equals(record.misionId)) return false;
+        if (!ibuttonId.equals(record.ibuttonId)) return false;
+        return positionId.equals(record.positionId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + misionId.hashCode();
+        result = 31 * result + ibuttonId.hashCode();
+        result = 31 * result + positionId.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", misionId=" + misionId +
+                ", ibuttonId=" + ibuttonId +
+                ", positionId=" + positionId +
+                '}';
+    }
 }

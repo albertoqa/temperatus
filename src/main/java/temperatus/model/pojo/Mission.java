@@ -52,7 +52,7 @@ public class Mission implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "NAME", length = 100)
+    @Column(name = "NAME", length = 100, unique = true, nullable = false)
     public String getName() {
         return this.name;
     }
@@ -71,7 +71,7 @@ public class Mission implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "DATE_INI", length = 8)
+    @Column(name = "DATE_INI", length = 8, nullable = false)
     public Date getDateIni() {
         return this.dateIni;
     }
@@ -89,7 +89,7 @@ public class Mission implements java.io.Serializable {
         this.observations = observations;
     }
 
-    @Column(name = "GAME_ID")
+    @Column(name = "GAME_ID", nullable = false)
     public Integer getGameId() {
         return this.gameId;
     }
@@ -98,7 +98,7 @@ public class Mission implements java.io.Serializable {
         this.gameId = gameId;
     }
 
-    @Column(name = "PROJECT_ID")
+    @Column(name = "PROJECT_ID", nullable = false)
     public Integer getProjectId() {
         return projectId;
     }
@@ -107,12 +107,58 @@ public class Mission implements java.io.Serializable {
         this.projectId = projectId;
     }
 
-    @Column(name = "SUBJECT_ID")
+    @Column(name = "SUBJECT_ID", nullable = false)
     public Integer getSubjectId() {
         return subjectId;
     }
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Mission mission = (Mission) o;
+
+        if (!id.equals(mission.id)) return false;
+        if (!name.equals(mission.name)) return false;
+        if (!author.equals(mission.author)) return false;
+        if (!dateIni.equals(mission.dateIni)) return false;
+        if (observations != null ? !observations.equals(mission.observations) : mission.observations != null)
+            return false;
+        if (!gameId.equals(mission.gameId)) return false;
+        if (!projectId.equals(mission.projectId)) return false;
+        return subjectId.equals(mission.subjectId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + dateIni.hashCode();
+        result = 31 * result + (observations != null ? observations.hashCode() : 0);
+        result = 31 * result + gameId.hashCode();
+        result = 31 * result + projectId.hashCode();
+        result = 31 * result + subjectId.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Mission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", dateIni=" + dateIni +
+                ", observations='" + observations + '\'' +
+                ", gameId=" + gameId +
+                ", projectId=" + projectId +
+                ", subjectId=" + subjectId +
+                '}';
     }
 }

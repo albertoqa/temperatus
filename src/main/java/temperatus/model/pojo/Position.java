@@ -36,7 +36,7 @@ public class Position implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "PLACE", length = 100)
+	@Column(name = "PLACE", length = 100, unique = true, nullable = false)
 	public String getPlace() {
 		return this.place;
 	}

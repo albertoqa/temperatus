@@ -13,58 +13,90 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "PROJECT", schema = "PUBLIC", catalog = "DATABASE")
 public class Project implements java.io.Serializable {
 
-	private Integer id;
-	private String name;
-	private Date dateIni;
-	private String observations;
+    private Integer id;
+    private String name;
+    private Date dateIni;
+    private String observations;
 
-	public Project() {
-	}
+    public Project() {
+    }
 
-	public Project(String name, Date dateIni, String observations) {
-		this.name = name;
-		this.dateIni = dateIni;
-		this.observations = observations;
-	}
+    public Project(String name, Date dateIni, String observations) {
+        this.name = name;
+        this.dateIni = dateIni;
+        this.observations = observations;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "NAME", length = 100, unique = true)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "NAME", length = 100, unique = true, nullable = false)
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "DATE_INI", length = 8)
-	public Date getDateIni() {
-		return this.dateIni;
-	}
+    @Temporal(TemporalType.DATE)
+    @Column(name = "DATE_INI", length = 8, nullable = false)
+    public Date getDateIni() {
+        return this.dateIni;
+    }
 
-	public void setDateIni(Date dateIni) {
-		this.dateIni = dateIni;
-	}
+    public void setDateIni(Date dateIni) {
+        this.dateIni = dateIni;
+    }
 
-	@Column(name = "OBSERVATIONS")
-	public String getObservations() {
-		return this.observations;
-	}
+    @Column(name = "OBSERVATIONS")
+    public String getObservations() {
+        return this.observations;
+    }
 
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Project project = (Project) o;
+
+        if (!id.equals(project.id)) return false;
+        if (!name.equals(project.name)) return false;
+        if (!dateIni.equals(project.dateIni)) return false;
+        return !(observations != null ? !observations.equals(project.observations) : project.observations != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + dateIni.hashCode();
+        result = 31 * result + (observations != null ? observations.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateIni=" + dateIni +
+                ", observations='" + observations + '\'' +
+                '}';
+    }
 }

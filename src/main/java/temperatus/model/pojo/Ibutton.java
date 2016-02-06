@@ -12,56 +12,89 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "IBUTTON", schema = "PUBLIC", catalog = "DATABASE")
 public class Ibutton implements java.io.Serializable {
 
-	private Integer id;
-	private String serial;
-	private String model;
-	private Integer defaultPositionId;
+    private Integer id;
+    private String serial;
+    private String model;
+    private Integer defaultPositionId;
 
-	public Ibutton() {
-	}
+    public Ibutton() {
+    }
 
-	public Ibutton(String serial, String model, Integer defaultPositionId) {
-		this.serial = serial;
-		this.model = model;
-		this.defaultPositionId = defaultPositionId;
-	}
+    public Ibutton(String serial, String model, Integer defaultPositionId) {
+        this.serial = serial;
+        this.model = model;
+        this.defaultPositionId = defaultPositionId;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "SERIAL", length = 200)
-	public String getSerial() {
-		return this.serial;
-	}
+    @Column(name = "SERIAL", length = 200, unique = true, nullable = false)
+    public String getSerial() {
+        return this.serial;
+    }
 
-	public void setSerial(String serial) {
-		this.serial = serial;
-	}
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
 
-	@Column(name = "MODEL", length = 200)
-	public String getModel() {
-		return this.model;
-	}
+    @Column(name = "MODEL", length = 200, nullable = false)
+    public String getModel() {
+        return this.model;
+    }
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-	@Column(name = "DEFAULTPOS")
-	public Integer getDefaultPositionId() {
-		return defaultPositionId;
-	}
+    @Column(name = "DEFAULTPOS")
+    public Integer getDefaultPositionId() {
+        return defaultPositionId;
+    }
 
-	public void setDefaultPositionId(Integer defaultPositionId) {
-		this.defaultPositionId = defaultPositionId;
-	}
+    public void setDefaultPositionId(Integer defaultPositionId) {
+        this.defaultPositionId = defaultPositionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ibutton ibutton = (Ibutton) o;
+
+        if (!id.equals(ibutton.id)) return false;
+        if (!serial.equals(ibutton.serial)) return false;
+        if (!model.equals(ibutton.model)) return false;
+        return !(defaultPositionId != null ? !defaultPositionId.equals(ibutton.defaultPositionId) : ibutton.defaultPositionId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + serial.hashCode();
+        result = 31 * result + model.hashCode();
+        result = 31 * result + (defaultPositionId != null ? defaultPositionId.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Ibutton{" +
+                "id=" + id +
+                ", serial='" + serial + '\'' +
+                ", model='" + model + '\'' +
+                ", defaultPositionId=" + defaultPositionId +
+                '}';
+    }
 }

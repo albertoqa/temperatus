@@ -12,57 +12,89 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "GAME", schema = "PUBLIC", catalog = "DATABASE")
 public class Game implements java.io.Serializable {
 
-	private Integer id;
-	private String title;
-	private Integer numButtons;
-	private String observations;
+    private Integer id;
+    private String title;
+    private Integer numButtons;
+    private String observations;
 
-	public Game() {
-	}
+    public Game() {
+    }
 
-	public Game(String title, Integer numButtons, String observations) {
-		this.title = title;
-		this.numButtons = numButtons;
-		this.observations = observations;
-	}
+    public Game(String title, Integer numButtons, String observations) {
+        this.title = title;
+        this.numButtons = numButtons;
+        this.observations = observations;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "TITLE", length = 100)
-	public String getTitle() {
-		return this.title;
-	}
+    @Column(name = "TITLE", length = 100, unique = true, nullable = false)
+    public String getTitle() {
+        return this.title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	@Column(name = "NUM_BUTTONS")
-	public Integer getNumButtons() {
-		return this.numButtons;
-	}
+    @Column(name = "NUM_BUTTONS", nullable = false)
+    public Integer getNumButtons() {
+        return this.numButtons;
+    }
 
-	public void setNumButtons(Integer numButtons) {
-		this.numButtons = numButtons;
-	}
+    public void setNumButtons(Integer numButtons) {
+        this.numButtons = numButtons;
+    }
 
-	@Column(name = "OBSERVATIONS")
-	public String getObservations() {
-		return this.observations;
-	}
+    @Column(name = "OBSERVATIONS")
+    public String getObservations() {
+        return this.observations;
+    }
 
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        if (!id.equals(game.id)) return false;
+        if (!title.equals(game.title)) return false;
+        if (!numButtons.equals(game.numButtons)) return false;
+        return !(observations != null ? !observations.equals(game.observations) : game.observations != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + numButtons.hashCode();
+        result = 31 * result + (observations != null ? observations.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", numButtons=" + numButtons +
+                ", observations='" + observations + '\'' +
+                '}';
+    }
 }
