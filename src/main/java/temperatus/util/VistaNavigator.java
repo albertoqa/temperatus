@@ -15,6 +15,9 @@ import temperatus.controller.BaseController;
  */
 public class VistaNavigator {
 
+    ////////////////////////////////////////////////////////////////////////////
+    /*  Abstract controller  */
+
     public static AbstractController controller;
 
     public static AbstractController getController() {
@@ -25,9 +28,10 @@ public class VistaNavigator {
         VistaNavigator.controller = controller;
     }
 
-    /**
-     * The main application layout controller.
-     */
+
+    ////////////////////////////////////////////////////////////////////////////
+    /*  The main application layout  */
+
     public static BaseController baseController;
 
     public static void setBaseController(BaseController baseController) {
@@ -52,6 +56,9 @@ public class VistaNavigator {
         baseController.popViewFromStack();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    /*  Vista Utils  */
+
     public static Scene createModalScene(Parent root) {
         Scene scene = new Scene(root);
         scene.setFill(null);
@@ -75,7 +82,6 @@ public class VistaNavigator {
         Stage stage = createModalStage(scene, title);
         Animation.fadeOutIn(null, root);
         stage.show();
-        System.out.println(loader.getController().getClass());
         return loader.getController();
     }
 
