@@ -16,4 +16,8 @@ public class HomeController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    @Override
+    public void translate() {
+
+    }
 }

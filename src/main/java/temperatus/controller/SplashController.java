@@ -79,7 +79,8 @@ public class SplashController implements Initializable, AbstractController {
         return task;
     }
 
-    private void translate() {
+    @Override
+    public void translate() {
         rights.setText(language.get(Constants.RIGHTS));
         // TODO
     }

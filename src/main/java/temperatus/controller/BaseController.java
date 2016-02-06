@@ -44,7 +44,7 @@ public class BaseController implements Initializable, AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logger.info("Initializing base controller");
+        logger.debug("Initializing base controller");
 
         addMenuElements();
         menu.getSelectionModel().select(0);
@@ -149,7 +149,8 @@ public class BaseController implements Initializable, AbstractController {
         vistaHolder.getChildren().remove(vistaHolder.getChildren().size() - 1);
     }
 
-    public void transtale() {
-
+    @Override
+    public void translate() {
+        logger.debug("Nothing to translate");
     }
 }
