@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Language;
 import temperatus.model.pojo.Game;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 26/1/16.
  */
-@Component
+@Controller
 public class NewGameController extends AbstractCreationController implements Initializable {
 
     @FXML Label nameLabel;
