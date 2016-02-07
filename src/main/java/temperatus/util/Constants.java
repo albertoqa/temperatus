@@ -86,6 +86,8 @@ public class Constants {
     public static final String NEWGAMEBUTTON = "newGameButton";
     public static final String NEWSUBJECTBUTTON = "newSubjectButton";
     public static final String AUTHORPROMPT = "authorPrompt";
+    public static final String NOSELECTION = "noSelection";
+    public static final String NEWSUBJECT = "newSubject";
 
     // Common
     public static final String SAVE = "save";
