@@ -46,6 +46,8 @@ public class NewPositionController extends AbstractCreationController implements
 
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
+    private String imagePath;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         translate();
@@ -66,7 +68,7 @@ public class NewPositionController extends AbstractCreationController implements
 
             name = nameInput.getText();
 
-            Position position = new Position(name, null);
+            Position position = new Position(name, imagePath);
             positionService.save(position);
 
             Animation.fadeInOutClose(titledPane);
@@ -105,6 +107,7 @@ public class NewPositionController extends AbstractCreationController implements
             BufferedImage bufferedImage = ImageIO.read(file);
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             imageView.setImage(image);
+            imagePath = file.getAbsolutePath();
         } catch (IOException ex) {
             logger.info("Invalid image:" + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
