@@ -94,6 +94,19 @@ public class Constants {
     public static final String IMAGELABEL = "imageLabel";
     public static final String SELECTIMAGEBUTTON = "selectImageButton";
 
+    // Configuration
+    public static final String GENERAL = "general";
+    public static final String IMPORTEXPORT = "importExport";
+    public static final String DEFAULTS = "defaults";
+    public static final String CONFIGURATIONTITLE = "configurationTitle";
+    public static final String GENERALPANE = "generalPane";
+    public static final String GRAPHICSPANE = "graphicsPane";
+    public static final String FORMULASPANE = "formulasPane";
+    public static final String GAMESPANE = "gamesPane";
+    public static final String SUBJECTSPANE = "subjectsPane";
+    public static final String POSITIONSPANE = "positionsPane";
+
+
     // Common
     public static final String SAVE = "save";
     public static final String CANCEL = "cancel";
