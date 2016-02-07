@@ -43,4 +43,11 @@ public class IbuttonServiceImpl implements IbuttonService {
     public void saveOrUpdate(Ibutton ibutton) {
         ibuttonDao.saveOrUpdate(ibutton);
     }
+
+    @Override
+    public Ibutton getBySerial(String serial) {
+        return ibuttonDao.getBySerial(serial);
+    }
+
+
 }

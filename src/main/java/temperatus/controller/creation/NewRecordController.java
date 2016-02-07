@@ -203,7 +203,7 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     @FXML
-    void save() {   // continue
+    void save() {   // continue aqui tengo que guardar el iButton y la Mission
 
         HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
 
@@ -214,20 +214,18 @@ public class NewRecordController extends AbstractCreationController implements I
             Ibutton ibutton = null;
             List<Measurement> measurements = null;
             Record record = null;
+            String iButtonSerial = "";
+            String iButtonModel = "";
 
             try {
                 position = ((ChoiceBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
                 sourceChoice = ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
-                ibutton = new Ibutton();
 
                 // Import data
                 if(sourceChoice.getFile() != null) {
                     IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(sourceChoice.getFile());
-
-                    ibutton.setModel(ibuttonDataImporter.getDeviceModel());
-                    ibutton.setSerial(ibuttonDataImporter.getDeviceSerial());
-                    ibutton.setId(1);   // TODO
-
+                    iButtonModel = ibuttonDataImporter.getDeviceModel();
+                    iButtonSerial = ibuttonDataImporter.getDeviceSerial();
                     measurements = ibuttonDataImporter.getMeasurements();
                 } else if (sourceChoice.getIbutton() != null) {
 
@@ -235,7 +233,18 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 }
 
-                //ibuttonService.saveOrUpdate(ibutton);  //TODO
+                // Check if iButton is already in the db
+
+                ibutton = ibuttonService.getBySerial(iButtonSerial);
+
+                if(ibutton == null) {
+                    ibutton = new Ibutton(iButtonSerial, iButtonModel, position.getId());
+                    ibuttonService.save(ibutton);
+                } else {
+                    ibutton.setDefaultPositionId(position.getId());
+                    //ibuttonService.saveOrUpdate(ibutton); //TODO
+                }
+
                 int positionId = position.getId();
 
                 record = new Record(mission.getId(), ibutton.getId(), positionId);

@@ -15,4 +15,6 @@ public interface IbuttonService {
     List<Ibutton> getAll();
     void saveOrUpdate(Ibutton ibutton);
 
+    Ibutton getBySerial(String serial);
+
 }
