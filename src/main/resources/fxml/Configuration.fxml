@@ -52,6 +52,7 @@
                            <children>
                               <Label fx:id="nothingSelectedLabel" text="Nothig selected" />
                            </children></StackPane>
+                        <Button layoutX="470.0" layoutY="470.0" mnemonicParsing="false" onAction="#cancelAction" styleClass="btn" text="Cancel" />
                      </children>
                   </AnchorPane>
               </items>

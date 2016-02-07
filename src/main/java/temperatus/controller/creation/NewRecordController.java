@@ -203,11 +203,12 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     @FXML
-    void save() {   // continue aqui tengo que guardar el iButton y la Mission
+    void save() {   // aqui tengo que guardar el iButton y la Mission
 
         HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
 
         for(int index = 0; index < game.getNumButtons(); index++){
+            // TODO check if iButton or Record are already in DB
 
             Position position = null;
             SourceChoice sourceChoice = null;
@@ -267,6 +268,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
         }
 
+        // TODO check if all iButtons and Records are saved to db -- also check for duplicates
         RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
         recordConfigController.setDataMap(buttonMeasurementsHashMap);
         recordConfigController.setMissionId(mission.getId());
