@@ -73,6 +73,8 @@ public class NewMissionController extends AbstractCreationController implements 
     private final Language language = Language.getInstance();
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
+    private final int invalidSelectionId = -1;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -88,7 +90,7 @@ public class NewMissionController extends AbstractCreationController implements 
 
         dateInput.setValue(LocalDate.now());    // Default date: today
 
-        Choice noSelectionChoice = new Choice(-1, language.get(Constants.NOSELECTION));    // Preselected choice
+        Choice noSelectionChoice = new Choice(invalidSelectionId, language.get(Constants.NOSELECTION));    // Preselected choice
 
         /**
          * Load all projects from database and allow the user to choose them
@@ -166,11 +168,11 @@ public class NewMissionController extends AbstractCreationController implements 
             selectedGameId = gameChooser.getSelectionModel().getSelectedItem().getId();
             selectedSubjectId = subjectChooser.getSelectionModel().getSelectedItem().getId();
 
-            if (selectedProjectId == -1) {
+            if (selectedProjectId == invalidSelectionId) {
                 throw new ControlledTemperatusException("A project must be selected.");
-            } else if (selectedGameId == -1) {
+            } else if (selectedGameId == invalidSelectionId) {
                 throw new ControlledTemperatusException("A game must be selected");
-            } else if (selectedSubjectId == -1) {
+            } else if (selectedSubjectId == invalidSelectionId) {
                 throw new ControlledTemperatusException("A subject must be selected");
             }
 
