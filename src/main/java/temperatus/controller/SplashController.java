@@ -11,7 +11,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
-import temperatus.lang.Language;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
 import temperatus.util.VistaNavigator;
@@ -34,7 +33,6 @@ public class SplashController implements Initializable, AbstractController {
     @FXML
     private ProgressBar progress;
 
-    private final Language language = Language.getInstance();
     private Stage stage;
 
     @Override

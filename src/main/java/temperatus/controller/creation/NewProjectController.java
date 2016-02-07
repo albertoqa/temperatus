@@ -8,7 +8,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
-import temperatus.lang.Language;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
@@ -39,7 +38,6 @@ public class NewProjectController extends AbstractCreationController implements 
 
     @Autowired ProjectService projectService;
 
-    private final Language language = Language.getInstance();
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
     @Override

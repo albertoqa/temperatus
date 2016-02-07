@@ -68,6 +68,17 @@ public class NewRecordController implements Initializable {
     private Double prefHeight = 30.0;
 
     public void loadData(Mission mission) {
+
+
+
+        // TODO get mission default positions
+        // TODO detect iButtons and look for them in the db, if they appear and the selected game has the same position of the default
+        // TODO position of the button, set automatically that button to that position
+        // TODO set default position to iButton
+        // TODO set default position to Game
+
+
+
         this.mission = mission;
 
         game = gameService.getById(mission.getGameId());

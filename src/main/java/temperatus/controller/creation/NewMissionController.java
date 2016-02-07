@@ -11,7 +11,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
-import temperatus.lang.Language;
 import temperatus.model.Choice;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Mission;
@@ -70,7 +69,6 @@ public class NewMissionController extends AbstractCreationController implements 
     @Autowired GameService gameService;
     @Autowired SubjectService subjectService;
 
-    private final Language language = Language.getInstance();
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
     private final int invalidSelectionId = -1;
@@ -130,6 +128,9 @@ public class NewMissionController extends AbstractCreationController implements 
 
         subjectChooser.setItems(choicesSubject);
         subjectChooser.getSelectionModel().select(0);
+
+        translate();
+
     }
 
     /**

@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import temperatus.lang.Language;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -37,7 +36,6 @@ public class BaseController implements Initializable, AbstractController {
     @FXML private Label clock;
     @FXML private ListView<String> menu;
 
-    private final Language language = Language.getInstance();
     private final static String clockPattern = "HH:mm:ss";
 
     static Logger logger = Logger.getLogger(BaseController.class.getName());

@@ -11,7 +11,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
-import temperatus.lang.Language;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
 import temperatus.util.Animation;
@@ -37,9 +36,7 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     @Autowired GameService gameService;
 
-    private final Language language = Language.getInstance();
     static Logger logger = Logger.getLogger(NewGameController.class.getName());
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

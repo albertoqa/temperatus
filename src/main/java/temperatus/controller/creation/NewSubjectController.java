@@ -11,7 +11,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
-import temperatus.lang.Language;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
@@ -48,7 +47,6 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @Autowired SubjectService subjectService;
 
-    private final Language language = Language.getInstance();
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
     private final ToggleGroup person = new ToggleGroup();
