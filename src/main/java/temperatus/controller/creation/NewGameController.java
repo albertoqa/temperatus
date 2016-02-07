@@ -93,10 +93,10 @@ public class NewGameController extends AbstractCreationController implements Ini
         cancelButton.setText(language.get(Constants.CANCEL));
         nameLabel.setText(language.get(Constants.NAMELABEL));
         observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMP));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMP));
+        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
         numButtonsLabel.setText(language.get(Constants.NUMBUTTONSLABEL));
-        numButtonsInput.setPromptText(language.get(Constants.NUMBUTTONSPROMP));
+        numButtonsInput.setPromptText(language.get(Constants.NUMBUTTONSPROMPT));
     }
 
 }

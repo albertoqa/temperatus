@@ -4,12 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import temperatus.lang.Language;
 import temperatus.model.Choice;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Mission;
@@ -30,8 +30,22 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 24/1/16.
  */
-@Component
+@Controller
 public class NewMissionController extends AbstractCreationController implements Initializable {
+
+    @FXML private StackPane stackPane;
+    @FXML private Label title;
+    @FXML private Label projectLabel;
+    @FXML private Label nameLabel;
+    @FXML private Label authorLabel;
+    @FXML private Label startDateLabel;
+    @FXML private Label observationsLabel;
+    @FXML private Label gameLabel;
+    @FXML private Label subjectLabel;
+
+    @FXML private Button newProjectButton;
+    @FXML private Button newGameButton;
+    @FXML private Button newSubjectButton;
 
     @FXML private ChoiceBox projectChooser;
     @FXML private ChoiceBox gameChooser;
@@ -47,9 +61,12 @@ public class NewMissionController extends AbstractCreationController implements 
     @Autowired GameService gameService;
     @Autowired SubjectService subjectService;
 
+    private final Language language = Language.getInstance();
+    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //TODO set default start date
         VistaNavigator.setController(this);
 
         ObservableList<Choice> choicesProject = FXCollections.observableArrayList();
@@ -159,7 +176,22 @@ public class NewMissionController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-
+        saveButton.setText(language.get(Constants.CONTINUE));
+        cancelButton.setText(language.get(Constants.CANCEL));
+        nameLabel.setText(language.get(Constants.NAMELABEL));
+        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
+        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
+        title.setText(language.get(Constants.NEWMISSIONTITLE));
+        projectLabel.setText(language.get(Constants.PROJECTLABEL));
+        authorLabel.setText(language.get(Constants.AUTHORLABEL));
+        startDateLabel.setText(language.get(Constants.STARTDATELABEL));
+        gameLabel.setText(language.get(Constants.GAMELABEL));
+        subjectLabel.setText(language.get(Constants.SUBJECTLABEL));
+        newProjectButton.setText(language.get(Constants.NEWPROJECTBUTTON));
+        newGameButton.setText(language.get(Constants.NEWGAMEBUTTON));
+        newSubjectButton.setText(language.get(Constants.NEWSUBJECTBUTTON));
+        authorInput.setPromptText(language.get(Constants.AUTHORPROMPT));
     }
 
 }

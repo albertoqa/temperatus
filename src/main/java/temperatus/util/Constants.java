@@ -53,31 +53,43 @@ public class Constants {
 
     // New project
     public static final String NEWPROJECT = "newProject";
-    public static final String NAMEPROMP = "namePromp";
-    public static final String OBSERVATIONSPROMP = "observationsPromp";
+    public static final String NAMEPROMPT = "namePrompt";
+    public static final String OBSERVATIONSPROMPT = "observationsPrompt";
     public static final String NAMELABEL = "nameLabel";
     public static final String OBSERVATIONSLABEL = "observationsLabel";
     public static final String STARTDATELABEL = "startDateLabel";
 
     // New Game
     public static final String NEWGAME = "newGame";
-    public static final String NUMBUTTONSPROMP = "numButtonsPromp";
+    public static final String NUMBUTTONSPROMPT = "numButtonsPrompt";
     public static final String NUMBUTTONSLABEL = "numButtonsLabel";
 
     // New Subject
     public static final String AGELABEL = "ageLabel";
-    public static final String AGEPROMP = "agePromp";
+    public static final String AGEPROMPT = "agePrompt";
     public static final String WEIGHTLABEL = "weightLabel";
-    public static final String WEIGHTPROMP = "weightPromp";
+    public static final String WEIGHTPROMPT = "weightPrompt";
     public static final String SIZELABEL = "sizeLabel";
-    public static final String SIZEPROMP = "sizePromp";
+    public static final String SIZEPROMPT = "sizePrompt";
     public static final String ISPERSON = "isPerson";
     public static final String ISOBJECT = "isObject";
     public static final String ISMALE = "isMale";
     public static final String ISFEMALE = "isFemale";
 
+    // New Mission
+    public static final String NEWMISSIONTITLE = "newMissionTitle";
+    public static final String PROJECTLABEL = "projectLabel";
+    public static final String AUTHORLABEL = "authorLabel";
+    public static final String GAMELABEL = "gameLabel";
+    public static final String SUBJECTLABEL = "subjectLabel";
+    public static final String NEWPROJECTBUTTON = "newProjectButton";
+    public static final String NEWGAMEBUTTON = "newGameButton";
+    public static final String NEWSUBJECTBUTTON = "newSubjectButton";
+    public static final String AUTHORPROMPT = "authorPrompt";
+
     // Common
     public static final String SAVE = "save";
     public static final String CANCEL = "cancel";
+    public static final String CONTINUE = "continue";
 
 }

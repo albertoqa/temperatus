@@ -92,8 +92,8 @@ public class NewProjectController extends AbstractCreationController implements 
     @Override
     public void translate() {
         titledPane.setText(language.get(Constants.NEWPROJECT));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMP));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMP));
+        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
         nameLabel.setText(language.get(Constants.NAMELABEL));
         observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
         startDateLabel.setText(language.get(Constants.STARTDATELABEL));
