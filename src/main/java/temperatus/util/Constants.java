@@ -29,6 +29,8 @@ public class Constants {
     public static final String NEW_SUBJECT = "/fxml/NewSubject.fxml";
     public static final String NEW_RECORD = "/fxml/mission/NewRecord.fxml";
     public static final String NEW_POSITION = "/fxml/NewPosition.fxml";
+    public static final String RECORD_CONFIG = "/fxml/RecordConfig.fxml";
+    public static final String RECORD_INFO = "/fxml/RecordInfo.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 
@@ -38,6 +40,8 @@ public class Constants {
 
     public static final String LANGUAGE = "language";
     public static final String DEFAULT_LANGUAGE = "en_US";
+    public static final String PREFRANGE = "prefRange";
+    public static final String DEFAULT_RANGE = "7";
 
     public static final double MIN_HEIGHT = 800.0;
     public static final double MIN_WIDTH = 1000.0;

@@ -12,7 +12,6 @@ import javafx.stage.FileChooser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import temperatus.controller.archived.MissionInfoController;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.model.SourceChoice;
 import temperatus.model.pojo.*;
@@ -23,6 +22,7 @@ import temperatus.util.VistaNavigator;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -203,47 +203,102 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     @FXML
-    void save() {
+    void save() {   // continue
 
-        for (int i = 0; i < game.getNumButtons(); i++) {
+        HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
 
-            Position position = ((ChoiceBox<Position>) positionBox.getChildren().get(i)).getSelectionModel().getSelectedItem();
-            SourceChoice sourceChoice = ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem();
+        for(int index = 0; index < game.getNumButtons(); index++){
 
-            if (sourceChoice == null || position == null) {
-                // TODO
-                continue;
-            }
-
-            Ibutton ibutton = new Ibutton();
+            Position position = null;
+            SourceChoice sourceChoice = null;
+            Ibutton ibutton = null;
             List<Measurement> measurements = null;
+            Record record = null;
 
-            if (sourceChoice.getFile() != null) {
-                IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(sourceChoice.getFile());
+            try {
+                position = ((ChoiceBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+                sourceChoice = ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+                ibutton = new Ibutton();
 
-                ibutton.setModel(ibuttonDataImporter.getDeviceModel());
-                ibutton.setSerial(ibuttonDataImporter.getDeviceSerial());
+                // Import data
+                if(sourceChoice.getFile() != null) {
+                    IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(sourceChoice.getFile());
 
-                measurements = ibuttonDataImporter.getMeasurements();
+                    ibutton.setModel(ibuttonDataImporter.getDeviceModel());
+                    ibutton.setSerial(ibuttonDataImporter.getDeviceSerial());
+                    ibutton.setId(1);   // TODO
+
+                    measurements = ibuttonDataImporter.getMeasurements();
+                } else if (sourceChoice.getIbutton() != null) {
+
+
+
+                }
+
+                //ibuttonService.saveOrUpdate(ibutton);  //TODO
+                int positionId = position.getId();
+
+                record = new Record(mission.getId(), ibutton.getId(), positionId);
+                recordService.save(record);
+                int recordId = record.getId();
+
+                for (Measurement measurement : measurements) {
+                    measurement.setRecordId(recordId);
+                }
+
+                if(measurements != null && ibutton != null) {
+                    buttonMeasurementsHashMap.put(ibutton, measurements);
+                }
+
+
+            } catch (Exception e) {
+
             }
 
-            ibuttonService.save(ibutton);
-            int positionId = position.getId();
-
-            Record record = new Record(mission.getId(), ibutton.getId(), positionId);
-            recordService.save(record);
-            int recordId = record.getId();
-
-            for (Measurement measurement : measurements) {
-                measurement.setRecordId(recordId);
-                measurementService.save(measurement);
-            }
 
         }
 
-        // Load mission info //TODO
-        MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
-        missionInfoController.setData(mission.getId());
+        RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
+        recordConfigController.setDataMap(buttonMeasurementsHashMap);
+        recordConfigController.setMissionId(mission.getId());
+
+
+        // Primero, comprobar si se ha seleccionado todo lo necesario.
+
+        // Si hay alguna fila completa sin seleccionar mostrar un aviso y seguir
+
+        // Si en alguna fila hay una posicion seleccionada pero no un source mostrar aviso y seguir
+
+        // Si en alguna fila hay un source seleccionado pero no una posición ERROR y stop
+
+
+
+        // Si hay algún botón que no tenga posición por defecto, preguntar si se quiere asignar la actual
+
+
+        // Si hay algún botón que haya cambiado de posición por defecto, preguntar si se quiere asignar la actual
+
+
+
+
+        // Validar los datos de todos los botones -> comprobar que no haya ningún valor raro
+        // Si hay algún valor raro, avisar al usuario y permitirle continuar o descartar ese valor
+        // No mostrar valor por valor, mostrar una lista que se pueda seleccionar varios
+
+
+        // Seleccionar el tiempo que quiere usarse para el experimento
+
+
+        // Guardar todos los datos
+
+
+
+        // Mostrar información de la misión
+
+
+
+
+
     }
 
     private void addNewRow(int index, ChoiceBox<Position> posBox, ChoiceBox<SourceChoice> srcBox) {

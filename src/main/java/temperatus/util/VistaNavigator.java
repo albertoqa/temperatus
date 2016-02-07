@@ -95,5 +95,10 @@ public class VistaNavigator {
         stackPane.getChildren().setAll(node);
         return loader.getController();
     }
+
+    public static SpringFxmlLoader getLoader() {
+        SpringFxmlLoader loader = new SpringFxmlLoader();
+        return loader;
+    }
 }
 

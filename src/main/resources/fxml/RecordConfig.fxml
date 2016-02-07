@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<StackPane id="RecordConfig" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="730.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
+   <children>
+      <AnchorPane prefHeight="644.0" prefWidth="744.0">
+         <children>
+            <Label fx:id="titleLabel" layoutX="32.0" layoutY="27.0" text="Information" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="27.0">
+               <font>
+                  <Font name="Avenir Light" size="28.0" />
+               </font></Label>
+            <Separator layoutX="25.0" layoutY="65.0" prefHeight="7.0" prefWidth="687.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="65.0" />
+            <TabPane fx:id="tabPane" layoutX="26.0" layoutY="81.0" prefHeight="239.0" prefWidth="687.0" style="-fx-background-color: #b3e8ec;" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
+              <tabs>
+
+              </tabs>
+            </TabPane>
+            <ListView fx:id="listViewFormulas" layoutX="26.0" layoutY="363.0" prefHeight="267.0" prefWidth="200.0" />
+            <Label fx:id="titleLabel1" layoutX="91.0" layoutY="332.0" text="Formulas">
+               <font>
+                  <Font name="Avenir Light" size="17.0" />
+               </font>
+            </Label>
+            <Button onAction="#save" layoutX="619.0" layoutY="588.0" mnemonicParsing="false" styleClass="btn" text="Save" />
+            <Button onAction="#back" layoutX="630.0" layoutY="33.0" mnemonicParsing="false" styleClass="btn" text="Back" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
