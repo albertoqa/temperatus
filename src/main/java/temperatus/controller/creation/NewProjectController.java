@@ -2,10 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +54,7 @@ public class NewProjectController extends AbstractCreationController implements 
      */
     @Override
     @FXML
-    void save(){
+    void save() {
         String name;
         Date startDate;
         String observations;
@@ -80,15 +77,15 @@ public class NewProjectController extends AbstractCreationController implements 
 
             logger.info("Saved: " + project);
 
-        } catch (ControlledTemperatusException ex){
+        } catch (ControlledTemperatusException ex) {
             logger.warn("Exception while saving project: " + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Unknown error.");
         }
     }
 

@@ -126,16 +126,16 @@ public class NewSubjectController extends AbstractCreationController implements 
 
         } catch (NumberFormatException ex) {
             logger.warn("Invalid input number (age, weight or size)");
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Invalid input number");
         } catch (ControlledTemperatusException ex) {
             logger.warn("Exception: " + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Unknown error.");
         }
     }
 

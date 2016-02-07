@@ -2,6 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -72,16 +73,16 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         } catch (ControlledTemperatusException ex) {
             logger.warn("Exception: " + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (NumberFormatException ex) {
             logger.warn("Invalid input for number of buttons");
-            //showAlert(Alert.AlertType.ERROR, "Invalid number of buttons");
+            showAlert(Alert.AlertType.ERROR, "Invalid number of buttons.");
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Duplicate Game.");
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            // TODO show alert
+            showAlert(Alert.AlertType.ERROR, "Unknown error.");
         }
     }
 
