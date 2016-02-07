@@ -3,6 +3,7 @@ package temperatus.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.PositionDao;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.PositionService;
@@ -25,7 +26,12 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public void save(Position position) {
+    public void save(Position position) throws ControlledTemperatusException {
+
+        if(position.getPlace().length() < 1 || position.getPlace().length() > 100) {
+            throw new ControlledTemperatusException("Invalid name length");
+        }
+
         positionDao.save(position);
     }
 

@@ -9,7 +9,7 @@ import temperatus.lang.Language;
  */
 public interface AbstractController {
 
-    final Language language = Language.getInstance();
+    Language language = Language.getInstance();
 
     /**
      * Reload a given object

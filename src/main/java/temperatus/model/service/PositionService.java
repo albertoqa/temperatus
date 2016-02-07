@@ -1,5 +1,6 @@
 package temperatus.model.service;
 
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Position;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface PositionService {
 
     Position getById(int id);
-    void save(Position position);
+    void save(Position position) throws ControlledTemperatusException;
     void delete(Position position);
     List<Position> getAll();
     void saveOrUpdate(Position position);

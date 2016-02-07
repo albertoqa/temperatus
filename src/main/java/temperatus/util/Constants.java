@@ -28,6 +28,7 @@ public class Constants {
     public static final String NEW_GAME = "/fxml/mission/NewGame.fxml";
     public static final String NEW_SUBJECT = "/fxml/NewSubject.fxml";
     public static final String NEW_RECORD = "/fxml/mission/NewRecord.fxml";
+    public static final String NEW_POSITION = "/fxml/NewPosition.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 
@@ -88,6 +89,10 @@ public class Constants {
     public static final String AUTHORPROMPT = "authorPrompt";
     public static final String NOSELECTION = "noSelection";
     public static final String NEWSUBJECT = "newSubject";
+
+    // New Position
+    public static final String IMAGELABEL = "imageLabel";
+    public static final String SELECTIMAGEBUTTON = "selectImageButton";
 
     // Common
     public static final String SAVE = "save";
