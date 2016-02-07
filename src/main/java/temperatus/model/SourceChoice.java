@@ -12,6 +12,17 @@ public class SourceChoice {
     File file;
     Ibutton ibutton;
 
+    public SourceChoice() {
+    }
+
+    public SourceChoice(Ibutton ibutton) {
+        this.ibutton = ibutton;
+    }
+
+    public SourceChoice(File file) {
+        this.file = file;
+    }
+
     public File getFile() {
         return file;
     }
@@ -26,6 +37,25 @@ public class SourceChoice {
 
     public void setIbutton(Ibutton ibutton) {
         this.ibutton = ibutton;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SourceChoice that = (SourceChoice) o;
+
+        if (file != null ? !file.equals(that.file) : that.file != null) return false;
+        return !(ibutton != null ? !ibutton.equals(that.ibutton) : that.ibutton != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = file != null ? file.hashCode() : 0;
+        result = 31 * result + (ibutton != null ? ibutton.hashCode() : 0);
+        return result;
     }
 
     @Override
