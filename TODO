@@ -1,0 +1,34 @@
+# En la ventana Archive cambiar Autor por Sujeto
+# Que el autor de las missiones sea desplegable (Crear un sujeto que actua como autor) - ¿herencia?
+# En las pestañas de la mission, cambiar el número de serie del botón por un nombre editable -> guardar para cada botón un alias
+# A la hora de descargar la información (Record Data) tener en cuenta que estos solo pueden conectar dos botones a la vez!
+    la información hay que descargarla en ese momento -- ¿boton para descargar la info y seguir?
+# Que en la selección del tiempo aparezca tambien la posibilidad de insertar de forma escrita el rango
+
+# Las gráficas deberían ser editables dinamicamente por: Botones y Fórmulas -- además de permitir aumentar/reducir en un rango
+# Posibilidad de exportar la gráfica
+
+# Cambiar el tipo de dato de la temperatura a Double --> en el import habrá que modificar la forma de recoger los datos
+# Permitir configurar y guardar informes --> exportarlos tambien!
+
+# Necesitan poder exportar a excel con el formato que me han dicho:
+    1. cada hoja de la tabla se refiere a un sujeto - cada fila es una fórmula y cada columna es el instante/rango temporal
+
+    S1                  12.00-12.05     -       12.05-12-10
+    ------------------------------------------------------------------
+    --  Formula 1   -       12º         -           13º
+    --  Formula 2   -       12º         -           13º
+    --  Formula 3   -       12º         -           13º
+    --  Botón 1     -       12º         -           13º
+    --  Botón 2     -       12º         -           13º
+    --  Botón 3     -       12º         -           13º
+
+    2. cada hoja de la tabla se refiere a una fórmula - cada fila es un sujeto y cada columna es un instante/rango temporal
+
+    F1                 12.00-12.05     -       12.05-12-10
+    ------------------------------------------------------------------
+    --  Sujeto 1   -       12º         -           13º
+    --  Sujeto 2   -       12º         -           13º
+    --  Sujeto 3   -       12º         -           13º
+
+#
