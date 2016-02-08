@@ -1,5 +1,8 @@
 package temperatus;
 
+import com.dalsemi.onewire.OneWireAccessProvider;
+import com.dalsemi.onewire.adapter.DSPortAdapter;
+import com.dalsemi.onewire.container.OneWireContainer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -7,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
+
+import java.util.Enumeration;
 
 /**
  * Created by alberto on 17/1/16.
@@ -27,6 +32,60 @@ public class Main extends Application {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // enumerate through each of the adapter classes
+        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
+
+            // get the next adapter DSPortAdapter
+            DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
+
+            // get the port names we can use and try to open, test and close each
+            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
+
+                // get the next packet
+                String port_name = (String) port_name_enum.nextElement();
+                try {
+                    // select the port
+                    adapter.selectPort(port_name);
+
+                    // verify there is an adaptered detected
+                    if (adapter.adapterDetected()) {
+                        // added 8/29/2001 by SH
+                        adapter.beginExclusive(true);
+
+                        // clear any previous search restrictions
+                        adapter.setSearchAllDevices();
+                        adapter.targetAllFamilies();
+
+                        // enumerate through all the iButtons found
+                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
+
+                            // get the next ibutton
+                            OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
+
+                            System.out.println(
+                                    adapter.getAdapterName() + "/" + port_name + "\t"
+                                            + ibutton.getName() + "\t"
+                                            + ibutton.getAddressAsString() + "\t"
+                                            + ibutton.getDescription().substring(0, 25) + "...");
+                        }
+
+                        // added 8/29/2001 by SH
+                        adapter.endExclusive();
+                    }
+
+                    // free this port
+                    adapter.freePort();
+                } catch (Exception e) {
+                }
+                ;
+            }
+
+            System.out.println();
+        }
+
+        System.out.println();
+
 
     }
 

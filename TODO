@@ -1,3 +1,7 @@
+# HACER DIAGRAMA DE LA BASE DE DATOS, IMPRIMIRLO Y PREGUNTAR EN LA OFICINA!
+
+# Revisar la base de datos
+
 # En la ventana Archive cambiar Autor por Sujeto
 # Que el autor de las missiones sea desplegable (Crear un sujeto que actua como autor) - ¿herencia?
 # En las pestañas de la mission, cambiar el número de serie del botón por un nombre editable -> guardar para cada botón un alias
