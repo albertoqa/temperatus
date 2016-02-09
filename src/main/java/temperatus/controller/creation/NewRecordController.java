@@ -49,7 +49,6 @@ public class NewRecordController extends AbstractCreationController implements I
     @FXML private VBox addSourceBox;
 
     @Autowired GameService gameService;
-    @Autowired GamePositionService gamePositionService;
     @Autowired IbuttonService ibuttonService;
     @Autowired PositionService positionService;
     @Autowired RecordService recordService;

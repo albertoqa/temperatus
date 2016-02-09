@@ -26,6 +26,9 @@ import java.util.ResourceBundle;
 @Controller
 public class NewGameController extends AbstractCreationController implements Initializable {
 
+    // TODO add default positions to the Game
+
+
     @FXML Label nameLabel;
     @FXML Label observationsLabel;
     @FXML Label numButtonsLabel;

@@ -24,14 +24,10 @@ import java.util.ResourceBundle;
 @Controller
 public class SplashController implements Initializable, AbstractController {
 
-    @FXML
-    private Label subtitle;
-    @FXML
-    private Label rights;
-    @FXML
-    private Label version;
-    @FXML
-    private ProgressBar progress;
+    @FXML private Label subtitle;
+    @FXML private Label rights;
+    @FXML private Label version;
+    @FXML private ProgressBar progress;
 
     private Stage stage;
 

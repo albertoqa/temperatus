@@ -30,9 +30,9 @@ public class MissionServiceImpl implements MissionService {
 
         if(mission.getName().length() < 1 || mission.getName().length() > 100) {
             throw new ControlledTemperatusException("Invalid name length");
-        } else if(mission.getAuthor().length() < 1 || mission.getAuthor().length() > 30) {
+        } else if(mission.getAuthor().getName().length() < 1 || mission.getAuthor().getName().length() > 30) {
             throw new ControlledTemperatusException("Invalid author length");
-        } else if(mission.getGameId() == null || mission.getProjectId() == null || mission.getSubjectId() == null) {
+        } else if(mission.getGame() == null || mission.getProject() == null || mission.getSubject() == null) {
             throw new ControlledTemperatusException("Project, Game and Subject cannot be null");
         } else if(mission.getDateIni() == null){
             throw new ControlledTemperatusException("Date cannot be null");
@@ -55,11 +55,5 @@ public class MissionServiceImpl implements MissionService {
     public void saveOrUpdate(Mission mission) {
         missionDao.saveOrUpdate(mission);
     }
-
-    @Override
-    public List<Mission> getAllForProject(int projectId) {
-        return missionDao.getAllForProject(projectId);
-    }
-
 
 }

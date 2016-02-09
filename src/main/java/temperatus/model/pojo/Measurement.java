@@ -23,6 +23,12 @@ public class Measurement implements java.io.Serializable {
     public Measurement() {
     }
 
+    public Measurement(Date date, double data, Unit unit) {
+        this.date = date;
+        this.data = data;
+        this.unit = unit;
+    }
+
     public Measurement(Date date, double data, Unit unit, int recordId) {
         this.recordId = recordId;
         this.date = date;

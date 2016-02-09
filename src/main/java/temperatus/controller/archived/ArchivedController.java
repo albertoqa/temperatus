@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by alberto on 17/1/16.
@@ -72,7 +73,7 @@ public class ArchivedController implements Initializable, AbstractController {
             projects.stream().forEach((project) -> {
                 TreeItem<TreeElement> treeItemProject = new TreeItem<>(new TreeElement(project));
 
-                List<Mission> missions = missionService.getAllForProject(project.getId());
+                List<Mission> missions = project.getMissions().stream().collect(Collectors.toList());
                 treeItemProject.setExpanded(true);
                 missions.stream().forEach((mission) -> {
                     treeItemProject.getChildren().add(new TreeItem<>(new TreeElement(mission)));
@@ -102,7 +103,7 @@ public class ArchivedController implements Initializable, AbstractController {
                             projectInfoPane.setDisable(false);
                             missionInfoPane.setDisable(true);
                             Project project = projectService.getById(newValue.getValue().getId());
-                            List<Mission> missions = missionService.getAllForProject(newValue.getValue().getId());
+                            List<Mission> missions = project.getMissions().stream().collect(Collectors.toList());
 
                             projectName.setText(project.getName());
                             projectDate.setText(project.getDateIni().toString());

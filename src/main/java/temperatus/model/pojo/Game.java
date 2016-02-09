@@ -29,6 +29,12 @@ public class Game implements java.io.Serializable {
         this.numButtons = numButtons;
     }
 
+    public Game(String title, int numButtons, String observations) {
+        this.title = title;
+        this.numButtons = numButtons;
+        this.observations = observations;
+    }
+
     public Game(String title, int numButtons, String observations, Set<Formula> formulas, Set<Position> positions) {
         this.title = title;
         this.numButtons = numButtons;

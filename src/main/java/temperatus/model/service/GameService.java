@@ -11,9 +11,13 @@ import java.util.List;
 public interface GameService {
 
     Game getById(int id);
-    void save(Game game ) throws ControlledTemperatusException;
-    void delete(Game game );
+
+    void save(Game game) throws ControlledTemperatusException;
+
+    void delete(Game game);
+
     List<Game> getAll();
-    void saveOrUpdate(Game game );
+
+    void saveOrUpdate(Game game);
 
 }

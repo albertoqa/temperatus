@@ -11,13 +11,19 @@ import java.util.List;
 public interface ProjectService {
 
     Project getById(int id);
+
     void save(Project project) throws ControlledTemperatusException;
+
     void delete(Project project);
+
     List<Project> getAll();
+
     void saveOrUpdate(Project project);
 
     Project getByName(String name);
+
     int getIdByName(String name);
+
     List<String> getAllProjectNames();
 
 }

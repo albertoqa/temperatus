@@ -59,9 +59,9 @@ public class MissionInfoController implements Initializable {
 
     public void setData(int missionId) {
         mission = missionService.getById(missionId);
-        project = projectService.getById(mission.getProjectId());
-        game = gameService.getById(mission.getGameId());
-        subject = subjectService.getById(mission.getSubjectId());
+        project = mission.getProject();
+        game = mission.getGame();
+        subject = mission.getSubject();
 
         List<Record> records = recordService.getByMissionId(missionId);
 
@@ -83,11 +83,11 @@ public class MissionInfoController implements Initializable {
 
         missionName.setText(mission.getName());
         missionDate.setText(mission.getDateIni().toString());
-        missionAuthor.setText(mission.getAuthor());
+        missionAuthor.setText(mission.getAuthor().getName());
         missionObservations.setText(mission.getObservations());
 
         gameName.setText(game.getTitle());
-        gameIbuttonsNumber.setText(game.getNumButtons().toString());
+        gameIbuttonsNumber.setText(String.valueOf(game.getNumButtons()));
         gameObservations.setText(game.getObservations());
 
         subjectName.setText(subject.getName());
@@ -96,7 +96,7 @@ public class MissionInfoController implements Initializable {
             List<Measurement> measurements = dataMap.get(record);
 
             XYChart.Series<Date, Number> series = new XYChart.Series<Date, Number>();
-            series.setName(record.getPositionId().toString());  //TODO change to Position name
+            series.setName(record.getPosition().getPlace());  //TODO change to Position name
             measurements.stream().forEach((measurement) -> {
                 series.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
             });

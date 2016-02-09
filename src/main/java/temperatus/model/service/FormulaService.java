@@ -11,9 +11,13 @@ import java.util.List;
 public interface FormulaService {
 
     Formula getById(int id);
+
     void save(Formula formula) throws ControlledTemperatusException;
+
     void delete(Formula formula);
+
     List<Formula> getAll();
+
     void saveOrUpdate(Formula formula);
 
 }

@@ -11,11 +11,13 @@ import java.util.List;
 public interface MissionService {
 
     Mission getById(int id);
-    void save(Mission mission) throws ControlledTemperatusException;
-    void delete(Mission mission);
-    List<Mission> getAll();
-    void saveOrUpdate(Mission mission);
 
-    List<Mission> getAllForProject(int projectId);
+    void save(Mission mission) throws ControlledTemperatusException;
+
+    void delete(Mission mission);
+
+    List<Mission> getAll();
+
+    void saveOrUpdate(Mission mission);
 
 }

@@ -177,6 +177,8 @@ public class NewMissionController extends AbstractCreationController implements 
                 throw new ControlledTemperatusException("A subject must be selected");
             }
 
+            // TODO change constructor to: Author, Game, Project, Subject, name, dateIni
+            // TODO shoudl I change the way I store Choices?
             Mission mission = new Mission(name, author, startDate, observations, selectedProjectId, selectedGameId, selectedSubjectId);
             missionService.save(mission);
 

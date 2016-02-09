@@ -29,6 +29,12 @@ public class Project implements java.io.Serializable {
         this.dateIni = dateIni;
     }
 
+    public Project(String name, Date dateIni, String observations) {
+        this.name = name;
+        this.dateIni = dateIni;
+        this.observations = observations;
+    }
+
     public Project(String name, Date dateIni, String observations, Set<Mission> missions) {
         this.name = name;
         this.dateIni = dateIni;

@@ -10,9 +10,13 @@ import java.util.List;
 public interface MeasurementService {
 
     Measurement getById(int id);
+
     void save(Measurement measurement);
+
     void delete(Measurement measurement);
+
     List<Measurement> getAll();
+
     void saveOrUpdate(Measurement measurement);
 
     List<Measurement> getAllByRecordId(int recordId);

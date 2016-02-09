@@ -26,6 +26,9 @@ import java.util.ResourceBundle;
 @Controller
 public class NewSubjectController extends AbstractCreationController implements Initializable {
 
+    // TODO new author controller
+    // TODO change layout + should I include any other attribute to subjects?
+
     @FXML private Label nameLabel;
     @FXML private Label observationsLabel;
     @FXML private Label ageLabel;

@@ -10,9 +10,13 @@ import java.util.List;
 public interface RecordService {
 
     Record getById(int id);
+
     void save(Record record);
+
     void delete(Record record);
+
     List<Record> getAll();
+
     void saveOrUpdate(Record record);
 
     List<Record> getByMissionId(int missionId);

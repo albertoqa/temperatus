@@ -87,4 +87,38 @@ public class Record implements java.io.Serializable {
         this.measurements = measurements;
     }
 
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", ibutton=" + ibutton +
+                ", mission=" + mission +
+                ", position=" + position +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Record record = (Record) o;
+
+        if (id != null ? !id.equals(record.id) : record.id != null) return false;
+        if (ibutton != null ? !ibutton.equals(record.ibutton) : record.ibutton != null) return false;
+        if (mission != null ? !mission.equals(record.mission) : record.mission != null) return false;
+        if (position != null ? !position.equals(record.position) : record.position != null) return false;
+        return !(measurements != null ? !measurements.equals(record.measurements) : record.measurements != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (ibutton != null ? ibutton.hashCode() : 0);
+        result = 31 * result + (mission != null ? mission.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (measurements != null ? measurements.hashCode() : 0);
+        return result;
+    }
 }
