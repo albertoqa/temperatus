@@ -103,7 +103,7 @@ public class NewSubjectController extends AbstractCreationController implements 
                 subject.setIsPerson(true);
                 subject.setAge(Integer.valueOf(ageInput.getText()));
                 subject.setWeight(Double.valueOf(weightInput.getText()));
-                subject.setSize(Double.valueOf(sizeInput.getText()));
+                subject.setHeight(Double.valueOf(sizeInput.getText()));
                 if (gender.getSelectedToggle() == isMale) {
                     subject.setSex(true);   // true = male
                 } else {

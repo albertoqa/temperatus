@@ -10,14 +10,16 @@
         <property name="hibernate.connection.username">aquesada</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
-        <mapping resource="mapper/Record.hbm.xml"/>
-        <mapping resource="mapper/Mission.hbm.xml"/>
-        <mapping resource="mapper/Measurement.hbm.xml"/>
-        <mapping resource="mapper/Game.hbm.xml"/>
-        <mapping resource="mapper/GamePosition.hbm.xml"/>
-        <mapping resource="mapper/Ibutton.hbm.xml"/>
-        <mapping resource="mapper/Position.hbm.xml"/>
-        <mapping resource="mapper/Project.hbm.xml"/>
-        <mapping resource="mapper/Subject.hbm.xml"/>
+        <mapping class="temperatus.model.pojo.Record"/>
+        <mapping class="temperatus.model.pojo.Subject"/>
+        <mapping class="temperatus.model.pojo.Game"/>
+        <mapping class="temperatus.model.pojo.Formula"/>
+        <mapping class="temperatus.model.pojo.Ibutton"/>
+        <mapping class="temperatus.model.pojo.Measurement"/>
+        <mapping class="temperatus.model.pojo.Mission"/>
+        <mapping class="temperatus.model.pojo.Position"/>
+        <mapping class="temperatus.model.pojo.Project"/>
+        <mapping class="temperatus.model.pojo.Author"/>
+
     </session-factory>
 </hibernate-configuration>

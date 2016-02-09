@@ -1,5 +1,4 @@
 package temperatus.model.pojo;
-// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,77 +13,78 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "RECORD", schema = "PUBLIC", catalog = "DATABASE")
 public class Record implements java.io.Serializable {
 
-	private Integer id;
-	private Ibutton ibutton;
-	private int missionId;
-	private Position position;
-	private Set<Measurement> measurements = new HashSet<Measurement>(0);
+    private Integer id;
+    private Ibutton ibutton;
+    private Mission mission;
+    private Position position;
+    private Set<Measurement> measurements = new HashSet<Measurement>(0);
 
-	public Record() {
-	}
+    public Record() {
+    }
 
-	public Record(Ibutton ibutton, int missionId, Position position) {
-		this.ibutton = ibutton;
-		this.missionId = missionId;
-		this.position = position;
-	}
+    public Record(Ibutton ibutton, Mission mission, Position position) {
+        this.ibutton = ibutton;
+        this.mission = mission;
+        this.position = position;
+    }
 
-	public Record(Ibutton ibutton, int missionId, Position position, Set<Measurement> measurements) {
-		this.ibutton = ibutton;
-		this.missionId = missionId;
-		this.position = position;
-		this.measurements = measurements;
-	}
+    public Record(Ibutton ibutton, Mission mission, Position position, Set<Measurement> measurements) {
+        this.ibutton = ibutton;
+        this.mission = mission;
+        this.position = position;
+        this.measurements = measurements;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IBUTTON_ID", nullable = false)
-	public Ibutton getIbutton() {
-		return this.ibutton;
-	}
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "IBUTTON_ID", nullable = false)
+    public Ibutton getIbutton() {
+        return this.ibutton;
+    }
 
-	public void setIbutton(Ibutton ibutton) {
-		this.ibutton = ibutton;
-	}
+    public void setIbutton(Ibutton ibutton) {
+        this.ibutton = ibutton;
+    }
 
-	@Column(name = "MISSION_ID", nullable = false)
-	public Integer getMissionId() {
-		return this.missionId;
-	}
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MISSION_ID", nullable = false)
+    public Mission getMission() {
+        return this.mission;
+    }
 
-	public void setMissionId(Integer missionId) {
-		this.missionId = missionId;
-	}
+    public void setMission(Mission mission) {
+        this.mission = mission;
+    }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "POSITION_ID", nullable = false)
+    public Position getPosition() {
+        return this.position;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "POSITION_ID", nullable = false)
-	public Position getPosition() {
-		return this.position;
-	}
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 
-	public void setPosition(Position position) {
-		this.position = position;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "MEASUREMENT")
+    public Set<Measurement> getMeasurements() {
+        return this.measurements;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "record")
-	public Set<Measurement> getMeasurements() {
-		return this.measurements;
-	}
-
-	public void setMeasurements(Set<Measurement> measurements) {
-		this.measurements = measurements;
-	}
+    public void setMeasurements(Set<Measurement> measurements) {
+        this.measurements = measurements;
+    }
 
 }

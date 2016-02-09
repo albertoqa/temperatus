@@ -1,5 +1,4 @@
 package temperatus.model.pojo;
-// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
 
@@ -17,7 +16,7 @@ public class Formula implements java.io.Serializable {
     private String description;
     private String reference;
     private String operation;
-    private boolean selected = false;   // only used for checkboxes
+    private boolean selected = false;    // for checkboxes - no db
 
     public Formula() {
     }
@@ -88,5 +87,39 @@ public class Formula implements java.io.Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public String toString() {
+        return "Formula{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Formula formula = (Formula) o;
+
+        if (selected != formula.selected) return false;
+        if (id != null ? !id.equals(formula.id) : formula.id != null) return false;
+        if (name != null ? !name.equals(formula.name) : formula.name != null) return false;
+        if (description != null ? !description.equals(formula.description) : formula.description != null) return false;
+        if (reference != null ? !reference.equals(formula.reference) : formula.reference != null) return false;
+        return !(operation != null ? !operation.equals(formula.operation) : formula.operation != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (reference != null ? reference.hashCode() : 0);
+        result = 31 * result + (operation != null ? operation.hashCode() : 0);
+        result = 31 * result + (selected ? 1 : 0);
+        return result;
     }
 }

@@ -1,5 +1,5 @@
 package temperatus.model.pojo;
-// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
+// Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
 
@@ -10,77 +10,111 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "IBUTTON", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "SERIAL"), @UniqueConstraint(columnNames = "ALIAS") })
+        @UniqueConstraint(columnNames = "SERIAL"), @UniqueConstraint(columnNames = "ALIAS")})
 public class Ibutton implements java.io.Serializable {
 
-	private Integer id;
-	private Position defaultPosition;
-	private String serial;
-	private String model;
-	private String alias;
+    private Integer id;
+    private Position defaultPosition;
+    private String serial;
+    private String model;
+    private String alias;
 
-	public Ibutton() {
-	}
+    public Ibutton() {
+    }
 
-	public Ibutton(String serial, String model) {
-		this.serial = serial;
-		this.model = model;
-	}
+    public Ibutton(String serial, String model) {
+        this.serial = serial;
+        this.model = model;
+    }
 
-	public Ibutton(Position defaultPosition, String serial, String model, String alias) {
-		this.defaultPosition = defaultPosition;
-		this.serial = serial;
-		this.model = model;
-		this.alias = alias;
-	}
+    public Ibutton(Position defaultPosition, String serial, String model, String alias) {
+        this.defaultPosition = defaultPosition;
+        this.serial = serial;
+        this.model = model;
+        this.alias = alias;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEFAULTPOS")
-	public Position getDefaultPosition() {
-		return this.defaultPosition;
-	}
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "DEFAULTPOS")
+    public Position getPosition() {
+        return this.defaultPosition;
+    }
 
-	public void setDefaultPosition(Position defaultPosition) {
-		this.defaultPosition = defaultPosition;
-	}
+    public void setPosition(Position defaultPosition) {
+        this.defaultPosition = defaultPosition;
+    }
 
-	@Column(name = "SERIAL", unique = true, nullable = false, length = 200)
-	public String getSerial() {
-		return this.serial;
-	}
+    @Column(name = "SERIAL", unique = true, nullable = false, length = 200)
+    public String getSerial() {
+        return this.serial;
+    }
 
-	public void setSerial(String serial) {
-		this.serial = serial;
-	}
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
 
-	@Column(name = "MODEL", nullable = false, length = 200)
-	public String getModel() {
-		return this.model;
-	}
+    @Column(name = "MODEL", nullable = false, length = 200)
+    public String getModel() {
+        return this.model;
+    }
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-	@Column(name = "ALIAS", unique = true, length = 30)
-	public String getAlias() {
-		return this.alias;
-	}
+    @Column(name = "ALIAS", unique = true, length = 30)
+    public String getAlias() {
+        return this.alias;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
+    @Override
+    public String toString() {
+        return "Ibutton{" +
+                "serial='" + serial + '\'' +
+                ", model='" + model + '\'' +
+                ", alias='" + alias + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ibutton ibutton = (Ibutton) o;
+
+        if (id != null ? !id.equals(ibutton.id) : ibutton.id != null) return false;
+        if (defaultPosition != null ? !defaultPosition.equals(ibutton.defaultPosition) : ibutton.defaultPosition != null) return false;
+        if (serial != null ? !serial.equals(ibutton.serial) : ibutton.serial != null) return false;
+        if (model != null ? !model.equals(ibutton.model) : ibutton.model != null) return false;
+        return !(alias != null ? !alias.equals(ibutton.alias) : ibutton.alias != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (defaultPosition != null ? defaultPosition.hashCode() : 0);
+        result = 31 * result + (serial != null ? serial.hashCode() : 0);
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (alias != null ? alias.hashCode() : 0);
+        return result;
+    }
 }

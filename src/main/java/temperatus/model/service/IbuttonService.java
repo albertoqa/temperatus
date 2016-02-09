@@ -10,9 +10,13 @@ import java.util.List;
 public interface IbuttonService {
 
     Ibutton getById(int id);
+
     void save(Ibutton ibutton);
+
     void delete(Ibutton ibutton);
+
     List<Ibutton> getAll();
+
     void saveOrUpdate(Ibutton ibutton);
 
     Ibutton getBySerial(String serial);

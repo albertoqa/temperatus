@@ -1,5 +1,4 @@
 package temperatus.model.pojo;
-// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
 
 import temperatus.model.pojo.types.Unit;
 
@@ -15,60 +14,105 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "MEASUREMENT", schema = "PUBLIC", catalog = "DATABASE")
 public class Measurement implements java.io.Serializable {
 
-	private Integer id;
-	private Date date;
-	private double data;
-	private int recordId;
-	private Unit unit;
+    private Integer id;
+    private Date date;
+    private double data;
+    private Unit unit;      // C, F
+    private int recordId;
 
-	public Measurement() {
-	}
+    public Measurement() {
+    }
 
-	public Measurement(Date date, double data, int recordId, Unit unit) {
-		this.date = date;
-		this.data = data;
-		this.recordId = recordId;
-		this.unit = unit;
-	}
+    public Measurement(Date date, double data, Unit unit, int recordId) {
+        this.recordId = recordId;
+        this.date = date;
+        this.data = data;
+        this.unit = unit;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "RECORD_ID", nullable = false)
-	public Integer getRecordId() {
-		return recordId;
-	}
+    @Column(name = "RECORD_ID", nullable = false)
+    public Integer getRecordId() {
+        return recordId;
+    }
 
-	public void setRecordId(Integer recordId) {
-		this.recordId = recordId;
-	}
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE", nullable = false, length = 23)
-	public Date getDate() {
-		return this.date;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE", nullable = false, length = 23)
+    public Date getDate() {
+        return this.date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	@Column(name = "DATA", nullable = false, precision = 17, scale = 0)
-	public double getData() {
-		return this.data;
-	}
+    @Column(name = "DATA", nullable = false, precision = 17, scale = 0)
+    public double getData() {
+        return this.data;
+    }
 
-	public void setData(double data) {
-		this.data = data;
-	}
+    public void setData(double data) {
+        this.data = data;
+    }
 
+    @Column(name = "UNIT", nullable = false)
+    public Unit getUnit() {
+        return this.unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "date=" + date +
+                ", data=" + data +
+                ", unit=" + unit +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Measurement that = (Measurement) o;
+
+        if (Double.compare(that.data, data) != 0) return false;
+        if (recordId != that.recordId) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        return unit == that.unit;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        temp = Double.doubleToLongBits(data);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (unit != null ? unit.hashCode() : 0);
+        result = 31 * result + recordId;
+        return result;
+    }
 }
