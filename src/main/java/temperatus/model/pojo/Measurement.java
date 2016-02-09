@@ -1,5 +1,7 @@
 package temperatus.model.pojo;
-// Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final
+// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
+
+import temperatus.model.pojo.types.Unit;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,90 +15,60 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "MEASUREMENT", schema = "PUBLIC", catalog = "DATABASE")
 public class Measurement implements java.io.Serializable {
 
-    private Integer id;
-    private Date date;
-    private Integer data;
-    private Integer recordId;
+	private Integer id;
+	private Date date;
+	private double data;
+	private int recordId;
+	private Unit unit;
 
-    public Measurement() {
-    }
+	public Measurement() {
+	}
 
-    public Measurement(Date date, Integer data, Integer recordId) {
-        this.date = date;
-        this.data = data;
-        this.recordId = recordId;
-    }
+	public Measurement(Date date, double data, int recordId, Unit unit) {
+		this.date = date;
+		this.data = data;
+		this.recordId = recordId;
+		this.unit = unit;
+	}
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
-    @Column(name = "ID", unique = true, nullable = false)
-    public Integer getId() {
-        return this.id;
-    }
+	@Column(name = "ID", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "DATE", length = 8, nullable = false)
-    public Date getDate() {
-        return this.date;
-    }
+	@Column(name = "RECORD_ID", nullable = false)
+	public Integer getRecordId() {
+		return recordId;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setRecordId(Integer recordId) {
+		this.recordId = recordId;
+	}
 
-    @Column(name = "DATA", nullable = false)
-    public Integer getData() {
-        return this.data;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATE", nullable = false, length = 23)
+	public Date getDate() {
+		return this.date;
+	}
 
-    public void setData(Integer data) {
-        this.data = data;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    @Column(name = "RECORD_ID", nullable = false)
-    public Integer getRecordId() {
-        return recordId;
-    }
+	@Column(name = "DATA", nullable = false, precision = 17, scale = 0)
+	public double getData() {
+		return this.data;
+	}
 
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
+	public void setData(double data) {
+		this.data = data;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Measurement that = (Measurement) o;
-
-        if (!id.equals(that.id)) return false;
-        if (!date.equals(that.date)) return false;
-        if (!data.equals(that.data)) return false;
-        return recordId.equals(that.recordId);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + data.hashCode();
-        result = 31 * result + recordId.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Measurement{" +
-                "id=" + id +
-                ", date=" + date +
-                ", data=" + data +
-                ", recordId=" + recordId +
-                '}';
-    }
 }

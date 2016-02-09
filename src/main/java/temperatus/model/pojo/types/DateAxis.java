@@ -1,4 +1,4 @@
-package temperatus.model;
+package temperatus.model.pojo.types;
 
 /*
  * The MIT License (MIT)

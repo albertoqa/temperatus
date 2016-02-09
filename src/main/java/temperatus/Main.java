@@ -1,8 +1,5 @@
 package temperatus;
 
-import com.dalsemi.onewire.OneWireAccessProvider;
-import com.dalsemi.onewire.adapter.DSPortAdapter;
-import com.dalsemi.onewire.container.OneWireContainer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -10,8 +7,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
-
-import java.util.Enumeration;
 
 /**
  * Created by alberto on 17/1/16.
@@ -34,7 +29,7 @@ public class Main extends Application {
         primaryStage.show();
 
         // enumerate through each of the adapter classes
-        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
+        /*for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
 
             // get the next adapter DSPortAdapter
             DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
@@ -84,7 +79,7 @@ public class Main extends Application {
             System.out.println();
         }
 
-        System.out.println();
+        System.out.println();*/
 
 
     }

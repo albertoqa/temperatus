@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="temperatus.model.pojo.Subject" table="SUBJECT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="generated.Subject" table="SUBJECT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <property name="isPerson" type="java.lang.Boolean">
-            <column name="IS_PERSON" />
+        <property name="isPerson" type="boolean">
+            <column name="IS_PERSON" not-null="true" />
+        </property>
+        <property name="isAuthor" type="boolean">
+            <column name="IS_AUTHOR" not-null="true" />
         </property>
         <property name="name" type="string">
-            <column name="NAME" length="300" />
+            <column name="NAME" length="300" not-null="true" unique="true" />
         </property>
         <property name="sex" type="java.lang.Boolean">
             <column name="SEX" />
@@ -23,11 +26,23 @@
         <property name="weight" type="java.lang.Double">
             <column name="WEIGHT" precision="17" scale="0" />
         </property>
-        <property name="size" type="java.lang.Double">
-            <column name="SIZE" precision="17" scale="0" />
+        <property name="height" type="java.lang.Double">
+            <column name="HEIGHT" precision="17" scale="0" />
         </property>
         <property name="observations" type="java.lang.String">
             <column name="OBSERVATIONS" />
         </property>
+        <set name="missionsForSubjectId" table="MISSION" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="SUBJECT_ID" not-null="true" />
+            </key>
+            <one-to-many class="generated.Mission" />
+        </set>
+        <set name="missionsForAuthorId" table="MISSION" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="AUTHOR_ID" not-null="true" />
+            </key>
+            <one-to-many class="generated.Mission" />
+        </set>
     </class>
 </hibernate-mapping>

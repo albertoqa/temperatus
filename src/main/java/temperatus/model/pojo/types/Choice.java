@@ -1,4 +1,4 @@
-package temperatus.model;
+package temperatus.model.pojo.types;
 
 /**
  * Created by alberto on 24/1/16.

@@ -1,21 +1,43 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="temperatus.model.pojo.Game" table="GAME" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="generated.Game" table="GAME" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
         <property name="title" type="string">
-            <column name="TITLE" length="100" />
+            <column name="TITLE" length="100" not-null="true" unique="true" />
         </property>
-        <property name="numButtons" type="java.lang.Integer">
-            <column name="NUM_BUTTONS" />
+        <property name="numButtons" type="int">
+            <column name="NUM_BUTTONS" not-null="true" />
         </property>
         <property name="observations" type="java.lang.String">
             <column name="OBSERVATIONS" />
         </property>
+        <set name="formulas" table="GAME_FORMULA" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="GAME_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="generated.Formula">
+                <column name="FORMULA_ID" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="positions" table="GAME_POSITION" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="GAME_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="generated.Position">
+                <column name="POSITION_ID" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="missions" table="MISSION" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="GAME_ID" not-null="true" />
+            </key>
+            <one-to-many class="generated.Mission" />
+        </set>
     </class>
 </hibernate-mapping>

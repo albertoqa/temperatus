@@ -1,7 +1,9 @@
 package temperatus.model.pojo;
-// Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final
+// Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -12,89 +14,77 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "RECORD", schema = "PUBLIC", catalog = "DATABASE")
 public class Record implements java.io.Serializable {
 
-    private Integer id;
-    private Integer misionId;
-    private Integer ibuttonId;
-    private Integer positionId;
+	private Integer id;
+	private Ibutton ibutton;
+	private int missionId;
+	private Position position;
+	private Set<Measurement> measurements = new HashSet<Measurement>(0);
 
-    public Record() {
-    }
+	public Record() {
+	}
 
-    public Record(Integer misionId, Integer ibutton, Integer position) {
-        this.ibuttonId = ibutton;
-        this.positionId = position;
-        this.misionId = misionId;
-    }
+	public Record(Ibutton ibutton, int missionId, Position position) {
+		this.ibutton = ibutton;
+		this.missionId = missionId;
+		this.position = position;
+	}
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+	public Record(Ibutton ibutton, int missionId, Position position, Set<Measurement> measurements) {
+		this.ibutton = ibutton;
+		this.missionId = missionId;
+		this.position = position;
+		this.measurements = measurements;
+	}
 
-    @Column(name = "ID", unique = true, nullable = false)
-    public Integer getId() {
-        return this.id;
-    }
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@Column(name = "ID", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
+	}
 
-    @Column(name = "MISSION_ID", nullable = false)
-    public Integer getMisionId() {
-        return this.misionId;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setMisionId(Integer misionId) {
-        this.misionId = misionId;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IBUTTON_ID", nullable = false)
+	public Ibutton getIbutton() {
+		return this.ibutton;
+	}
 
-    @Column(name = "IBUTTON_ID", nullable = false)
-    public Integer getIbuttonId() {
-        return ibuttonId;
-    }
+	public void setIbutton(Ibutton ibutton) {
+		this.ibutton = ibutton;
+	}
 
-    public void setIbuttonId(Integer ibuttonId) {
-        this.ibuttonId = ibuttonId;
-    }
+	@Column(name = "MISSION_ID", nullable = false)
+	public Integer getMisionId() {
+		return this.missionId;
+	}
 
-    @Column(name = "POSITION_ID", nullable = false)
-    public Integer getPositionId() {
-        return positionId;
-    }
+	public void setMisionId(Integer misionId) {
+		this.missionId = misionId;
+	}
 
-    public void setPositionId(Integer positionId) {
-        this.positionId = positionId;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "POSITION_ID", nullable = false)
+	public Position getPosition() {
+		return this.position;
+	}
 
-        Record record = (Record) o;
+	public void setPosition(Position position) {
+		this.position = position;
+	}
 
-        if (!id.equals(record.id)) return false;
-        if (!misionId.equals(record.misionId)) return false;
-        if (!ibuttonId.equals(record.ibuttonId)) return false;
-        return positionId.equals(record.positionId);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "record")
+	public Set<Measurement> getMeasurements() {
+		return this.measurements;
+	}
 
-    }
+	public void setMeasurements(Set<Measurement> measurements) {
+		this.measurements = measurements;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + misionId.hashCode();
-        result = 31 * result + ibuttonId.hashCode();
-        result = 31 * result + positionId.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Record{" +
-                "id=" + id +
-                ", misionId=" + misionId +
-                ", ibuttonId=" + ibuttonId +
-                ", positionId=" + positionId +
-                '}';
-    }
 }

@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 20-ene-2016 21:22:04 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="temperatus.model.pojo.Measurement" table="MEASUREMENT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="generated.Measurement" table="MEASUREMENT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <property name="recordId" type="java.lang.Integer">
-            <column name="RECORD_ID" />
-        </property>
+        <many-to-one name="record" class="generated.Record" fetch="select">
+            <column name="RECORD_ID" not-null="true" />
+        </many-to-one>
         <property name="date" type="timestamp">
-            <column name="DATE" length="8" />
+            <column name="DATE" length="23" not-null="true" />
         </property>
-        <property name="data" type="java.lang.Integer">
-            <column name="DATA" />
+        <property name="data" type="double">
+            <column name="DATA" precision="17" scale="0" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

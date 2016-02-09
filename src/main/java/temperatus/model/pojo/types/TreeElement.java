@@ -1,4 +1,4 @@
-package temperatus.model;
+package temperatus.model.pojo.types;
 
 import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.Mission;
@@ -30,7 +30,7 @@ public class TreeElement {
         this.id = mission.getId();
         this.name = new SimpleStringProperty(mission.getName());
         this.date = new SimpleStringProperty(mission.getDateIni().toString());
-        this.authors = new SimpleStringProperty(mission.getAuthor());
+        this.authors = new SimpleStringProperty(mission.getAuthor().getName());
         this.aClass = Mission.class;
     }
 

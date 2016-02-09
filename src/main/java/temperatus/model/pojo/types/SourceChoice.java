@@ -1,4 +1,4 @@
-package temperatus.model;
+package temperatus.model.pojo.types;
 
 import temperatus.model.pojo.Ibutton;
 
