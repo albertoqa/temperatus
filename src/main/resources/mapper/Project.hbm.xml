@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="generated.Project" table="PROJECT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Project" table="PROJECT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
@@ -17,11 +17,5 @@
         <property name="observations" type="java.lang.String">
             <column name="OBSERVATIONS" />
         </property>
-        <set name="missions" table="MISSION" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="PROJECT_ID" not-null="true" />
-            </key>
-            <one-to-many class="generated.Mission" />
-        </set>
     </class>
 </hibernate-mapping>

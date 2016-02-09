@@ -3,21 +3,21 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="generated.Mission" table="MISSION" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Mission" table="MISSION" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="game" class="generated.Game" fetch="select">
+        <many-to-one name="game" class="temperatus.model.pojo.Game" fetch="select">
             <column name="GAME_ID" not-null="true" />
         </many-to-one>
-        <many-to-one name="project" class="generated.Project" fetch="select">
+        <many-to-one name="project" class="temperatus.model.pojo.Project" fetch="select">
             <column name="PROJECT_ID" not-null="true" />
         </many-to-one>
-        <many-to-one name="subjectBySubjectId" class="generated.Subject" fetch="select">
+        <many-to-one name="subject" class="temperatus.model.pojo.Subject" fetch="select">
             <column name="SUBJECT_ID" not-null="true" />
         </many-to-one>
-        <many-to-one name="subjectByAuthorId" class="generated.Subject" fetch="select">
+        <many-to-one name="author" class="temperatus.model.pojo.Subject" fetch="select">
             <column name="AUTHOR_ID" not-null="true" />
         </many-to-one>
         <property name="name" type="string">
@@ -33,7 +33,7 @@
             <key>
                 <column name="MISSION_ID" not-null="true" />
             </key>
-            <one-to-many class="generated.Record" />
+            <one-to-many class="temperatus.model.pojo.Record" />
         </set>
     </class>
 </hibernate-mapping>

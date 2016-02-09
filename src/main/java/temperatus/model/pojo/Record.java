@@ -59,12 +59,12 @@ public class Record implements java.io.Serializable {
 	}
 
 	@Column(name = "MISSION_ID", nullable = false)
-	public Integer getMisionId() {
+	public Integer getMissionId() {
 		return this.missionId;
 	}
 
-	public void setMisionId(Integer misionId) {
-		this.missionId = misionId;
+	public void setMissionId(Integer missionId) {
+		this.missionId = missionId;
 	}
 
 

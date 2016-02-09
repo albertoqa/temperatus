@@ -3,14 +3,14 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="generated.Measurement" table="MEASUREMENT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Measurement" table="MEASUREMENT" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="record" class="generated.Record" fetch="select">
-            <column name="RECORD_ID" not-null="true" />
-        </many-to-one>
+        <property name="recordId" type="java.lang.Integer">
+            <column name="RECORD_ID" />
+        </property>
         <property name="date" type="timestamp">
             <column name="DATE" length="23" not-null="true" />
         </property>

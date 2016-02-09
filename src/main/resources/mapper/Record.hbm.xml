@@ -3,25 +3,25 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="generated.Record" table="RECORD" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Record" table="RECORD" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="ibutton" class="generated.Ibutton" fetch="select">
+        <many-to-one name="ibutton" class="temperatus.model.pojo.Ibutton" fetch="select">
             <column name="IBUTTON_ID" not-null="true" />
         </many-to-one>
-        <many-to-one name="mission" class="generated.Mission" fetch="select">
-            <column name="MISSION_ID" not-null="true" />
-        </many-to-one>
-        <many-to-one name="position" class="generated.Position" fetch="select">
+        <property name="missionId" type="java.lang.Integer">
+            <column name="MISSION_ID" />
+        </property>
+        <many-to-one name="position" class="temperatus.model.pojo.Position" fetch="select">
             <column name="POSITION_ID" not-null="true" />
         </many-to-one>
         <set name="measurements" table="MEASUREMENT" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="RECORD_ID" not-null="true" />
             </key>
-            <one-to-many class="generated.Measurement" />
+            <one-to-many class="temperatus.model.pojo.Measurement" />
         </set>
     </class>
 </hibernate-mapping>

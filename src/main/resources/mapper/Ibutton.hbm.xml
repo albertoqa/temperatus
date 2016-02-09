@@ -3,12 +3,12 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09-feb-2016 19:55:22 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="generated.Ibutton" table="IBUTTON" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
+    <class name="temperatus.model.pojo.Ibutton" table="IBUTTON" schema="PUBLIC" catalog="DATABASE" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="position" class="generated.Position" fetch="select">
+        <many-to-one name="defaultPosition" class="temperatus.model.pojo.Position" fetch="select">
             <column name="DEFAULTPOS" />
         </many-to-one>
         <property name="serial" type="string">
@@ -20,11 +20,5 @@
         <property name="alias" type="string">
             <column name="ALIAS" length="30" unique="true" />
         </property>
-        <set name="records" table="RECORD" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="IBUTTON_ID" not-null="true" />
-            </key>
-            <one-to-many class="generated.Record" />
-        </set>
     </class>
 </hibernate-mapping>
