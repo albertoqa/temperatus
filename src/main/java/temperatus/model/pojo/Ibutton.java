@@ -93,28 +93,4 @@ public class Ibutton implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Ibutton ibutton = (Ibutton) o;
-
-        if (id != null ? !id.equals(ibutton.id) : ibutton.id != null) return false;
-        if (defaultPosition != null ? !defaultPosition.equals(ibutton.defaultPosition) : ibutton.defaultPosition != null) return false;
-        if (serial != null ? !serial.equals(ibutton.serial) : ibutton.serial != null) return false;
-        if (model != null ? !model.equals(ibutton.model) : ibutton.model != null) return false;
-        return !(alias != null ? !alias.equals(ibutton.alias) : ibutton.alias != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (defaultPosition != null ? defaultPosition.hashCode() : 0);
-        result = 31 * result + (serial != null ? serial.hashCode() : 0);
-        result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + (alias != null ? alias.hashCode() : 0);
-        return result;
-    }
 }

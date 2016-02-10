@@ -134,37 +134,4 @@ public class Subject implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Subject subject = (Subject) o;
-
-        if (isPerson != subject.isPerson) return false;
-        if (id != null ? !id.equals(subject.id) : subject.id != null) return false;
-        if (name != null ? !name.equals(subject.name) : subject.name != null) return false;
-        if (sex != null ? !sex.equals(subject.sex) : subject.sex != null) return false;
-        if (age != null ? !age.equals(subject.age) : subject.age != null) return false;
-        if (weight != null ? !weight.equals(subject.weight) : subject.weight != null) return false;
-        if (height != null ? !height.equals(subject.height) : subject.height != null) return false;
-        if (observations != null ? !observations.equals(subject.observations) : subject.observations != null)
-            return false;
-        return !(missions != null ? !missions.equals(subject.missions) : subject.missions != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (isPerson ? 1 : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (weight != null ? weight.hashCode() : 0);
-        result = 31 * result + (height != null ? height.hashCode() : 0);
-        result = 31 * result + (observations != null ? observations.hashCode() : 0);
-        result = 31 * result + (missions != null ? missions.hashCode() : 0);
-        return result;
-    }
 }

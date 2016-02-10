@@ -1,6 +1,7 @@
 package temperatus.model.pojo;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "MISSION", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = @UniqueConstraint(columnNames = "NAME"))
 public class Mission implements java.io.Serializable {
 
-    private Integer id;
+    private BigInteger id;
     private Author author;
     private Game game;
     private Project project;
@@ -52,11 +53,11 @@ public class Mission implements java.io.Serializable {
     @GeneratedValue(strategy = IDENTITY)
 
     @Column(name = "ID", unique = true, nullable = false)
-    public Integer getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -145,37 +146,4 @@ public class Mission implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Mission mission = (Mission) o;
-
-        if (id != null ? !id.equals(mission.id) : mission.id != null) return false;
-        if (author != null ? !author.equals(mission.author) : mission.author != null) return false;
-        if (game != null ? !game.equals(mission.game) : mission.game != null) return false;
-        if (project != null ? !project.equals(mission.project) : mission.project != null) return false;
-        if (subject != null ? !subject.equals(mission.subject) : mission.subject != null) return false;
-        if (name != null ? !name.equals(mission.name) : mission.name != null) return false;
-        if (dateIni != null ? !dateIni.equals(mission.dateIni) : mission.dateIni != null) return false;
-        if (observations != null ? !observations.equals(mission.observations) : mission.observations != null)
-            return false;
-        return !(records != null ? !records.equals(mission.records) : mission.records != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (game != null ? game.hashCode() : 0);
-        result = 31 * result + (project != null ? project.hashCode() : 0);
-        result = 31 * result + (subject != null ? subject.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (dateIni != null ? dateIni.hashCode() : 0);
-        result = 31 * result + (observations != null ? observations.hashCode() : 0);
-        result = 31 * result + (records != null ? records.hashCode() : 0);
-        return result;
-    }
 }

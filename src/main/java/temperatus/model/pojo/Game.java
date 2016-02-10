@@ -115,30 +115,4 @@ public class Game implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Game game = (Game) o;
-
-        if (numButtons != game.numButtons) return false;
-        if (id != null ? !id.equals(game.id) : game.id != null) return false;
-        if (title != null ? !title.equals(game.title) : game.title != null) return false;
-        if (observations != null ? !observations.equals(game.observations) : game.observations != null) return false;
-        if (formulas != null ? !formulas.equals(game.formulas) : game.formulas != null) return false;
-        return !(positions != null ? !positions.equals(game.positions) : game.positions != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + numButtons;
-        result = 31 * result + (observations != null ? observations.hashCode() : 0);
-        result = 31 * result + (formulas != null ? formulas.hashCode() : 0);
-        result = 31 * result + (positions != null ? positions.hashCode() : 0);
-        return result;
-    }
 }

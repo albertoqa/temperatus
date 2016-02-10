@@ -94,31 +94,4 @@ public class Measurement implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Measurement that = (Measurement) o;
-
-        if (Double.compare(that.data, data) != 0) return false;
-        if (recordId != that.recordId) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        return unit == that.unit;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        temp = Double.doubleToLongBits(data);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (unit != null ? unit.hashCode() : 0);
-        result = 31 * result + recordId;
-        return result;
-    }
 }

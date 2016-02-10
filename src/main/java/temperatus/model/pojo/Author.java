@@ -66,24 +66,4 @@ public class Author implements java.io.Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Author author = (Author) o;
-
-        if (id != null ? !id.equals(author.id) : author.id != null) return false;
-        if (name != null ? !name.equals(author.name) : author.name != null) return false;
-        return !(missions != null ? !missions.equals(author.missions) : author.missions != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (missions != null ? missions.hashCode() : 0);
-        return result;
-    }
 }
