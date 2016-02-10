@@ -122,7 +122,7 @@ public class RecordConfigController extends AbstractCreationController implement
         }
 
         MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-        missionInfoController.setData(missionId);
+       // missionInfoController.setData(missionId);
     }
 
     @Override

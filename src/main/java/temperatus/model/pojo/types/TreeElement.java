@@ -66,5 +66,13 @@ public class TreeElement {
         return type;
     }
 
+    @Override
+    public String toString() {
+        if (type == TreeElementType.Project) {
+            return project.getName() + project.getDateIni().toString();
+        } else {
+            return mission.getName() + " "+ mission.getSubject().getName() + " " + mission.getDateIni().toString() + "" + mission.getProject().getName();
+        }
+    }
 }
 

@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
@@ -37,6 +36,8 @@ public class NewProjectController extends AbstractCreationController implements 
     @FXML private TextArea observationsInput;
 
     @Autowired ProjectService projectService;
+    private Project project;
+    private boolean isSave = true;
 
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
@@ -44,6 +45,14 @@ public class NewProjectController extends AbstractCreationController implements 
     public void initialize(URL location, ResourceBundle resources) {
         dateInput.setValue(LocalDate.now());
         translate();
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+        nameInput.setText(project.getName());
+        observationsInput.setText(project.getObservations());
+        dateInput.setValue(LocalDate.now());
+        isSave = false;
     }
 
     /**
@@ -64,20 +73,23 @@ public class NewProjectController extends AbstractCreationController implements 
             observations = observationsInput.getText();
             startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-            Project project = new Project(name, startDate, observations);
-            projectService.save(project);
+            project.setName(name);
+            project.setObservations(observations);
+            project.setDateIni(startDate);
+
+            projectService.saveOrUpdate(project);
 
             Animation.fadeInOutClose(titledPane);
-            if (VistaNavigator.getController() != null) {
+            if (VistaNavigator.getController() != null && isSave) {
                 // Only necessary if base view needs to know about the new project creation
                 VistaNavigator.getController().reload(project);
             }
 
             logger.info("Saved: " + project);
 
-        } catch (ControlledTemperatusException ex) {
-            logger.warn("Exception while saving project: " + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, ex.getMessage());
+            //} catch (ControlledTemperatusException ex) {
+            //    logger.warn("Exception while saving project: " + ex.getMessage());
+            //    showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
             showAlert(Alert.AlertType.ERROR, "Duplicate entry");

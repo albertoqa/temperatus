@@ -1,19 +1,26 @@
 package temperatus.controller.archived;
 
-import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
+import temperatus.controller.creation.NewProjectController;
 import temperatus.controller.creation.NewRecordController;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
+import temperatus.model.pojo.types.FilterableTreeItem;
 import temperatus.model.pojo.types.TreeElement;
 import temperatus.model.pojo.types.TreeElementType;
+import temperatus.model.pojo.types.TreeItemPredicate;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -22,9 +29,7 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by alberto on 17/1/16.
@@ -39,9 +44,16 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Label projectNumberOfMissions;
     @FXML private Label projectObservations;
     @FXML private Label projectAuthors;
+    @FXML private Label firstMissionDate;
+    @FXML private Label firstMissionName;
+    @FXML private Label lastMissionDate;
+    @FXML private Label lastMissionName;
+    @FXML private Label projectSubjects;
 
     @FXML private AnchorPane projectInfoPane;
     @FXML private AnchorPane missionInfoPane;
+
+    @FXML private TextField filterField;
 
     @FXML private TextField editableProjectName;
     @FXML private TextArea editableProjectObservations;
@@ -59,62 +71,104 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Autowired ProjectService projectService;
 
+    //private FilterableTreeItem<TreeElement> folder1;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         VistaNavigator.setController(this);
         translate();
 
+        // Create a hidden root element
         final TreeItem<TreeElement> root = new TreeItem<>(new TreeElement());
         root.setExpanded(true);
         treeTable.setShowRoot(false);
         treeTable.setRoot(root);
 
-        Platform.runLater(() -> {   //TODO change to Task
+        nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
+        dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
+        authorsColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
 
-            List<Project> projects = projectService.getAll();
-            projects.stream().forEach((project) -> {
-                TreeItem<TreeElement> treeItemProject = new TreeItem<>(new TreeElement(project));
+        treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
+        treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
 
-                project.getMissions().stream().forEach((mission) -> {
-                    treeItemProject.getChildren().add(new TreeItem<>(new TreeElement(mission)));
+        treeTable.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (TreeElementType.Project == newValue.getValue().getType()) {
+                        Animation.fadeOutTransition(missionInfoPane);
+                        Animation.fadeInTransition(projectInfoPane);
+                        projectInfoPane.setDisable(false);
+                        missionInfoPane.setDisable(true);
+                        Project project = getSelectedElement().getElement();
+
+                        projectName.setText(project.getName());
+                        projectDate.setText(project.getDateIni().toString());
+                        projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
+                        projectObservations.setText(project.getObservations());
+                        //projectAuthors.setText(missions.get(0).getAuthor());
+                    } else {
+                        Animation.fadeOutTransition(projectInfoPane);
+                        Animation.fadeInTransition(missionInfoPane);
+                        projectInfoPane.setDisable(true);
+                        missionInfoPane.setDisable(false);
+                    }
                 });
 
-                treeItemProject.setExpanded(true);
-                root.getChildren().add(treeItemProject);
-            });
 
-            nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
-            dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
-            authorsColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
+        treeTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    TreeItem<TreeElement> item = treeTable.getSelectionModel().getSelectedItem();
+                    if (TreeElementType.Project == item.getValue().getType()) {
+                        Project project = (Project) item.getValue().getElement();
+                        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+                        newProjectController.setProject(project);
+                    }
+                }
+            }
 
-            treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
-            treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
-
-            treeTable.getSelectionModel()
-                    .selectedItemProperty()
-                    .addListener((observable, oldValue, newValue) -> {
-                        if (TreeElementType.Project == newValue.getValue().getType()) {
-                            Animation.fadeOutTransition(missionInfoPane);
-                            Animation.fadeInTransition(projectInfoPane);
-                            projectInfoPane.setDisable(false);
-                            missionInfoPane.setDisable(true);
-                            Project project = getSelectedElement().getElement();
-
-                            projectName.setText(project.getName());
-                            projectDate.setText(project.getDateIni().toString());
-                            projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
-                            projectObservations.setText(project.getObservations());
-                            //projectAuthors.setText(missions.get(0).getAuthor());
-                        } else {
-                            Animation.fadeOutTransition(projectInfoPane);
-                            Animation.fadeInTransition(missionInfoPane);
-                            projectInfoPane.setDisable(true);
-                            missionInfoPane.setDisable(false);
-                        }
-                    });
         });
+
+        FilterableTreeItem<TreeElement> roo = getTreeModel();
+        roo.predicateProperty().bind(Bindings.createObjectBinding(() -> {
+            if (filterField.getText() == null || filterField.getText().isEmpty())
+                return null;
+            return TreeItemPredicate.create(treeElement -> treeElement.toString().toLowerCase().contains(filterField.getText().toLowerCase()));
+        }, filterField.textProperty()));
+
+        treeTable.setRoot(roo);
+
     }
+
+    private FilterableTreeItem<TreeElement> getTreeModel() {
+
+        FilterableTreeItem<TreeElement> root = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
+
+        List<Project> projects = projectService.getAll();
+
+        for (Project project : projects) {
+            FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
+
+            ArrayList<TreeElement> missions = new ArrayList<>();
+
+            for (Mission mission : project.getMissions()) {
+                missions.add(new TreeElement(mission));
+            }
+
+            ObservableList<TreeElement> missionList = FXCollections.observableArrayList(missions);
+
+            missionList.forEach(mission -> treeItemProject.getInternalChildren().add(new FilterableTreeItem<>(mission)));
+
+            treeItemProject.setExpanded(true);
+            root.getInternalChildren().add(treeItemProject);
+        }
+
+        return root;
+    }
+
 
     /**
      * Open modal window for insert a new project
@@ -200,7 +254,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Override
     public void reload(Object object) {
-        if(object instanceof Project) {
+        if (object instanceof Project) {
             treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement((Project) object)));
         }
     }
