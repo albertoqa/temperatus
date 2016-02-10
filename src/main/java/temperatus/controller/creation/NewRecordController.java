@@ -84,17 +84,12 @@ public class NewRecordController extends AbstractCreationController implements I
         this.mission = mission;
 
         // Get game assigned to this mission
-        game = gameService.getById(mission.getGameId());
+        game = gameService.getById(mission.getGame().getId());
 
         // Get default game-position
-        List<GamePosition> gamePositions = gamePositionService.getAllForGame(game.getId());
+        //List<GamePosition> gamePositions = gamePositionService.getAllForGame(game.getId());
 
-        // Get default positions (if any)
-        defaultPositions = new ArrayList<>();
-        gamePositions.stream().forEach(gamePosition -> {
-            Position position = positionService.getById(gamePosition.getPositionId());
-            defaultPositions.add(position);
-        });
+
 
         loadAllPositions(); // Pre-load all positions from db
 
@@ -126,7 +121,7 @@ public class NewRecordController extends AbstractCreationController implements I
         // For each detected button, compare if its default position is equal to any of the default positions of the game
         for (Ibutton ibutton : iButtons) {
 
-            Integer defaultPositionForIbuttonId = ibutton.getDefaultPositionId();
+            Integer defaultPositionForIbuttonId = ibutton.getPosition().getId();
 
             if (defaultPositionForIbuttonId != null && defaultPositionForIbuttonId > 0) {
                 Position defaultPositionForIbutton = positionService.getById(defaultPositionForIbuttonId);
@@ -160,13 +155,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private List<Ibutton> detectButtons() {
         List<Ibutton> ibuttonList = new ArrayList<>();
 
-        Ibutton ibutton3 = new Ibutton("A00239122", "DSL9902", 0);
-        Ibutton ibutton4 = new Ibutton("B00239122", "DSL9902", 1);
-        Ibutton ibutton5 = new Ibutton("C00239122", "DSL9902", 2);
 
-        ibuttonList.add(ibutton3);
-        ibuttonList.add(ibutton4);
-        ibuttonList.add(ibutton5);
 
         return ibuttonList;
     }
@@ -238,16 +227,16 @@ public class NewRecordController extends AbstractCreationController implements I
                 ibutton = ibuttonService.getBySerial(iButtonSerial);
 
                 if(ibutton == null) {
-                    ibutton = new Ibutton(iButtonSerial, iButtonModel, position.getId());
+                    //ibutton = new Ibutton(iButtonSerial, iButtonModel, position.getId());
                     ibuttonService.save(ibutton);
                 } else {
-                    ibutton.setDefaultPositionId(position.getId());
+                    //ibutton.setDefaultPositionId(position.getId());
                     //ibuttonService.saveOrUpdate(ibutton); //TODO
                 }
 
                 int positionId = position.getId();
 
-                record = new Record(mission.getId(), ibutton.getId(), positionId);
+                //record = new Record(mission.getId(), ibutton.getId(), positionId);
                 recordService.save(record);
                 int recordId = record.getId();
 
@@ -270,7 +259,7 @@ public class NewRecordController extends AbstractCreationController implements I
         // TODO check if all iButtons and Records are saved to db -- also check for duplicates
         RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
         recordConfigController.setDataMap(buttonMeasurementsHashMap);
-        recordConfigController.setMissionId(mission.getId());
+        //recordConfigController.setMissionId(mission.getId());
 
 
         // Primero, comprobar si se ha seleccionado todo lo necesario.

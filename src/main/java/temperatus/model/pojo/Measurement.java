@@ -3,6 +3,7 @@ package temperatus.model.pojo;
 import temperatus.model.pojo.types.Unit;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "MEASUREMENT", schema = "PUBLIC", catalog = "DATABASE")
 public class Measurement implements java.io.Serializable {
 
-    private Integer id;
+    private BigInteger id;
     private Date date;
     private double data;
     private Unit unit;      // C, F
@@ -40,11 +41,11 @@ public class Measurement implements java.io.Serializable {
     @GeneratedValue(strategy = IDENTITY)
 
     @Column(name = "ID", unique = true, nullable = false)
-    public Integer getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

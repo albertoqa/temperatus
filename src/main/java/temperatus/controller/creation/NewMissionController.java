@@ -12,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Game;
-import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.Subject;
 import temperatus.model.pojo.types.Choice;
 import temperatus.model.service.GameService;
-import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Constants;
@@ -55,9 +53,9 @@ public class NewMissionController extends AbstractCreationController implements 
     @FXML private Button newGameButton;
     @FXML private Button newSubjectButton;
 
-    @FXML private ChoiceBox<Choice> projectChooser;
-    @FXML private ChoiceBox<Choice> gameChooser;
-    @FXML private ChoiceBox<Choice> subjectChooser;
+    @FXML private ChoiceBox<Project> projectChooser;
+    @FXML private ChoiceBox<Game> gameChooser;
+    @FXML private ChoiceBox<Subject> subjectChooser;
 
     @FXML private TextField nameInput;
     @FXML private TextArea observationsInput;
@@ -65,7 +63,6 @@ public class NewMissionController extends AbstractCreationController implements 
     @FXML private DatePicker dateInput;
 
     @Autowired ProjectService projectService;
-    @Autowired MissionService missionService;
     @Autowired GameService gameService;
     @Autowired SubjectService subjectService;
 
@@ -94,40 +91,40 @@ public class NewMissionController extends AbstractCreationController implements 
          * Load all projects from database and allow the user to choose them
          * Default -> no selection
          */
-        ObservableList<Choice> choicesProject = FXCollections.observableArrayList();
-        choicesProject.add(noSelectionChoice);
+        ObservableList<Project> choicesProject = FXCollections.observableArrayList();
+        //choicesProject.add(noSelectionChoice);
         for (Project project : projectService.getAll()) {
-            choicesProject.add(new Choice(project.getId(), project.getName())); // Choice contains id (Primary Key) and name
+            choicesProject.add(project); // Choice contains id (Primary Key) and name
         }
 
         projectChooser.setItems(choicesProject);
-        projectChooser.getSelectionModel().select(0);
+        //projectChooser.getSelectionModel().select(0);
 
         /**
          * Load all games from database and allow the user to choose them
          * Default -> no selection
          */
-        ObservableList<Choice> choicesGame = FXCollections.observableArrayList();
-        choicesGame.add(noSelectionChoice);
+        ObservableList<Game> choicesGame = FXCollections.observableArrayList();
+        //choicesGame.add(noSelectionChoice);
         for (Game game : gameService.getAll()) {
-            choicesGame.add(new Choice(game.getId(), game.getTitle()));
+            choicesGame.add(game);
         }
 
         gameChooser.setItems(choicesGame);
-        gameChooser.getSelectionModel().select(0);
+        //gameChooser.getSelectionModel().select(0);
 
         /**
          * Load all subjects from database and allow the user to choose them
          * Default -> no selection
          */
-        ObservableList<Choice> choicesSubject = FXCollections.observableArrayList();
-        choicesSubject.add(noSelectionChoice);
+        ObservableList<Subject> choicesSubject = FXCollections.observableArrayList();
+        //choicesSubject.add(noSelectionChoice);
         for (Subject subject : subjectService.getAll()) {
-            choicesSubject.add(new Choice(subject.getId(), subject.getName()));
+            choicesSubject.add(subject);
         }
 
         subjectChooser.setItems(choicesSubject);
-        subjectChooser.getSelectionModel().select(0);
+        //subjectChooser.getSelectionModel().select(0);
 
         translate();
 
@@ -136,11 +133,11 @@ public class NewMissionController extends AbstractCreationController implements 
     /**
      * If project was previously selected to add a mission to it -> load it and pre-select it
      *
-     * @param projectId - project to load
+     * @param project - project to load
      */
-    public void setProject(int projectId) {
+    public void setProject(Project project) {
         for (int i = 0; i < projectChooser.getItems().size(); i++) {
-            if (projectChooser.getItems().get(i).getId().equals(projectId)) {
+            if (projectChooser.getItems().get(i).getId().equals(project.getId())) {
                 projectChooser.getSelectionModel().select(i);
                 break;
             }
@@ -179,14 +176,14 @@ public class NewMissionController extends AbstractCreationController implements 
 
             // TODO change constructor to: Author, Game, Project, Subject, name, dateIni
             // TODO shoudl I change the way I store Choices?
-            Mission mission = new Mission(name, author, startDate, observations, selectedProjectId, selectedGameId, selectedSubjectId);
-            missionService.save(mission);
+            //Mission mission = new Mission(name, author, startDate, observations, selectedProjectId, selectedGameId, selectedSubjectId);
+            //missionService.save(mission);
 
             // Continue to new Record View -> preselect this mission
-            NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
-            newRecordController.loadData(mission);
+            //NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
+            //newRecordController.loadData(mission);
 
-            logger.info("Saved: " + mission);
+            //logger.info("Saved: " + mission);
 
         } catch (IllegalArgumentException ex) {
             logger.warn("Invalid input date: " + ex.getMessage());
@@ -243,17 +240,17 @@ public class NewMissionController extends AbstractCreationController implements 
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
-            Choice choice = new Choice(((Project) object).getId(), ((Project) object).getName());
-            projectChooser.getItems().add(choice);
-            projectChooser.getSelectionModel().select(choice);
+            Project project = (Project) object;
+            projectChooser.getItems().add(project);
+            projectChooser.getSelectionModel().select(project);
         } else if (object instanceof Game) {
-            Choice choice = new Choice(((Game) object).getId(), ((Game) object).getTitle());
-            gameChooser.getItems().add(choice);
-            gameChooser.getSelectionModel().select(choice);
+            Game game = (Game) object;
+            gameChooser.getItems().add(game);
+            gameChooser.getSelectionModel().select(game);
         } else if (object instanceof Subject) {
-            Choice choice = new Choice(((Subject) object).getId(), ((Subject) object).getName());
-            subjectChooser.getItems().add(choice);
-            subjectChooser.getSelectionModel().select(choice);
+            Subject subject = (Subject) object;
+            subjectChooser.getItems().add(subject);
+            subjectChooser.getSelectionModel().select(subject);
         }
     }
 

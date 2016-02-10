@@ -35,12 +35,12 @@ public class IButtonDataValidator {
      */
     private static List<Measurement> getOutliers(final List<Measurement> measurements) {
         List<Measurement> outliers = new ArrayList<>();
-        Integer average = getAverage(measurements);
-        Integer maxValue = average + RANGE;
-        Integer minValue = average - RANGE;
+        Double average = getAverage(measurements);
+        Double maxValue = average + RANGE;
+        Double minValue = average - RANGE;
 
         for(Measurement measurement: measurements) {
-            Integer data = measurement.getData();
+            Double data = measurement.getData();
 
             if(data < minValue || data > maxValue) {
                 outliers.add(measurement);
@@ -55,11 +55,11 @@ public class IButtonDataValidator {
      * @param measurements
      * @return
      */
-    private static Integer getAverage(final List<Measurement> measurements) {
-        Integer sum = 0;
+    private static Double getAverage(final List<Measurement> measurements) {
+        Double sum = 0.0;
         if(!measurements.isEmpty()) {
             for(Measurement measurement: measurements) {
-                sum += measurement.getData();
+                //sum += measurement.getData();
             }
             return sum / measurements.size();
         }

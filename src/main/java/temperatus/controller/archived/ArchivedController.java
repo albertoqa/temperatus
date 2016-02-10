@@ -13,7 +13,7 @@ import temperatus.controller.creation.NewRecordController;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.types.TreeElement;
-import temperatus.model.service.MissionService;
+import temperatus.model.pojo.types.TreeElementType;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Created by alberto on 17/1/16.
@@ -54,42 +53,40 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Button newMissionButton;
     @FXML private Button cancelProjectButton;
 
-    @Autowired
-    ProjectService projectService;
-    @Autowired
-    MissionService missionService;
+    private TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>("  Project");
+    private TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>("  Start Date");
+    private TreeTableColumn<TreeElement, String> authorsColumn = new TreeTableColumn<>("  Subject");
+
+    @Autowired ProjectService projectService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        VistaNavigator.setController(this);
+        translate();
 
         final TreeItem<TreeElement> root = new TreeItem<>(new TreeElement());
         root.setExpanded(true);
         treeTable.setShowRoot(false);
         treeTable.setRoot(root);
 
-        Platform.runLater(() -> {
+        Platform.runLater(() -> {   //TODO change to Task
 
             List<Project> projects = projectService.getAll();
             projects.stream().forEach((project) -> {
                 TreeItem<TreeElement> treeItemProject = new TreeItem<>(new TreeElement(project));
 
-                List<Mission> missions = project.getMissions().stream().collect(Collectors.toList());
-                treeItemProject.setExpanded(true);
-                missions.stream().forEach((mission) -> {
+                project.getMissions().stream().forEach((mission) -> {
                     treeItemProject.getChildren().add(new TreeItem<>(new TreeElement(mission)));
                 });
 
+                treeItemProject.setExpanded(true);
                 root.getChildren().add(treeItemProject);
             });
 
-            TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>("  Project");
-            nameColumn.setCellValueFactory(param -> param.getValue().getValue().nameProperty());
-
-            TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>("  Start Date");
-            dateColumn.setCellValueFactory(param -> param.getValue().getValue().dateProperty());
-
-            TreeTableColumn<TreeElement, String> authorsColumn = new TreeTableColumn<>("  Author");
-            authorsColumn.setCellValueFactory(param -> param.getValue().getValue().authorsProperty());
+            nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
+            dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
+            authorsColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
 
             treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
             treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
@@ -97,17 +94,16 @@ public class ArchivedController implements Initializable, AbstractController {
             treeTable.getSelectionModel()
                     .selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> {
-                        if (newValue.getValue().getaClass().equals(Project.class)) {
+                        if (TreeElementType.Project == newValue.getValue().getType()) {
                             Animation.fadeOutTransition(missionInfoPane);
                             Animation.fadeInTransition(projectInfoPane);
                             projectInfoPane.setDisable(false);
                             missionInfoPane.setDisable(true);
-                            Project project = projectService.getById(newValue.getValue().getId());
-                            List<Mission> missions = project.getMissions().stream().collect(Collectors.toList());
+                            Project project = getSelectedElement().getElement();
 
                             projectName.setText(project.getName());
                             projectDate.setText(project.getDateIni().toString());
-                            projectNumberOfMissions.setText(String.valueOf(missions.size()));
+                            projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
                             projectObservations.setText(project.getObservations());
                             //projectAuthors.setText(missions.get(0).getAuthor());
                         } else {
@@ -118,34 +114,35 @@ public class ArchivedController implements Initializable, AbstractController {
                         }
                     });
         });
-
-        VistaNavigator.setController(this);
     }
 
-    private void addNewProjectToTree(Project project) {
-        treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement(project)));
-    }
-
+    /**
+     * Open modal window for insert a new project
+     * If project is inserted, the treetableview is automatically updated by the newProject view
+     */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, "new project");
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
     }
 
+    /**
+     * Show the edition elements for the selected Project
+     */
     @FXML
     private void editProject() {
         editingVisibility();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(projectDate.getText().toString(), formatter);
+        LocalDate date = LocalDate.parse(projectDate.getText(), formatter);
 
-        //editableProjectDate.setValue(date);
+        editableProjectDate.setValue(date);
         editableProjectName.setText(projectName.getText());
         editableProjectObservations.setText(projectObservations.getText());
     }
 
     @FXML
     private void saveUpdatedProject() {
-        Project project = projectService.getById(getSelectedElement().getId());
+        Project project = getSelectedElement().getElement();
         project.setName(editableProjectName.getText());
         project.setObservations(editableProjectObservations.getText());
         //project.setDateIni(Date.from(editableProjectDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -156,7 +153,7 @@ public class ArchivedController implements Initializable, AbstractController {
         projectDate.setText(project.getDateIni().toString());
         projectObservations.setText(project.getObservations());
 
-        getSelectedElement().setName(project.getName());
+        //getSelectedElement().setName(project.getName());
         //getSelectedElement().setDate(project.getDateIni());
 
         notEditingVisibility();
@@ -172,8 +169,7 @@ public class ArchivedController implements Initializable, AbstractController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            int projectId = getSelectedElement().getId();
-            //projectService.delete(projectId); // TODO
+            projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             treeItem.getParent().getChildren().remove(treeItem);
         }
@@ -182,18 +178,18 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML
     private void newMission() {
         NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
-        missionController.setProject(getSelectedElement().getId());
+        missionController.setProject(getSelectedElement().getElement());//TODO
     }
 
     @FXML
     private void missionInfo() {
         MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
-        missionInfoController.setData(getSelectedElement().getId());
+        //missionInfoController.setData(getSelectedElement().getId());
     }
 
     @FXML
     private void addDataToMission() {   // TODO remember to remove if not needed
-        Mission mission = missionService.getById(getSelectedElement().getId());
+        Mission mission = getSelectedElement().getElement();
         NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
         newRecordController.loadData(mission);
     }

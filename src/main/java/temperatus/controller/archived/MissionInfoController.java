@@ -5,10 +5,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.model.pojo.*;
-import temperatus.model.service.*;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -16,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by alberto on 30/1/16.
@@ -37,13 +36,6 @@ public class MissionInfoController implements Initializable {
 
     @FXML private LineChart<Date, Number> lineChart;
 
-    @Autowired ProjectService projectService;
-    @Autowired MissionService missionService;
-    @Autowired GameService gameService;
-    @Autowired SubjectService subjectService;
-    @Autowired RecordService recordService;
-    @Autowired MeasurementService measurementService;
-
     private Project project;
     private Mission mission;
     private Game game;
@@ -57,17 +49,17 @@ public class MissionInfoController implements Initializable {
 
     }
 
-    public void setData(int missionId) {
-        mission = missionService.getById(missionId);
+    public void setData(Mission newMission) {
+        mission = newMission;
         project = mission.getProject();
         game = mission.getGame();
         subject = mission.getSubject();
 
-        List<Record> records = recordService.getByMissionId(missionId);
+        List<Record> records = mission.getRecords().stream().collect(Collectors.toList());
 
         dataMap = new HashMap<>();
         for(Record record: records) {
-            List<Measurement> measurements = measurementService.getAllByRecordId(record.getId());
+            List<Measurement> measurements = record.getMeasurements().stream().collect(Collectors.toList());
             dataMap.put(record, measurements);
         }
 

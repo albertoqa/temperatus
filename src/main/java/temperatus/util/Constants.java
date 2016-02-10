@@ -1,5 +1,7 @@
 package temperatus.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
 
 /**
@@ -45,6 +47,9 @@ public class Constants {
 
     public static final double MIN_HEIGHT = 800.0;
     public static final double MIN_WIDTH = 1000.0;
+
+    public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
     //#########################################################################//
     // * Constants for language names

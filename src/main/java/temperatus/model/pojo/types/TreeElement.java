@@ -3,86 +3,68 @@ package temperatus.model.pojo.types;
 import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
+import temperatus.util.Constants;
 
 /**
+ * Element that holds the data for the archive view tree table
+ * <p>
  * Created by alberto on 29/1/16.
  */
 public class TreeElement {
 
-    int id;
-    SimpleStringProperty name;
-    SimpleStringProperty date;
-    SimpleStringProperty authors;
-    Class aClass;
+    TreeElementType type;
+    Project project;
+    Mission mission;
 
     public TreeElement() {
     }
 
     public TreeElement(Project project) {
-        this.id = project.getId();
-        this.name = new SimpleStringProperty(project.getName());
-        this.date = new SimpleStringProperty(project.getDateIni().toString());
-        this.authors = new SimpleStringProperty("");
-        this.aClass = Project.class;
+        this.project = project;
+        this.type = TreeElementType.Project;
     }
 
     public TreeElement(Mission mission) {
-        this.id = mission.getId();
-        this.name = new SimpleStringProperty(mission.getName());
-        this.date = new SimpleStringProperty(mission.getDateIni().toString());
-        this.authors = new SimpleStringProperty(mission.getAuthor().getName());
-        this.aClass = Mission.class;
+        this.mission = mission;
+        this.type = TreeElementType.Mission;
     }
 
-    public int getId() {
-        return id;
+
+    public SimpleStringProperty getName() {
+        if (type == TreeElementType.Project) {
+            return new SimpleStringProperty(project.getName());
+        } else {
+            return new SimpleStringProperty(mission.getName());
+        }
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public SimpleStringProperty getDate() {
+        if (type == TreeElementType.Project) {
+            return new SimpleStringProperty(Constants.dateFormat.format(project.getDateIni()));
+        } else {
+            return new SimpleStringProperty(Constants.dateFormat.format(mission.getDateIni()));
+        }
     }
 
-    public String getName() {
-        return name.get();
+    public SimpleStringProperty getSubject() {
+        if (type == TreeElementType.Project) {
+            return new SimpleStringProperty("");
+        } else {
+            return new SimpleStringProperty(mission.getSubject().getName());
+        }
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
+    public <T> T getElement() {
+        if (type == TreeElementType.Project) {
+            return (T) project;
+        } else {
+            return (T) mission;
+        }
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public TreeElementType getType() {
+        return type;
     }
 
-    public String getDate() {
-        return date.get();
-    }
-
-    public SimpleStringProperty dateProperty() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date.set(date);
-    }
-
-    public String getAuthors() {
-        return authors.get();
-    }
-
-    public SimpleStringProperty authorsProperty() {
-        return authors;
-    }
-
-    public void setAuthors(String authors) {
-        this.authors.set(authors);
-    }
-
-    public Class getaClass() {
-        return aClass;
-    }
-
-    public void setaClass(Class aClass) {
-        this.aClass = aClass;
-    }
 }
+

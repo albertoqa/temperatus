@@ -103,6 +103,14 @@ public class BaseController implements Initializable, AbstractController {
         }
     }
 
+    /**
+     * Change the selected element in the menu
+     * @param element
+     */
+    public void selectMenuElement(String element) {
+        menu.getSelectionModel().select(language.get(element));
+    }
+
     /***********************************
      *       View Operations
      **********************************/

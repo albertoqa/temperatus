@@ -1,7 +1,6 @@
 package temperatus.model.pojo;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "MISSION", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = @UniqueConstraint(columnNames = "NAME"))
 public class Mission implements java.io.Serializable {
 
-    private BigInteger id;
+    private int id;
     private Author author;
     private Game game;
     private Project project;
@@ -53,11 +52,11 @@ public class Mission implements java.io.Serializable {
     @GeneratedValue(strategy = IDENTITY)
 
     @Column(name = "ID", unique = true, nullable = false)
-    public BigInteger getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(int id) {
         this.id = id;
     }
 
