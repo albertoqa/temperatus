@@ -68,11 +68,9 @@ public class ArchivedController implements Initializable, AbstractController {
     private TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>("  Project");
     private TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>("  Start Date");
     private TreeTableColumn<TreeElement, String> authorsColumn = new TreeTableColumn<>("  Subject");
+    private FilterableTreeItem<TreeElement> root;
 
     @Autowired ProjectService projectService;
-
-    //private FilterableTreeItem<TreeElement> folder1;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -80,18 +78,13 @@ public class ArchivedController implements Initializable, AbstractController {
         VistaNavigator.setController(this);
         translate();
 
-        // Create a hidden root element
-        final TreeItem<TreeElement> root = new TreeItem<>(new TreeElement());
-        root.setExpanded(true);
-        treeTable.setShowRoot(false);
-        treeTable.setRoot(root);
-
         nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
         dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
         authorsColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
 
         treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
         treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
+        treeTable.setShowRoot(false);
 
         treeTable.getSelectionModel()
                 .selectedItemProperty()
@@ -132,14 +125,14 @@ public class ArchivedController implements Initializable, AbstractController {
 
         });
 
-        FilterableTreeItem<TreeElement> roo = getTreeModel();
-        roo.predicateProperty().bind(Bindings.createObjectBinding(() -> {
+        root = getTreeModel();
+        root.predicateProperty().bind(Bindings.createObjectBinding(() -> {
             if (filterField.getText() == null || filterField.getText().isEmpty())
                 return null;
             return TreeItemPredicate.create(treeElement -> treeElement.toString().toLowerCase().contains(filterField.getText().toLowerCase()));
         }, filterField.textProperty()));
 
-        treeTable.setRoot(roo);
+        treeTable.setRoot(root);
 
     }
 
@@ -152,14 +145,10 @@ public class ArchivedController implements Initializable, AbstractController {
         for (Project project : projects) {
             FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
 
-            ArrayList<TreeElement> missions = new ArrayList<>();
-
-            for (Mission mission : project.getMissions()) {
-                missions.add(new TreeElement(mission));
-            }
+            List<TreeElement> missions = new ArrayList<>();
+            project.getMissions().stream().forEach(mission -> missions.add(new TreeElement(mission)));
 
             ObservableList<TreeElement> missionList = FXCollections.observableArrayList(missions);
-
             missionList.forEach(mission -> treeItemProject.getInternalChildren().add(new FilterableTreeItem<>(mission)));
 
             treeItemProject.setExpanded(true);
@@ -225,7 +214,7 @@ public class ArchivedController implements Initializable, AbstractController {
         if (result.get() == ButtonType.OK) {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
-            treeItem.getParent().getChildren().remove(treeItem);
+            //treeItem.getParent().getChildren().remove(treeItem);
         }
     }
 
@@ -255,7 +244,8 @@ public class ArchivedController implements Initializable, AbstractController {
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
-            treeTable.getRoot().getChildren().add(new TreeItem<>(new TreeElement((Project) object)));
+            root.getInternalChildren().add(new FilterableTreeItem<>(new TreeElement((Project) object)));
+
         }
     }
 

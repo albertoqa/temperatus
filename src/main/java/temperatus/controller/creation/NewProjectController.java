@@ -73,6 +73,10 @@ public class NewProjectController extends AbstractCreationController implements 
             observations = observationsInput.getText();
             startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+            if(project == null) {
+                project = new Project();
+            }
+
             project.setName(name);
             project.setObservations(observations);
             project.setDateIni(startDate);

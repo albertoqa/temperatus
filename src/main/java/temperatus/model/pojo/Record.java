@@ -77,8 +77,7 @@ public class Record implements java.io.Serializable {
         this.position = position;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "MEASUREMENT")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "record", cascade = CascadeType.ALL)
     public Set<Measurement> getMeasurements() {
         return this.measurements;
     }

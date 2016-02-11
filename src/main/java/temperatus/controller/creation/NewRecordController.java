@@ -238,10 +238,9 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 //record = new Record(mission.getId(), ibutton.getId(), positionId);
                 recordService.save(record);
-                int recordId = record.getId();
 
                 for (Measurement measurement : measurements) {
-                    measurement.setRecordId(recordId);
+                    measurement.setRecord(record);
                 }
 
                 if(measurements != null && ibutton != null) {

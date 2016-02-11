@@ -16,10 +16,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Measurement implements java.io.Serializable {
 
     private BigInteger id;
+    private Record record;
     private Date date;
     private double data;
     private Unit unit;      // C, F
-    private int recordId;
 
     public Measurement() {
     }
@@ -30,11 +30,12 @@ public class Measurement implements java.io.Serializable {
         this.unit = unit;
     }
 
-    public Measurement(Date date, double data, Unit unit, int recordId) {
-        this.recordId = recordId;
+    public Measurement(Record record, Date date, double data, Unit unit) {
+        this.record = record;
         this.date = date;
         this.data = data;
         this.unit = unit;
+
     }
 
     @Id
@@ -49,13 +50,14 @@ public class Measurement implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "RECORD_ID", nullable = false)
-    public Integer getRecordId() {
-        return recordId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RECORD_ID", nullable = false)
+    public Record getRecord() {
+        return this.record;
     }
 
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
+    public void setRecord(Record record) {
+        this.record = record;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
