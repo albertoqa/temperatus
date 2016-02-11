@@ -93,10 +93,7 @@ public class Project implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "name='" + name + '\'' +
-                ", dateIni=" + dateIni +
-                '}';
+        return getName();
     }
 
 }

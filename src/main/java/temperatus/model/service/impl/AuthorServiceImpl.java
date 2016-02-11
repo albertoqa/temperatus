@@ -1,6 +1,8 @@
 package temperatus.model.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.AuthorDao;
 import temperatus.model.pojo.Author;
@@ -11,6 +13,8 @@ import java.util.List;
 /**
  * Created by alberto on 9/2/16.
  */
+@Service
+@Transactional
 public class AuthorServiceImpl implements AuthorService {
 
     @Autowired

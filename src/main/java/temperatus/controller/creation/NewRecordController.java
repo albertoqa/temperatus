@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by alberto on 31/1/16.
@@ -84,12 +85,10 @@ public class NewRecordController extends AbstractCreationController implements I
         this.mission = mission;
 
         // Get game assigned to this mission
-        game = gameService.getById(mission.getGame().getId());
+        game = mission.getGame();
 
-        // Get default game-position
-        //List<GamePosition> gamePositions = gamePositionService.getAllForGame(game.getId());
-
-
+        // Get default positions fot the game
+        defaultPositions = game.getPositions().stream().collect(Collectors.toList());
 
         loadAllPositions(); // Pre-load all positions from db
 
@@ -103,7 +102,6 @@ public class NewRecordController extends AbstractCreationController implements I
             // ID = index
             // POSITION -> add all positions + if default, select it
             ChoiceBox<Position> choiceBoxPositions = addAllPositions();
-
             if (defaultPositions.size() > index) {
                 choiceBoxPositions.getSelectionModel().select(defaultPositions.get(index));
             }
@@ -121,11 +119,9 @@ public class NewRecordController extends AbstractCreationController implements I
         // For each detected button, compare if its default position is equal to any of the default positions of the game
         for (Ibutton ibutton : iButtons) {
 
-            Integer defaultPositionForIbuttonId = ibutton.getPosition().getId();
+            Position defaultPositionForIbutton = ibutton.getPosition();
 
-            if (defaultPositionForIbuttonId != null && defaultPositionForIbuttonId > 0) {
-                Position defaultPositionForIbutton = positionService.getById(defaultPositionForIbuttonId);
-
+            if (defaultPositionForIbutton != null) {
                 // If game default positions contains the same position as ibutton default position
                 // Set that ibutton to that position
                 if (defaultPositions.contains(defaultPositionForIbutton)) {

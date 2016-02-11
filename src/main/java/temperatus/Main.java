@@ -28,6 +28,50 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        //Search for connected devices and show a popup if detected
+        /*new Thread() {
+            // runnable for that thread
+            public void run() {
+                while (true) {
+                    try {
+                        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
+                            DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
+                            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
+                                String port_name = (String) port_name_enum.nextElement();
+                                try {
+                                    adapter.selectPort(port_name);
+                                    if (adapter.adapterDetected()) {
+                                        adapter.beginExclusive(true);
+                                        adapter.setSearchAllDevices();
+                                        adapter.targetAllFamilies();
+                                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
+                                            OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
+                                            System.out.println(
+                                                    adapter.getAdapterName() + "/" + port_name + "\t"
+                                                            + ibutton.getName() + "\t"
+                                                            + ibutton.getAddressAsString() + "\t"
+                                                            + ibutton.getDescription().substring(0, 25) + "...");
+                                        }
+                                        adapter.endExclusive();
+                                    }
+                                    adapter.freePort();
+                                } catch (Exception e) {
+                                }
+                                ;
+                            }
+                            System.out.println();
+                        }
+                        System.out.println();
+
+                        // imitating work
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }.start();*/
+
         // enumerate through each of the adapter classes
         /*for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
 

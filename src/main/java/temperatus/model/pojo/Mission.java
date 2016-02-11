@@ -37,7 +37,7 @@ public class Mission implements java.io.Serializable {
     }
 
     public Mission(Author author, Game game, Project project, Subject subject, String name, Date dateIni,
-                   String observations, Set<Record> records) {
+                   String observations) {
         this.author = author;
         this.game = game;
         this.project = project;
@@ -45,7 +45,6 @@ public class Mission implements java.io.Serializable {
         this.name = name;
         this.dateIni = dateIni;
         this.observations = observations;
-        this.records = records;
     }
 
     @Id
