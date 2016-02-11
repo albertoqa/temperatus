@@ -214,7 +214,7 @@ public class ArchivedController implements Initializable, AbstractController {
         if (result.get() == ButtonType.OK) {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
-            //treeItem.getParent().getChildren().remove(treeItem);
+            root.getInternalChildren().remove(treeItem);
         }
     }
 
@@ -244,8 +244,8 @@ public class ArchivedController implements Initializable, AbstractController {
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
+            // TODO me falta por actualizar si se hace una actualización
             root.getInternalChildren().add(new FilterableTreeItem<>(new TreeElement((Project) object)));
-
         }
     }
 

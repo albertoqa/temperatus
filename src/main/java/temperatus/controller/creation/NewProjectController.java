@@ -37,12 +37,14 @@ public class NewProjectController extends AbstractCreationController implements 
 
     @Autowired ProjectService projectService;
     private Project project;
-    private boolean isSave = true;
+    private boolean isSave;
 
     static Logger logger = Logger.getLogger(NewProjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        project = null;
+        isSave = true;
         dateInput.setValue(LocalDate.now());
         translate();
     }
