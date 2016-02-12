@@ -3,6 +3,7 @@ package temperatus.controller.archived;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +31,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by alberto on 17/1/16.
@@ -72,11 +75,22 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Autowired ProjectService projectService;
 
+    private Executor exec ;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         VistaNavigator.setController(this);
         translate();
+
+        /* Executor is used to perform long operations in a different thread than the UI elements
+        in this case, is used to load elements from the DB */
+        exec = Executors.newCachedThreadPool(runnable -> {
+            Thread t = new Thread(runnable);
+            t.setDaemon(true);
+            return t;
+        });
 
         nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
         dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
@@ -125,7 +139,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         });
 
-        root = getTreeModel();
+        root = getTreeProjects();
         root.predicateProperty().bind(Bindings.createObjectBinding(() -> {
             if (filterField.getText() == null || filterField.getText().isEmpty())
                 return null;
@@ -136,28 +150,54 @@ public class ArchivedController implements Initializable, AbstractController {
 
     }
 
-    private FilterableTreeItem<TreeElement> getTreeModel() {
+    private FilterableTreeItem<TreeElement> getTreeProjects() {
 
         FilterableTreeItem<TreeElement> root = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
+        List<Project> projects = new ArrayList<>();
 
-        List<Project> projects = projectService.getAll();
+        Task<List<Project>> getAllProjectsTask = new Task<List<Project>>() {
+            @Override
+            public List<Project> call() throws Exception {
+                return projectService.getAll();
+            }
+        };
 
-        for (Project project : projects) {
-            FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
+        getAllProjectsTask.setOnSucceeded(e -> {
+            projects.addAll(getAllProjectsTask.getValue());
+            getTreeMissions(projects, root);
+        });
 
-            List<TreeElement> missions = new ArrayList<>();
-            project.getMissions().stream().forEach(mission -> missions.add(new TreeElement(mission)));
-
-            ObservableList<TreeElement> missionList = FXCollections.observableArrayList(missions);
-            missionList.forEach(mission -> treeItemProject.getInternalChildren().add(new FilterableTreeItem<>(mission)));
-
-            treeItemProject.setExpanded(true);
-            root.getInternalChildren().add(treeItemProject);
-        }
+        // run the task using a thread from the thread pool:
+        exec.execute(getAllProjectsTask);
 
         return root;
     }
 
+    private void getTreeMissions(List<Project> projects, FilterableTreeItem<TreeElement> root) {
+        for (Project project : projects) {
+            FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
+            List<TreeElement> missions = new ArrayList<>();
+
+            Task<Set<Mission>> getMissionsTask = new Task<Set<Mission>>() {
+                @Override
+                public Set<Mission> call() throws Exception {
+                    return project.getMissions();
+                }
+            };
+
+            getMissionsTask.setOnSucceeded(e -> {
+                getMissionsTask.getValue().stream().forEach(mission -> missions.add(new TreeElement(mission)));
+                ObservableList<TreeElement> missionList = FXCollections.observableArrayList(missions);
+                missionList.forEach(mission -> treeItemProject.getInternalChildren().add(new FilterableTreeItem<>(mission)));
+
+                treeItemProject.setExpanded(true);
+                root.getInternalChildren().add(treeItemProject);
+            });
+
+            // run the task using a thread from the thread pool:
+            exec.execute(getMissionsTask);
+        }
+    }
 
     /**
      * Open modal window for insert a new project
