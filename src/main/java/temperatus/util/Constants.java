@@ -1,5 +1,7 @@
 package temperatus.util;
 
+import temperatus.listener.DeviceDetectorSource;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
@@ -8,6 +10,8 @@ import java.util.prefs.Preferences;
  * Created by alberto on 17/1/16.
  */
 public class Constants {
+
+    public static final DeviceDetectorSource deviceDetectorSource = new DeviceDetectorSource();
 
     //#########################################################################//
     //* Convenience constants for fxml layouts
@@ -39,6 +43,8 @@ public class Constants {
     //#########################################################################//
 
     public static Preferences prefs = Preferences.userRoot().node("temperatus");
+
+    public static final String FIRST_TIME = "isFirstTime";
 
     public static final String LANGUAGE = "language";
     public static final String DEFAULT_LANGUAGE = "en_US";

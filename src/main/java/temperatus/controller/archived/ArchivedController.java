@@ -178,6 +178,7 @@ public class ArchivedController implements Initializable, AbstractController {
             FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
             List<TreeElement> missions = new ArrayList<>();
 
+            // getMissions FetchType is LAZY so it's necessary another access to DB when called
             Task<Set<Mission>> getMissionsTask = new Task<Set<Mission>>() {
                 @Override
                 public Set<Mission> call() throws Exception {

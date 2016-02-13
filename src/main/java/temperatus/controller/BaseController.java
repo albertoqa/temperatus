@@ -2,6 +2,7 @@ package temperatus.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -11,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
+import org.controlsfx.control.Notifications;
 import org.springframework.stereotype.Controller;
+import temperatus.listener.DeviceDetectorListener;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -19,6 +22,7 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.EventObject;
 import java.util.ResourceBundle;
 
 /**
@@ -30,7 +34,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 17/1/16.
  */
 @Controller
-public class BaseController implements Initializable, AbstractController {
+public class BaseController implements Initializable, AbstractController, DeviceDetectorListener {
 
     @FXML private StackPane vistaHolder;
     @FXML private Label clock;
@@ -43,6 +47,8 @@ public class BaseController implements Initializable, AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
+
+        Constants.deviceDetectorSource.addEventListener(this);
 
         addMenuElements();
         menu.getSelectionModel().select(0);
@@ -105,6 +111,7 @@ public class BaseController implements Initializable, AbstractController {
 
     /**
      * Change the selected element in the menu
+     *
      * @param element
      */
     public void selectMenuElement(String element) {
@@ -158,5 +165,14 @@ public class BaseController implements Initializable, AbstractController {
     @Override
     public void translate() {
         logger.debug("Nothing to translate");
+    }
+
+    @Override
+    public void deviceDetected(EventObject event) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                Notifications.create().title("New iButton detected").text("Serial: ").show();
+            }
+        });
     }
 }

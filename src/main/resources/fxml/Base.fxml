@@ -6,16 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.BaseController">
-   <center>
-      <StackPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin></StackPane>
-   </center>
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #63c6ff;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #63c6ff;" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="menu" onMouseClicked="#menuActions" prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+            <ListView fx:id="menu" onMouseClicked="#menuActions" prefHeight="200.0" prefWidth="254.0" stylesheets="@../styles/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
             <StackPane prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="clock" prefHeight="20.0" prefWidth="120.0" text="12:21:12" textFill="WHITE">
@@ -31,4 +25,7 @@
          </children>
       </AnchorPane>
    </left>
+   <center>
+      <StackPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

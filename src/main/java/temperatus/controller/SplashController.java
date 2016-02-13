@@ -82,7 +82,6 @@ public class SplashController implements Initializable, AbstractController {
     private void showHome() {
         Stage currentStage = (Stage) rights.getScene().getWindow();
         currentStage.close();
-
         stage.show();
     }
 
