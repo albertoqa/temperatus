@@ -5,127 +5,68 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.log4j.Logger;
+import temperatus.controller.FirstStartController;
+import temperatus.listener.DeviceDetectorTask;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
 
 /**
+ * TEMPERATUS
+ * <p>
  * Created by alberto on 17/1/16.
  */
 public class Main extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    static Logger logger = Logger.getLogger(Main.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders
 
+        boolean isFirstTime = Constants.prefs.getBoolean(Constants.FIRST_TIME, true);
+        logger.info("Is this the first time?: " + isFirstTime);
+
+        // Start a wizard asking for default prefs to the user
+        if (isFirstTime) {
+            Constants.prefs.putBoolean(Constants.FIRST_TIME, false);
+
+            FirstStartController firstStartController = new FirstStartController();
+            firstStartController.startWizard();
+        }
+
+        // TODO uncomment
+        //startDeviceListener();  // search for new connected devices
+
+        // load the Splash screen
         SpringFxmlLoader loader = new SpringFxmlLoader();
         Pane pane = loader.load(getClass().getResource(Constants.SPLASH));
 
         Scene scene = new Scene(pane);
+        primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
 
-        //Search for connected devices and show a popup if detected
-        /*new Thread() {
-            // runnable for that thread
-            public void run() {
-                while (true) {
-                    try {
-                        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
-                            DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
-                            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
-                                String port_name = (String) port_name_enum.nextElement();
-                                try {
-                                    adapter.selectPort(port_name);
-                                    if (adapter.adapterDetected()) {
-                                        adapter.beginExclusive(true);
-                                        adapter.setSearchAllDevices();
-                                        adapter.targetAllFamilies();
-                                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
-                                            OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-                                            System.out.println(
-                                                    adapter.getAdapterName() + "/" + port_name + "\t"
-                                                            + ibutton.getName() + "\t"
-                                                            + ibutton.getAddressAsString() + "\t"
-                                                            + ibutton.getDescription().substring(0, 25) + "...");
-                                        }
-                                        adapter.endExclusive();
-                                    }
-                                    adapter.freePort();
-                                } catch (Exception e) {
-                                }
-                                ;
-                            }
-                            System.out.println();
-                        }
-                        System.out.println();
+    /**
+     * Create a infinite task that search for all connected devices
+     * If a new device is detected a notification is sent and all
+     * classes which implement the DeviceDetectorListener are notified of
+     * the event.
+     * <p>
+     * The task runs in a different thread and will stop when the program finish
+     */
+    private void startDeviceListener() {
+        logger.info("Starting device detector task");
 
-                        // imitating work
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }.start();*/
+        DeviceDetectorTask task = new DeviceDetectorTask();
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
-        // enumerate through each of the adapter classes
-        /*for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
+    }
 
-            // get the next adapter DSPortAdapter
-            DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
-
-            // get the port names we can use and try to open, test and close each
-            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
-
-                // get the next packet
-                String port_name = (String) port_name_enum.nextElement();
-                try {
-                    // select the port
-                    adapter.selectPort(port_name);
-
-                    // verify there is an adaptered detected
-                    if (adapter.adapterDetected()) {
-                        // added 8/29/2001 by SH
-                        adapter.beginExclusive(true);
-
-                        // clear any previous search restrictions
-                        adapter.setSearchAllDevices();
-                        adapter.targetAllFamilies();
-
-                        // enumerate through all the iButtons found
-                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
-
-                            // get the next ibutton
-                            OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-
-                            System.out.println(
-                                    adapter.getAdapterName() + "/" + port_name + "\t"
-                                            + ibutton.getName() + "\t"
-                                            + ibutton.getAddressAsString() + "\t"
-                                            + ibutton.getDescription().substring(0, 25) + "...");
-                        }
-
-                        // added 8/29/2001 by SH
-                        adapter.endExclusive();
-                    }
-
-                    // free this port
-                    adapter.freePort();
-                } catch (Exception e) {
-                }
-                ;
-            }
-
-            System.out.println();
-        }
-
-        System.out.println();*/
-
-
+    public static void main(String[] args) {
+        launch(args);
     }
 
 }
