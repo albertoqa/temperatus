@@ -13,6 +13,7 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.IbuttonService;
 import temperatus.model.service.PositionService;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +47,7 @@ public class NewIButtonController extends AbstractCreationController implements 
         ibutton.setAlias(alias.getText());
 
         ibuttonService.save(ibutton);
+        VistaNavigator.getController().reload(ibutton);
     }
 
     @Override

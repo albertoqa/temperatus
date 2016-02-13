@@ -15,8 +15,11 @@ import org.apache.log4j.Logger;
 import org.controlsfx.control.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import temperatus.controller.button.ConnectedDevicesController;
+import temperatus.listener.DaemonThreadFactory;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
+import temperatus.listener.DeviceDetectorTask;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
@@ -27,6 +30,9 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is the base controller of the application.
@@ -53,7 +59,12 @@ public class BaseController implements Initializable, AbstractController, Device
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
 
+        ConnectedDevicesController connectedDevicesController = VistaNavigator.preloadController(Constants.CONNECTED);
+
+        //startDeviceListener();  // search for new connected devices
+
         Constants.deviceDetectorSource.addEventListener(this);
+        Constants.deviceDetectorSource.addEventListener(connectedDevicesController);
 
         addMenuElements();
         menu.getSelectionModel().select(0);
@@ -123,6 +134,8 @@ public class BaseController implements Initializable, AbstractController, Device
         menu.getSelectionModel().select(language.get(element));
     }
 
+
+
     /***********************************
      *       View Operations
      **********************************/
@@ -170,6 +183,30 @@ public class BaseController implements Initializable, AbstractController, Device
     @Override
     public void translate() {
         logger.debug("Nothing to translate");
+    }
+
+
+
+    /***********************************
+     *       Device Detection
+     **********************************/
+
+    /**
+     * Create a infinite task that search for all connected devices
+     * If a new device is detected a notification is sent and all
+     * classes which implement the DeviceDetectorListener are notified of
+     * the event.
+     * <p>
+     * The task runs in a different thread and will stop when the program finish
+     */
+    private void startDeviceListener() {
+        logger.info("Starting device detector task");
+
+        DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();
+        DeviceDetectorTask task = new DeviceDetectorTask();
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
+        executor.scheduleAtFixedRate(task, Constants.DELAY, Constants.PERIOD, TimeUnit.SECONDS);
     }
 
     @Override

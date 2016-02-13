@@ -40,15 +40,13 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     private TableColumn<Device, String> aliasColumn = new TableColumn<>("  Alias");
     private TableColumn<Device, String> positionColumn = new TableColumn<>("  Default Position");
 
-    private ObservableList<Device> devicesConnected;
+    private ObservableList<Device> devicesConnected = FXCollections.observableArrayList();
 
     @Autowired IbuttonService ibuttonService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Constants.deviceDetectorSource.addEventListener(this);
-
-        devicesConnected = FXCollections.observableArrayList();
+        VistaNavigator.setController(this);
 
         modelColumn.setCellValueFactory(cellData -> cellData.getValue().modelProperty());
         serialColumn.setCellValueFactory(cellData -> cellData.getValue().serialProperty());
@@ -57,6 +55,16 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(devicesConnected);
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
+
+        connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            loadInfo(newSelection);
+        });
+    }
+
+    private void loadInfo(Device device) {
+
+
+
     }
 
     private void search() {
@@ -92,6 +100,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         String alias = "";
 
         Device device = new Device();
+        device.setContainer(container);
         device.setModel(model);
         device.setSerial(serial);
 
@@ -135,5 +144,21 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                 removeDeviceFromTable(serial);
             }
         });
+    }
+
+    @Override
+    public void reload(Object object) {
+        if (object instanceof Ibutton) {
+            for (Device device : devicesConnected) {
+                if (device.getSerial().equals(((Ibutton) object).getSerial())) {
+                    device.setAlias(((Ibutton) object).getAlias());
+
+                    if (((Ibutton) object).getPosition() != null) {
+                        device.setDefaultPosition(((Ibutton) object).getPosition().getPlace());
+                    }
+                }
+            }
+
+        }
     }
 }

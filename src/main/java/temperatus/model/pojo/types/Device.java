@@ -1,5 +1,6 @@
 package temperatus.model.pojo.types;
 
+import com.dalsemi.onewire.container.OneWireContainer;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -11,6 +12,8 @@ public class Device {
     private SimpleStringProperty serial = new SimpleStringProperty();
     private SimpleStringProperty model = new SimpleStringProperty();
     private SimpleStringProperty alias = new SimpleStringProperty();
+
+    private OneWireContainer container;
 
     public String getDefaultPosition() {
         return defaultPosition.get();
@@ -58,5 +61,13 @@ public class Device {
 
     public void setAlias(String alias) {
         this.alias.set(alias);
+    }
+
+    public OneWireContainer getContainer() {
+        return container;
+    }
+
+    public void setContainer(OneWireContainer container) {
+        this.container = container;
     }
 }

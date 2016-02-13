@@ -7,14 +7,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import temperatus.controller.FirstStartController;
-import temperatus.listener.DaemonThreadFactory;
-import temperatus.listener.DeviceDetectorTask;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * TEMPERATUS
@@ -39,9 +33,6 @@ public class Main extends Application {
             firstStartController.startWizard();
         }
 
-        // TODO uncomment
-        //startDeviceListener();  // search for new connected devices
-
         // load the Splash screen
         SpringFxmlLoader loader = new SpringFxmlLoader();
         Pane pane = loader.load(getClass().getResource(Constants.SPLASH));
@@ -50,24 +41,6 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    /**
-     * Create a infinite task that search for all connected devices
-     * If a new device is detected a notification is sent and all
-     * classes which implement the DeviceDetectorListener are notified of
-     * the event.
-     * <p>
-     * The task runs in a different thread and will stop when the program finish
-     */
-    private void startDeviceListener() {
-        logger.info("Starting device detector task");
-
-        DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();
-        DeviceDetectorTask task = new DeviceDetectorTask();
-
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
-        executor.scheduleAtFixedRate(task, Constants.DELAY, Constants.PERIOD, TimeUnit.SECONDS);
     }
 
     public static void main(String[] args) {

@@ -59,6 +59,12 @@ public class VistaNavigator {
     ////////////////////////////////////////////////////////////////////////////
     /*  Vista Utils  */
 
+    public static <T> T preloadController(String url) {
+        SpringFxmlLoader springFxmlLoader = new SpringFxmlLoader();
+        springFxmlLoader.load(VistaNavigator.class.getResource(url));
+        return springFxmlLoader.getController();
+    }
+
     public static Scene createModalScene(Parent root) {
         Scene scene = new Scene(root);
         scene.setFill(null);

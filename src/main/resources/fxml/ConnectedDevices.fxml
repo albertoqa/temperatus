@@ -33,16 +33,6 @@
             <ProgressIndicator fx:id="searchingIndicator" layoutX="376.0" layoutY="184.0" progress="0.0" AnchorPane.leftAnchor="376.0" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="184.0" />
             <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="300.0">
               <tabs>
-                <Tab text="Untitled Tab 1">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="754.0" />
-                  </content>
-                </Tab>
-                <Tab text="Untitled Tab 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
               </tabs>
             </TabPane>
          </children>
