@@ -13,8 +13,12 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import org.controlsfx.control.Notifications;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
+import temperatus.model.pojo.Ibutton;
+import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -22,7 +26,6 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.EventObject;
 import java.util.ResourceBundle;
 
 /**
@@ -39,6 +42,8 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private StackPane vistaHolder;
     @FXML private Label clock;
     @FXML private ListView<String> menu;
+
+    @Autowired IbuttonService ibuttonService;
 
     private final static String clockPattern = "HH:mm:ss";
 
@@ -168,16 +173,33 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
     @Override
-    public void arrival(EventObject event) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Notifications.create().title("New iButton detected").text("Serial: ").show();
-            }
-        });
+    public void arrival(DeviceDetector event) {
+        logger.info("Listening event... device detected");
+
+        boolean isNewButton = false;
+        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
+
+        if (ibutton == null) {
+            isNewButton = true;
+
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
+                }
+            });
+        }
+
+        if (!isNewButton) {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    Notifications.create().title("iButton detected").text("Serial: " + ibutton.getSerial()).show();
+                }
+            });
+        }
     }
 
     @Override
-    public void departure(EventObject event) {
+    public void departure(DeviceDetector event) {
 
     }
 }

@@ -1,5 +1,7 @@
 package temperatus.listener;
 
+import com.dalsemi.onewire.container.OneWireContainer;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,16 +21,20 @@ public class DeviceDetectorSource {
         listeners.remove(listener);
     }
 
-    public synchronized void arrivalEvent() {
+    public synchronized void arrivalEvent(OneWireContainer container) {
         DeviceDetector event = new DeviceDetector(this);
+        event.setContainer(container);
+        event.setSerial(container.getAddressAsString());
+
         Iterator i = listeners.iterator();
         while (i.hasNext()) {
             ((DeviceDetectorListener) i.next()).arrival(event);
         }
     }
 
-    public synchronized void departureEvent() {
+    public synchronized void departureEvent(String serial) {
         DeviceDetector event = new DeviceDetector(this);
+        event.setSerial(serial);
         Iterator i = listeners.iterator();
         while (i.hasNext()) {
             ((DeviceDetectorListener) i.next()).departure(event);

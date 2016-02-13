@@ -36,7 +36,7 @@ public class DeviceDetectorTask implements Runnable {
                         for (String serial : serialsDetected) {
                             if (!adapter.isPresent(serial)) {
                                 serialsDetected.remove(serial);
-                                Constants.deviceDetectorSource.departureEvent();
+                                Constants.deviceDetectorSource.departureEvent(serial);
                             }
                         }
 
@@ -49,7 +49,7 @@ public class DeviceDetectorTask implements Runnable {
 
                             if (!serialsDetected.contains(serial)) {
                                 serialsDetected.add(serial);
-                                Constants.deviceDetectorSource.arrivalEvent();
+                                Constants.deviceDetectorSource.arrivalEvent(ibutton);
                             }
 
                         }

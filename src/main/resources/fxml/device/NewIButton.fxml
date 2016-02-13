@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<TitledPane fx:id="titledPane" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="New iButton" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="temperatus.controller.creation.NewIButtonController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="serialLabel" layoutX="68.0" layoutY="73.0" text="Serial" />
+            <Label fx:id="modelLabel" layoutX="64.0" layoutY="117.0" text="Model" />
+            <Label fx:id="aliasLabel" layoutX="68.0" layoutY="164.0" text="Alias" />
+            <Label fx:id="defaultPosLabel" layoutX="34.0" layoutY="219.0" text="Default Position" />
+            <Label fx:id="serial" layoutX="245.0" layoutY="73.0" text="Label" />
+            <Label fx:id="model" layoutX="245.0" layoutY="117.0" text="Label" />
+            <TextField fx:id="alias" layoutX="179.0" layoutY="159.0" />
+            <ComboBox fx:id="position" layoutX="187.0" layoutY="214.0" prefWidth="150.0" />
+            <Button fx:id="save" layoutX="395.0" onAction="#save" layoutY="300.0" mnemonicParsing="false" text="Save" />
+            <Button fx:id="cancel" layoutX="468.0" onAction="#cancel" layoutY="300.0" mnemonicParsing="false" text="Cancel" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>
