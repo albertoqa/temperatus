@@ -19,13 +19,19 @@ public class DeviceDetectorSource {
         listeners.remove(listener);
     }
 
-    // call this method whenever you want to notify
-    //the event listeners of the particular event
-    public synchronized void fireEvent() {
+    public synchronized void arrivalEvent() {
         DeviceDetector event = new DeviceDetector(this);
         Iterator i = listeners.iterator();
         while (i.hasNext()) {
-            ((DeviceDetectorListener) i.next()).deviceDetected(event);
+            ((DeviceDetectorListener) i.next()).arrival(event);
+        }
+    }
+
+    public synchronized void departureEvent() {
+        DeviceDetector event = new DeviceDetector(this);
+        Iterator i = listeners.iterator();
+        while (i.hasNext()) {
+            ((DeviceDetectorListener) i.next()).departure(event);
         }
     }
 }

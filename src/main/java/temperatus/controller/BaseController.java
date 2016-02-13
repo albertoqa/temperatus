@@ -168,11 +168,16 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
     @Override
-    public void deviceDetected(EventObject event) {
+    public void arrival(EventObject event) {
         Platform.runLater(new Runnable() {
             public void run() {
                 Notifications.create().title("New iButton detected").text("Serial: ").show();
             }
         });
+    }
+
+    @Override
+    public void departure(EventObject event) {
+
     }
 }

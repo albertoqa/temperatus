@@ -7,9 +7,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import temperatus.controller.FirstStartController;
+import temperatus.listener.DaemonThreadFactory;
 import temperatus.listener.DeviceDetectorTask;
 import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TEMPERATUS
@@ -58,11 +63,11 @@ public class Main extends Application {
     private void startDeviceListener() {
         logger.info("Starting device detector task");
 
+        DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();
         DeviceDetectorTask task = new DeviceDetectorTask();
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
 
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
+        executor.scheduleAtFixedRate(task, Constants.DELAY, Constants.PERIOD, TimeUnit.SECONDS);
     }
 
     public static void main(String[] args) {
