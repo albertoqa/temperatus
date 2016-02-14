@@ -1,5 +1,8 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -132,6 +135,65 @@ public class Subject implements java.io.Serializable {
         return "Subject{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Transient
+    public SimpleStringProperty getType() {
+        if(this.isIsPerson()) {
+            return new SimpleStringProperty("Person");
+        } else {
+            return new SimpleStringProperty("Object");
+        }
+    }
+
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return new SimpleStringProperty(getName());
+    }
+
+    @Transient
+    public SimpleIntegerProperty getAgeProperty() {
+        if(getAge() != null) {
+            return new SimpleIntegerProperty(getAge());
+        } else {
+            return new SimpleIntegerProperty(0);
+        }
+    }
+
+    @Transient
+    public SimpleStringProperty getSexProperty() {
+        if(getSex() != null) {
+            if(getSex()) {
+                return new SimpleStringProperty("Male");
+            } else {
+                return new SimpleStringProperty("Female");
+            }
+        } else {
+            return new SimpleStringProperty();
+        }
+    }
+
+    @Transient
+    public SimpleStringProperty getHeightProperty() {
+        if(getHeight() != null) {
+            return new SimpleStringProperty(getHeight().toString());
+        } else {
+            return new SimpleStringProperty();
+        }
+    }
+
+    @Transient
+    public SimpleStringProperty getWeightProperty() {
+        if(getWeight() != null) {
+            return new SimpleStringProperty(getWeight().toString());
+        } else {
+            return new SimpleStringProperty();
+        }
+    }
+
+    @Transient
+    public SimpleIntegerProperty getNumberOfMissionsProperty() {
+        return new SimpleIntegerProperty(getMissions().size());
     }
 
 }

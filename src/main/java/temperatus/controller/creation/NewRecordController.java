@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.importer.IbuttonDataImporter;
+import temperatus.listener.DeviceDetector;
+import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.service.*;
@@ -31,7 +33,7 @@ import java.util.stream.Collectors;
  * Created by alberto on 31/1/16.
  */
 @Controller
-public class NewRecordController extends AbstractCreationController implements Initializable {
+public class NewRecordController extends AbstractCreationController implements Initializable, DeviceDetectorListener {
 
     @FXML private Label titleLabel;
     @FXML private Label indexLabel;
@@ -257,42 +259,6 @@ public class NewRecordController extends AbstractCreationController implements I
         //recordConfigController.setMissionId(mission.getId());
 
 
-        // Primero, comprobar si se ha seleccionado todo lo necesario.
-
-        // Si hay alguna fila completa sin seleccionar mostrar un aviso y seguir
-
-        // Si en alguna fila hay una posicion seleccionada pero no un source mostrar aviso y seguir
-
-        // Si en alguna fila hay un source seleccionado pero no una posición ERROR y stop
-
-
-
-        // Si hay algún botón que no tenga posición por defecto, preguntar si se quiere asignar la actual
-
-
-        // Si hay algún botón que haya cambiado de posición por defecto, preguntar si se quiere asignar la actual
-
-
-
-
-        // Validar los datos de todos los botones -> comprobar que no haya ningún valor raro
-        // Si hay algún valor raro, avisar al usuario y permitirle continuar o descartar ese valor
-        // No mostrar valor por valor, mostrar una lista que se pueda seleccionar varios
-
-
-        // Seleccionar el tiempo que quiere usarse para el experimento
-
-
-        // Guardar todos los datos
-
-
-
-        // Mostrar información de la misión
-
-
-
-
-
     }
 
     private void addNewRow(int index, ChoiceBox<Position> posBox, ChoiceBox<SourceChoice> srcBox) {
@@ -380,4 +346,13 @@ public class NewRecordController extends AbstractCreationController implements I
 
     }
 
+    @Override
+    public void arrival(DeviceDetector event) {
+
+    }
+
+    @Override
+    public void departure(DeviceDetector event) {
+
+    }
 }
