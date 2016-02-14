@@ -52,8 +52,13 @@ public class Constants {
 
     public static final String FIRST_TIME = "isFirstTime";
 
+    public static final String UNIT = "unit";
+    public static final String UNIT_C = "C";
+    public static final String UNIT_F = "F";
+
     public static final String LANGUAGE = "language";
-    public static final String DEFAULT_LANGUAGE = "en_US";
+    public static final String LANGUAGE_EN = "en_US";
+    public static final String LANGUAGE_SP = "es_ES";
     public static final String PREFRANGE = "prefRange";
     public static final String DEFAULT_RANGE = "7";
 
@@ -62,6 +67,9 @@ public class Constants {
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+    public static final String LANG_EN = "English";
+    public static final String LANG_SP = "Spanish";
 
     //#########################################################################//
     // * Constants for language names

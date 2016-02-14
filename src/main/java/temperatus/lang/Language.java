@@ -23,7 +23,7 @@ public class Language {
 
     public final void loadLanguage() {
         try {
-            String[] language = Constants.prefs.get(Constants.LANGUAGE, Constants.DEFAULT_LANGUAGE).split("_");
+            String[] language = Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN).split("_");
             locale = new Locale(language[0], language[1]);
         } catch (Exception ex) {
             //Janela.showException(ex);
@@ -55,7 +55,7 @@ public class Language {
     }
 
     public String getLanguage() {
-        String language = Constants.prefs.get(Constants.LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        String language = Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN);
         return localeToLanguage(language);
     }
 
