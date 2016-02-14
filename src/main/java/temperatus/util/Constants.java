@@ -46,6 +46,9 @@ public class Constants {
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 
+    public static final String MANAGE = "/fxml/Manage.fxml";
+    public static final String MANAGE_SUBJECT = "/fxml/manage/ManageSubject.fxml";
+
     //#########################################################################//
 
     public static Preferences prefs = Preferences.userRoot().node("temperatus");
@@ -79,6 +82,7 @@ public class Constants {
     public static final String LHOME = "home";
     public static final String ARCHIVE = "archive";
     public static final String DEVICES = "devices";
+    public static final String LMANAGE = "manage";
     public static final String CONFIGURATION = "configuration";
 
     // New project

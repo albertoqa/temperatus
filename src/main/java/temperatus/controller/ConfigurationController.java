@@ -1,11 +1,10 @@
-package temperatus.controller.configuration;
+package temperatus.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import temperatus.controller.AbstractController;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 

@@ -79,6 +79,7 @@ public class BaseController implements Initializable, AbstractController, Device
         menu.getItems().add(language.get(Constants.LHOME));
         menu.getItems().add(language.get(Constants.ARCHIVE));
         menu.getItems().add(language.get(Constants.DEVICES));
+        menu.getItems().add(language.get(Constants.LMANAGE));
         menu.getItems().add(language.get(Constants.CONFIGURATION));
     }
 
@@ -117,6 +118,10 @@ public class BaseController implements Initializable, AbstractController, Device
             }
             break;
             case 3: {
+                VistaNavigator.loadVista(Constants.MANAGE);
+            }
+            break;
+            case 4: {
                 VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION));
             }
             break;
