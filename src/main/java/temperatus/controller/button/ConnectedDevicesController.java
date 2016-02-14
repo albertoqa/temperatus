@@ -30,8 +30,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @FXML private Button newMissionButton;
     @FXML private Button configureButton;
 
-    @FXML private ProgressIndicator searchingIndicator;
-
     @FXML private TabPane infoTabPane;
     @FXML private TableView<Device> connectedDevicesTable;
 
@@ -55,6 +53,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(devicesConnected);
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
+        connectedDevicesTable.setPlaceholder(new Label("No iButtons Connected"));
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             loadInfo(newSelection);

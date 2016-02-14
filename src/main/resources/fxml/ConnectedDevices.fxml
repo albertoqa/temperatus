@@ -30,7 +30,6 @@
                   <Font name="Avenir Light" size="35.0" />
                </font>
             </Label>
-            <ProgressIndicator fx:id="searchingIndicator" layoutX="376.0" layoutY="184.0" progress="0.0" AnchorPane.leftAnchor="376.0" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="184.0" />
             <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="300.0">
               <tabs>
               </tabs>

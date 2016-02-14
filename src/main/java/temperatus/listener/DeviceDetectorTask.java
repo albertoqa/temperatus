@@ -1,6 +1,7 @@
 package temperatus.listener;
 
 import com.dalsemi.onewire.OneWireAccessProvider;
+import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.adapter.DSPortAdapter;
 import com.dalsemi.onewire.container.OneWireContainer;
 import org.apache.log4j.Logger;
@@ -26,6 +27,7 @@ public class DeviceDetectorTask implements Runnable {
 
         for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
             DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
+
             for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
                 String port_name = (String) port_name_enum.nextElement();
 
@@ -33,32 +35,48 @@ public class DeviceDetectorTask implements Runnable {
                     adapter.selectPort(port_name);
                     if (adapter.adapterDetected()) {
 
+                        boolean isInTheList = false;
+
                         for (String serial : serialsDetected) {
                             if (!adapter.isPresent(serial)) {
                                 serialsDetected.remove(serial);
                                 Constants.deviceDetectorSource.departureEvent(serial);
+                            } else {
+                                isInTheList = true;
                             }
                         }
 
-                        adapter.beginExclusive(true);
-                        adapter.setSearchAllDevices();
-                        adapter.targetAllFamilies();
-                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
-                            OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-                            String serial = ibutton.getAddressAsString();
+                        // To prevent two processes trying to get access to an iButton at the same time
+                        // i have to check if it has been already detected and is still connected.
 
-                            if (!serialsDetected.contains(serial)) {
-                                serialsDetected.add(serial);
-                                Constants.deviceDetectorSource.arrivalEvent(ibutton);
+                        if (!isInTheList) {
+                            adapter.beginExclusive(true);
+                            adapter.setSearchAllDevices();
+                            adapter.targetAllFamilies();
+                            for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
+                                OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
+                                String serial = ibutton.getAddressAsString();
+
+                                if (!serialsDetected.contains(serial)) {
+                                    serialsDetected.add(serial);
+                                    Constants.deviceDetectorSource.arrivalEvent(ibutton);
+                                }
+
                             }
-
+                            adapter.endExclusive();
                         }
-                        adapter.endExclusive();
                     }
                     adapter.freePort();
 
                 } catch (Exception e) {
                     // only prevent exception, not manage it at all... ¿NetAdapter?
+                } finally {
+                    try {
+                        adapter.endExclusive();
+                        adapter.freePort();
+                    } catch (OneWireException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

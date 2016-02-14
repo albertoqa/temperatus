@@ -2,21 +2,20 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="542.0" prefWidth="687.0" text="New Game"
-            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="temperatus.controller.creation.NewGameController">
+<?import javafx.scene.layout.StackPane?>
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="687.0" stylesheets="@../../styles/Metro-UI.css" text="New Game" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewGameController">
     <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="603.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="692.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <Label fx:id="nameLabel" layoutX="54.0" layoutY="46.0" text="Game name:"/>
-                <Label fx:id="numButtonsLabel" layoutX="53.0" layoutY="92.0" text="Num Buttons"/>
-                <Label fx:id="observationsLabel" layoutX="53.0" layoutY="135.0" text="Observations:"/>
-                <TextField fx:id="nameInput" layoutX="180.0" layoutY="41.0" prefHeight="27.0" prefWidth="193.0"/>
-                <TextArea fx:id="observationsInput" layoutX="180.0" layoutY="136.0" prefHeight="172.0" prefWidth="349.0"/>
-                <Button fx:id="saveButton" layoutX="414.0" layoutY="451.0" mnemonicParsing="false" onAction="#save" text="Save"/>
-                <Button fx:id="cancelButton" layoutX="484.0" layoutY="451.0" mnemonicParsing="false" onAction="#cancel" text="Cancel"/>
-                <TextField fx:id="numButtonsInput" layoutX="180.0" layoutY="87.0" prefHeight="27.0" prefWidth="195.0"/>
+                <Label fx:id="nameLabel" layoutX="55.0" layoutY="33.0" text="Game name:" />
+                <Label fx:id="numButtonsLabel" layoutX="54.0" layoutY="70.0" text="Num Buttons" />
+                <Label fx:id="observationsLabel" layoutX="51.0" layoutY="106.0" text="Observations:" />
+                <TextField fx:id="nameInput" layoutX="181.0" layoutY="28.0" prefHeight="27.0" prefWidth="193.0" />
+                <TextArea fx:id="observationsInput" layoutX="180.0" layoutY="106.0" prefHeight="103.0" prefWidth="446.0" />
+                <Button fx:id="saveButton" layoutX="483.0" layoutY="542.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Save" />
+                <Button fx:id="cancelButton" layoutX="570.0" layoutY="542.0" mnemonicParsing="false" onAction="#cancel" styleClass="btn" text="Cancel" />
+                <TextField fx:id="numButtonsInput" layoutX="180.0" layoutY="65.0" prefHeight="27.0" prefWidth="195.0" />
+            <StackPane fx:id="listPane" layoutX="63.4" layoutY="237.0" prefHeight="267.0" prefWidth="582.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="50.0" />
             </children>
         </AnchorPane>
     </content>

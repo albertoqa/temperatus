@@ -6,18 +6,23 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
+import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Game;
+import temperatus.model.pojo.Position;
 import temperatus.model.service.GameService;
+import temperatus.model.service.PositionService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -28,7 +33,6 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     // TODO add default positions to the Game
 
-
     @FXML Label nameLabel;
     @FXML Label observationsLabel;
     @FXML Label numButtonsLabel;
@@ -37,12 +41,23 @@ public class NewGameController extends AbstractCreationController implements Ini
     @FXML TextArea observationsInput;
     @FXML TextField numButtonsInput;
 
+    @FXML StackPane listPane;
+
+    private ListSelectionView<Position> positionsSelector;
+
     @Autowired GameService gameService;
+    @Autowired PositionService positionService;
 
     static Logger logger = Logger.getLogger(NewGameController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        positionsSelector = new ListSelectionView<>();
+        positionsSelector.getSourceItems().addAll(positionService.getAll());
+
+        listPane.getChildren().addAll(positionsSelector);
+
         translate();
     }
 
@@ -62,6 +77,13 @@ public class NewGameController extends AbstractCreationController implements Ini
             numButtons = Integer.parseInt(numButtonsInput.getText());
 
             Game game = new Game(name, numButtons, observations);
+
+            List<Position> positions = positionsSelector.getTargetItems();
+
+            for(Position position: positions) {
+                game.getPositions().add(position);
+            }
+
             gameService.save(game);
 
             Animation.fadeInOutClose(titledPane);

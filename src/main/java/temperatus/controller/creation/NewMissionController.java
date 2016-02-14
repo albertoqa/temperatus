@@ -65,7 +65,7 @@ public class NewMissionController extends AbstractCreationController implements 
     @Autowired SubjectService subjectService;
     @Autowired AuthorService authorService;
 
-    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+    static Logger logger = Logger.getLogger(NewMissionController.class.getName());
 
     private final int invalidSelectionId = -1;
 
