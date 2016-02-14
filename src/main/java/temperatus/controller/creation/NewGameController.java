@@ -8,13 +8,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
+import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Position;
+import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
 import temperatus.util.Animation;
@@ -41,12 +44,15 @@ public class NewGameController extends AbstractCreationController implements Ini
     @FXML TextArea observationsInput;
     @FXML TextField numButtonsInput;
 
-    @FXML StackPane listPane;
+    @FXML StackPane positionsListPane;
+    @FXML StackPane formulasListPane;
 
     private ListSelectionView<Position> positionsSelector;
+    private CheckListView<Formula> formulasSelector;
 
     @Autowired GameService gameService;
     @Autowired PositionService positionService;
+    @Autowired FormulaService formulaService;
 
     static Logger logger = Logger.getLogger(NewGameController.class.getName());
 
@@ -55,8 +61,11 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         positionsSelector = new ListSelectionView<>();
         positionsSelector.getSourceItems().addAll(positionService.getAll());
+        positionsListPane.getChildren().setAll(positionsSelector);
 
-        listPane.getChildren().addAll(positionsSelector);
+        formulasSelector = new CheckListView<>();
+        formulasSelector.getItems().addAll(formulaService.getAll());
+        formulasListPane.getChildren().setAll(formulasSelector);
 
         translate();
     }
@@ -78,11 +87,11 @@ public class NewGameController extends AbstractCreationController implements Ini
 
             Game game = new Game(name, numButtons, observations);
 
-            List<Position> positions = positionsSelector.getTargetItems();
+            List<Position> defaultPositions = positionsSelector.getTargetItems();
+            game.getPositions().addAll(defaultPositions);
 
-            for(Position position: positions) {
-                game.getPositions().add(position);
-            }
+            List<Formula> defaultFormulas = formulasSelector.getCheckModel().getCheckedItems();
+            game.getFormulas().addAll(defaultFormulas);
 
             gameService.save(game);
 

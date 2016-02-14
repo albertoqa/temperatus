@@ -17,9 +17,6 @@ public class Formula implements java.io.Serializable {
     private String reference;
     private String operation;
 
-    @Transient
-    private boolean selected = false;    // for checkboxes - no db
-
     public Formula() {
     }
 
@@ -81,14 +78,6 @@ public class Formula implements java.io.Serializable {
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 
     @Override
