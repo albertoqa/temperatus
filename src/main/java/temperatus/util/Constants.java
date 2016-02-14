@@ -22,6 +22,7 @@ public class Constants {
 
     public static final String BASE = "/fxml/Base.fxml";
     public static final String HOME = "/fxml/Home.fxml";
+    public static final String ABOUT = "/fxml/About.fxml";
 
     public static final String CONFIG = "/fxml/Configuration.fxml";
     public static final String SUBJECT_CONFIG = "/fxml/Configuration.fxml";
@@ -83,6 +84,7 @@ public class Constants {
     public static final String DEVICES = "devices";
     public static final String LMANAGE = "manage";
     public static final String CONFIGURATION = "configuration";
+    public static final String LABOUT = "about";
 
     // New project
     public static final String NEWPROJECT = "newProject";

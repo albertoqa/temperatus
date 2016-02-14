@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<StackPane id="About" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="266.0" fitWidth="599.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+               <image>
+                  <Image url="@../images/temperatus.jpg" />
+               </image>
+            </ImageView>
+            <Separator layoutX="200.0" layoutY="199.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <TextArea editable="false" layoutX="50.0" layoutY="223.0" prefHeight="283.0" prefWidth="571.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis hendrerit erat sed ultricies. Ut pretium euismod lacus eget volutpat. Nunc vestibulum orci et nibh pulvinar euismod. Nulla viverra condimentum efficitur. Maecenas dignissim augue vel lacinia volutpat. &#10;&#10;Nam luctus congue elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet a odio ac sagittis. Sed at urna non diam euismod elementum vitae at tellus. Nunc at suscipit magna, sit amet placerat velit. Duis nec metus nunc. &#10;&#10;Praesent at augue accumsan, volutpat diam quis, ornare nisi. Cras et magna at lacus congue finibus. Morbi ac vulputate mauris.&#10;" wrapText="true" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+               <font>
+                  <Font name="Avenir Light" size="14.0" />
+               </font>
+            </TextArea>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
