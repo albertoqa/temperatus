@@ -26,7 +26,6 @@ public class Constants {
     public static final String CONFIG = "/fxml/Configuration.fxml";
     public static final String SUBJECT_CONFIG = "/fxml/Configuration.fxml";
 
-
     public static final String CONFIG_GENERAL = "/fxml/configuration/General.fxml";
     public static final String CONFIG_IMPORTEXPORT = "/fxml/configuration/ImportExport.fxml";
     public static final String CONFIG_DEFAULTS = "/fxml/configuration/Defaults.fxml";
@@ -34,15 +33,15 @@ public class Constants {
     public static final String ARCHIVED = "/fxml/Archived.fxml";
     public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
 
-    public static final String NEW_PROJECT = "/fxml/NewProject.fxml";
-    public static final String NEW_MISSION = "/fxml/mission/NewMission.fxml";
-    public static final String NEW_GAME = "/fxml/mission/NewGame.fxml";
-    public static final String NEW_SUBJECT = "/fxml/NewSubject.fxml";
-    public static final String NEW_RECORD = "/fxml/mission/NewRecord.fxml";
-    public static final String NEW_POSITION = "/fxml/NewPosition.fxml";
+    public static final String NEW_PROJECT = "/fxml/creation/NewProject.fxml";
+    public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";
+    public static final String NEW_GAME = "/fxml/creation/NewGame.fxml";
+    public static final String NEW_SUBJECT = "/fxml/creation/NewSubject.fxml";
+    public static final String NEW_RECORD = "/fxml/creation/NewRecord.fxml";
+    public static final String NEW_POSITION = "/fxml/creation/NewPosition.fxml";
     public static final String NEW_IBUTTON = "/fxml/device/NewIButton.fxml";
-    public static final String RECORD_CONFIG = "/fxml/RecordConfig.fxml";
-    public static final String RECORD_INFO = "/fxml/RecordInfo.fxml";
+    public static final String RECORD_CONFIG = "/fxml/creation/RecordConfig.fxml";
+    public static final String RECORD_INFO = "/fxml/creation/RecordInfo.fxml";
 
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
 

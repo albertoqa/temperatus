@@ -3,6 +3,7 @@ package temperatus.util;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -99,6 +100,14 @@ public class VistaNavigator {
             Animation.fadeOutIn(stackPane.getChildren().get(0), node);
         }
         stackPane.getChildren().setAll(node);
+        return loader.getController();
+    }
+
+    public static <T> T loadViewInTab(Tab tab, String fxml) {
+        SpringFxmlLoader loader = new SpringFxmlLoader();
+        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
+
+        tab.setContent(node);
         return loader.getController();
     }
 
