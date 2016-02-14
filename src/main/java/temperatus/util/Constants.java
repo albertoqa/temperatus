@@ -24,6 +24,9 @@ public class Constants {
     public static final String HOME = "/fxml/Home.fxml";
 
     public static final String CONFIG = "/fxml/Configuration.fxml";
+    public static final String SUBJECT_CONFIG = "/fxml/Configuration.fxml";
+
+
     public static final String CONFIG_GENERAL = "/fxml/configuration/General.fxml";
     public static final String CONFIG_IMPORTEXPORT = "/fxml/configuration/ImportExport.fxml";
     public static final String CONFIG_DEFAULTS = "/fxml/configuration/Defaults.fxml";

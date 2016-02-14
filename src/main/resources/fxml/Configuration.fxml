@@ -1,63 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="782.0" stylesheets="@../styles/Metro-UI.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.configuration.ConfigurationController">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="521.0" prefWidth="776.0" style="-fx-background-color: #FFFFFF;">
-         <children>
-            <SplitPane dividerPositions="0.22054939249867933" prefHeight="338.0" prefWidth="484.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <items>
-                <AnchorPane maxWidth="240.0" minHeight="0.0" minWidth="-Infinity" prefHeight="506.0" prefWidth="180.0" style="-fx-background-color: #FFFFFF;">
-                     <children>
-                        <Accordion fx:id="accordionMenu" layoutX="-32.0" layoutY="42.0" prefHeight="504.0" prefWidth="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <panes>
-                            <TitledPane fx:id="paneGeneral" animated="true" text="General">
-                                 <content>
-                                    <ListView fx:id="menuListGeneral" onMouseClicked="#generalMenuActions" prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/listView.css" />
-                                 </content>
-                            </TitledPane>
-                            <TitledPane fx:id="paneGraphics" animated="true" text="Graphics">
-                                 <content>
-                                    <ListView fx:id="menuListGraphics" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                            </TitledPane>
-                            <TitledPane fx:id="paneFormulas" animated="true" text="Formulas">
-                                 <content>
-                                    <ListView fx:id="menuListFormulas" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                            </TitledPane>
-                              <TitledPane fx:id="paneGames" animated="true" text="Games">
-                                 <content>
-                                    <ListView fx:id="menuListGames" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane fx:id="panePositions" animated="true" text="Positions">
-                                 <content>
-                                    <ListView fx:id="menuListPositions" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane fx:id="paneSubjects" animated="true" text="Subjects">
-                                 <content>
-                                    <ListView fx:id="menuListSubjects" prefHeight="359.0" prefWidth="178.0" />
-                                 </content>
-                              </TitledPane>
-                          </panes>
-                        </Accordion>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="563.0">
-                     <children>
-                        <StackPane fx:id="selectedView" layoutX="194.0" layoutY="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label fx:id="nothingSelectedLabel" text="Nothig selected" />
-                           </children></StackPane>
-                        <Button layoutX="470.0" layoutY="470.0" mnemonicParsing="false" onAction="#cancelAction" styleClass="btn" text="Cancel" />
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-         </children>
-    </AnchorPane>
-  </content>
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="727.0" stylesheets="@../styles/Metro-UI.css" text="untitled" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.configuration.ConfigurationController">
+   <content>
+      <BorderPane>
+         <bottom>
+            <AnchorPane fx:id="buttonsPane" prefWidth="689.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ToolBar fx:id="buttonsToolBar" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <items>
+                      <Button fx:id="helpButton" mnemonicParsing="false" styleClass="btn" text="Help" />
+                        <Pane prefHeight="0.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="btn" text="Cancel" />
+                        <Button fx:id="applyButton" mnemonicParsing="false" styleClass="btn" text="Apply" />
+                        <Button fx:id="okButton" mnemonicParsing="false" styleClass="btn" text="OK" />
+                    </items>
+                  </ToolBar>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="-10.0" left="-10.0" right="-10.0" />
+               </BorderPane.margin>
+            </AnchorPane>
+         </bottom>
+         <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TreeView fx:id="treeSelector" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+               <BorderPane.margin>
+                  <Insets left="-10.0" top="-10.0" />
+               </BorderPane.margin>
+            </AnchorPane>
+         </left>
+         <center>
+            <StackPane fx:id="selectedView">
+                <children>
+                    <Label fx:id="nothingSelectedLabel" text="Nothig selected" />
+                </children>
+               <BorderPane.margin>
+                  <Insets right="-10.0" top="-10.0" />
+               </BorderPane.margin></StackPane>
+         </center>
+      </BorderPane>
+   </content>
 </TitledPane>
