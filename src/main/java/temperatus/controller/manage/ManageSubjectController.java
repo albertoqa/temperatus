@@ -6,16 +6,20 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.controller.AbstractController;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,11 +29,12 @@ import java.util.ResourceBundle;
  */
 @Controller
 @Scope("prototype")
-public class ManageSubjectController implements Initializable {
+public class ManageSubjectController implements Initializable, AbstractController {
 
-    @FXML private TableView<Subject> subjectsTable;
+    @FXML private TableView<Subject> table;
     @FXML private TextField filterInput;
-    @FXML private AnchorPane subjectInfoPane;
+    @FXML private AnchorPane infoPane;
+    @FXML private Button newElementButton;
 
     private TableColumn<Subject, String> subjectType = new TableColumn<>();
     private TableColumn<Subject, String> name = new TableColumn<>();
@@ -37,16 +42,20 @@ public class ManageSubjectController implements Initializable {
     private TableColumn<Subject, Integer> age = new TableColumn<>();
     private TableColumn<Subject, String> weight = new TableColumn<>();
     private TableColumn<Subject, String> height = new TableColumn<>();
-    private TableColumn<Subject, Integer> numberOfMissions = new TableColumn<>();
 
     private ObservableList<Subject> subjects;
 
     @Autowired SubjectService subjectService;
 
+    static Logger logger = Logger.getLogger(ManageSubjectController.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        VistaNavigator.setController(this);
+        translate();
 
         subjects = FXCollections.observableArrayList();
+        addAllSubjects();
 
         subjectType.setText("Type");
         subjectType.setCellValueFactory(cellData -> cellData.getValue().getType());
@@ -60,8 +69,6 @@ public class ManageSubjectController implements Initializable {
         weight.setCellValueFactory(cellData -> cellData.getValue().getWeightProperty());
         height.setText("Height");
         height.setCellValueFactory(cellData -> cellData.getValue().getHeightProperty());
-        numberOfMissions.setText("Number of missions");
-        numberOfMissions.setCellValueFactory(cellData -> cellData.getValue().getNumberOfMissionsProperty().asObject());
 
         FilteredList<Subject> filteredData = new FilteredList<>(subjects, p -> true);
 
@@ -97,8 +104,8 @@ public class ManageSubjectController implements Initializable {
             });
         });
 
-        subjectsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            Animation.fadeInTransition(subjectInfoPane);
+        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Animation.fadeInTransition(infoPane);
 
             Subject subject = newValue;
             // TODO
@@ -106,13 +113,24 @@ public class ManageSubjectController implements Initializable {
         });
 
         SortedList<Subject> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(subjectsTable.comparatorProperty());
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
 
-        subjectsTable.getColumns().addAll(subjectType, name, sex, age, weight, height, numberOfMissions);
-        subjectsTable.setItems(sortedData);
+        table.getColumns().addAll(subjectType, name, sex, age, weight, height);
+        table.setItems(sortedData);
+    }
 
+    private void addAllSubjects() { //TODO
         subjects.addAll(subjectService.getAll());
     }
 
 
+    @Override
+    public void reload(Object object) {
+
+    }
+
+    @Override
+    public void translate() {
+
+    }
 }

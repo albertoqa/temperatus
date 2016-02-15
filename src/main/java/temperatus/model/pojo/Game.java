@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -113,6 +115,26 @@ public class Game implements java.io.Serializable {
                 ", title='" + title + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    @Transient
+    public SimpleStringProperty getTitleProperty() {
+        return new SimpleStringProperty(title);
+    }
+
+    @Transient
+    public SimpleStringProperty getNumberOfButtonsProperty() {
+        return new SimpleStringProperty(String.valueOf(numButtons));
+    }
+
+    @Transient
+    public SimpleStringProperty getNumberOfDefaultPositionsProperty() {
+        return new SimpleStringProperty(String.valueOf(positions.size()));
+    }
+
+    @Transient
+    public SimpleStringProperty getNumberOfDefaultFormulasProperty() {
+        return new SimpleStringProperty(String.valueOf(formulas.size()));
     }
 
 }

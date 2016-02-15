@@ -48,6 +48,11 @@ public class Constants {
 
     public static final String MANAGE = "/fxml/Manage.fxml";
     public static final String MANAGE_SUBJECT = "/fxml/manage/ManageSubject.fxml";
+    public static final String MANAGE_GAME = "/fxml/manage/ManageGame.fxml";
+    public static final String MANAGE_POSITION = "/fxml/manage/ManagePosition.fxml";
+    public static final String MANAGE_AUTHOR = "/fxml/manage/ManageAuthor.fxml";
+    public static final String MANAGE_FORMULA = "/fxml/manage/ManageFormula.fxml";
+    public static final String MANAGE_IBUTTON = "/fxml/manage/ManageIButton.fxml";
 
     //#########################################################################//
 
@@ -136,6 +141,8 @@ public class Constants {
     public static final String GAMESPANE = "gamesPane";
     public static final String SUBJECTSPANE = "subjectsPane";
     public static final String POSITIONSPANE = "positionsPane";
+    public static final String AUTHORSPANE = "authorsPane";
+    public static final String IBUTTONSPANE = "iButtonsPane";
 
 
     // Common
