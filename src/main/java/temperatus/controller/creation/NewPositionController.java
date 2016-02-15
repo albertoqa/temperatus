@@ -13,7 +13,6 @@ import javafx.stage.FileChooser;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.PositionService;
@@ -31,7 +30,6 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 27/1/16.
  */
-@Controller
 public class NewPositionController extends AbstractCreationController implements Initializable {
 
     @FXML private Label nameLabel;

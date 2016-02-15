@@ -12,7 +12,6 @@ import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
@@ -31,7 +30,6 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 26/1/16.
  */
-@Controller
 public class NewGameController extends AbstractCreationController implements Initializable {
 
     // TODO add default positions to the Game

@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
@@ -37,7 +36,6 @@ import java.util.concurrent.Executors;
 /**
  * Created by alberto on 17/1/16.
  */
-@Component
 public class ArchivedController implements Initializable, AbstractController {
 
     @FXML private TreeTableView<TreeElement> treeTable;
@@ -108,7 +106,7 @@ public class ArchivedController implements Initializable, AbstractController {
                         Animation.fadeInTransition(projectInfoPane);
                         projectInfoPane.setDisable(false);
                         missionInfoPane.setDisable(true);
-                        Project project = getSelectedElement().getElement();
+                        Project project = newValue.getValue().getElement();
 
                         projectName.setText(project.getName());
                         projectDate.setText(project.getDateIni().toString());

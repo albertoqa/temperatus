@@ -40,6 +40,13 @@ public class VistaNavigator {
     }
 
     public static <T> T loadVista(String fxml) {
+        if (baseController.getVistaHolder().getChildren().size() > 0) {
+            //avoid to set the same controller twice
+            // remember to set the id of all fxml set in the baseView
+            if (baseController.getVistaHolder().getChildren().get(baseController.getVistaHolder().getChildren().size() - 1).getId().equals(fxml)) {
+                return null;
+            }
+        }
         SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
         baseController.setView(node);

@@ -9,7 +9,6 @@ import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.AutoCompleteComboBoxListener;
@@ -33,7 +32,6 @@ import java.util.stream.Collectors;
  * <p>
  * Created by alberto on 24/1/16.
  */
-@Controller
 public class NewMissionController extends AbstractCreationController implements Initializable {
 
     @FXML private StackPane stackPane;

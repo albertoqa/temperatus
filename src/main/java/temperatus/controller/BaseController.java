@@ -156,11 +156,6 @@ public class BaseController implements Initializable, AbstractController, Device
      */
     public void setView(Node node) {
         if (vistaHolder.getChildren().size() > 0) {
-            //avoid to set the same controller twice
-            // remember to set the id of all fxml set in the baseView
-            if (vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1).getId().equals(node.getId())) {
-                return;
-            }
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
         }
         vistaHolder.getChildren().setAll(node);

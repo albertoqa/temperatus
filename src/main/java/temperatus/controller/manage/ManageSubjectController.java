@@ -9,10 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
+import temperatus.util.Animation;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,11 +21,11 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 14/2/16.
  */
-@Controller
 public class ManageSubjectController implements Initializable {
 
     @FXML private TableView<Subject> subjectsTable;
     @FXML private TextField filterInput;
+    @FXML private AnchorPane subjectInfoPane;
 
     private TableColumn<Subject, String> subjectType = new TableColumn<>();
     private TableColumn<Subject, String> name = new TableColumn<>();
@@ -71,25 +72,33 @@ public class ManageSubjectController implements Initializable {
 
                 if (subject.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(subject.isIsPerson()) {
-                    if(subject.getAge() != null && subject.getAge().toString().contains(lowerCaseFilter)) {
+                } else if (subject.isIsPerson()) {
+                    if (subject.getAge() != null && subject.getAge().toString().contains(lowerCaseFilter)) {
                         return true;
-                    } else if(subject.getHeight() != null  && subject.getHeight().toString().contains(lowerCaseFilter)) {
+                    } else if (subject.getHeight() != null && subject.getHeight().toString().contains(lowerCaseFilter)) {
                         return true;
-                    } else if(subject.getWeight() != null  && subject.getWeight().toString().contains(lowerCaseFilter)) {
+                    } else if (subject.getWeight() != null && subject.getWeight().toString().contains(lowerCaseFilter)) {
                         return true;
-                    } else if(subject.getSex()) {
-                        if("male".contains(lowerCaseFilter)) {
+                    } else if (subject.getSex()) {
+                        if ("male".contains(lowerCaseFilter)) {
                             return true;
                         }
-                    } else if(!subject.getSex()) {
-                        if("female".contains(lowerCaseFilter)) {
+                    } else if (!subject.getSex()) {
+                        if ("female".contains(lowerCaseFilter)) {
                             return true;
                         }
                     }
                 }
                 return false; // Does not match.
             });
+        });
+
+        subjectsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Animation.fadeInTransition(subjectInfoPane);
+
+            Subject subject = newValue;
+            // TODO
+
         });
 
         SortedList<Subject> sortedData = new SortedList<>(filteredData);

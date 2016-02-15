@@ -3,7 +3,6 @@ package temperatus.controller.creation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 
 import java.net.URL;
@@ -12,7 +11,6 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 7/2/16.
  */
-@Controller
 public class RecordInfoPaneController implements Initializable, AbstractController {
 
     @FXML private Label model;

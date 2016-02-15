@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.IbuttonService;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 /**
  * Created by alberto on 13/2/16.
  */
-@Controller
 public class NewIButtonController extends AbstractCreationController implements Initializable {
 
     @FXML private Label serialLabel;

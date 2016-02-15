@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 23/1/16.
  */
-@Component
+@Controller
 public class ConnectedDevicesController implements Initializable, AbstractController, DeviceDetectorListener {
 
     @FXML private Button newMissionButton;

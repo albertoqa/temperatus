@@ -7,10 +7,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.controlsfx.dialog.Wizard;
 import org.controlsfx.dialog.WizardPane;
+import org.springframework.stereotype.Controller;
 
 /**
  * Created by alberto on 12/2/16.
  */
+@Controller
 public class FirstStartController {
 
     private Wizard wizard;

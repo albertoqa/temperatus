@@ -35,6 +35,7 @@ public class ManageController implements Initializable, AbstractController {
         VistaNavigator.loadViewInTab(subjectsTab, Constants.MANAGE_SUBJECT);
 
         tabPane.getTabs().addAll(subjectsTab, gamesTab);
+        tabPane.getSelectionModel().select(0);
     }
 
     @Override

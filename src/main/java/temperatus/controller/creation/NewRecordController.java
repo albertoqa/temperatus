@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -32,7 +31,6 @@ import java.util.stream.Collectors;
 /**
  * Created by alberto on 31/1/16.
  */
-@Controller
 public class NewRecordController extends AbstractCreationController implements Initializable, DeviceDetectorListener {
 
     @FXML private Label titleLabel;
