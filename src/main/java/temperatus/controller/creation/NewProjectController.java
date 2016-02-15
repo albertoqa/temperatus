@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
@@ -23,6 +25,8 @@ import java.util.ResourceBundle;
  * <p>
  * Created by alberto on 19/1/16.
  */
+@Controller
+@Scope("prototype")
 public class NewProjectController extends AbstractCreationController implements Initializable {
 
     @FXML private Label nameLabel;

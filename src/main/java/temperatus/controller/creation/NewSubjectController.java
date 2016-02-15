@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
@@ -22,6 +24,8 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 27/1/16.
  */
+@Controller
+@Scope("prototype")
 public class NewSubjectController extends AbstractCreationController implements Initializable {
 
     // TODO new author controller

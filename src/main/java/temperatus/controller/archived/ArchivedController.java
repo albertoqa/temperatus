@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
@@ -36,6 +38,8 @@ import java.util.concurrent.Executors;
 /**
  * Created by alberto on 17/1/16.
  */
+@Controller
+@Scope("prototype")
 public class ArchivedController implements Initializable, AbstractController {
 
     @FXML private TreeTableView<TreeElement> treeTable;

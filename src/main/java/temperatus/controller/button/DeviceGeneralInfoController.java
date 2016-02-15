@@ -3,6 +3,8 @@ package temperatus.controller.button;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 
 import java.net.URL;
@@ -11,6 +13,8 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 13/2/16.
  */
+@Controller
+@Scope("prototype")
 public class DeviceGeneralInfoController implements Initializable, AbstractController {
 
     @FXML private Label serialLabel;

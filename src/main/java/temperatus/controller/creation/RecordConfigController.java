@@ -8,6 +8,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.controller.archived.MissionInfoController;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Ibutton;
@@ -26,7 +28,8 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 7/2/16.
  */
-
+@Controller
+@Scope("prototype")
 public class RecordConfigController extends AbstractCreationController implements Initializable {
 
     @FXML private TabPane tabPane;

@@ -11,6 +11,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
@@ -21,6 +23,8 @@ import java.util.ResourceBundle;
 /**
  * Created by alberto on 14/2/16.
  */
+@Controller
+@Scope("prototype")
 public class ManageSubjectController implements Initializable {
 
     @FXML private TableView<Subject> subjectsTable;

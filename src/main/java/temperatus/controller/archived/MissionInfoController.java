@@ -5,6 +5,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.*;
 import temperatus.util.VistaNavigator;
 
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 /**
  * Created by alberto on 30/1/16.
  */
+@Controller
+@Scope("prototype")
 public class MissionInfoController implements Initializable {
 
     @FXML private Label projectName;

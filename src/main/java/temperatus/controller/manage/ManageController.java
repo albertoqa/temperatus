@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.util.Constants;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 14/2/16.
  */
 @Controller
+@Scope("prototype")
 public class ManageController implements Initializable, AbstractController {
 
     @FXML private Label manageLabel;
