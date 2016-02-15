@@ -26,7 +26,6 @@ public class Language {
             String[] language = Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN).split("_");
             locale = new Locale(language[0], language[1]);
         } catch (Exception ex) {
-            //Janela.showException(ex);
             locale = new Locale("en", "US");
         }
         resourceBundle = ResourceBundle.getBundle("languages/language", locale);
@@ -36,7 +35,6 @@ public class Language {
         try {
             return resourceBundle.getString(message);
         } catch (MissingResourceException ex) {
-            //Janela.showException(ex);
             return "?????";
         }
     }

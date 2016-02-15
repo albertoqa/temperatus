@@ -16,8 +16,17 @@ import temperatus.controller.BaseController;
  */
 public class VistaNavigator {
 
+    public static final SpringFxmlLoader loader = new SpringFxmlLoader();
+
+    public static final double MIN_HEIGHT = 800.0;
+    public static final double MIN_WIDTH = 1200.0;
+
     ////////////////////////////////////////////////////////////////////////////
-    /*  Abstract controller  */
+    /**
+     * Abstract controller
+     * Should be set to the same controller loaded on the vistaHolder
+     * Used to reload some part of the view if needed
+     */
 
     public static AbstractController controller;
 
@@ -41,20 +50,17 @@ public class VistaNavigator {
 
     public static <T> T loadVista(String fxml) {
         if (baseController.getVistaHolder().getChildren().size() > 0) {
-            //avoid to set the same controller twice
-            // remember to set the id of all fxml set in the baseView
+            //avoid to set the same controller twice -- remember to set the id of all fxml set in the baseView
             if (baseController.getVistaHolder().getChildren().get(baseController.getVistaHolder().getChildren().size() - 1).getId().equals(fxml)) {
                 return null;
             }
         }
-        SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
         baseController.setView(node);
         return loader.getController();
     }
 
     public static <T> T pushViewToStack(String fxml) {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
         baseController.pushViewToStack(node);
         return loader.getController();
@@ -64,13 +70,13 @@ public class VistaNavigator {
         baseController.popViewFromStack();
     }
 
+
     ////////////////////////////////////////////////////////////////////////////
     /*  Vista Utils  */
 
     public static <T> T preloadController(String url) {
-        SpringFxmlLoader springFxmlLoader = new SpringFxmlLoader();
-        springFxmlLoader.load(VistaNavigator.class.getResource(url));
-        return springFxmlLoader.getController();
+        loader.load(VistaNavigator.class.getResource(url));
+        return loader.getController();
     }
 
     public static Scene createModalScene(Parent root) {
@@ -90,7 +96,6 @@ public class VistaNavigator {
     }
 
     public static <T> T openModal(String url, String title) {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
         Parent root = loader.load(VistaNavigator.class.getResource(url));
         Scene scene = createModalScene(root);
         Stage stage = createModalStage(scene, title);
@@ -100,7 +105,6 @@ public class VistaNavigator {
     }
 
     public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
 
         if (stackPane.getChildren().size() > 0) {
@@ -111,16 +115,10 @@ public class VistaNavigator {
     }
 
     public static <T> T loadViewInTab(Tab tab, String fxml) {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
-
         tab.setContent(node);
         return loader.getController();
     }
 
-    public static SpringFxmlLoader getLoader() {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
-        return loader;
-    }
 }
 

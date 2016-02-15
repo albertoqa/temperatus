@@ -1,5 +1,6 @@
 package temperatus.controller;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -12,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 import temperatus.util.Constants;
-import temperatus.util.SpringFxmlLoader;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -29,24 +29,36 @@ public class SplashController implements Initializable, AbstractController {
     @FXML private Label version;
     @FXML private ProgressBar progress;
 
-    private Stage stage;
+    private Stage stage = new Stage();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        stage = new Stage();
         translate();
 
         Task task = createSleepTask();
         progress.progressProperty().bind(task.progressProperty());
-        new Thread(task).start();
 
-        loadHome();
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
+    /**
+     * Imitate a long and expensive task + load home screen
+     * @return
+     */
     private Task createSleepTask() {
         Task task = new Task<Void>() {
             @Override
             public Void call() {
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadHome();
+                    }
+                });
+
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
@@ -79,21 +91,23 @@ public class SplashController implements Initializable, AbstractController {
         // TODO
     }
 
+    /**
+     * Close actual stage and open a new one with Home screen loaded
+     */
     private void showHome() {
         Stage currentStage = (Stage) rights.getScene().getWindow();
         currentStage.close();
         stage.show();
     }
 
+
     private void loadHome() {
-        SpringFxmlLoader loader = new SpringFxmlLoader();
-        Pane pane = loader.load(getClass().getResource(Constants.BASE));
+        Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.BASE));
         stage.setScene(new Scene(pane));
-        stage.setMinHeight(Constants.MIN_HEIGHT);
-        stage.setMinWidth(Constants.MIN_WIDTH);
-        VistaNavigator.setBaseController(loader.getController());
+        stage.setMinHeight(VistaNavigator.MIN_HEIGHT);
+        stage.setMinWidth(VistaNavigator.MIN_WIDTH);
+        VistaNavigator.setBaseController(VistaNavigator.loader.getController());
         VistaNavigator.loadVista(Constants.HOME);
     }
-
 
 }

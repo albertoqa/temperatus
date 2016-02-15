@@ -8,7 +8,7 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import temperatus.controller.FirstStartController;
 import temperatus.util.Constants;
-import temperatus.util.SpringFxmlLoader;
+import temperatus.util.VistaNavigator;
 
 /**
  * TEMPERATUS
@@ -29,13 +29,12 @@ public class Main extends Application {
         if (isFirstTime) {
             Constants.prefs.putBoolean(Constants.FIRST_TIME, false);
 
-            FirstStartController firstStartController = new FirstStartController();
+            FirstStartController firstStartController = new FirstStartController(); // TODO should I include this in spring context?
             firstStartController.startWizard();
         }
 
         // load the Splash screen
-        SpringFxmlLoader loader = new SpringFxmlLoader();
-        Pane pane = loader.load(getClass().getResource(Constants.SPLASH));
+        Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH));
 
         Scene scene = new Scene(pane);
         primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders

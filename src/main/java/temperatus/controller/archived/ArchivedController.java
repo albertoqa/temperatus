@@ -316,4 +316,5 @@ public class ArchivedController implements Initializable, AbstractController {
         editProjectButton.setVisible(false);
         deleteProjectButton.setVisible(false);
     }
+
 }

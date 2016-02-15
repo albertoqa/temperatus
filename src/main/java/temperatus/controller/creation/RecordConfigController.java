@@ -16,7 +16,6 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.service.MeasurementService;
 import temperatus.util.Constants;
-import temperatus.util.SpringFxmlLoader;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -73,9 +72,8 @@ public class RecordConfigController extends AbstractCreationController implement
             Tab recordInfoTab = new Tab();
 
             // Load a new pane for the tab
-            SpringFxmlLoader loader = VistaNavigator.getLoader();
-            Node recordInfoPane = loader.load(RecordConfigController.class.getResource(Constants.RECORD_INFO));
-            RecordInfoPaneController recordInfoPaneController = loader.getController();
+            Node recordInfoPane = VistaNavigator.loader.load(RecordConfigController.class.getResource(Constants.RECORD_INFO));
+            RecordInfoPaneController recordInfoPaneController = VistaNavigator.loader.getController();
 
             // Gather information related to iButton/Measurements
             Ibutton ibutton = entry.getKey();

@@ -65,9 +65,6 @@ public class Constants {
     public static final String PREFRANGE = "prefRange";
     public static final String DEFAULT_RANGE = "7";
 
-    public static final double MIN_HEIGHT = 800.0;
-    public static final double MIN_WIDTH = 1200.0;
-
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
