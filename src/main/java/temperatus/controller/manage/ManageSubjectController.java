@@ -6,22 +6,22 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.controller.manage.info.SubjectInfoController;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -35,6 +35,14 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     @FXML private TextField filterInput;
     @FXML private AnchorPane infoPane;
     @FXML private Button newElementButton;
+
+    @FXML private Label nameLabel;
+    @FXML private Label ageLabel;
+    @FXML private Label weightLabel;
+    @FXML private Label heightLabel;
+    @FXML private Label numberOfMissions;
+    @FXML private Label firstParticipationLabel;
+    @FXML private Label observations;
 
     private TableColumn<Subject, String> subjectType = new TableColumn<>();
     private TableColumn<Subject, String> name = new TableColumn<>();
@@ -106,10 +114,17 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             Animation.fadeInTransition(infoPane);
-
             Subject subject = newValue;
-            // TODO
 
+            if(subject != null) {
+                nameLabel.setText(subject.getName());
+                ageLabel.setText(subject.getAge().toString());
+                weightLabel.setText(subject.getWeight().toString());
+                heightLabel.setText(subject.getHeight().toString());
+                numberOfMissions.setText("Has participated in " + String.valueOf(subject.getMissions().size()) + " missions");
+                firstParticipationLabel.setText("His first participation date was on 12/12/12");
+                observations.setText(subject.getObservations());
+            }
         });
 
         SortedList<Subject> sortedData = new SortedList<>(filteredData);
@@ -123,10 +138,34 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         subjects.addAll(subjectService.getAll());
     }
 
+    @FXML
+    private void showCompleteInfo() {
+        SubjectInfoController subjectInfoController = VistaNavigator.pushViewToStack(Constants.SUBJECT_INFO);
+        subjectInfoController.setSubject(table.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void newSubject() {
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
+    }
+
+    @FXML
+    private void deleteSubject() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Subject subject = table.getSelectionModel().getSelectedItem();
+            subjectService.delete(subject);
+            subjects.remove(subject);
+        }
+    }
 
     @Override
     public void reload(Object object) {
-
+        if(object instanceof Subject) {
+            subjects.add((Subject) object);
+            table.getSelectionModel().select((Subject) object);
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="737.0" stylesheets="@../../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageSubjectController">
    <children>
       <TableView fx:id="table" layoutX="14.0" layoutY="51.0" prefHeight="234.0" prefWidth="737.0" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
@@ -13,20 +14,72 @@
       </TableView>
       <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #17323a;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="59.0" layoutY="42.0" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="72.0" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="104.0" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="138.0" text="Label" textFill="WHITE" />
-            <VBox alignment="TOP_CENTER" layoutX="613.0" layoutY="21.0" prefHeight="211.0" prefWidth="123.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="32.0">
+            <Label layoutX="59.0" layoutY="42.0" text="Name:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font></Label>
+            <Label layoutX="59.0" layoutY="72.0" text="Age:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font></Label>
+            <Label layoutX="59.0" layoutY="104.0" text="Height:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font></Label>
+            <Label layoutX="59.0" layoutY="138.0" text="Weight:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font></Label>
+            <VBox alignment="TOP_CENTER" layoutX="613.0" layoutY="21.0" prefHeight="170.0" prefWidth="150.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="32.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="btn" text="Button" />
-                  <Button mnemonicParsing="false" styleClass="btn" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#deleteSubject" prefWidth="126.0" styleClass="btn" text="Delete" />
+                  <Button mnemonicParsing="false" prefWidth="126.0" styleClass="btn" text="Edit" />
                   <Pane prefHeight="94.0" prefWidth="123.0" />
-                  <Button mnemonicParsing="false" styleClass="btn" text="Button" />
+                  <Button fx:id="completeInfo" mnemonicParsing="false" onAction="#showCompleteInfo" styleClass="btn" text="Complete Info" />
                </children>
             </VBox>
+            <Label fx:id="firstParticipationLabel" layoutX="268.0" layoutY="84.0" text="His first participation was on 12/12/12" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="268.0" layoutY="116.0" text="Observations:" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="numberOfMissions" layoutX="268.0" layoutY="52.0" text="Has participated in X missions" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="observations" layoutX="369.0" layoutY="116.0" text="obs" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="weightLabel" layoutX="129.0" layoutY="138.0" text="obs" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="heightLabel" layoutX="129.0" layoutY="106.0" text="obs" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="ageLabel" layoutX="129.0" layoutY="73.0" text="obs" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameLabel" layoutX="129.0" layoutY="42.0" text="obs" textFill="WHITE">
+               <font>
+                  <Font name="Avenir Light" size="15.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
-      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="New Subject" AnchorPane.rightAnchor="0.0" />
+      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="150.0" styleClass="btn" text="New Subject" AnchorPane.rightAnchor="0.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="168.0" />
    </children>
 </AnchorPane>

@@ -50,6 +50,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private ListView<String> menu;
 
     @Autowired IbuttonService ibuttonService;
+    @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
 
     private final static String clockPattern = "HH:mm:ss";
 
@@ -58,8 +59,6 @@ public class BaseController implements Initializable, AbstractController, Device
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
-
-        ConnectedDevicesController connectedDevicesController = VistaNavigator.preloadController(Constants.CONNECTED);
 
         //startDeviceListener();  // search for new connected devices
 
