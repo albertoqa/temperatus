@@ -16,10 +16,8 @@ import org.controlsfx.control.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
-import temperatus.listener.DaemonThreadFactory;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
-import temperatus.listener.DeviceDetectorTask;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
@@ -30,9 +28,6 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This is the base controller of the application.
@@ -60,7 +55,7 @@ public class BaseController implements Initializable, AbstractController, Device
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
 
-        //startDeviceListener();  // search for new connected devices
+        //ThreadsManager.startDeviceListener();  // search for new connected devices
 
         Constants.deviceDetectorSource.addEventListener(this);
         Constants.deviceDetectorSource.addEventListener(connectedDevicesController);
@@ -69,18 +64,6 @@ public class BaseController implements Initializable, AbstractController, Device
         menu.getSelectionModel().select(0);
 
         startClock();
-    }
-
-    /**
-     * Set the menu elements for navigation in the language preferred
-     */
-    private void addMenuElements() {
-        menu.getItems().add(language.get(Constants.LHOME));
-        menu.getItems().add(language.get(Constants.ARCHIVE));
-        menu.getItems().add(language.get(Constants.DEVICES));
-        menu.getItems().add(language.get(Constants.LMANAGE));
-        menu.getItems().add(language.get(Constants.CONFIGURATION));
-        menu.getItems().add(language.get(Constants.LABOUT));
     }
 
     /**
@@ -95,13 +78,28 @@ public class BaseController implements Initializable, AbstractController, Device
         timeline.play();
     }
 
+    /***********************************
+     *             Menu
+     **********************************/
+
     /**
-     * @return the StackPane which holds the views (central)
+     * Set the menu elements for navigation in the language preferred
      */
-    public StackPane getVistaHolder() {
-        return vistaHolder;
+    private void addMenuElements() {
+        menu.getItems().add(language.get(Constants.LHOME));
+        menu.getItems().add(language.get(Constants.ARCHIVE));
+        menu.getItems().add(language.get(Constants.DEVICES));
+        menu.getItems().add(language.get(Constants.LMANAGE));
+        menu.getItems().add(language.get(Constants.CONFIGURATION));
+        menu.getItems().add(language.get(Constants.LABOUT));
     }
 
+    /**
+     * Menu controller, load view selected from the list
+     * MenuList is as follows: HOME, ARCHIVED, CONNECTED, MANAGE, CONFIG, ABOUT
+     *
+     * @param event
+     */
     @FXML
     private void menuActions(MouseEvent event) {
         switch (menu.getSelectionModel().getSelectedIndex()) {
@@ -143,10 +141,16 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
 
-
     /***********************************
      *       View Operations
      **********************************/
+
+    /**
+     * @return the StackPane which holds the views (central)
+     */
+    public StackPane getVistaHolder() {
+        return vistaHolder;
+    }
 
     /**
      * Replaces the actual view for a new one
@@ -189,28 +193,9 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
 
-
     /***********************************
      *       Device Detection
      **********************************/
-
-    /**
-     * Create a infinite task that search for all connected devices
-     * If a new device is detected a notification is sent and all
-     * classes which implement the DeviceDetectorListener are notified of
-     * the event.
-     * <p>
-     * The task runs in a different thread and will stop when the program finish
-     */
-    private void startDeviceListener() {
-        logger.info("Starting device detector task");
-
-        DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();
-        DeviceDetectorTask task = new DeviceDetectorTask();
-
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
-        executor.scheduleAtFixedRate(task, Constants.DELAY, Constants.PERIOD, TimeUnit.SECONDS);
-    }
 
     @Override
     public void arrival(DeviceDetector event) {

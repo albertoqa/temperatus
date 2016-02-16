@@ -1,4 +1,4 @@
-package temperatus.controller.manage.info;
+package temperatus.controller.manage.ampliate;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
-import temperatus.controller.manage.info.SubjectInfoController;
+import temperatus.controller.manage.ampliate.SubjectInfoController;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;

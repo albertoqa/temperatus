@@ -75,6 +75,9 @@ public class ConfigurationController implements Initializable, AbstractControlle
         } else if (Constants.LANG_SP.equals(languageChoice.getSelectionModel().getSelectedItem())) {
             Constants.prefs.put(Constants.LANGUAGE, Constants.LANGUAGE_SP);
         }
+
+        language.loadLanguage();
+
     }
 
     /**
