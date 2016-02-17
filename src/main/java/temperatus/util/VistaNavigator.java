@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.log4j.Logger;
 import temperatus.controller.AbstractController;
 import temperatus.controller.BaseController;
 
@@ -15,6 +16,8 @@ import temperatus.controller.BaseController;
  * Utility class for controlling navigation between vistas.
  */
 public class VistaNavigator {
+
+    static Logger logger = Logger.getLogger(VistaNavigator.class.getName());
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
@@ -35,6 +38,8 @@ public class VistaNavigator {
     }
 
     public static void setController(AbstractController controller) {
+        logger.debug("VistaNavigator: abstractController set to " + controller.getClass().getName());
+
         VistaNavigator.controller = controller;
     }
 

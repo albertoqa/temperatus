@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
 import temperatus.controller.creation.NewRecordController;
+import temperatus.listener.DatabaseThreadFactory;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.types.FilterableTreeItem;
@@ -32,14 +34,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
  * Show all the projects and missions saved to the db
- *
- *
- *
+ * <p>
  * Created by alberto on 17/1/16.
  */
 @Controller
@@ -82,21 +82,21 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Autowired ProjectService projectService;
 
-    private Executor exec;
+    private ExecutorService databaseExecutor;
+
+    static Logger logger = Logger.getLogger(ArchivedController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.debug("Initializing archived controller");
 
         VistaNavigator.setController(this);
         translate();
 
         /* Executor is used to perform long operations in a different thread than the UI elements
-        in this case, is used to load elements from the DB */
-        exec = Executors.newCachedThreadPool(runnable -> {
-            Thread t = new Thread(runnable);
-            t.setDaemon(true);
-            return t;
-        });
+        in this case, is used to load elements from the DB. ThreadPool is set to 1 to ensure that
+        only one database operation is performed at a time*/
+        databaseExecutor = Executors.newFixedThreadPool(1, new DatabaseThreadFactory());
 
         nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
         dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
@@ -106,30 +106,19 @@ public class ArchivedController implements Initializable, AbstractController {
         treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         treeTable.setShowRoot(false);
 
+        // Check the type of element selected and show its information
         treeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (TreeElementType.Project == newValue.getValue().getType()) {
-                        Animation.fadeOutTransition(missionInfoPane);
-                        Animation.fadeInTransition(projectInfoPane);
-                        projectInfoPane.setDisable(false);
-                        missionInfoPane.setDisable(true);
-                        Project project = newValue.getValue().getElement();
-
-                        projectName.setText(project.getName());
-                        projectDate.setText(project.getDateIni().toString());
-                        projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
-                        projectObservations.setText(project.getObservations());
-                        //projectAuthors.setText(missions.get(0).getAuthor());
+                        projectSelection(newValue.getValue().getElement());
                     } else {
-                        Animation.fadeOutTransition(projectInfoPane);
-                        Animation.fadeInTransition(missionInfoPane);
-                        projectInfoPane.setDisable(true);
-                        missionInfoPane.setDisable(false);
+                        missionSelection(newValue.getValue().getElement());
                     }
                 });
 
 
+        // When double click on a row, open edition window
         treeTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -140,6 +129,7 @@ public class ArchivedController implements Initializable, AbstractController {
                         NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
                         newProjectController.setProject(project);
                     }
+                    // TODO
                 }
             }
 
@@ -174,7 +164,8 @@ public class ArchivedController implements Initializable, AbstractController {
         });
 
         // run the task using a thread from the thread pool:
-        exec.execute(getAllProjectsTask);
+        logger.debug("Submiting task to retrieve all projects");
+        databaseExecutor.submit(getAllProjectsTask);
 
         return root;
     }
@@ -202,8 +193,29 @@ public class ArchivedController implements Initializable, AbstractController {
             });
 
             // run the task using a thread from the thread pool:
-            exec.execute(getMissionsTask);
+            logger.debug("Submiting task to retrieve all missions for project: " + project.getName());
+            databaseExecutor.submit(getMissionsTask);
         }
+    }
+
+    private void projectSelection(Project project) {
+        Animation.fadeOutTransition(missionInfoPane);
+        Animation.fadeInTransition(projectInfoPane);
+        projectInfoPane.setDisable(false);
+        missionInfoPane.setDisable(true);
+
+        projectName.setText(project.getName());
+        projectDate.setText(project.getDateIni().toString());
+        projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
+        projectObservations.setText(project.getObservations());
+        //projectAuthors.setText(missions.get(0).getAuthor());
+    }
+
+    private void missionSelection(Mission mission) {
+        Animation.fadeOutTransition(projectInfoPane);
+        Animation.fadeInTransition(missionInfoPane);
+        projectInfoPane.setDisable(true);
+        missionInfoPane.setDisable(false);
     }
 
     /**
