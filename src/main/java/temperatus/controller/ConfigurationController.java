@@ -63,6 +63,9 @@ public class ConfigurationController implements Initializable, AbstractControlle
         savePrefs();
     }
 
+    /**
+     * Save the actual configuration of preferences
+     */
     private void savePrefs() {
         if(cRadio.isSelected()) {
             Constants.prefs.put(Constants.UNIT, Constants.UNIT_C);
@@ -88,9 +91,12 @@ public class ConfigurationController implements Initializable, AbstractControlle
         Animation.fadeInOutClose(titledPane);
     }
 
+    /**
+     * Show the user's manual and/or the web page
+     */
     @FXML
     private void helpAction() {
-
+        // TODO
     }
 
     @Override

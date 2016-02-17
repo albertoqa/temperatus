@@ -55,13 +55,14 @@ public class BaseController implements Initializable, AbstractController, Device
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
 
+        // TODO uncomment
         //ThreadsManager.startDeviceListener();  // search for new connected devices
 
         Constants.deviceDetectorSource.addEventListener(this);
         Constants.deviceDetectorSource.addEventListener(connectedDevicesController);
 
         addMenuElements();
-        menu.getSelectionModel().select(0);
+        menu.getSelectionModel().select(language.get(Constants.LHOME));
 
         startClock();
     }
@@ -83,7 +84,7 @@ public class BaseController implements Initializable, AbstractController, Device
      **********************************/
 
     /**
-     * Set the menu elements for navigation in the language preferred
+     * Set the menu elements for navigation in the preferred language
      */
     private void addMenuElements() {
         menu.getItems().add(language.get(Constants.LHOME));
@@ -158,6 +159,8 @@ public class BaseController implements Initializable, AbstractController, Device
      * @param node
      */
     public void setView(Node node) {
+        logger.debug("Setting view in the root vistaHolder");
+
         if (vistaHolder.getChildren().size() > 0) {
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
         }
@@ -170,6 +173,8 @@ public class BaseController implements Initializable, AbstractController, Device
      * @param node - new view to push to the stack
      */
     public void pushViewToStack(Node node) {
+        logger.debug("Pushing view into the stack vistaHolder");
+
         if (vistaHolder.getChildren().size() > 0) {
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
         }
@@ -181,6 +186,8 @@ public class BaseController implements Initializable, AbstractController, Device
      * Only if after pop stack is not empty
      */
     public void popViewFromStack() {
+        logger.debug("Poping view from the stack vistaHolder");
+
         if (vistaHolder.getChildren().size() >= 2) { // stack cannot be empty
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 2));
         }
@@ -197,19 +204,28 @@ public class BaseController implements Initializable, AbstractController, Device
      *       Device Detection
      **********************************/
 
+    /**
+     * When a new device is detected the first thing to do is check if it is already saved in the db
+     * that means: check if is the first time this device has been connected to this computer.
+     * <p>
+     * If it is the first time -> Allow the user to save the button to db and assign a default position to it
+     * If it is not the first time (already in db) -> just show an alert to let the user know that is has been detected
+     *
+     * @param event
+     */
     @Override
     public void arrival(DeviceDetector event) {
-        logger.info("Listening event... device detected");
+        logger.info("Listening event... device detected!");
 
         boolean isNewButton = false;
-        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
+        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());    // Search for this serial on DB
 
         if (ibutton == null) {
             isNewButton = true;
 
             Platform.runLater(new Runnable() {
                 public void run() {
-                    VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
+                    VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE));
                 }
             });
         }
@@ -225,6 +241,6 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Override
     public void departure(DeviceDetector event) {
-
+        logger.info("Listening event... device departed! Nothing to do here...");
     }
 }

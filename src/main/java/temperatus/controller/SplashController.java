@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -19,9 +20,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Imitate a long running task to show a welcome screen to the program
+ * Splash is set to prototype because once it finishes its function, I want it to be removed by the garbage collector
+ * <p>
  * Created by alberto on 17/1/16.
  */
 @Controller
+@Scope("prototype")
 public class SplashController implements Initializable, AbstractController {
 
     @FXML private Label subtitle;
@@ -30,6 +35,7 @@ public class SplashController implements Initializable, AbstractController {
     @FXML private ProgressBar progress;
 
     private Stage stage = new Stage();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,8 +49,10 @@ public class SplashController implements Initializable, AbstractController {
         thread.start();
     }
 
+
     /**
      * Imitate a long and expensive task + load home screen
+     *
      * @return
      */
     private Task createSleepTask() {
@@ -75,6 +83,7 @@ public class SplashController implements Initializable, AbstractController {
             }
         };
 
+        // When the task finishes show the home window
         task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
@@ -85,11 +94,6 @@ public class SplashController implements Initializable, AbstractController {
         return task;
     }
 
-    @Override
-    public void translate() {
-        rights.setText(language.get(Constants.RIGHTS));
-        // TODO
-    }
 
     /**
      * Close actual stage and open a new one with Home screen loaded
@@ -101,13 +105,23 @@ public class SplashController implements Initializable, AbstractController {
     }
 
 
+    /**
+     * Load and save the BaseController, create a new Stage which will be the main stage of the application
+     */
     private void loadHome() {
         Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.BASE));
         stage.setScene(new Scene(pane));
         stage.setMinHeight(VistaNavigator.MIN_HEIGHT);
         stage.setMinWidth(VistaNavigator.MIN_WIDTH);
-        VistaNavigator.setBaseController(VistaNavigator.loader.getController());
+        VistaNavigator.setBaseController(VistaNavigator.loader.getController());    // loader is set to BASE
         VistaNavigator.loadVista(Constants.HOME);
     }
 
+
+    @Override
+    public void translate() {
+        rights.setText(language.get(Constants.RIGHTS));
+        subtitle.setText(language.get(Constants.SUBTITLE));
+        version.setText(Constants.VERSION);
+    }
 }

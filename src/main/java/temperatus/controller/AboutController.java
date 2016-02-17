@@ -10,9 +10,16 @@ import java.util.ResourceBundle;
  * Created by alberto on 14/2/16.
  */
 @Controller
-public class AboutController implements Initializable {
+public class AboutController implements Initializable, AbstractController {
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    @Override
+    public void translate() {
 
     }
 }

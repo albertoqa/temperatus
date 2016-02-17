@@ -36,6 +36,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
+ * Show all the projects and missions saved to the db
+ *
+ *
+ *
  * Created by alberto on 17/1/16.
  */
 @Controller
@@ -70,15 +74,15 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Button newMissionButton;
     @FXML private Button cancelProjectButton;
 
-    private TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>("  Project");
-    private TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>("  Start Date");
-    private TreeTableColumn<TreeElement, String> authorsColumn = new TreeTableColumn<>("  Subject");
+    private TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>();
+    private TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>();
+    private TreeTableColumn<TreeElement, String> subjectColumn = new TreeTableColumn<>();
+
     private FilterableTreeItem<TreeElement> root;
 
     @Autowired ProjectService projectService;
 
-    private Executor exec ;
-
+    private Executor exec;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,9 +100,9 @@ public class ArchivedController implements Initializable, AbstractController {
 
         nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
         dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
-        authorsColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
+        subjectColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
 
-        treeTable.getColumns().setAll(nameColumn, dateColumn, authorsColumn);
+        treeTable.getColumns().setAll(nameColumn, dateColumn, subjectColumn);
         treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         treeTable.setShowRoot(false);
 
@@ -294,7 +298,9 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-
+        nameColumn.setText(language.get(Constants.PROJECT_COLUMN));
+        dateColumn.setText(language.get(Constants.DATE_COLUMN));
+        subjectColumn.setText(language.get(Constants.SUBJECT_COLUMN));
     }
 
     private void notEditingVisibility() {

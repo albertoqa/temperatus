@@ -11,6 +11,8 @@ import java.util.prefs.Preferences;
  */
 public class Constants {
 
+    public static final String VERSION = "1.0";
+
     public static final DeviceDetectorSource deviceDetectorSource = new DeviceDetectorSource();
     public static int DELAY = 0;
     public static int PERIOD = 3;   // DeviceDetectorTask run period (s)
@@ -83,12 +85,18 @@ public class Constants {
 
     // Base controller
     public static final String RIGHTS = "rights";
+    public static final String SUBTITLE = "subtitle";
     public static final String LHOME = "home";
     public static final String ARCHIVE = "archive";
     public static final String DEVICES = "devices";
     public static final String LMANAGE = "manage";
     public static final String CONFIGURATION = "configuration";
     public static final String LABOUT = "about";
+
+    // Archived
+    public static final String PROJECT_COLUMN = "projectColumn";
+    public static final String DATE_COLUMN = "dateColumn";
+    public static final String SUBJECT_COLUMN = "subjectColumn";
 
     // New project
     public static final String NEWPROJECT = "newProject";
@@ -146,6 +154,8 @@ public class Constants {
     public static final String AUTHORSPANE = "authorsPane";
     public static final String IBUTTONSPANE = "iButtonsPane";
 
+    // New Button
+    public static final String NEWBUTTONTITLE = "newDevice";
 
     // Common
     public static final String SAVE = "save";
