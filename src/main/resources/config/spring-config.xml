@@ -6,11 +6,10 @@
 
        <tx:annotation-driven />
 
-       <context:component-scan
-               base-package="temperatus.model.dao.impl" />
-       <context:component-scan
-               base-package="temperatus.model.service.impl" />
+       <context:component-scan base-package="temperatus.model.dao.impl" />
+       <context:component-scan base-package="temperatus.model.service.impl" />
        <context:component-scan base-package="temperatus.controller" />
+       <context:component-scan base-package="temperatus.listener" />
 
        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
               <property name="driverClassName" value="org.h2.Driver" />
