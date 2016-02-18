@@ -19,14 +19,6 @@ public class DeviceOperationsManager {
 
     @Autowired DeviceDetectorTask scanTask;
 
-    /**
-     * Create a infinite task that search for all connected devices
-     * If a new device is detected a notification is sent and all
-     * classes which implement the DeviceDetectorListener are notified of
-     * the event.
-     * <p>
-     * The task runs in a different thread and will stop when the program finish
-     */
     public void init() {
         operationsExecutor = Executors.newSingleThreadExecutor(daemonThreadFactory);
         scanShedulerExecutor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
@@ -37,6 +29,5 @@ public class DeviceOperationsManager {
     public <T> Future<T> submitReadTask(DeviceReadTask readTask) {
         return operationsExecutor.submit(readTask);
     }
-
 
 }

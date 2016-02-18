@@ -21,9 +21,9 @@ public class DeviceReadTask implements Callable {
     @Override
     public Object call() throws Exception {
         try {
-            logger.info("Reading device... trying to acquire semaphore");
+            logger.debug("Reading device... trying to acquire semaphore");
             deviceSemaphore.acquire();
-            logger.info("Read Semaphore adquired!");
+            logger.debug("Read Semaphore adquired!");
 
             Thread.sleep(2000);
 
@@ -31,7 +31,7 @@ public class DeviceReadTask implements Callable {
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();
-            logger.info("Semaphore released");
+            logger.debug("Semaphore released");
         }
 
         return null;

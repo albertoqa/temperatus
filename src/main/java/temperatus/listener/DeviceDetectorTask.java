@@ -27,9 +27,9 @@ public class DeviceDetectorTask implements Runnable {
     @Override
     public void run() {
         try {
-            logger.info("Searching for connected devices... trying to acquire semaphore");
+            logger.debug("Searching for connected devices... trying to acquire semaphore");
             deviceSemaphore.acquire();
-            logger.info("Semaphore adquired!");
+            logger.debug("Semaphore adquired!");
 
             //searchForDevices();
             Thread.sleep(2000);
@@ -38,7 +38,7 @@ public class DeviceDetectorTask implements Runnable {
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();
-            logger.info("Semaphore released");
+            logger.debug("Semaphore released");
         }
     }
 
