@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
+import temperatus.listener.DeviceDetectorSource;
+import temperatus.listener.DeviceOperationsManager;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
@@ -46,6 +48,8 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Autowired IbuttonService ibuttonService;
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
+    @Autowired DeviceDetectorSource deviceDetectorSource;
+    @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private final static String clockPattern = "HH:mm:ss";
 
@@ -55,11 +59,10 @@ public class BaseController implements Initializable, AbstractController, Device
     public void initialize(URL location, ResourceBundle resources) {
         logger.debug("Initializing base controller");
 
-        // TODO uncomment
-        //ThreadsManager.startDeviceListener();  // search for new connected devices
+        deviceOperationsManager.init();
 
-        Constants.deviceDetectorSource.addEventListener(this);
-        Constants.deviceDetectorSource.addEventListener(connectedDevicesController);
+        deviceDetectorSource.addEventListener(this);
+        deviceDetectorSource.addEventListener(connectedDevicesController);
 
         addMenuElements();
         menu.getSelectionModel().select(language.get(Constants.LHOME));
