@@ -1,6 +1,7 @@
 package temperatus.listener;
 
 import com.dalsemi.onewire.container.OneWireContainer;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by alberto on 12/2/16.
  */
+@Component
 public class DeviceDetectorSource {
 
     private List listeners = new ArrayList();
