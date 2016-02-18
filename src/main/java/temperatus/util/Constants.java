@@ -1,7 +1,5 @@
 package temperatus.util;
 
-import temperatus.listener.DeviceDetectorSource;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
@@ -13,9 +11,8 @@ public class Constants {
 
     public static final String VERSION = "1.0";
 
-    public static final DeviceDetectorSource deviceDetectorSource = new DeviceDetectorSource();
     public static int DELAY = 0;
-    public static int PERIOD = 3;   // DeviceDetectorTask run period (s)
+    public static int PERIOD = 8;   // DeviceDetectorTask run period (s)
 
     //#########################################################################//
     //* Convenience constants for fxml layouts

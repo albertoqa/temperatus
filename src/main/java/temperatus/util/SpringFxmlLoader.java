@@ -33,4 +33,7 @@ public class SpringFxmlLoader {
         return (T) controller;
     }
 
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 }
