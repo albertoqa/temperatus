@@ -11,8 +11,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.apache.log4j.Logger;
 import org.controlsfx.control.Notifications;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
@@ -53,7 +54,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     private final static String clockPattern = "HH:mm:ss";
 
-    static Logger logger = Logger.getLogger(BaseController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

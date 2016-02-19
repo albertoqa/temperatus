@@ -11,7 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class ManageGameController implements Initializable, AbstractController {
 
     @Autowired GameService gameService;
 
-    static Logger logger = Logger.getLogger(ManageGameController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(ManageGameController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

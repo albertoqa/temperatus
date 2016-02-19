@@ -7,10 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import org.apache.log4j.Logger;
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -56,7 +57,7 @@ public class NewGameController extends AbstractCreationController implements Ini
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
 
-    static Logger logger = Logger.getLogger(NewGameController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

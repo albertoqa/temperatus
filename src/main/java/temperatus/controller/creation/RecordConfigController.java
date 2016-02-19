@@ -6,7 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
     @Autowired MeasurementService measurementService;
 
-    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     private HashMap<Ibutton, List<Measurement>> dataMap;
     private List<Formula> formulas;

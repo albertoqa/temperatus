@@ -3,7 +3,8 @@ package temperatus.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -26,7 +27,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
 
     private ToggleGroup unitGroup = new ToggleGroup();
 
-    static Logger logger = Logger.getLogger(ConfigurationController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(ConfigurationController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

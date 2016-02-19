@@ -5,7 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import temperatus.controller.FirstStartController;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -17,7 +18,7 @@ import temperatus.util.VistaNavigator;
  */
 public class Main extends Application {
 
-    static Logger logger = Logger.getLogger(Main.class.getName());
+    static Logger logger = LoggerFactory.getLogger(Main.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception {

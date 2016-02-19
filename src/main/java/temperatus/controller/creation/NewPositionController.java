@@ -10,8 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Autowired PositionService positionService;
 
-    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     private String imagePath;
 

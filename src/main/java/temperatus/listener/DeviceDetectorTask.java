@@ -4,7 +4,8 @@ import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.adapter.DSPortAdapter;
 import com.dalsemi.onewire.container.OneWireContainer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Component
 public class DeviceDetectorTask implements Runnable {
-    static Logger logger = Logger.getLogger(DeviceDetectorTask.class.getName());
+    static Logger logger = LoggerFactory.getLogger(DeviceDetectorTask.class.getName());
 
     private List<String> serialsDetected = new ArrayList<>();
 

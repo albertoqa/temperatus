@@ -9,7 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
     private final Double prefHeight = 30.0;     // Preferred height for "rows"
 
-    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

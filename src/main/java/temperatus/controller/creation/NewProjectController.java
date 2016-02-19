@@ -3,8 +3,9 @@ package temperatus.controller.creation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class NewProjectController extends AbstractCreationController implements 
     private Project project;
     private boolean isSave;
 
-    static Logger logger = Logger.getLogger(NewProjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

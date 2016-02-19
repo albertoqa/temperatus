@@ -8,7 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import temperatus.controller.AbstractController;
 import temperatus.controller.BaseController;
 
@@ -17,7 +18,7 @@ import temperatus.controller.BaseController;
  */
 public class VistaNavigator {
 
-    static Logger logger = Logger.getLogger(VistaNavigator.class.getName());
+    static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 

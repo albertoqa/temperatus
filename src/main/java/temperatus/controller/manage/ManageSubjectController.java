@@ -8,7 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     @Autowired SubjectService subjectService;
 
-    static Logger logger = Logger.getLogger(ManageSubjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(ManageSubjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
