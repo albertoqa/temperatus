@@ -118,9 +118,15 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
             if(subject != null) {
                 nameLabel.setText(subject.getName());
-                ageLabel.setText(subject.getAge().toString());
-                weightLabel.setText(subject.getWeight().toString());
-                heightLabel.setText(subject.getHeight().toString());
+                if(subject.isIsPerson()) {
+                    ageLabel.setText(subject.getAge().toString());
+                    weightLabel.setText(subject.getWeight().toString());
+                    heightLabel.setText(subject.getHeight().toString());
+                } else {
+                    ageLabel.setText("");
+                    weightLabel.setText("");
+                    heightLabel.setText("");
+                }
                 numberOfMissions.setText("Has participated in " + String.valueOf(subject.getMissions().size()) + " missions");
                 firstParticipationLabel.setText("His first participation date was on 12/12/12");
                 observations.setText(subject.getObservations());

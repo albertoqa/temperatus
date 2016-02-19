@@ -6,8 +6,8 @@
 .list-cell { /* <=== changed to even */
     -fx-background-color: #2b579a;
     -fx-text-fill: white;
-    -fx-cell-size: 3.8em; /* 24 */
-    -fx-font: 16px "Segoe UI Semibold";
+    -fx-cell-size: 3.2em; /* 24 */
+    -fx-font: 14px "Segoe UI Semibold";
     -fx-alignment: CENTER_LEFT;
     -fx-border-color:transparent;
 }

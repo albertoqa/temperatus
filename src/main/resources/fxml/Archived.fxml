@@ -3,18 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<StackPane id="/fxml/Archived.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="792.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.ArchivedController">
+<StackPane id="/fxml/Archived.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="792.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.ArchivedController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="657.0" prefWidth="792.0">
          <children>
-            <Label layoutX="32.0" layoutY="35.0" text="Archived data" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="60.0">
+            <Label layoutX="32.0" layoutY="14.0" styleClass="label-header" text="Archived data" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="14.0">
                <font>
                   <Font name="Avenir Light" size="35.0" />
                </font>
             </Label>
-            <Separator layoutX="27.0" layoutY="67.0" prefHeight="13.0" prefWidth="739.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="100.0" />
-            <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="142.0" prefHeight="343.0" prefWidth="739.0" stylesheets="@../styles/Metro-UI.css" AnchorPane.bottomAnchor="327.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="162.0" />
-            <Button fx:id="newProject" layoutX="673.0" layoutY="34.0" mnemonicParsing="false" onAction="#newProject" styleClass="btn" text="New Project" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="70.0" />
+            <Separator layoutX="27.0" layoutY="60.0" prefHeight="13.0" prefWidth="739.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="60.0" />
+            <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="121.0" prefHeight="390.0" prefWidth="739.0" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="121.0" />
+            <Button fx:id="newProject" layoutX="520.0" layoutY="79.0" mnemonicParsing="false" onAction="#newProject" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="157.0" AnchorPane.topAnchor="79.0" />
             <AnchorPane fx:id="projectInfoPane" layoutX="27.0" layoutY="482.0" opacity="0.0" prefHeight="264.0" prefWidth="739.0" style="-fx-background-color: #1f418a;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
                   <Label layoutX="105.0" layoutY="29.0" text="Project:" textFill="WHITE">
@@ -72,74 +72,85 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="missionInfoPane" layoutX="27.0" layoutY="482.0" opacity="0.0" prefHeight="264.0" prefWidth="739.0" style="-fx-background-color: #1f414a;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <AnchorPane fx:id="missionInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #32559f;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
-                  <Label layoutX="105.0" layoutY="29.0" text="Project:" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="projectName1" layoutX="198.0" layoutY="29.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="86.0" layoutY="76.0" text="Start Date:" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="projectDate1" layoutX="198.0" layoutY="76.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="27.0" layoutY="120.0" text="Number of missions:" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="projectNumberOfMissions1" layoutX="198.0" layoutY="120.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="327.0" layoutY="30.0" text="Observations" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="projectObservations1" layoutX="423.0" layoutY="29.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="45.0" layoutY="161.0" text="Authors involved:" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="projectAuthors1" layoutX="198.0" layoutY="161.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font>
-                  </Label>
                   <TextField fx:id="editableProjectName1" layoutX="172.0" layoutY="24.0" visible="false" />
                   <TextArea fx:id="editableProjectObservations1" layoutX="409.0" layoutY="25.0" prefHeight="147.0" prefWidth="200.0" visible="false" />
                   <DatePicker fx:id="editableProjectDate1" layoutX="172.0" layoutY="71.0" visible="false" />
-                  <VBox alignment="CENTER" layoutX="625.0" layoutY="32.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="32.0">
+                  <Button fx:id="deleteMissionButton" layoutX="598.0" layoutY="172.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="dbtn" text="Delete" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="14.0" />
+                  <Button fx:id="missionInfoButton" layoutX="598.0" layoutY="136.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="14.0" />
+                  <GridPane layoutX="9.0" layoutY="11.0" prefHeight="234.0" prefWidth="581.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="9.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Button fx:id="editMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Edit" />
-                        <Button fx:id="deleteMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Delete" />
-                        <Button fx:id="saveMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Save" visible="false" />
-                        <Button fx:id="cancelMissionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Cancel" visible="false" />
-                        <Button fx:id="addDataToMissionButton" mnemonicParsing="false" onAction="#addDataToMission" prefWidth="100.0" styleClass="btn" text="Add Data" />
-                        <Button fx:id="missionInfoButton" mnemonicParsing="false" onAction="#missionInfo" prefWidth="100.0" styleClass="btn" text="Complete info" />
+                        <Label styleClass="label-paneinfo" text="Project:" textFill="WHITE">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label styleClass="label-paneinfo" text="Start Date:" textFill="WHITE" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label styleClass="label-paneinfo" text="Number of missions:" textFill="WHITE" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label styleClass="label-paneinfo" text="Authors involved:" textFill="WHITE" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="projectName1" styleClass="label-paneinfo" text="Project" textFill="WHITE" GridPane.columnIndex="2">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="projectDate1" styleClass="label-paneinfo" text="Label" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="projectNumberOfMissions1" styleClass="label-paneinfo" text="Label" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="projectAuthors1" styleClass="label-paneinfo" text="Label" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="projectObservations1" styleClass="label-paneinfo" text="Label" textFill="WHITE" GridPane.columnIndex="5">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label styleClass="label-paneinfo" text="Observations:" textFill="WHITE" GridPane.columnIndex="3">
+                           <font>
+                              <Font name="Avenir Light" size="11.0" />
+                           </font>
+                        </Label>
                      </children>
-                  </VBox>
+                  </GridPane>
                </children>
             </AnchorPane>
-            <TextField fx:id="filterField" layoutX="27.0" layoutY="120.0" prefHeight="29.0" prefWidth="739.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" />
+            <TextField fx:id="filterField" layoutX="27.0" layoutY="78.0" prefHeight="29.0" prefWidth="475.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="78.0" />
+            <Button fx:id="newProject1" layoutX="648.0" layoutY="79.0" mnemonicParsing="false" onAction="#newProject" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="79.0" />
          </children>
       </AnchorPane>
    </children>

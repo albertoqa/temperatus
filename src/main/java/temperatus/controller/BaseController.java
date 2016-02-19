@@ -67,7 +67,6 @@ public class BaseController implements Initializable, AbstractController, Device
         addMenuElements();
         menu.getSelectionModel().select(language.get(Constants.LHOME));
 
-        startClock();
     }
 
     /**

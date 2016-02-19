@@ -110,7 +110,7 @@ public class ArchivedController implements Initializable, AbstractController {
         treeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if (TreeElementType.Project == newValue.getValue().getType()) {
+                    if (TreeElementType.Project == newValue.getValue().getType()) { // TODO check nullpointer
                         projectSelection(newValue.getValue().getElement());
                     } else {
                         missionSelection(newValue.getValue().getElement());

@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.BaseController">
    <left>
-      <AnchorPane prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #63c6ff;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="776.0" prefWidth="190.0" style="-fx-background-color: #63c6ff;" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="menu" onMouseClicked="#menuActions" prefHeight="200.0" prefWidth="254.0" stylesheets="@../styles/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-            <StackPane prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="clock" prefHeight="20.0" prefWidth="120.0" text="12:21:12" textFill="WHITE">
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <font>
-                        <Font name="Avenir Light" size="25.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
+            <ListView fx:id="menu" onMouseClicked="#menuActions" prefHeight="200.0" prefWidth="254.0" stylesheets="@../styles/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
+            <StackPane prefHeight="65.0" prefWidth="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </left>
    <center>
       <StackPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <AnchorPane prefHeight="24.0" prefWidth="1000.0" style="-fx-background-color: #656565;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="778.0" layoutY="4.0" text="www.temperatus.com" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
