@@ -349,8 +349,9 @@ public class ArchivedController implements Initializable, AbstractController {
         for(String regionName:regions) {
             SecondLevelCacheStatistics stat2 = stat.getSecondLevelCacheStatistics(regionName);
             logger.info("2nd Level Cache(" +regionName+") Put Count: "+stat2.getPutCount());
-            logger.info("2nd Level Cache(" +regionName+") HIt Count: "+stat2.getHitCount());
+            logger.info("2nd Level Cache(" +regionName+") Hit Count: "+stat2.getHitCount());
             logger.info("2nd Level Cache(" +regionName+") Miss Count: "+stat2.getMissCount());
+            logger.info("2nd Level Cache(" +regionName+") Element Count: "+stat2.getElementCountInMemory());
         }
     }
 

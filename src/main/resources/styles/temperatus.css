@@ -11,6 +11,13 @@
 
  .label-paneinfo {
      -fx-font-size: 10pt;
+     -fx-font-family: "Avenir Medium";
+     -fx-text-fill: black;
+     -fx-opacity: 1;
+ }
+
+ .label-paneinfodata {
+     -fx-font-size: 10pt;
      -fx-font-family: "Avenir Light";
      -fx-text-fill: black;
      -fx-opacity: 1;
@@ -29,8 +36,6 @@
      -fx-text-fill: black;
      -fx-opacity: 1;
  }
-
-
 
 
 
