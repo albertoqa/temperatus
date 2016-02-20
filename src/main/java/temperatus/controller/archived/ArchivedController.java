@@ -10,6 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.hibernate.SessionFactory;
+import org.hibernate.stat.SecondLevelCacheStatistics;
+import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +85,7 @@ public class ArchivedController implements Initializable, AbstractController {
     private FilterableTreeItem<TreeElement> root;
 
     @Autowired ProjectService projectService;
+    @Autowired SessionFactory sessionFactory;
 
     private ExecutorService databaseExecutor;
 
@@ -145,6 +149,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         treeTable.setRoot(root);
 
+        printStatistics();
     }
 
     private FilterableTreeItem<TreeElement> getTreeProjects() {
@@ -334,6 +339,19 @@ public class ArchivedController implements Initializable, AbstractController {
         cancelProjectButton.setVisible(true);
         editProjectButton.setVisible(false);
         deleteProjectButton.setVisible(false);
+    }
+
+
+    public void printStatistics() {
+        Statistics stat = sessionFactory.getStatistics();
+        String regions[] = stat.getSecondLevelCacheRegionNames();
+        logger.info(regions.toString());
+        for(String regionName:regions) {
+            SecondLevelCacheStatistics stat2 = stat.getSecondLevelCacheStatistics(regionName);
+            logger.info("2nd Level Cache(" +regionName+") Put Count: "+stat2.getPutCount());
+            logger.info("2nd Level Cache(" +regionName+") HIt Count: "+stat2.getHitCount());
+            logger.info("2nd Level Cache(" +regionName+") Miss Count: "+stat2.getMissCount());
+        }
     }
 
 }

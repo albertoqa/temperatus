@@ -72,7 +72,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="missionInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #32559f;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <AnchorPane fx:id="missionInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #e6e6e6;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
                   <TextField fx:id="editableProjectName1" layoutX="172.0" layoutY="24.0" visible="false" />
                   <TextArea fx:id="editableProjectObservations1" layoutX="409.0" layoutY="25.0" prefHeight="147.0" prefWidth="200.0" visible="false" />

@@ -10,4 +10,5 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("classpath:config/spring-config.xml")
 public class SpringApplicationConfig {
 
+
 }

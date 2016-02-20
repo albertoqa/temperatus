@@ -12,7 +12,7 @@
  .label-paneinfo {
      -fx-font-size: 10pt;
      -fx-font-family: "Avenir Light";
-     -fx-text-fill: white;
+     -fx-text-fill: black;
      -fx-opacity: 1;
  }
 

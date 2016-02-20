@@ -39,7 +39,7 @@ public class GenericDaoImpl {
 
     public <T> List<T> getAll(final Class<T> type) {
         final Session s = sessionFactory.getCurrentSession();
-        final Criteria crit = s.createCriteria(type);
+        final Criteria crit = s.createCriteria(type).setCacheable(true);
         return crit.list();
     }
 
