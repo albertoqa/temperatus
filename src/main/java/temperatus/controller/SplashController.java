@@ -70,7 +70,8 @@ public class SplashController implements Initializable, AbstractController {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1);    // TODO
+                        //Thread.sleep(100);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
                             updateMessage("Cancelled");

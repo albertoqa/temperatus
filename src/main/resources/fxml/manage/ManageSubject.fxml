@@ -12,7 +12,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #e6e6e6;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label layoutX="59.0" layoutY="33.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE">
                <font>
@@ -30,12 +30,12 @@
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font></Label>
-            <VBox alignment="TOP_CENTER" layoutX="613.0" layoutY="21.0" prefHeight="170.0" prefWidth="150.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="32.0">
+            <VBox alignment="TOP_CENTER" layoutX="598.0" layoutY="32.0" prefHeight="170.0" prefWidth="150.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="-11.0" AnchorPane.topAnchor="32.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#deleteSubject" prefWidth="126.0" styleClass="dbtn" text="Delete" />
-                  <Button mnemonicParsing="false" prefWidth="126.0" styleClass="cbtn" text="Edit" />
+                  <Button mnemonicParsing="false" onAction="#deleteSubject" prefWidth="127.0" styleClass="dbtn" text="Delete" />
+                  <Button mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" />
                   <Pane prefHeight="94.0" prefWidth="123.0" />
-                  <Button fx:id="completeInfo" mnemonicParsing="false" onAction="#showCompleteInfo" styleClass="cbtn" text="Complete Info" />
+                  <Button fx:id="completeInfo" mnemonicParsing="false" onAction="#showCompleteInfo" prefWidth="127.0" styleClass="cbtn" text="Complete Info" />
                </children>
             </VBox>
             <Label fx:id="firstParticipationLabel" layoutX="58.0" layoutY="191.0" styleClass="label-paneinfo" text="His first participation was on 12/12/12" textFill="WHITE">
@@ -79,7 +79,7 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="150.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="0.0" />
-      <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="168.0" />
+      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="0.0" />
+      <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="598.0" promptText="Filter..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="139.0" />
    </children>
 </AnchorPane>

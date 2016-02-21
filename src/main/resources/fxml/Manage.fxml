@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="/fxml/Manage.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="813.0" stylesheets="@../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageController">
+<StackPane id="/fxml/Manage.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="813.0" styleClass="grayBack" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="115.0">
-              <tabs>
-              </tabs>
-            </TabPane>
-            <Label fx:id="manageLabel" layoutX="14.0" layoutY="52.0" text="Manage">
-               <font>
-                  <Font name="Avenir Light" size="35.0" />
-               </font>
-            </Label>
-            <Separator layoutX="146.0" layoutY="61.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+            <TabPane fx:id="tabPane" layoutY="86.0" prefHeight="506.0" prefWidth="783.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="86.0" />
+            <AnchorPane layoutX="299.0" layoutY="-34.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #fbfbfb;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="manageLabel" layoutX="46.0" layoutY="21.0" styleClass="headerLabel" text="Manage" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Avenir Medium" size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

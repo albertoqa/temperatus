@@ -7,72 +7,56 @@
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="657.0" prefWidth="792.0">
          <children>
-            <Label layoutX="32.0" layoutY="14.0" styleClass="label-header" text="Archived data" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="14.0">
-               <font>
-                  <Font name="Avenir Light" size="35.0" />
-               </font>
-            </Label>
-            <Separator layoutX="27.0" layoutY="60.0" prefHeight="13.0" prefWidth="739.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="60.0" />
-            <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="121.0" prefHeight="390.0" prefWidth="739.0" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="121.0" />
-            <Button fx:id="newProject" layoutX="520.0" layoutY="79.0" mnemonicParsing="false" onAction="#newProject" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="157.0" AnchorPane.topAnchor="79.0" />
-            <AnchorPane fx:id="projectInfoPane" layoutX="27.0" layoutY="482.0" opacity="0.0" prefHeight="264.0" prefWidth="739.0" style="-fx-background-color: #1f418a;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="129.0" prefHeight="382.0" prefWidth="739.0" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="129.0" />
+            <Button fx:id="newProject" layoutX="504.0" layoutY="91.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="91.0" />
+            <AnchorPane fx:id="projectInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
-                  <Label layoutX="105.0" layoutY="29.0" text="Project:" textFill="WHITE">
+                  <Label layoutX="105.0" layoutY="29.0" styleClass="label-paneinfo" text="Project:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectName" layoutX="198.0" layoutY="29.0" text="Label" textFill="WHITE">
+                  <Label fx:id="projectName" layoutX="198.0" layoutY="29.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label layoutX="86.0" layoutY="76.0" text="Start Date:" textFill="WHITE">
+                  <Label layoutX="86.0" layoutY="76.0" styleClass="label-paneinfo" text="Start Date:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectDate" layoutX="198.0" layoutY="76.0" text="Label" textFill="WHITE">
+                  <Label fx:id="projectDate" layoutX="198.0" layoutY="76.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label layoutX="27.0" layoutY="120.0" text="Number of missions:" textFill="WHITE">
+                  <Label layoutX="27.0" layoutY="120.0" styleClass="label-paneinfo" text="Number of missions:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectNumberOfMissions" layoutX="198.0" layoutY="120.0" text="Label" textFill="WHITE">
+                  <Label fx:id="projectNumberOfMissions" layoutX="198.0" layoutY="120.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label layoutX="327.0" layoutY="30.0" text="Observations" textFill="WHITE">
+                  <Label layoutX="327.0" layoutY="30.0" styleClass="label-paneinfo" text="Observations" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectObservations" layoutX="423.0" layoutY="29.0" text="Label" textFill="WHITE">
+                  <Label fx:id="projectObservations" layoutX="423.0" layoutY="29.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label layoutX="45.0" layoutY="161.0" text="Authors involved:" textFill="WHITE">
+                  <Label layoutX="45.0" layoutY="161.0" styleClass="label-paneinfo" text="Authors involved:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectAuthors" layoutX="198.0" layoutY="161.0" text="Label" textFill="WHITE">
+                  <Label fx:id="projectAuthors" layoutX="198.0" layoutY="161.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <TextField fx:id="editableProjectName" layoutX="172.0" layoutY="24.0" visible="false" />
-                  <TextArea fx:id="editableProjectObservations" layoutX="409.0" layoutY="25.0" prefHeight="147.0" prefWidth="200.0" visible="false" />
-                  <DatePicker fx:id="editableProjectDate" layoutX="172.0" layoutY="71.0" visible="false" />
-                  <VBox alignment="CENTER" layoutX="625.0" layoutY="32.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="32.0">
-                     <children>
-                        <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#editProject" prefWidth="100.0" styleClass="btn" text="Edit" />
-                        <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#deleteProject" prefWidth="100.0" styleClass="btn" text="Delete" />
-                        <Button fx:id="saveProjectButton" mnemonicParsing="false" onAction="#saveUpdatedProject" prefWidth="100.0" styleClass="btn" text="Save" visible="false" />
-                        <Button fx:id="cancelProjectButton" mnemonicParsing="false" onAction="#cancelProjectEdition" prefWidth="100.0" styleClass="btn" text="Cancel" visible="false" />
-                        <Button disable="true" mnemonicParsing="false" prefWidth="100.0" styleClass="btn" text="Button" visible="false" />
-                        <Button fx:id="newMissionButton" mnemonicParsing="false" onAction="#newMission" prefWidth="100.0" styleClass="btn" text="New Mission" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="editProjectButton" layoutY="162.0" mnemonicParsing="false" onAction="#editProject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="deleteProjectButton" layoutY="196.0" mnemonicParsing="false" onAction="#deleteProject" prefWidth="127.0" styleClass="dbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="newMissionButton" layoutY="128.0" mnemonicParsing="false" onAction="#newMission" prefWidth="127.0" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="missionInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #e6e6e6;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <AnchorPane fx:id="missionInfoPane" disable="true" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
                   <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="dbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
                   <Button fx:id="missionInfoButton" layoutX="612.0" layoutY="128.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.rightAnchor="0.0" />
@@ -93,8 +77,17 @@
                   <Button fx:id="missionInfoButton1" layoutX="612.0" layoutY="162.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
-            <TextField fx:id="filterField" layoutX="27.0" layoutY="78.0" prefHeight="29.0" prefWidth="475.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="78.0" />
-            <Button fx:id="newProject1" layoutX="648.0" layoutY="79.0" mnemonicParsing="false" onAction="#newProject" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="79.0" />
+            <TextField fx:id="filterField" layoutX="27.0" layoutY="90.0" prefHeight="29.0" prefWidth="469.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="296.0" AnchorPane.topAnchor="90.0" />
+            <Button fx:id="newProject1" layoutX="648.0" layoutY="91.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="91.0" />
+            <AnchorPane layoutX="302.0" layoutY="-49.0" maxHeight="-Infinity" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #fbfbfb;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="27.0" layoutY="20.0" styleClass="headerLabel" text="Archived data" textFill="#4c5e70" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Avenir Medium" size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>
