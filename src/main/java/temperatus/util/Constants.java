@@ -53,7 +53,7 @@ public class Constants {
     public static final String MANAGE_FORMULA = "/fxml/manage/ManageFormula.fxml";
     public static final String MANAGE_IBUTTON = "/fxml/manage/ManageIButton.fxml";
 
-    public static final String SUBJECT_INFO = "/fxml/manage/info/SubjectInfo.fxml";
+    public static final String SUBJECT_INFO = "/fxml/manage/ampliate/SubjectInfo.fxml";
 
     //#########################################################################//
 

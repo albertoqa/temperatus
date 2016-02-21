@@ -1,5 +1,6 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -68,6 +69,11 @@ public class Author implements java.io.Serializable {
         return "Author{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return new SimpleStringProperty(getName());
     }
 
 }

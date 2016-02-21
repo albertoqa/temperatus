@@ -103,7 +103,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
                         if ("male".contains(lowerCaseFilter)) {
                             return true;
                         }
-                    } else if (!subject.getSex()) {
+                    } else {
                         if ("female".contains(lowerCaseFilter)) {
                             return true;
                         }
@@ -113,9 +113,8 @@ public class ManageSubjectController implements Initializable, AbstractControlle
             });
         });
 
-        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, subject) -> {
             Animation.fadeInTransition(infoPane);
-            Subject subject = newValue;
 
             if(subject != null) {
                 nameLabel.setText(subject.getName());
