@@ -3,9 +3,47 @@
     Author     : Alberto Quesada
 */
 
+
+.grayBack {
+  -fx-background-color: #f3f3f3;
+}
+
+
+.leftMenu {
+  -fx-background-color: #2b3940;
+}
+
+.leftbtn {
+    -fx-padding: 15 0 15 0;
+    -fx-border-style: none;
+    -fx-background-radius: 0;
+    -fx-border-color : #3a474d;
+    -fx-border-width: 0 0 0.5 0;
+/*    -fx-border-width:2;*/
+    -fx-background-color: #2b3940;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+    -fx-label-padding: 0 0 0 30;
+    -fx-graphic-text-gap: 15;
+}
+
+.leftbtn:hover{
+    -fx-background-color: #364852;
+}
+
+.leftbtn:selected{
+    -fx-background-color: #222d32;
+    -fx-border-color : #16b7bd;
+    -fx-border-width: 0 0 0 4;
+}
+
+
 /*******************************************************************************
  *                                                                             *
- * Label                                                                       *
+ * Labels                                                                    *
  *                                                                             *
  ******************************************************************************/
 
@@ -36,9 +74,6 @@
      -fx-text-fill: black;
      -fx-opacity: 1;
  }
-
-
-
 
 /*******************************************************************************
  *                                                                             *
@@ -215,4 +250,36 @@
 
 .item-title.disabled{
    -fx-text-fill: #939393;
+}
+
+/*******************************************************************************
+*                                                                             *
+* ListView                                                   *
+*                                                                             *
+******************************************************************************/
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #222d32;
+    -fx-text-fill: white;
+}
+
+.list-cell {
+    -fx-background-color: #2b3940;
+    -fx-text-fill: white;
+    -fx-cell-size: 3.2em; /* 24 */
+    -fx-font: 14px "Segoe UI Semibold";
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color:transparent;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #364852;
+    -fx-text-fill: white;
+}
+
+.list-view{
+    -fx-background-color: #2b3940;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
 }

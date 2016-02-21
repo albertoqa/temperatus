@@ -3,12 +3,16 @@ package temperatus.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -45,12 +49,20 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML private StackPane vistaHolder;
     @FXML private Label clock;
-    @FXML private ListView<String> menu;
+
+    @FXML private ToggleButton home;
+    @FXML private ToggleButton archive;
+    @FXML private ToggleButton devices;
+    @FXML private ToggleButton manage;
+    @FXML private ToggleButton configuration;
+    @FXML private ToggleButton about;
 
     @Autowired IbuttonService ibuttonService;
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
     @Autowired DeviceOperationsManager deviceOperationsManager;
+
+    private ToggleGroup menuGroup;
 
     private final static String clockPattern = "HH:mm:ss";
 
@@ -65,9 +77,20 @@ public class BaseController implements Initializable, AbstractController, Device
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(connectedDevicesController);
 
-        addMenuElements();
-        menu.getSelectionModel().select(language.get(Constants.LHOME));
+        setImages();
+        translate();
 
+        menuGroup = new ToggleGroup();
+        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about);
+        home.setSelected(true);
+
+        menuGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            public void changed(ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) {
+                if (new_toggle == null) {
+                    toggle.setSelected(true);
+                }
+            }
+        });
     }
 
     /**
@@ -86,64 +109,82 @@ public class BaseController implements Initializable, AbstractController, Device
      *             Menu
      **********************************/
 
+    private void setImages() {
+
+        ImageView homeI = new ImageView("/images/icons/home.png");
+        homeI.setFitHeight(15);
+        homeI.setFitWidth(15);
+        home.setGraphic(homeI);
+
+        ImageView archiveI = new ImageView("/images/icons/archive.png");
+        archiveI.setFitHeight(15);
+        archiveI.setFitWidth(15);
+        archive.setGraphic(archiveI);
+
+        ImageView deviceI = new ImageView("/images/icons/devices.png");
+        deviceI.setFitHeight(15);
+        deviceI.setFitWidth(15);
+        devices.setGraphic(deviceI);
+
+        ImageView manageI = new ImageView("/images/icons/manage.png");
+        manageI.setFitHeight(15);
+        manageI.setFitWidth(15);
+        manage.setGraphic(manageI);
+
+        ImageView confI = new ImageView("/images/icons/conf.png");
+        confI.setFitHeight(15);
+        confI.setFitWidth(15);
+        configuration.setGraphic(confI);
+
+        ImageView aboutI = new ImageView("/images/icons/about.png");
+        aboutI.setFitHeight(15);
+        aboutI.setFitWidth(15);
+        about.setGraphic(aboutI);
+
+    }
+
+    @FXML
+    private void goHome() {
+        VistaNavigator.loadVista(Constants.HOME);
+    }
+
+    @FXML
+    private void goArchive() {
+        VistaNavigator.loadVista(Constants.ARCHIVED);
+    }
+
+    @FXML
+    private void goDevices() {
+        VistaNavigator.loadVista(Constants.CONNECTED);
+    }
+
+    @FXML
+    private void goManage() {
+        VistaNavigator.loadVista(Constants.MANAGE);
+    }
+
+    @FXML
+    private void goConfig() {
+        VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION));
+    }
+
+    @FXML
+    private void goAbout() {
+        VistaNavigator.loadVista(Constants.ABOUT);
+    }
+
+
     /**
      * Set the menu elements for navigation in the preferred language
      */
-    private void addMenuElements() {
+    /*private void addMenuElements() {
         menu.getItems().add(language.get(Constants.LHOME));
         menu.getItems().add(language.get(Constants.ARCHIVE));
         menu.getItems().add(language.get(Constants.DEVICES));
         menu.getItems().add(language.get(Constants.LMANAGE));
         menu.getItems().add(language.get(Constants.CONFIGURATION));
         menu.getItems().add(language.get(Constants.LABOUT));
-    }
-
-    /**
-     * Menu controller, load view selected from the list
-     * MenuList is as follows: HOME, ARCHIVED, CONNECTED, MANAGE, CONFIG, ABOUT
-     *
-     * @param event
-     */
-    @FXML
-    private void menuActions(MouseEvent event) {
-        switch (menu.getSelectionModel().getSelectedIndex()) {
-            case 0: {
-                VistaNavigator.loadVista(Constants.HOME);
-            }
-            break;
-            case 1: {
-                VistaNavigator.loadVista(Constants.ARCHIVED);
-            }
-            break;
-            case 2: {
-                VistaNavigator.loadVista(Constants.CONNECTED);
-            }
-            break;
-            case 3: {
-                VistaNavigator.loadVista(Constants.MANAGE);
-            }
-            break;
-            case 4: {
-                VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION));
-            }
-            break;
-            case 5: {
-                VistaNavigator.loadVista(Constants.ABOUT);
-            }
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Change the selected element in the menu
-     *
-     * @param element
-     */
-    public void selectMenuElement(String element) {
-        menu.getSelectionModel().select(language.get(element));
-    }
-
+    }*/
 
     /***********************************
      *       View Operations
@@ -199,7 +240,12 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Override
     public void translate() {
-        logger.debug("Nothing to translate");
+        home.setText(language.get(Constants.LHOME));
+        archive.setText(language.get(Constants.ARCHIVE));
+        devices.setText(language.get(Constants.DEVICES));
+        manage.setText(language.get(Constants.LMANAGE));
+        configuration.setText(language.get(Constants.CONFIGURATION));
+        about.setText(language.get(Constants.LABOUT));
     }
 
 
