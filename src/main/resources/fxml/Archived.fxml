@@ -77,7 +77,7 @@
                   <Button fx:id="missionInfoButton1" layoutX="473.0" layoutY="196.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="135.0" />
                </children>
             </AnchorPane>
-            <TextField fx:id="filterField" layoutX="27.0" layoutY="90.0" prefHeight="29.0" prefWidth="469.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="296.0" AnchorPane.topAnchor="90.0" />
+            <TextField fx:id="filterField" layoutX="27.0" layoutY="90.0" prefHeight="29.0" prefWidth="469.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="296.0" AnchorPane.topAnchor="90.0" />
             <Button fx:id="newProject1" layoutX="648.0" layoutY="91.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="91.0" />
             <AnchorPane layoutX="302.0" layoutY="-49.0" maxHeight="-Infinity" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>

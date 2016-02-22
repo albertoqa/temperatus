@@ -4,26 +4,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="NewRecord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="750.0" prefWidth="809.0" stylesheets="@../../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
+<StackPane id="NewRecord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="775.0" prefWidth="809.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
    <children>
-      <AnchorPane prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
          <children>
-            <Label fx:id="titleLabel" layoutX="32.0" layoutY="27.0" text="Record Data">
-               <font>
-                  <Font name="Avenir Light" size="28.0" />
-               </font></Label>
-            <Separator layoutX="25.0" layoutY="65.0" prefHeight="5.0" prefWidth="759.0" />
-            <TableView fx:id="iButtonsTable" layoutX="27.0" layoutY="615.0" prefHeight="129.0" prefWidth="601.0">
+            <TableView fx:id="iButtonsTable" layoutX="27.0" layoutY="631.0" prefHeight="142.0" prefWidth="755.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
               <columns>
                 <TableColumn prefWidth="181.0" text="iButton Model" />
                 <TableColumn prefWidth="148.0" text="Serie" />
                   <TableColumn prefWidth="148.0" text="Default Position" />
               </columns>
             </TableView>
-            <Button fx:id="saveButton" layoutX="682.0" layoutY="517.0" mnemonicParsing="false" onAction="#save" prefHeight="27.0" prefWidth="85.0" styleClass="btn" text="Save" />
-            <Button fx:id="cancelButton" layoutX="682.0" layoutY="556.0" mnemonicParsing="false" styleClass="btn" text="Cancel" />
-            <Button fx:id="refreshButton" layoutX="683.0" layoutY="617.0" mnemonicParsing="false" styleClass="btn" text="Refresh" />
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="27.0" layoutY="105.0" maxHeight="1.7976931348623157E308" prefHeight="478.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+            <Button fx:id="saveButton" layoutX="515.0" layoutY="562.0" mnemonicParsing="false" onAction="#save" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="186.0" AnchorPane.rightAnchor="167.0" />
+            <Button fx:id="cancelButton" layoutX="655.0" layoutY="562.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="186.0" AnchorPane.rightAnchor="27.0" />
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="27.0" layoutY="105.0" maxHeight="1.7976931348623157E308" prefHeight="439.0" prefWidth="755.0" style="-fx-background-color: #FFFFFF;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
               <content>
                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
                      <children>
@@ -39,22 +33,30 @@
                   <Insets bottom="5.0" top="5.0" />
                </padding>
             </ScrollPane>
-            <Label fx:id="indexLabel" layoutX="54.0" layoutY="81.0" text="Index">
+            <Label fx:id="indexLabel" layoutX="54.0" layoutY="81.0" styleClass="label-paneinfo" text="Index">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="positionLabel" layoutX="200.0" layoutY="81.0" text="Position">
+            <Label fx:id="positionLabel" layoutX="200.0" layoutY="81.0" styleClass="label-paneinfo" text="Position">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="dataSourceLabel" layoutX="436.0" layoutY="81.0" text="Data Source">
+            <Label fx:id="dataSourceLabel" layoutX="436.0" layoutY="81.0" styleClass="label-paneinfo" text="Data Source">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Button layoutX="686.0" layoutY="34.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="85.0" styleClass="btn" text="Back" />
+            <AnchorPane layoutX="293.0" layoutY="-66.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="titleLabel" styleClass="headerLabel" text="Record Data" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Avenir Light" size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

@@ -99,17 +99,20 @@
 .cbtn {
     -fx-padding: 5 22 5 22;
     -fx-border-style: none;
-    -fx-background-radius: 0;
     -fx-border-color : transparent grey grey transparent;
 /*    -fx-border-width:2;*/
 /*    -fx-background-color: #16b7bd; */
 /*    -fx-background-color: #299bb4; */
-      -fx-background-color: #34aab0;
+    -fx-background-color: #34aab0;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 12px;
     -fx-text-fill: white;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+
 }
 
 .cbtn:hover{
@@ -307,8 +310,9 @@
  .tree-table-cell {
      -fx-padding: 0.5em 0.5em 0.1em 0.3em;
      -fx-border-color: transparent transparent transparent transparent;
-     -fx-font: 12px "Segoe UI";
-     -fx-text-fill: #212121;
+     -fx-font-family: "Avenir Medium";
+     -fx-font-size: 12px;
+     -fx-text-fill: black;
      -fx-alignment: CENTER_LEFT;
      -fx-border-insets: 0;
      -fx-padding: 0 5 0 10;
@@ -649,8 +653,26 @@
   }
 
   .combo-box-popup .list-view {
-      -fx-background-color: #909090, -fx-control-inner-background;
-      -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0) , 8, 0.0 , 0 , 0 );
+      -fx-background-color: #FFFFFF;
+  }
+
+  .combo-box-popup .list-view .list-cell {
+      -fx-padding: 4 0 4 5;
+      -fx-background-color: #FFFFFF;
+      -fx-font-family: "Avenir Medium";
+      -fx-font-size: 12px;
+      -fx-text-fill: black;
+  }
+
+  .combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {
+      -fx-background: -fx-accent;
+      -fx-background-color: #eceff4;
+      -fx-text-fill: black;
+  }
+
+  .combo-box-popup .list-view .list-cell:filled:hover {
+      -fx-background-color: #f5f5f5;
+      -fx-text-fill: black;
   }
 
   .date-picker .text-input{

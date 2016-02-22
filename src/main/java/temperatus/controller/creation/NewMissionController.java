@@ -23,6 +23,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -70,8 +71,6 @@ public class NewMissionController extends AbstractCreationController implements 
 
     static Logger logger = LoggerFactory.getLogger(NewMissionController.class.getName());
 
-    private final int invalidSelectionId = -1;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -86,8 +85,6 @@ public class NewMissionController extends AbstractCreationController implements 
         logger.info("VistaNavigator -> AbstractController set to NewMissionController");
 
         dateInput.setValue(LocalDate.now());    // Default date: today
-
-        //Choice noSelectionChoice = new Choice(invalidSelectionId, language.get(Constants.NOSELECTION));    // Preselected choice
 
         // * Load all projects from database and allow the user to choose them
         ObservableList<Project> projects = FXCollections.observableArrayList();
@@ -182,7 +179,12 @@ public class NewMissionController extends AbstractCreationController implements 
 
     @FXML
     private void cancel() {
-        // TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            VistaNavigator.loadVista(Constants.ARCHIVED);
+            VistaNavigator.baseController.selectMenuButton(Constants.ARCHIVED);
+        }
     }
 
     /**

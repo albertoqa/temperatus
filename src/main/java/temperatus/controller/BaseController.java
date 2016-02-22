@@ -173,6 +173,25 @@ public class BaseController implements Initializable, AbstractController, Device
         VistaNavigator.loadVista(Constants.ABOUT);
     }
 
+
+    public void selectMenuButton(String view) {
+        switch (view) {
+            case Constants.HOME: menuGroup.selectToggle(home);
+                break;
+            case Constants.ARCHIVED: menuGroup.selectToggle(archive);
+                break;
+            case Constants.CONNECTED: menuGroup.selectToggle(devices);
+                break;
+            case Constants.MANAGE: menuGroup.selectToggle(manage);
+                break;
+            case Constants.CONFIG: menuGroup.selectToggle(configuration);
+                break;
+            case Constants.ABOUT: menuGroup.selectToggle(about);
+                break;
+            default: break;
+        }
+    }
+
     /***********************************
      *       View Operations
      **********************************/

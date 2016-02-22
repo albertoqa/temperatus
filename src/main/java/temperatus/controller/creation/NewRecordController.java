@@ -106,13 +106,13 @@ public class NewRecordController extends AbstractCreationController implements I
 
             // ID = index
             // POSITION -> add all positions + if default, select it
-            ChoiceBox<Position> choiceBoxPositions = addAllPositions();
+            ComboBox<Position> choiceBoxPositions = addAllPositions();
             if (defaultPositions.size() > index) {
                 choiceBoxPositions.getSelectionModel().select(defaultPositions.get(index));
             }
 
             // SOURCE -> all detected iButtons
-            ChoiceBox<SourceChoice> choiceBoxSource = addAllDetectediButtons();
+            ComboBox<SourceChoice> choiceBoxSource = addAllDetectediButtons();
 
             // Add a new "row" with generated info
             addNewRow(index, choiceBoxPositions, choiceBoxSource);
@@ -131,7 +131,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 // Set that ibutton to that position
                 if (defaultPositions.contains(defaultPositionForIbutton)) {
                     int index = getRowForPosition(defaultPositionForIbutton);
-                    ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(new SourceChoice(ibutton));
+                    ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(new SourceChoice(ibutton));
                 }
             }
         }
@@ -145,7 +145,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private int getRowForPosition(Position position) {
         for (int index = 0; index < positionBox.getChildren().size(); index++) {
-            if (((ChoiceBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem().equals(position)) {
+            if (((ComboBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem().equals(position)) {
                 return index;
             }
         }
@@ -166,19 +166,19 @@ public class NewRecordController extends AbstractCreationController implements I
      *
      * @return
      */
-    private ChoiceBox<Position> addAllPositions() {
-        ChoiceBox<Position> choiceBoxPositions = new ChoiceBox<>();
+    private ComboBox<Position> addAllPositions() {
+        ComboBox<Position> choiceBoxPositions = new ComboBox<>();
         choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
         return choiceBoxPositions;
     }
 
     /**
-     * Create a SourceChoice for each iButton detected and add it to the ChoiceBox
+     * Create a SourceChoice for each iButton detected and add it to the ComboBox
      *
      * @return
      */
-    private ChoiceBox<SourceChoice> addAllDetectediButtons() {
-        ChoiceBox<SourceChoice> choiceBoxSource = new ChoiceBox<>();
+    private ComboBox<SourceChoice> addAllDetectediButtons() {
+        ComboBox<SourceChoice> choiceBoxSource = new ComboBox<>();
 
         List<SourceChoice> sourceChoiceList = new ArrayList<>();
         for (Ibutton ibutton : iButtons) {
@@ -208,8 +208,8 @@ public class NewRecordController extends AbstractCreationController implements I
             String iButtonModel = "";
 
             try {
-                position = ((ChoiceBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
-                sourceChoice = ((ChoiceBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+                position = ((ComboBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+                sourceChoice = ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
 
                 // Import data
                 if(sourceChoice.getFile() != null) {
@@ -264,7 +264,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
     }
 
-    private void addNewRow(int index, ChoiceBox<Position> posBox, ChoiceBox<SourceChoice> srcBox) {
+    private void addNewRow(int index, ComboBox<Position> posBox, ComboBox<SourceChoice> srcBox) {
         Label id = new Label(String.valueOf(index));
         id.setPrefHeight(prefHeight);
         id.setMaxHeight(prefHeight);
@@ -311,9 +311,9 @@ public class NewRecordController extends AbstractCreationController implements I
             Button clickedButton = (Button) event.getSource();
             Integer index = (Integer) clickedButton.getUserData();
 
-            if(sourceBox.getChildren().get(index) instanceof ChoiceBox) {
-                ((ChoiceBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
-                ((ChoiceBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+            if(sourceBox.getChildren().get(index) instanceof ComboBox) {
+                ((ComboBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
+                ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
             }
 
             event.consume();
