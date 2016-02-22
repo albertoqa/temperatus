@@ -135,9 +135,7 @@ public class Subject implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 
     @Transient

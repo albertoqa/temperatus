@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -92,15 +91,6 @@ public class BaseController implements Initializable, AbstractController, Device
             }
         });
 
-        // translate the titledpane arrow and header so that the arrow is displayed to right of the header.
-        Pane connectivityArrow = (Pane) accordionPane.lookup(".arrow");
-        connectivityArrow.translateXProperty().bind(
-                accordionPane.widthProperty().subtract(connectivityArrow.widthProperty().multiply(2))
-        );
-        Pane connectivityTitle = (Pane) accordionPane.lookup(".header");
-        connectivityTitle.translateXProperty().bind(
-                connectivityArrow.widthProperty().negate()
-        );
     }
 
     /**

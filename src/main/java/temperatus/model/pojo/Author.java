@@ -66,9 +66,7 @@ public class Author implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 
     @Transient

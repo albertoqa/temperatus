@@ -561,27 +561,99 @@
 
 .titled-pane > .title {
    -fx-background-color: transparent;
+   -fx-background-radius: 0;
+   -fx-background-insets: 0;
    -fx-color: #2b3940;
    -fx-border-color : #3a474d;
    -fx-border-width: 0 0 0.5 0;
+   -fx-border-style: none;
+   -fx-border-insets: 0;
    -fx-label-padding: 0 0 0 30;
-   -fx-padding: 15 0 15 0;
+   -fx-padding: 15 0 15 30;
    -fx-graphic-text-gap: 15;
    -fx-font-family: "Segoe UI Semibold";
    -fx-font-size: 12px;
    -fx-text-fill: white;
+
  }
 
- .titled-pane > .title > .arrow-button {
-    -fx-background-color: black;
-    -fx-background-insets: 0;
-    -fx-background-radius: 0;
-    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
-}
+ .titled-pane > .title > .arrow-button
+ {
+ -fx-background-color: null;
+ -fx-background-insets: 0;
+ -fx-background-radius: 0;
+ -fx-padding: 0 15 0 0; /* 0 3 0 0 */
+ }
 
-.titled-pane > .title > .arrow-button .arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
-    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
-}
+
+ /*******************************************************************************
+  *                                                                             *
+  * FormInput                                                                  *
+  *                                                                             *
+  ******************************************************************************/
+
+  .form {
+     -fx-background-radius: 3;
+     -fx-background-color: white;
+     -fx-border-color: #3a474d;
+     -fx-border-width: 0.5;
+     -fx-border-radius: 3;
+     -fx-background-insets: 0;
+
+     -fx-prompt-text-fill: #818181;
+
+     -fx-font-family: "Avenir Medium";
+     -fx-font-size: 12px;
+     -fx-text-fill: black;
+
+     -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+     -fx-highlight-text-fill: white;
+  }
+
+  /*******************************************************************************
+   *                                                                             *
+   * ComboBox                                                                    *
+   *                                                                             *
+   ******************************************************************************/
+
+  .combo-box-base  {
+    -fx-background-radius: 3;
+    -fx-background-color: white;
+    -fx-border-color: #3a474d;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 3;
+    -fx-background-insets: 0;
+
+    -fx-prompt-text-fill: #818181;
+
+    -fx-font-family: "Avenir Medium";
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+
+    -fx-highlight-fill: #008287;
+    -fx-highlight-text-fill: white;
+  }
+
+  .combo-box-base:hover {
+      -fx-background-color: transparent;
+  }
+
+  /* ------- OPEN BUTTON ------- */
+  .combo-box-base .arrow-button {
+      -fx-background-color: #f3f3f3;
+  }
+
+  .combo-box .text-input{
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+  }
+
+  .combo-box-popup .list-view {
+      -fx-background-color: #909090, -fx-control-inner-background;
+      -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0) , 8, 0.0 , 0 , 0 );
+  }
+
+  .date-picker .text-input{
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+  }

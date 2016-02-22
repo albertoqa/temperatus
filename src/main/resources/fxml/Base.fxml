@@ -15,12 +15,17 @@
                   <ToggleButton fx:id="manage" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goManage" styleClass="leftbtn" text="Manage" />
                   <Accordion style="-fx-background-color: #2b3940;">
                     <panes>
-                      <TitledPane style="-fx-background-color: #2b3940;" fx:id="accordionPane" text="Create">
+                      <TitledPane fx:id="accordionPane" style="-fx-background-color: #2b3940;" text="Create New">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #2b3940;">
                                  <children>
                                     <VBox style="-fx-background-color: #2b3940;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
                                        <children>
+                                          <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Project" />
+                                          <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Mission" />
+                                          <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Game" />
+                                          <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Formula" />
+                                          <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Subject" />
                                           <ToggleButton mnemonicParsing="false" prefWidth="200.0" styleClass="leftbtn" text="New Project" />
                                        </children>
                                     </VBox>

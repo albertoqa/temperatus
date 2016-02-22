@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="595.0" prefWidth="661.0" stylesheets="@../../styles/Metro-UI.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
+<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="609.0" prefWidth="800.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label fx:id="title" layoutX="32.0" layoutY="27.0" text="New Mission">
-               <font>
-                  <Font name="Avenir Light" size="28.0" />
-               </font></Label>
-            <Separator layoutX="27.0" layoutY="67.0" prefHeight="0.0" prefWidth="603.0" />
-            <Label fx:id="projectLabel" layoutX="62.0" layoutY="92.0" text="Project:" />
-            <Label fx:id="nameLabel" layoutX="67.0" layoutY="148.0" text="Name:" />
-            <Label fx:id="authorLabel" layoutX="70.0" layoutY="192.0" text="Author:" />
-            <Label fx:id="startDateLabel" layoutX="54.0" layoutY="241.0" text="Date start:" />
-            <Label fx:id="observationsLabel" layoutX="45.0" layoutY="292.0" text="Observations:" />
-            <Label fx:id="gameLabel" layoutX="55.0" layoutY="379.0" text="Game used:" />
-            <Label fx:id="subjectLabel" layoutX="61.0" layoutY="431.0" text="Subject:" />
-            <ComboBox fx:id="gameBox" layoutX="157.0" layoutY="374.0" prefWidth="150.0" />
-            <ComboBox fx:id="subjectBox" layoutX="157.0" layoutY="426.0" prefWidth="150.0" />
-            <TextArea fx:id="observationsInput" layoutX="157.0" layoutY="291.0" prefHeight="69.0" prefWidth="408.0" />
-            <DatePicker fx:id="dateInput" layoutX="155.0" layoutY="236.0" />
-            <TextField fx:id="nameInput" layoutX="155.0" layoutY="143.0" />
-            <Button fx:id="newGameButton" layoutX="432.0" layoutY="374.0" mnemonicParsing="false" onAction="#newGame" styleClass="btn" text="New Game" />
-            <Button fx:id="newSubjectButton" layoutX="427.0" layoutY="426.0" mnemonicParsing="false" onAction="#newSubject" styleClass="btn" text="New Subject" />
-            <Button fx:id="newProjectButton" layoutX="428.0" layoutY="87.0" mnemonicParsing="false" onAction="#newProject" styleClass="btn" text="New Project" />
-            <Pane layoutX="417.0" layoutY="515.0" prefHeight="56.0" prefWidth="200.0" style="-fx-background-color: #808080;">
+            <Label fx:id="projectLabel" layoutX="70.0" layoutY="150.0" styleClass="label-paneinfo" text="Project" AnchorPane.leftAnchor="70.0" />
+            <Label fx:id="nameLabel" layoutX="70.0" layoutY="90.0" styleClass="label-paneinfo" text="Name" AnchorPane.leftAnchor="70.0" />
+            <Label fx:id="authorLabel" layoutX="341.0" layoutY="210.0" styleClass="label-paneinfo" text="Author" AnchorPane.leftAnchor="341.0" AnchorPane.rightAnchor="413.0" />
+            <Label fx:id="startDateLabel" layoutX="67.0" layoutY="210.0" styleClass="label-paneinfo" text="Start Date" AnchorPane.leftAnchor="70.0" />
+            <Label fx:id="observationsLabel" layoutX="72.0" layoutY="390.0" styleClass="label-paneinfo" text="Observations" AnchorPane.leftAnchor="70.0" />
+            <Label fx:id="gameLabel" layoutX="67.0" layoutY="270.0" styleClass="label-paneinfo" text="Game used" AnchorPane.leftAnchor="70.0" />
+            <Label fx:id="subjectLabel" layoutX="74.0" layoutY="330.0" styleClass="label-paneinfo" text="Subject" AnchorPane.leftAnchor="70.0" />
+            <ComboBox fx:id="gameBox" layoutX="65.0" layoutY="290.0" prefHeight="29.0" prefWidth="150.0" promptText="Game title" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
+            <ComboBox fx:id="subjectBox" layoutX="65.0" layoutY="350.0" prefHeight="29.0" prefWidth="150.0" promptText="Subject name" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
+            <TextArea fx:id="observationsInput" layoutX="67.0" layoutY="410.0" prefHeight="112.0" prefWidth="500.0" promptText="Insert observations" styleClass="form" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
+            <DatePicker fx:id="dateInput" layoutX="67.0" layoutY="230.0" prefHeight="29.0" prefWidth="230.0" AnchorPane.leftAnchor="70.0" />
+            <TextField fx:id="nameInput" layoutX="70.0" layoutY="110.0" prefHeight="29.0" prefWidth="469.0" promptText="Mission Name" styleClass="form" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
+            <Button fx:id="newGameButton" layoutX="588.0" layoutY="290.0" mnemonicParsing="false" onAction="#newGame" prefWidth="127.0" styleClass="cbtn" text="New Game" AnchorPane.rightAnchor="70.0" />
+            <Button fx:id="newSubjectButton" layoutX="583.0" layoutY="350.0" mnemonicParsing="false" onAction="#newSubject" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="70.0" />
+            <Button fx:id="newProjectButton" layoutX="584.0" layoutY="170.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="70.0" />
+            <ComboBox fx:id="projectBox" layoutX="70.0" layoutY="170.0" prefHeight="29.0" prefWidth="503.0" promptText="Project name" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
+            <ComboBox fx:id="authorBox" layoutX="323.0" layoutY="230.0" prefHeight="29.0" prefWidth="230.0" promptText="Author name" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="230.0" />
+            <AnchorPane layoutX="224.0" layoutY="-57.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="saveButton" layoutX="3.0" layoutY="15.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Continue" />
-                  <Button fx:id="cancelButton" layoutX="110.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancel" styleClass="btn" text="Cancel" />
+                  <Label fx:id="title" layoutX="48.0" layoutY="21.0" styleClass="headerLabel" text="New Mission" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Avenir Light" size="28.0" />
+                     </font>
+                  </Label>
                </children>
-            </Pane>
-            <ComboBox fx:id="projectBox" layoutX="155.0" layoutY="87.0" prefHeight="29.0" prefWidth="169.0" />
-            <ComboBox fx:id="authorBox" layoutX="155.0" layoutY="187.0" prefHeight="29.0" prefWidth="169.0" />
+            </AnchorPane>
+            <Button fx:id="saveButton" layoutX="443.0" layoutY="553.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Continue" AnchorPane.rightAnchor="230.0" />
+            <Button fx:id="cancelButton" layoutX="603.0" layoutY="553.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.rightAnchor="70.0" />
+            <Button fx:id="newGameButton1" layoutX="585.0" layoutY="230.0" mnemonicParsing="false" onAction="#newGame" prefWidth="127.0" styleClass="cbtn" text="New Author" AnchorPane.rightAnchor="70.0" />
          </children>
       </AnchorPane>
    </children>

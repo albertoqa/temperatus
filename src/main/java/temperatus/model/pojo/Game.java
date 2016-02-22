@@ -113,11 +113,7 @@ public class Game implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Game{" +
-                "numButtons=" + numButtons +
-                ", title='" + title + '\'' +
-                ", id=" + id +
-                '}';
+        return title;
     }
 
     @Transient
