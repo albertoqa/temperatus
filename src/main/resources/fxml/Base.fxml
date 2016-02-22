@@ -13,6 +13,24 @@
                   <ToggleButton fx:id="archive" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goArchive" styleClass="leftbtn" text="Archive" />
                   <ToggleButton fx:id="devices" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goDevices" styleClass="leftbtn" text="Devices" />
                   <ToggleButton fx:id="manage" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goManage" styleClass="leftbtn" text="Manage" />
+                  <Accordion style="-fx-background-color: #2b3940;">
+                    <panes>
+                      <TitledPane style="-fx-background-color: #2b3940;" fx:id="accordionPane" text="Create">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #2b3940;">
+                                 <children>
+                                    <VBox style="-fx-background-color: #2b3940;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
+                                       <children>
+                                          <ToggleButton mnemonicParsing="false" prefWidth="200.0" styleClass="leftbtn" text="New Project" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                   <ToggleButton fx:id="configuration" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goConfig" styleClass="leftbtn" text="Configuration" />
                   <ToggleButton fx:id="about" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goAbout" styleClass="leftbtn" text="About" />
                </children>
@@ -42,11 +60,4 @@
    <center>
       <StackPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
    </center>
-   <bottom>
-      <AnchorPane prefHeight="24.0" prefWidth="1000.0" style="-fx-background-color: #1c292f;" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="824.0" layoutY="4.0" text="www.temperatus.com" textFill="#687074" AnchorPane.rightAnchor="26.0" />
-         </children>
-      </AnchorPane>
-   </bottom>
 </BorderPane>

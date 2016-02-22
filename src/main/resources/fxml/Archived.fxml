@@ -52,14 +52,14 @@
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
                   <Button fx:id="editProjectButton" layoutY="162.0" mnemonicParsing="false" onAction="#editProject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="0.0" />
-                  <Button fx:id="deleteProjectButton" layoutY="196.0" mnemonicParsing="false" onAction="#deleteProject" prefWidth="127.0" styleClass="dbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="deleteProjectButton" layoutY="196.0" mnemonicParsing="false" onAction="#deleteProject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
                   <Button fx:id="newMissionButton" layoutY="128.0" mnemonicParsing="false" onAction="#newMission" prefWidth="127.0" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="missionInfoPane" disable="true" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <AnchorPane fx:id="missionInfoPane" disable="true" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
-                  <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="dbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
-                  <Button fx:id="missionInfoButton" layoutX="612.0" layoutY="128.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="missionInfoButton" layoutX="342.0" layoutY="196.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.rightAnchor="270.0" />
                   <Label layoutX="60.0" layoutY="24.0" styleClass="label-paneinfo" text="Mission:" />
                   <Label layoutX="130.0" layoutY="24.0" styleClass="label-paneinfodata" text="Mission de prueba" />
                   <Label layoutX="60.0" layoutY="68.0" styleClass="label-paneinfo" text="Author:" />
@@ -73,15 +73,15 @@
                   <Label layoutX="130.0" layoutY="152.0" styleClass="label-paneinfodata" text="Juego de 12 botones" />
                   <Label layoutX="130.0" layoutY="188.0" styleClass="label-paneinfodata" text="Isabel Calatrava" />
                   <Label layoutX="293.0" layoutY="68.0" styleClass="label-paneinfo" text="Observations:" />
-                  <Label alignment="TOP_LEFT" layoutX="398.0" layoutY="68.0" prefHeight="147.0" prefWidth="182.0" styleClass="label-paneinfodata" text="El sujeto de este experimento ha empezado a tiritar en el segundo 15 tra entrar a la cámara de frio. \n No se sabe con certeza si ha sido por una razón o por otra razón." wrapText="true" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="159.0" />
-                  <Button fx:id="missionInfoButton1" layoutX="612.0" layoutY="162.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="0.0" />
+                  <Label alignment="TOP_LEFT" layoutX="398.0" layoutY="68.0" prefHeight="103.0" prefWidth="334.0" styleClass="label-paneinfodata" text="El sujeto de este experimento ha empezado a tiritar en el segundo 15 tra entrar a la cámara de frio. \n No se sabe con certeza si ha sido por una razón o por otra razón." wrapText="true" AnchorPane.bottomAnchor="63.0" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="7.0" />
+                  <Button fx:id="missionInfoButton1" layoutX="473.0" layoutY="196.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="135.0" />
                </children>
             </AnchorPane>
             <TextField fx:id="filterField" layoutX="27.0" layoutY="90.0" prefHeight="29.0" prefWidth="469.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="296.0" AnchorPane.topAnchor="90.0" />
             <Button fx:id="newProject1" layoutX="648.0" layoutY="91.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Mission" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="91.0" />
-            <AnchorPane layoutX="302.0" layoutY="-49.0" maxHeight="-Infinity" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #fbfbfb;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="302.0" layoutY="-49.0" maxHeight="-Infinity" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="27.0" layoutY="20.0" styleClass="headerLabel" text="Archived data" textFill="#4c5e70" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                  <Label layoutX="27.0" layoutY="20.0" styleClass="headerLabel" text="Archive" textFill="#4c5e70" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font name="Avenir Medium" size="27.0" />
                      </font>

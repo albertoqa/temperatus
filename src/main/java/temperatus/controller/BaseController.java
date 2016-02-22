@@ -8,11 +8,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -57,6 +55,8 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private ToggleButton configuration;
     @FXML private ToggleButton about;
 
+    @FXML private TitledPane accordionPane;
+
     @Autowired IbuttonService ibuttonService;
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
@@ -91,6 +91,16 @@ public class BaseController implements Initializable, AbstractController, Device
                 }
             }
         });
+
+        // translate the titledpane arrow and header so that the arrow is displayed to right of the header.
+        Pane connectivityArrow = (Pane) accordionPane.lookup(".arrow");
+        connectivityArrow.translateXProperty().bind(
+                accordionPane.widthProperty().subtract(connectivityArrow.widthProperty().multiply(2))
+        );
+        Pane connectivityTitle = (Pane) accordionPane.lookup(".header");
+        connectivityTitle.translateXProperty().bind(
+                connectivityArrow.widthProperty().negate()
+        );
     }
 
     /**
@@ -172,19 +182,6 @@ public class BaseController implements Initializable, AbstractController, Device
     private void goAbout() {
         VistaNavigator.loadVista(Constants.ABOUT);
     }
-
-
-    /**
-     * Set the menu elements for navigation in the preferred language
-     */
-    /*private void addMenuElements() {
-        menu.getItems().add(language.get(Constants.LHOME));
-        menu.getItems().add(language.get(Constants.ARCHIVE));
-        menu.getItems().add(language.get(Constants.DEVICES));
-        menu.getItems().add(language.get(Constants.LMANAGE));
-        menu.getItems().add(language.get(Constants.CONFIGURATION));
-        menu.getItems().add(language.get(Constants.LABOUT));
-    }*/
 
     /***********************************
      *       View Operations
