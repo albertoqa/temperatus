@@ -168,6 +168,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private ComboBox<Position> addAllPositions() {
         ComboBox<Position> choiceBoxPositions = new ComboBox<>();
+        choiceBoxPositions.getStylesheets().add("/styles/temperatus.css");
         choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
         return choiceBoxPositions;
     }

@@ -154,7 +154,7 @@ public class NewMissionController extends AbstractCreationController implements 
             }
 
             Mission mission = new Mission(author, game, project, subject, name, startDate, observations);
-            missionService.save(mission);
+            missionService.saveOrUpdate(mission);
 
             // Continue to new Record View -> preselect this mission
             NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
