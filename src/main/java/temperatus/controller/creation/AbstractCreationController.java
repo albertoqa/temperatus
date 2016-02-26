@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import temperatus.controller.AbstractController;
 import temperatus.util.Animation;
+import temperatus.util.VistaNavigator;
 
 /**
  * Creation controllers (for example: newGame, newSubject...) have save/cancel button and a titledPane
@@ -24,6 +25,7 @@ public abstract class AbstractCreationController implements AbstractController {
     @FXML
     private void cancel() {
         Animation.fadeInOutClose(titledPane);
+        VistaNavigator.baseController.selectBase();
     }
 
     protected void showAlert(Alert.AlertType alertType, String message) {

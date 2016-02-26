@@ -184,6 +184,7 @@ public class NewMissionController extends AbstractCreationController implements 
         if (result.get() == ButtonType.OK) {
             VistaNavigator.loadVista(Constants.ARCHIVED);
             VistaNavigator.baseController.selectMenuButton(Constants.ARCHIVED);
+            VistaNavigator.baseController.setActualBaseView(Constants.ARCHIVED);
         }
     }
 

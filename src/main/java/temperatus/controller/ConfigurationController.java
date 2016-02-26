@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,6 +58,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     private void okAction() {
         savePrefs();
         Animation.fadeInOutClose(titledPane);
+        VistaNavigator.baseController.selectBase();
     }
 
     @FXML
@@ -90,6 +92,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML
     private void cancelAction() {
         Animation.fadeInOutClose(titledPane);
+        VistaNavigator.baseController.selectBase();
     }
 
     /**

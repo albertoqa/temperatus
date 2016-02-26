@@ -54,6 +54,12 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private ToggleButton configuration;
     @FXML private ToggleButton about;
 
+    @FXML private ToggleButton nProject;
+    @FXML private ToggleButton nMission;
+    @FXML private ToggleButton nFormula;
+    @FXML private ToggleButton nGame;
+    @FXML private ToggleButton nSubject;
+
     @FXML private TitledPane accordionPane;
 
     @Autowired IbuttonService ibuttonService;
@@ -64,6 +70,7 @@ public class BaseController implements Initializable, AbstractController, Device
     private ToggleGroup menuGroup;
 
     private final static String clockPattern = "HH:mm:ss";
+    private static String actualBaseView = Constants.HOME;
 
     static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
@@ -80,7 +87,7 @@ public class BaseController implements Initializable, AbstractController, Device
         translate();
 
         menuGroup = new ToggleGroup();
-        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about);
+        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject);
         home.setSelected(true);
 
         menuGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -146,21 +153,25 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML
     private void goHome() {
         VistaNavigator.loadVista(Constants.HOME);
+        actualBaseView = Constants.HOME;
     }
 
     @FXML
     private void goArchive() {
         VistaNavigator.loadVista(Constants.ARCHIVED);
+        actualBaseView = Constants.ARCHIVED;
     }
 
     @FXML
     private void goDevices() {
         VistaNavigator.loadVista(Constants.CONNECTED);
+        actualBaseView = Constants.CONNECTED;
     }
 
     @FXML
     private void goManage() {
         VistaNavigator.loadVista(Constants.MANAGE);
+        actualBaseView = Constants.MANAGE;
     }
 
     @FXML
@@ -171,8 +182,42 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML
     private void goAbout() {
         VistaNavigator.loadVista(Constants.ABOUT);
+        actualBaseView = Constants.ABOUT;
     }
 
+    @FXML
+    private void goNewProject() {
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+    }
+
+    @FXML
+    private void goNewMission() {
+        VistaNavigator.loadVista(Constants.NEW_MISSION);
+        actualBaseView = Constants.NEW_MISSION;
+    }
+
+    @FXML
+    private void goNewGame() {
+        VistaNavigator.openModal(Constants.NEW_GAME, Constants.NEWGAME);
+    }
+
+    @FXML
+    private void goNewFormula() {
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+    }
+
+    @FXML
+    private void goNewSubject() {
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.NEWSUBJECT);
+    }
+
+    public void selectBase() {
+        selectMenuButton(actualBaseView);
+    }
+
+    public void setActualBaseView(String newBaseView) {
+        actualBaseView = newBaseView;
+    }
 
     public void selectMenuButton(String view) {
         switch (view) {
@@ -187,6 +232,8 @@ public class BaseController implements Initializable, AbstractController, Device
             case Constants.CONFIG: menuGroup.selectToggle(configuration);
                 break;
             case Constants.ABOUT: menuGroup.selectToggle(about);
+                break;
+            case Constants.NEW_MISSION: menuGroup.selectToggle(nMission);
                 break;
             default: break;
         }

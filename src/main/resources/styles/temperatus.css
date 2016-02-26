@@ -47,10 +47,10 @@
 }
 
 .leftbtn:selected{
-    -fx-background-color: #222d32;
-    /*-fx-background-color: #34aab0;*/
+    /*-fx-background-color: #222d32;*/
+    -fx-background-color: #34aab0;
     -fx-text-fill: white;
-    -fx-border-color : #16b7bd;
+    -fx-border-color : #f3f3f3;
     /*-fx-border-color : black;*/
     -fx-border-width: 0 0 0 4;
 }
@@ -103,10 +103,10 @@
     -fx-padding: 5 22 5 22;
     -fx-border-style: none;
     -fx-border-color : transparent grey grey transparent;
-/*    -fx-border-width:2;*/
+    -fx-border-width:0.6;
 /*    -fx-background-color: #16b7bd; */
 /*    -fx-background-color: #299bb4; */
-    -fx-background-color: #34aab0;
+    -fx-background-color: #40749b;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-font-family: "Segoe UI Semibold";
