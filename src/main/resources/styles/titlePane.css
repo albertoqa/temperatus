@@ -1,0 +1,125 @@
+/*******************************************************************************
+ *                                                                             *
+ * Titled-pane                                                                 *
+ *                                                                             *
+ ******************************************************************************/
+
+
+.titled-pane {
+-fx-text-fill: #FFFFFF;
+-fx-border-color : #202020;
+-fx-border-width: 0 2 2 0;
+}
+
+.titled-pane > *.content {
+ -fx-border-style: none;
+ -fx-background-radius: 0;
+ -fx-border-color : black;
+ -fx-border-width: 0 0 0 0;
+}
+
+.titled-pane > .title {
+  -fx-background-color: #34aab0;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-color: #2b3940;
+  -fx-border-color : #3a474d;
+  -fx-border-width: 0 0 0.5 0;
+  -fx-border-style: none;
+  -fx-border-insets: 0;
+  -fx-label-padding: 0 0 0 30;
+  -fx-padding: 10 0 10 30;
+  -fx-graphic-text-gap: 15;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 12px;
+  -fx-text-fill: white;
+
+}
+
+.titled-pane > .title > .arrow-button
+{
+-fx-background-color: null;
+-fx-background-insets: 0;
+-fx-background-radius: 0;
+-fx-padding: 0 15 0 0; /* 0 3 0 0 */
+}
+
+
+/*******************************************************************************
+ *                                                                             *
+ * FormInput                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+ .form {
+    -fx-background-radius: 3;
+    -fx-background-color: white;
+    -fx-border-color: #3a474d;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 3;
+    -fx-background-insets: 0;
+
+    -fx-prompt-text-fill: #818181;
+
+    -fx-font-family: "Avenir Medium";
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+
+    -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+    -fx-highlight-text-fill: white;
+ }
+
+ /*###########   Creation buttons (cbtn)     ############*/
+
+ .cbtn {
+     -fx-padding: 5 22 5 22;
+     -fx-border-style: none;
+     -fx-border-color : transparent grey grey transparent;
+     -fx-border-width:1;
+ /*    -fx-background-color: #16b7bd; */
+ /*    -fx-background-color: #299bb4; */
+     -fx-background-color: #40749b;
+     -fx-background-insets: 0;
+     -fx-border-insets: 0;
+     -fx-font-family: "Segoe UI Semibold";
+     -fx-font-size: 12px;
+     -fx-text-fill: white;
+
+     -fx-background-radius: 3;
+     -fx-border-radius: 3;
+
+ }
+
+ .cbtn:hover{
+     -fx-background-color: #699ca7;
+ }
+
+ .cbtn:pressed, .cbtn:default:hover:pressed
+ {
+   -fx-background-color: black;
+   -fx-text-fill: white;
+ }
+
+ .cbtn:focused
+ {
+     -fx-border-color: black;
+     -fx-border-width: 1;
+     -fx-background-insets: 0 0 0 0, 0, 1, 2;
+ }
+
+ .cbtn:disabled, .cbtn:default:disabled
+ {
+     -fx-opacity: 0.4;
+     -fx-background-color: #cccccc;
+     -fx-text-fill: #212121;
+ }
+
+ .cbtn:default
+ {
+     -fx-background-color: #5585be;
+     -fx-text-fill: #ffffff;
+ }
+
+ .cbtn:default:hover{
+     -fx-background-color: #219297;
+ }

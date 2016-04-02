@@ -1,6 +1,10 @@
 package temperatus.controller.creation;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -19,6 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.IButtonDataValidator;
+import temperatus.analysis.pojo.GeneralData;
+import temperatus.analysis.pojo.ValidatedData;
+import temperatus.importer.IbuttonDataImporter;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.*;
@@ -31,7 +39,7 @@ import temperatus.util.VistaNavigator;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -74,10 +82,12 @@ public class NewRecordController extends AbstractCreationController implements I
     @Autowired MeasurementService measurementService;
 
     private Mission mission;
-    private Game game;                          // Game assigned to the mission
-    private List<Position> defaultPositions;    // Default positions for selected game
-    private List<Position> positions;           // All positions saved to the db
-    private List<Ibutton> iButtons;             // Detected iButtons
+    private Game game;                                      // Game assigned to the mission
+    private List<Position> defaultPositions;                // Default positions for selected game
+    private List<Position> positions;                       // All positions saved to the db
+    private List<Ibutton> iButtons = new ArrayList<>();     // Detected iButtons
+
+    private File[] filesToSave;                         // Files where temp data is temporary stored
 
     private final Double prefHeight = 30.0;     // Preferred height for "rows"
     private final Double prefWidth = 200.0;     // Preferred width for combobox
@@ -113,17 +123,18 @@ public class NewRecordController extends AbstractCreationController implements I
         // Get game assigned to this mission
         game = mission.getGame();
 
+        // We need to save as many files as numOfButtons has the game
+        filesToSave = new File[game.getNumButtons()];
+
         // Get default positions fot the game
         defaultPositions = game.getPositions().stream().collect(Collectors.toList());
 
         loadAllPositions(); // Pre-load all positions from db
 
-        iButtons = detectButtons();
-
         // The table will have the same number of rows as iButtons/Positions
         for (int index = 0; index < game.getNumButtons(); index++) {
 
-            // Each row will have { ID | POSITION | + | SOURCE | + }
+            // Each row will have { ID | POSITION | SOURCE | + | KEEP }
 
             // ID = index
             // POSITION -> add all positions + if default, select it
@@ -135,29 +146,29 @@ public class NewRecordController extends AbstractCreationController implements I
             }
 
             // SOURCE -> all detected iButtons
-            ComboBox<SourceChoice> choiceBoxSource = addAllDetectediButtons();
+            ComboBox<SourceChoice> choiceBoxSource = new ComboBox<>();
+            choiceBoxSource.valueProperty().addListener(new ChangeListener<SourceChoice>() {
+                @Override
+                public void changed(ObservableValue ov, SourceChoice t, SourceChoice t1) {
+                    logger.debug("selected iButton");
+                    if (t1 != null) {
+                        if (t1.getIbutton() != null) {
+                            ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(false);
+                        } else if (t1.getFile() == null) {
+                            ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(true);
+                        }
+                    } else {
+                        ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(true);
+                    }
+                }
+            });
 
             // Add a new "row" with generated info
             addNewRow(index, choiceBoxPositions, choiceBoxSource);
         }
 
-        // At his point all choiceBoxes are full with all positions and all detected buttons
+        // At his point all choiceBoxes are full with all positions
         // Also, if the game has default positions, those positions are pre-selected
-
-        // For each detected button, compare if its default position is equal to any of the default positions of the game
-        for (Ibutton ibutton : iButtons) {
-
-            Position defaultPositionForIbutton = ibutton.getPosition();
-
-            if (defaultPositionForIbutton != null) {
-                // If game default positions contains the same position as ibutton default position
-                // Set that ibutton to that position
-                if (defaultPositions.contains(defaultPositionForIbutton)) {
-                    int index = getRowForPosition(defaultPositionForIbutton);
-                    ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(new SourceChoice(ibutton));
-                }
-            }
-        }
     }
 
     /**
@@ -175,14 +186,26 @@ public class NewRecordController extends AbstractCreationController implements I
         return -1;
     }
 
-    // TODO
-    private List<Ibutton> detectButtons() {
-        List<Ibutton> ibuttonList = new ArrayList<>();
-
-
-
-        return ibuttonList;
+    /**
+     * Get Position for a given Index
+     *
+     * @param index
+     * @return
+     */
+    private Position getPositionForIndex(int index) {
+        return (Position) ((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
     }
+
+    /**
+     * Get Source for a given Index
+     *
+     * @param index
+     * @return
+     */
+    private SourceChoice getSourceChoiceForIndex(int index) {
+        return (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+    }
+
 
     /**
      * Add all positions to the choicebox
@@ -191,141 +214,17 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private ComboBox<Position> addAllPositions() {
         ComboBox<Position> choiceBoxPositions = new ComboBox<>();
-        choiceBoxPositions.getStylesheets().add("/styles/temperatus.css");
         choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
         return choiceBoxPositions;
     }
 
     /**
-     * Create a SourceChoice for each iButton detected and add it to the ComboBox
+     * Create a new "ROW" of input data with: INDEX | POSITION | + | KEEP DATA
      *
-     * @return
+     * @param index
+     * @param posBox
+     * @param srcBox
      */
-    private ComboBox<SourceChoice> addAllDetectediButtons() {
-        ComboBox<SourceChoice> choiceBoxSource = new ComboBox<>();
-        choiceBoxSource.getStylesheets().add("/styles/temperatus.css");
-
-        List<SourceChoice> sourceChoiceList = new ArrayList<>();
-        for (Ibutton ibutton : iButtons) {
-            SourceChoice sourceChoice = new SourceChoice(ibutton);
-            sourceChoiceList.add(sourceChoice);
-        }
-
-        choiceBoxSource.setItems(FXCollections.observableArrayList(sourceChoiceList));
-
-        return choiceBoxSource;
-    }
-
-    @FXML
-    void save() {
-
-        HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
-
-        ProgressIndicator pForm = new ProgressIndicator();
-
-        // In real life this task would do something useful and return
-        // some meaningful result:
-        Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() throws InterruptedException {
-                for (int i = 0; i < 10; i++) {
-                    updateProgress(i, 10);
-                    Thread.sleep(100);
-                }
-                updateProgress(10, 10);
-                return null ;
-            }
-        };
-
-        // binds progress of progress bars to progress of task:
-        pForm.progressProperty().bind(task.progressProperty());
-
-        /*for(int index = 0; index < game.getNumButtons(); index++){
-            // TODO check if iButton or Record are already in DB
-
-            Position position = null;
-            SourceChoice sourceChoice = null;
-            Ibutton ibutton = null;
-            List<Measurement> measurements = null;
-            Record record = null;
-            String iButtonSerial = "";
-            String iButtonModel = "";
-
-            try {
-                position = ((ComboBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
-                sourceChoice = ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
-
-                // Import data
-                if(sourceChoice.getFile() != null) {
-                    IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(sourceChoice.getFile());
-                    iButtonModel = ibuttonDataImporter.getDeviceModel();
-                    iButtonSerial = ibuttonDataImporter.getDeviceSerial();
-                    measurements = ibuttonDataImporter.getMeasurements();
-                } else if (sourceChoice.getIbutton() != null) {
-
-
-
-                }
-
-                // Check if iButton is already in the db
-
-                ibutton = ibuttonService.getBySerial(iButtonSerial);
-
-                if(ibutton == null) {
-                    //ibutton = new Ibutton(iButtonSerial, iButtonModel, position.getId());
-                    ibuttonService.save(ibutton);
-                } else {
-                    //ibutton.setDefaultPositionId(position.getId());
-                    //ibuttonService.saveOrUpdate(ibutton); //TODO
-                }
-
-                int positionId = position.getId();
-
-                //record = new Record(mission.getId(), ibutton.getId(), positionId);
-                recordService.save(record);
-
-                for (Measurement measurement : measurements) {
-                    measurement.setRecord(record);
-                }
-
-                if(measurements != null && ibutton != null) {
-                    buttonMeasurementsHashMap.put(ibutton, measurements);
-                }
-
-
-            } catch (Exception e) {
-
-            }
-
-
-        }
-
-        // TODO check if all iButtons and Records are saved to db -- also check for duplicates
-        RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
-        recordConfigController.setDataMap(buttonMeasurementsHashMap);
-        //recordConfigController.setMissionId(mission.getId());
-        */
-
-        task.setOnSucceeded(event -> {
-            RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
-            recordConfigController.setMission(mission);
-            recordConfigController.setDataMap(buttonMeasurementsHashMap);
-
-            stackPane.getChildren().remove(stackPane.getChildren().size()-1);
-            anchorPane.setDisable(false);
-        });
-
-        anchorPane.setDisable(true);
-
-        VBox box = new VBox(pForm);
-        box.setAlignment(Pos.CENTER);
-        stackPane.getChildren().add(box);
-
-        Thread thread = new Thread(task);
-        thread.start();
-
-    }
-
     private void addNewRow(int index, ComboBox<Position> posBox, ComboBox<SourceChoice> srcBox) {
         Label id = new Label(String.valueOf(index));
         id.setPrefHeight(prefHeight);
@@ -334,21 +233,25 @@ public class NewRecordController extends AbstractCreationController implements I
 
         idBox.getChildren().add(id);
 
+        posBox.getStylesheets().add("/styles/temperatus.css");
         posBox.setMinHeight(prefHeight);
         posBox.setMaxHeight(prefHeight);
         posBox.setPrefHeight(prefHeight);
         posBox.setMaxWidth(Double.MAX_VALUE);
         posBox.setPrefWidth(250);
         posBox.setMinWidth(prefWidth);
+        posBox.setUserData(index);
 
         positionBox.getChildren().add(posBox);
 
+        srcBox.getStylesheets().add("/styles/temperatus.css");
         srcBox.setMinHeight(prefHeight);
         srcBox.setMaxHeight(prefHeight);
         srcBox.setPrefHeight(prefHeight);
         srcBox.setMaxWidth(Double.MAX_VALUE);
         srcBox.setPrefWidth(250);
         srcBox.setMinWidth(prefWidth);
+        srcBox.setUserData(index);
 
         sourceBox.getChildren().add(srcBox);
 
@@ -387,30 +290,29 @@ public class NewRecordController extends AbstractCreationController implements I
             ToggleButton clickedButton = (ToggleButton) event.getSource();
             Integer index = (Integer) clickedButton.getUserData();
 
-            if(((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem() == null) {
+            if (((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem() == null) {
 
                 logger.warn("A position must be selected");
                 showAlert(Alert.AlertType.ERROR, "A position must be selected");
                 clickedButton.setSelected(false);
 
-            } else if(clickedButton.isSelected()) {
+            } else if (clickedButton.isSelected()) {
 
-                ((ComboBox) positionBox.getChildren().get(index)).setDisable(true);
-                ((ComboBox) sourceBox.getChildren().get(index)).setDisable(true);
-                ((Button) addSourceBox.getChildren().get(index)).setDisable(true);
+                positionBox.getChildren().get(index).setDisable(true);
+                sourceBox.getChildren().get(index).setDisable(true);
+                addSourceBox.getChildren().get(index).setDisable(true);
 
                 SourceChoice sourceChoice = (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
 
                 // TODO save data to temp file!
 
-
                 // Alert user that iButton can be removed
                 Notifications.create().title("Data Saved").text("You can safely remove iButton now").show();
 
             } else {
-                ((ComboBox) positionBox.getChildren().get(index)).setDisable(false);
-                ((ComboBox) sourceBox.getChildren().get(index)).setDisable(false);
-                ((Button) addSourceBox.getChildren().get(index)).setDisable(false);
+                positionBox.getChildren().get(index).setDisable(false);
+                sourceBox.getChildren().get(index).setDisable(false);
+                addSourceBox.getChildren().get(index).setDisable(false);
             }
 
             event.consume();
@@ -428,21 +330,19 @@ public class NewRecordController extends AbstractCreationController implements I
         final EventHandler<Event> myHandler = event -> {
             File file = importDataFromSource();
 
-            if(file != null) {
+            if (file != null) {
                 SourceChoice sourceChoice = new SourceChoice(file);
 
                 Button clickedButton = (Button) event.getSource();
                 Integer index = (Integer) clickedButton.getUserData();
 
                 if (sourceBox.getChildren().get(index) instanceof ComboBox) {
-                    if(!((ComboBox) sourceBox.getChildren().get(index)).getItems().contains(sourceChoice)) {
+                    if (!((ComboBox) sourceBox.getChildren().get(index)).getItems().contains(sourceChoice)) {
                         ((ComboBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
                     }
                     ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
 
-                    // TODO remove
-                    ((ToggleButton) keepDataBox.getChildren().get(index)).setDisable(false);
-
+                    filesToSave[index] = file;
                 }
             }
 
@@ -465,27 +365,231 @@ public class NewRecordController extends AbstractCreationController implements I
         fileChooser.getExtensionFilters().add(extFilterCSV);
 
         //Show open file dialog
-        File file = fileChooser.showOpenDialog(null);
-        return file;
+        return fileChooser.showOpenDialog(null);
+    }
+
+    /**
+     * On iButton arrival, add it to all boxes and select it in its corresponding position if exists
+     */
+    private void addiButtonToBoxes(Ibutton ibutton) {
+
+        SourceChoice sourceChoice = new SourceChoice(ibutton);
+        for (int i = 0; i < game.getNumButtons(); i++) {
+            ((ComboBox) sourceBox.getChildren().get(i)).getItems().add(sourceChoice);
+        }
+
+        Position defaultPositionForIbutton = ibutton.getPosition();
+        if (defaultPositionForIbutton != null) {
+            // If game default positions contains the same position as ibutton default position
+            // Set that ibutton to that position
+            if (defaultPositions.contains(defaultPositionForIbutton)) {
+                int index = getRowForPosition(defaultPositionForIbutton);
+                ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+            }
+        }
+    }
+
+    /**
+     * Remove iButton from all boxes but when "keep data" selected
+     *
+     * @param ibutton
+     */
+    private void removeiButtonFromBoxes(Ibutton ibutton) {
+        for (int i = 0; i < game.getNumButtons(); i++) {
+            boolean remove = false;
+            // if "keep data" is not selected, remove iButton on this row
+            if (!((ToggleButton) keepDataBox.getChildren().get(i)).isSelected()) {
+                remove = true;
+            }
+            // if "keep data" is selected and iButton source is not the same as this ibutton remove
+            else if (!ibutton.equals(((SourceChoice) ((ComboBox) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem()).getIbutton())) {
+                remove = true;
+            }
+
+            if (remove) {
+                for (SourceChoice sourceChoice : (ObservableList<SourceChoice>) ((ComboBox) sourceBox.getChildren().get(i)).getItems()) {
+                    if (sourceChoice.isSameiButton(ibutton)) {
+                        ((ComboBox) sourceBox.getChildren().get(i)).getItems().remove(sourceChoice);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Import data from file
+     *
+     * @param index
+     * @return
+     */
+    private IbuttonDataImporter importData(int index) {
+        if (filesToSave[index] != null) {
+            return new IbuttonDataImporter(filesToSave[index]);
+        }
+        return null;
+    }
+
+    /**
+     * Look for posible errors on the data
+     * Save (if not saved already) the iButtons
+     *
+     * @param index
+     * @param importedData
+     * @return
+     */
+    private ValidatedData validateData(int index, IbuttonDataImporter importedData) {
+
+        ValidatedData validatedData = new ValidatedData(importedData);
+        validatedData.setPosibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
+        validatedData.setPosition(getPositionForIndex(index));
+
+        SourceChoice sourceChoice = getSourceChoiceForIndex(index);
+        if (sourceChoice.getIbutton() != null) {
+            validatedData.setIbutton(sourceChoice.getIbutton());
+        } else {
+
+            Ibutton ibutton = ibuttonService.getBySerial(validatedData.getDeviceSerial());
+
+            // This situation means that user has imported data to the computer with another program
+            // and thi iButton has never been registered in the application
+            if (ibutton == null) {
+
+                // iButton must be saved to db
+                ibutton = new Ibutton(validatedData.getPosition(), validatedData.getDeviceSerial(), validatedData.getDeviceModel(), null);
+                ibuttonService.save(ibutton);
+            }
+
+            validatedData.setIbutton(ibutton);
+        }
+
+        return validatedData;
+    }
+
+
+    @FXML
+    void save() {
+        List<ValidatedData> validatedDataList = new ArrayList<>();
+        GeneralData generalData = new GeneralData();
+
+        ProgressIndicator pForm = new ProgressIndicator();
+
+        Task<Void> importAndValidateTask = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+
+                // Import and check
+                for (int index = 0; index < game.getNumButtons(); index++) {
+                    updateProgress(index, game.getNumButtons());
+
+                    // Import data
+                    IbuttonDataImporter importedData = importData(index);
+
+                    if (importedData != null) {
+                        // Validate data
+                        ValidatedData validatedData = validateData(index, importedData);
+
+                        // Save data
+                        validatedDataList.add(validatedData);
+                    }
+                }
+
+                // TODO create popup to show problematic data
+
+
+                // TODO compare data of different buttons
+                generalData.setAvgTemp(12.5);
+                generalData.setEndDate(new Date());
+                generalData.setStartDate(new Date());
+                generalData.setMaxTemp(15.0);
+                generalData.setMinTemp(11.4);
+                generalData.setRate("5 seconds");
+                generalData.setModels("DS1922L");
+                generalData.setMeasurementsPerButton(255);
+
+
+                // TODO show problematic data
+
+
+                // save Records to database
+                for (ValidatedData validatedData : validatedDataList) {
+                    Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
+                    recordService.save(record);
+                }
+
+                updateProgress(10, 10);
+
+                return null;
+            }
+        };
+
+        // binds progress of progress bars to progress of task:
+        pForm.progressProperty().bind(importAndValidateTask.progressProperty());
+
+        importAndValidateTask.setOnSucceeded(event -> {
+            RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
+            recordConfigController.setMission(mission);
+            recordConfigController.setData(validatedDataList, generalData);
+
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+            anchorPane.setDisable(false);
+        });
+
+        anchorPane.setDisable(true);
+
+        VBox box = new VBox(pForm);
+        box.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(box);
+
+        Thread thread = new Thread(importAndValidateTask);
+        thread.start();
+    }
+
+    @FXML
+    private void cancel() {
+
     }
 
     @Override
     public void reload(Object object) {
+        if (object instanceof Position) {
+            Position newPosition = (Position) object;
 
+            for (int i = 0; i < game.getNumButtons(); i++) {
+                ((ComboBox) positionBox.getChildren().get(i)).getItems().add(newPosition);
+            }
+        }
+    }
+
+    @Override
+    public void arrival(DeviceDetector event) {
+        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
+
+        if (ibutton != null) {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    addiButtonToBoxes(ibutton);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void departure(DeviceDetector event) {
+        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
+
+        if (ibutton != null) {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    removeiButtonFromBoxes(ibutton);
+                }
+            });
+        }
     }
 
     @Override
     public void translate() {
 
-    }
-
-    @Override
-    public void arrival(DeviceDetector event) {
-
-    }
-
-    @Override
-    public void departure(DeviceDetector event) {
 
     }
 }

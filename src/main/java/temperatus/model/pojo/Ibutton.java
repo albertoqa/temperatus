@@ -93,4 +93,24 @@ public class Ibutton implements java.io.Serializable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ibutton)) return false;
+
+        Ibutton ibutton = (Ibutton) o;
+
+        if (getSerial() != null ? !getSerial().equals(ibutton.getSerial()) : ibutton.getSerial() != null) return false;
+        if (getModel() != null ? !getModel().equals(ibutton.getModel()) : ibutton.getModel() != null) return false;
+        return !(getAlias() != null ? !getAlias().equals(ibutton.getAlias()) : ibutton.getAlias() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getSerial() != null ? getSerial().hashCode() : 0;
+        result = 31 * result + (getModel() != null ? getModel().hashCode() : 0);
+        result = 31 * result + (getAlias() != null ? getAlias().hashCode() : 0);
+        return result;
+    }
 }

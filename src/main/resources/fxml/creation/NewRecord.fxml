@@ -8,8 +8,8 @@
    <children>
       <AnchorPane fx:id="anchorPane" prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="saveButton" layoutX="514.0" layoutY="722.0" mnemonicParsing="false" onAction="#save" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="168.0" />
-            <Button fx:id="cancelButton" layoutX="655.0" layoutY="722.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="saveButton" layoutX="514.0" layoutY="722.0" mnemonicParsing="false" onAction="#save" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Continue" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="168.0" />
+            <Button fx:id="cancelButton" layoutX="655.0" layoutY="722.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="27.0" />
           <AnchorPane layoutX="27.0" layoutY="124.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="755.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="124.0">
                <children>
                   <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="571.0" prefWidth="755.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">

@@ -39,6 +39,10 @@ public class SourceChoice {
         this.ibutton = ibutton;
     }
 
+    public boolean isSameiButton(Ibutton ibutton) {
+       return ibutton.equals(this.ibutton);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

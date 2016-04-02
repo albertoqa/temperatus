@@ -3,26 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="RecordConfig" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="730.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
+<?import org.controlsfx.control.RangeSlider?>
+<StackPane id="RecordConfig" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="730.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
    <children>
-      <AnchorPane prefHeight="644.0" prefWidth="744.0">
+      <AnchorPane prefHeight="684.0" prefWidth="730.0">
          <children>
             <TabPane fx:id="tabPane" layoutX="26.0" layoutY="81.0" prefHeight="239.0" prefWidth="687.0" style="-fx-background-color: #FFFFFF;" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
                <tabs>
-                  <Tab text="General">
+                  <Tab fx:id="generalTab" text="General">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                   </Tab>
                </tabs>
             </TabPane>
-            <ListView fx:id="listViewFormulas" layoutX="26.0" layoutY="363.0" prefHeight="239.0" prefWidth="200.0" />
-            <Label fx:id="titleLabel1" layoutX="26.0" layoutY="332.0" text="Select formulas:">
-               <font>
-                  <Font name="Avenir Light" size="17.0" />
-               </font>
-            </Label>
-            <Button layoutX="619.0" layoutY="588.0" mnemonicParsing="false" onAction="#save" styleClass="cbtn" text="Save" />
+            <ListView fx:id="listViewFormulas" layoutX="26.0" layoutY="375.0" prefHeight="231.0" prefWidth="200.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="375.0" />
+            <Button fx:id="saveButton" layoutX="630.0" layoutY="613.0" mnemonicParsing="false" onAction="#save" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="26.0" />
             <AnchorPane layoutX="288.0" layoutY="-67.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="titleLabel" styleClass="headerLabel" text="Information" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
@@ -30,10 +26,40 @@
                         <Font name="Avenir Light" size="28.0" />
                      </font>
                   </Label>
-                  <Button layoutX="636.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" styleClass="cbtn" text="Back" />
+                  <Button layoutX="636.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="20.0" />
                </children>
             </AnchorPane>
-            <Button layoutX="170.0" layoutY="602.0" mnemonicParsing="false" styleClass="ibtn" text="+" />
+            <AnchorPane layoutX="26.0" layoutY="345.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="345.0">
+               <children>
+                  <Label fx:id="titleLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" text="Formulas" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                     <font>
+                        <Font name="Avenir Light" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Button fx:id="addFormulaButton" layoutX="201.0" layoutY="350.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #40749b;" text="+" textFill="WHITE" AnchorPane.leftAnchor="201.0" AnchorPane.topAnchor="350.0">
+               <font>
+                  <Font name="Lucida Grande" size="9.0" />
+               </font>
+            </Button>
+            <AnchorPane layoutX="248.0" layoutY="374.0" prefHeight="231.0" prefWidth="452.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="375.0">
+               <children>
+                  <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="45.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="45.0" />
+                  <Spinner fx:id="endSpinner" layoutX="309.0" layoutY="116.0" prefHeight="29.0" prefWidth="126.0" AnchorPane.rightAnchor="25.0" />
+                  <Spinner fx:id="initSpinner" layoutX="14.0" layoutY="116.0" prefHeight="29.0" prefWidth="126.0" AnchorPane.leftAnchor="25.0" />
+                  <Label layoutX="17.0" layoutY="182.0" text="* The time not used will be permanently deleted." />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="248.0" layoutY="345.0" prefHeight="30.0" prefWidth="452.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="345.0">
+               <children>
+                  <Label fx:id="titleLabel11" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" text="Range of Time" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                     <font>
+                        <Font name="Avenir Light" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

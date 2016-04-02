@@ -1,0 +1,74 @@
+/*******************************************************************************
+*                                                                             *
+* Formulas          ListView                                                   *
+*                                                                             *
+******************************************************************************/
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.list-cell {
+  -fx-background: white;
+  -fx-background-color: white;
+  -fx-text-fill: black;
+  -fx-font-family: "Avenir Medium";
+  -fx-font-size: 12px;
+  -fx-border-color:transparent;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.list-view{
+    -fx-background-color: #ffffff;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+}
+
+//////////////////////////
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #2b3940;
+    -fx-border-width: 0.5;
+    -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
+}
+
+.check-box:focused .box {
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 3.4, 2, 1, 1;
+}
+
+.check-box:hover .box {
+    -fx-color: -fx-hover-base;
+}
+
+.check-box:armed .box {
+    -fx-color: -fx-pressed-base;
+}
+
+.check-box .mark {
+    -fx-background-color: transparent;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.333333em; /* 4 -- this is half the size of the mark */
+    -fx-shape: "M0,4H2L3,6L6,0H8L4,8H2Z";
+}
+
+/* TODO: scale the shape - the problem is that it is not within a square
+ * boundary.
+ */
+.check-box:indeterminate .mark {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-shape: "M0,0H8V2H0Z";
+    -fx-scale-shape: false;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+}

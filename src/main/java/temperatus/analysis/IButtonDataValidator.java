@@ -15,21 +15,21 @@ public class IButtonDataValidator {
 
     /**
      * Return all measurements found that differ in +- RANGE from the average of its list
-     * @param measurementsLists
+     *
+     * @param measurements
      * @return
      */
-    public static List<Measurement> getAllOutliers(final List<List<Measurement>> measurementsLists) {
+    public static List<Measurement> getAllOutliers(final List<Measurement> measurements) {
         List<Measurement> outliers = new ArrayList<>();
 
-        for(List<Measurement> measurements: measurementsLists) {
-            outliers.addAll(getOutliers(measurements));
-        }
+        outliers.addAll(getOutliers(measurements));
 
         return outliers;
     }
 
     /**
      * Return measurements found that differ in +- RANGE from the average
+     *
      * @param measurements
      * @return
      */
@@ -39,10 +39,10 @@ public class IButtonDataValidator {
         Double maxValue = average + RANGE;
         Double minValue = average - RANGE;
 
-        for(Measurement measurement: measurements) {
+        for (Measurement measurement : measurements) {
             Double data = measurement.getData();
 
-            if(data < minValue || data > maxValue) {
+            if (data < minValue || data > maxValue) {
                 outliers.add(measurement);
             }
         }
@@ -52,14 +52,15 @@ public class IButtonDataValidator {
 
     /**
      * Return the average value of the list of measurements
+     *
      * @param measurements
      * @return
      */
     private static Double getAverage(final List<Measurement> measurements) {
         Double sum = 0.0;
-        if(!measurements.isEmpty()) {
-            for(Measurement measurement: measurements) {
-                //sum += measurement.getData();
+        if (!measurements.isEmpty()) {
+            for (Measurement measurement : measurements) {
+                sum += measurement.getData();
             }
             return sum / measurements.size();
         }
