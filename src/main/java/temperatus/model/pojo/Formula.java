@@ -87,5 +87,22 @@ public class Formula implements java.io.Serializable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Formula)) return false;
 
+        Formula formula = (Formula) o;
+
+        if (getName() != null ? !getName().equals(formula.getName()) : formula.getName() != null) return false;
+        return !(getOperation() != null ? !getOperation().equals(formula.getOperation()) : formula.getOperation() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getOperation() != null ? getOperation().hashCode() : 0);
+        return result;
+    }
 }

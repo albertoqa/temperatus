@@ -230,7 +230,7 @@ public class NewRecordController extends AbstractCreationController implements I
             public Void call() throws InterruptedException {
                 for (int i = 0; i < 10; i++) {
                     updateProgress(i, 10);
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 }
                 updateProgress(10, 10);
                 return null ;
@@ -308,6 +308,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
         task.setOnSucceeded(event -> {
             RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
+            recordConfigController.setMission(mission);
             recordConfigController.setDataMap(buttonMeasurementsHashMap);
 
             stackPane.getChildren().remove(stackPane.getChildren().size()-1);
