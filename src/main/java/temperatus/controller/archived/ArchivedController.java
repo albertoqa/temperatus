@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.hibernate.SessionFactory;
-import org.hibernate.stat.SecondLevelCacheStatistics;
-import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +147,6 @@ public class ArchivedController implements Initializable, AbstractController {
 
         treeTable.setRoot(root);
 
-        printStatistics();
     }
 
     private FilterableTreeItem<TreeElement> getTreeProjects() {
@@ -342,7 +339,7 @@ public class ArchivedController implements Initializable, AbstractController {
     }
 
 
-    public void printStatistics() {
+    /*public void printStatistics() {
         Statistics stat = sessionFactory.getStatistics();
         String regions[] = stat.getSecondLevelCacheRegionNames();
         logger.info(regions.toString());
@@ -353,6 +350,6 @@ public class ArchivedController implements Initializable, AbstractController {
             logger.info("2nd Level Cache(" +regionName+") Miss Count: "+stat2.getMissCount());
             logger.info("2nd Level Cache(" +regionName+") Element Count: "+stat2.getElementCountInMemory());
         }
-    }
+    }*/
 
 }
