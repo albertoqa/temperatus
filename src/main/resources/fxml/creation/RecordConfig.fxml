@@ -7,13 +7,17 @@
    <children>
       <AnchorPane prefHeight="644.0" prefWidth="744.0">
          <children>
-            <TabPane fx:id="tabPane" layoutX="26.0" layoutY="81.0" prefHeight="239.0" prefWidth="687.0" style="-fx-background-color: #b3e8ec;" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
-              <tabs>
-
-              </tabs>
+            <TabPane fx:id="tabPane" layoutX="26.0" layoutY="81.0" prefHeight="239.0" prefWidth="687.0" style="-fx-background-color: #FFFFFF;" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
+               <tabs>
+                  <Tab text="General">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+               </tabs>
             </TabPane>
-            <ListView fx:id="listViewFormulas" layoutX="26.0" layoutY="363.0" prefHeight="267.0" prefWidth="200.0" />
-            <Label fx:id="titleLabel1" layoutX="91.0" layoutY="332.0" text="Formulas">
+            <ListView fx:id="listViewFormulas" layoutX="26.0" layoutY="363.0" prefHeight="239.0" prefWidth="200.0" />
+            <Label fx:id="titleLabel1" layoutX="26.0" layoutY="332.0" text="Select formulas:">
                <font>
                   <Font name="Avenir Light" size="17.0" />
                </font>
@@ -29,6 +33,7 @@
                   <Button layoutX="636.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" styleClass="cbtn" text="Back" />
                </children>
             </AnchorPane>
+            <Button layoutX="170.0" layoutY="602.0" mnemonicParsing="false" styleClass="ibtn" text="+" />
          </children>
       </AnchorPane>
    </children>

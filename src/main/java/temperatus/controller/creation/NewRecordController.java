@@ -1,12 +1,16 @@
 package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.Notifications;
@@ -15,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import temperatus.importer.IbuttonDataImporter;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.*;
@@ -39,6 +42,9 @@ import java.util.stream.Collectors;
 @Controller
 @Scope("prototype")
 public class NewRecordController extends AbstractCreationController implements Initializable, DeviceDetectorListener {
+
+    @FXML private StackPane stackPane;
+    @FXML private AnchorPane anchorPane;
 
     @FXML private Label titleLabel;
     @FXML private Label indexLabel;
@@ -215,7 +221,26 @@ public class NewRecordController extends AbstractCreationController implements I
 
         HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
 
-        for(int index = 0; index < game.getNumButtons(); index++){
+        ProgressIndicator pForm = new ProgressIndicator();
+
+        // In real life this task would do something useful and return
+        // some meaningful result:
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                for (int i = 0; i < 10; i++) {
+                    updateProgress(i, 10);
+                    Thread.sleep(500);
+                }
+                updateProgress(10, 10);
+                return null ;
+            }
+        };
+
+        // binds progress of progress bars to progress of task:
+        pForm.progressProperty().bind(task.progressProperty());
+
+        /*for(int index = 0; index < game.getNumButtons(); index++){
             // TODO check if iButton or Record are already in DB
 
             Position position = null;
@@ -279,7 +304,24 @@ public class NewRecordController extends AbstractCreationController implements I
         RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
         recordConfigController.setDataMap(buttonMeasurementsHashMap);
         //recordConfigController.setMissionId(mission.getId());
+        */
 
+        task.setOnSucceeded(event -> {
+            RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
+            recordConfigController.setDataMap(buttonMeasurementsHashMap);
+
+            stackPane.getChildren().remove(stackPane.getChildren().size()-1);
+            anchorPane.setDisable(false);
+        });
+
+        anchorPane.setDisable(true);
+
+        VBox box = new VBox(pForm);
+        box.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(box);
+
+        Thread thread = new Thread(task);
+        thread.start();
 
     }
 

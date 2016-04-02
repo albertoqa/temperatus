@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="NewRecord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="775.0" prefWidth="809.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
+<StackPane fx:id="stackPane" id="NewRecord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="775.0" prefWidth="809.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
    <children>
-      <AnchorPane prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
+      <AnchorPane fx:id="anchorPane" prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
          <children>
             <Button fx:id="saveButton" layoutX="514.0" layoutY="722.0" mnemonicParsing="false" onAction="#save" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="168.0" />
             <Button fx:id="cancelButton" layoutX="655.0" layoutY="722.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="27.0" />
