@@ -15,6 +15,7 @@ import temperatus.controller.archived.MissionInfoController;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Measurement;
+import temperatus.model.service.FormulaService;
 import temperatus.model.service.MeasurementService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -36,6 +37,7 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private ListView listViewFormulas;
 
     @Autowired MeasurementService measurementService;
+    @Autowired FormulaService formulaService;
 
     static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
@@ -104,6 +106,10 @@ public class RecordConfigController extends AbstractCreationController implement
      * Pre-select default formulas for this game and put them on the top of the list
      */
     private void loadFormulas() {
+        formulas = formulaService.getAll();
+
+        listViewFormulas.getItems().addAll(formulas);
+
 
     }
 

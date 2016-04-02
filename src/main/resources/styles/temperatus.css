@@ -152,6 +152,74 @@
     -fx-background-color: #219297;
 }
 
+/*###########   Import button (ibtn)     ############*/
+
+.ibtn {
+    -fx-padding: 5 22 5 22;
+    -fx-border-style: none;
+    -fx-border-color : grey grey grey grey;
+    -fx-border-width:0.8;
+/*    -fx-background-color: #16b7bd; */
+/*    -fx-background-color: #299bb4; */
+    -fx-background-color: #f3f3f3;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+
+}
+
+.ibtn:hover{
+    -fx-background-color: #cdcdcd;
+}
+
+.ibtn:pressed, .ibtn:default:hover:pressed
+{
+  -fx-background-color: #b4b4b4;
+  -fx-text-fill: white;
+}
+
+/*###########   Keep Data button (kbtn)     ############*/
+
+.kbtn {
+    -fx-padding: 5 22 5 22;
+    -fx-border-style: none;
+    -fx-border-color : grey grey grey grey;
+    -fx-border-width:0.8;
+/*    -fx-background-color: #16b7bd; */
+/*    -fx-background-color: #299bb4; */
+    -fx-background-color: #f3f3f3;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+
+}
+
+.kbtn:pressed, .ibtn:default:hover:pressed {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
+.kbtn:selected {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
+.kbtn:selected:focused {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
+
 /*###########   Delete buttons (dbtn)     ############*/
 
 .dbtn {
@@ -549,6 +617,14 @@
      -fx-opacity: 0.4;
  }
 
+ .scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+
 
  /*******************************************************************************
   *                                                                             *
@@ -652,13 +728,27 @@
       -fx-background-color: #f3f3f3;
   }
 
+  .combo-box-base .arrow-button:hover {
+      -fx-background-color: #cdcdcd;
+  }
+
   .combo-box .text-input{
     -fx-border-width: 0;
     -fx-border-color: transparent;
   }
 
+  .combo-box .list-cell {
+    -fx-background: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-family: "Avenir Medium";
+    -fx-font-size: 12px;
+  }
+
   .combo-box-popup .list-view {
       -fx-background-color: #FFFFFF;
+      -fx-font-family: "Avenir Medium";
+      -fx-font-size: 12px;
   }
 
   .combo-box-popup .list-view .list-cell {

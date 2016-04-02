@@ -50,7 +50,7 @@ public class Ibutton implements java.io.Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DEFAULTPOS")
     public Position getPosition() {
         return this.defaultPosition;

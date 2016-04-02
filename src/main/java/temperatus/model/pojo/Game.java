@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Table(name = "GAME", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = @UniqueConstraint(columnNames = "TITLE"))
+@Table(name = "GAME", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = {@UniqueConstraint(columnNames = "TITLE"), @UniqueConstraint(columnNames = "ID")})
 public class Game implements java.io.Serializable {
 
     private Integer id;
@@ -101,8 +101,8 @@ public class Game implements java.io.Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "GAME_POSITION", schema = "PUBLIC", catalog = "DATABASE", joinColumns = {
-            @JoinColumn(name = "GAME_ID", nullable = false, updatable = false)}, inverseJoinColumns = {
-            @JoinColumn(name = "POSITION_ID", nullable = false, updatable = false)})
+            @JoinColumn(name = "GAME_ID", referencedColumnName = "ID", nullable = false, updatable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "POSITION_ID", referencedColumnName = "ID", nullable = false, updatable = false)})
     public Set<Position> getPositions() {
         return this.positions;
     }

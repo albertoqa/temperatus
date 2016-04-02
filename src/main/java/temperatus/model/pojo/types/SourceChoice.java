@@ -65,7 +65,7 @@ public class SourceChoice {
         } else if(file == null) {
             return "Import from file";
         } else if(file != null) {
-            return file.getPath();
+            return file.getName();
         } else {
             return "Error";
         }

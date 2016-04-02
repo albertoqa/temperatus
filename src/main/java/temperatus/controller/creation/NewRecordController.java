@@ -18,6 +18,7 @@ import temperatus.importer.IbuttonDataImporter;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.*;
+import temperatus.model.pojo.types.AutoCompleteComboBoxListener;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.service.*;
 import temperatus.util.Constants;
@@ -43,9 +44,6 @@ public class NewRecordController extends AbstractCreationController implements I
     @FXML private Label positionLabel;
     @FXML private Label dataSourceLabel;
 
-    @FXML private Button refreshButton;
-
-    @FXML private TableView iButtonsTable;
     @FXML private ScrollPane scrollPane;
 
     @FXML private VBox idBox;
@@ -53,6 +51,14 @@ public class NewRecordController extends AbstractCreationController implements I
     @FXML private VBox addPositionBox;
     @FXML private VBox sourceBox;
     @FXML private VBox addSourceBox;
+    @FXML private VBox keepDataBox;
+
+    @FXML private VBox idBoxTitle;
+    @FXML private VBox positionBoxTitle;
+    @FXML private VBox addPositionBoxTitle;
+    @FXML private VBox sourceBoxTitle;
+    @FXML private VBox addSourceBoxTitle;
+    @FXML private VBox keepDataBoxTitle;
 
     @Autowired GameService gameService;
     @Autowired IbuttonService ibuttonService;
@@ -67,6 +73,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private List<Ibutton> iButtons;             // Detected iButtons
 
     private final Double prefHeight = 30.0;     // Preferred height for "rows"
+    private final Double prefWidth = 200.0;     // Preferred width for combobox
 
     static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
@@ -74,6 +81,13 @@ public class NewRecordController extends AbstractCreationController implements I
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
+
+        idBoxTitle.prefWidthProperty().bind(idBox.widthProperty());
+        positionBoxTitle.prefWidthProperty().bind(positionBox.widthProperty());
+        addPositionBoxTitle.prefWidthProperty().bind(addPositionBox.widthProperty());
+        sourceBoxTitle.prefWidthProperty().bind(sourceBox.widthProperty());
+        addSourceBoxTitle.prefWidthProperty().bind(addSourceBox.widthProperty());
+        keepDataBoxTitle.prefWidthProperty().bind(keepDataBox.widthProperty());
     }
 
     /**
@@ -99,7 +113,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
         iButtons = detectButtons();
 
-        // The table will have the same number of rows as iButtons
+        // The table will have the same number of rows as iButtons/Positions
         for (int index = 0; index < game.getNumButtons(); index++) {
 
             // Each row will have { ID | POSITION | + | SOURCE | + }
@@ -107,6 +121,8 @@ public class NewRecordController extends AbstractCreationController implements I
             // ID = index
             // POSITION -> add all positions + if default, select it
             ComboBox<Position> choiceBoxPositions = addAllPositions();
+            new AutoCompleteComboBoxListener<>(choiceBoxPositions); // Allow write and autocomplete
+
             if (defaultPositions.size() > index) {
                 choiceBoxPositions.getSelectionModel().select(defaultPositions.get(index));
             }
@@ -180,6 +196,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private ComboBox<SourceChoice> addAllDetectediButtons() {
         ComboBox<SourceChoice> choiceBoxSource = new ComboBox<>();
+        choiceBoxSource.getStylesheets().add("/styles/temperatus.css");
 
         List<SourceChoice> sourceChoiceList = new ArrayList<>();
         for (Ibutton ibutton : iButtons) {
@@ -276,28 +293,66 @@ public class NewRecordController extends AbstractCreationController implements I
         posBox.setMinHeight(prefHeight);
         posBox.setMaxHeight(prefHeight);
         posBox.setPrefHeight(prefHeight);
+        posBox.setMaxWidth(Double.MAX_VALUE);
+        posBox.setPrefWidth(250);
+        posBox.setMinWidth(prefWidth);
 
         positionBox.getChildren().add(posBox);
 
         srcBox.setMinHeight(prefHeight);
         srcBox.setMaxHeight(prefHeight);
         srcBox.setPrefHeight(prefHeight);
+        srcBox.setMaxWidth(Double.MAX_VALUE);
+        srcBox.setPrefWidth(250);
+        srcBox.setMinWidth(prefWidth);
 
         sourceBox.getChildren().add(srcBox);
 
         Button importSource = new Button();
-        importSource.setText("+");
         importSource.setMinHeight(prefHeight);
         importSource.setMaxHeight(prefHeight);
         importSource.setPrefHeight(prefHeight);
-        importSource.setMinWidth(prefHeight);
-        importSource.setMaxWidth(prefHeight);
-        importSource.setPrefWidth(prefHeight);
         importSource.setUserData(index);
+        importSource.getStyleClass().add("ibtn");
+        importSource.setText("+");
         importSource.addEventHandler(MouseEvent.MOUSE_CLICKED, addImportDataButtonHandler());
 
         addSourceBox.getChildren().addAll(importSource);
+
+        ToggleButton keepButton = new ToggleButton();
+        keepButton.setText("Keep Data");
+        keepButton.setMinHeight(prefHeight);
+        keepButton.setMaxHeight(prefHeight);
+        keepButton.setPrefHeight(prefHeight);
+        keepButton.setUserData(index);
+        keepButton.getStyleClass().add("kbtn");
+        keepButton.setDisable(true);
+        keepButton.addEventHandler(MouseEvent.MOUSE_CLICKED, keepDataForRow());
+
+        keepDataBox.getChildren().addAll(keepButton);
     }
+
+    /**
+     * Handle action when a keep data button is pressed
+     *
+     * @return
+     */
+    private EventHandler<Event> keepDataForRow() {
+        final EventHandler<Event> myHandler = event -> {
+
+            ToggleButton clickedButton = (ToggleButton) event.getSource();
+
+
+            // TODO keep data!
+
+
+            event.consume();
+        };
+
+        return myHandler;
+    }
+
+
 
     /**
      * Handle action when an import button is pressed
@@ -307,14 +362,19 @@ public class NewRecordController extends AbstractCreationController implements I
     private EventHandler<Event> addImportDataButtonHandler() {
         final EventHandler<Event> myHandler = event -> {
             File file = importDataFromSource();
-            SourceChoice sourceChoice = new SourceChoice(file);
 
-            Button clickedButton = (Button) event.getSource();
-            Integer index = (Integer) clickedButton.getUserData();
+            if(file != null) {
+                SourceChoice sourceChoice = new SourceChoice(file);
 
-            if(sourceBox.getChildren().get(index) instanceof ComboBox) {
-                ((ComboBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
-                ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+                Button clickedButton = (Button) event.getSource();
+                Integer index = (Integer) clickedButton.getUserData();
+
+                if (sourceBox.getChildren().get(index) instanceof ComboBox) {
+                    if(!((ComboBox) sourceBox.getChildren().get(index)).getItems().contains(sourceChoice)) {
+                        ((ComboBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
+                    }
+                    ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+                }
             }
 
             event.consume();
