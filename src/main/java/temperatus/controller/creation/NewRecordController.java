@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,7 +211,7 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     @FXML
-    void save() {   // aqui tengo que guardar el iButton y la Mission
+    void save() {
 
         HashMap<Ibutton, List<Measurement>> buttonMeasurementsHashMap = new HashMap<>();
 
@@ -341,18 +342,39 @@ public class NewRecordController extends AbstractCreationController implements I
         final EventHandler<Event> myHandler = event -> {
 
             ToggleButton clickedButton = (ToggleButton) event.getSource();
+            Integer index = (Integer) clickedButton.getUserData();
+
+            if(((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem() == null) {
+
+                logger.warn("A position must be selected");
+                showAlert(Alert.AlertType.ERROR, "A position must be selected");
+                clickedButton.setSelected(false);
+
+            } else if(clickedButton.isSelected()) {
+
+                ((ComboBox) positionBox.getChildren().get(index)).setDisable(true);
+                ((ComboBox) sourceBox.getChildren().get(index)).setDisable(true);
+                ((Button) addSourceBox.getChildren().get(index)).setDisable(true);
+
+                SourceChoice sourceChoice = (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+
+                // TODO save data to temp file!
 
 
-            // TODO keep data!
+                // Alert user that iButton can be removed
+                Notifications.create().title("Data Saved").text("You can safely remove iButton now").show();
 
+            } else {
+                ((ComboBox) positionBox.getChildren().get(index)).setDisable(false);
+                ((ComboBox) sourceBox.getChildren().get(index)).setDisable(false);
+                ((Button) addSourceBox.getChildren().get(index)).setDisable(false);
+            }
 
             event.consume();
         };
 
         return myHandler;
     }
-
-
 
     /**
      * Handle action when an import button is pressed
@@ -374,6 +396,10 @@ public class NewRecordController extends AbstractCreationController implements I
                         ((ComboBox) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
                     }
                     ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+
+                    // TODO remove
+                    ((ToggleButton) keepDataBox.getChildren().get(index)).setDisable(false);
+
                 }
             }
 
