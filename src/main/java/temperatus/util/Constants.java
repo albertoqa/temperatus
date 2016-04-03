@@ -134,6 +134,7 @@ public class Constants {
     public static final String NEWSUBJECT = "newSubject";
 
     // New Position
+    public static final String NEWPOSITION = "newPosition";
     public static final String IMAGELABEL = "imageLabel";
     public static final String SELECTIMAGEBUTTON = "selectImageButton";
 

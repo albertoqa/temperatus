@@ -6,7 +6,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
@@ -47,11 +46,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     @FXML TextArea observationsInput;
     @FXML TextField numButtonsInput;
 
-    @FXML StackPane positionsListPane;
-    @FXML StackPane formulasListPane;
-
-    private ListSelectionView<Position> positionsSelector;
-    private CheckListView<Formula> formulasSelector;
+    @FXML ListSelectionView<Position> positionsSelector;
+    @FXML CheckListView<Formula> formulasList;
 
     @Autowired GameService gameService;
     @Autowired PositionService positionService;
@@ -62,13 +58,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        positionsSelector = new ListSelectionView<>();
         positionsSelector.getSourceItems().addAll(positionService.getAll());
-        positionsListPane.getChildren().setAll(positionsSelector);
-
-        formulasSelector = new CheckListView<>();
-        formulasSelector.getItems().addAll(formulaService.getAll());
-        formulasListPane.getChildren().setAll(formulasSelector);
+        formulasList.getItems().addAll(formulaService.getAll());
 
         translate();
     }
@@ -93,7 +84,7 @@ public class NewGameController extends AbstractCreationController implements Ini
             List<Position> defaultPositions = positionsSelector.getTargetItems();
             game.getPositions().addAll(defaultPositions);
 
-            List<Formula> defaultFormulas = formulasSelector.getCheckModel().getCheckedItems();
+            List<Formula> defaultFormulas = formulasList.getCheckModel().getCheckedItems();
             game.getFormulas().addAll(defaultFormulas);
 
             gameService.save(game);

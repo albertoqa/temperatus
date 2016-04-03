@@ -59,6 +59,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private ToggleButton nFormula;
     @FXML private ToggleButton nGame;
     @FXML private ToggleButton nSubject;
+    @FXML private ToggleButton nPosition;
 
     @FXML private TitledPane accordionPane;
 
@@ -87,7 +88,7 @@ public class BaseController implements Initializable, AbstractController, Device
         translate();
 
         menuGroup = new ToggleGroup();
-        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject);
+        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition);
         home.setSelected(true);
 
         menuGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -209,6 +210,11 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML
     private void goNewSubject() {
         VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.NEWSUBJECT);
+    }
+
+    @FXML
+    private void goNewPosition() {
+        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.NEWPOSITION);
     }
 
     public void selectBase() {

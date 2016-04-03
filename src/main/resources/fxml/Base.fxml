@@ -17,15 +17,16 @@
                     <panes>
                       <TitledPane fx:id="accordionPane" style="-fx-background-color: #2b3940;" text="Create New">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #2b3940;">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="190.0" style="-fx-background-color: #2b3940;">
                                  <children>
                                     <VBox style="-fx-background-color: #2b3940;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
                                        <children>
-                                          <ToggleButton fx:id="nProject" onAction="#goNewProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Project" />
-                                          <ToggleButton fx:id="nMission" onAction="#goNewMission" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Mission" />
-                                          <ToggleButton fx:id="nGame" onAction="#goNewGame" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Game" />
-                                          <ToggleButton fx:id="nFormula" onAction="#goNewFormula" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Formula" />
-                                          <ToggleButton fx:id="nSubject" onAction="#goNewSubject" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="leftbtn" text="Subject" />
+                                          <ToggleButton fx:id="nProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewProject" styleClass="leftbtn" text="Project" />
+                                          <ToggleButton fx:id="nMission" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewMission" styleClass="leftbtn" text="Mission" />
+                                          <ToggleButton fx:id="nGame" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewGame" styleClass="leftbtn" text="Game" />
+                                          <ToggleButton fx:id="nFormula" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewFormula" styleClass="leftbtn" text="Formula" />
+                                          <ToggleButton fx:id="nSubject" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewSubject" styleClass="leftbtn" text="Subject" />
+                                          <ToggleButton fx:id="nPosition" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewPosition" styleClass="leftbtn" text="Position" />
                                        </children>
                                     </VBox>
                                  </children>

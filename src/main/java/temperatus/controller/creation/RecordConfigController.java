@@ -53,8 +53,6 @@ public class RecordConfigController extends AbstractCreationController implement
     static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     private List<ValidatedData> data;
-    private List<Formula> formulas;
-    private Set<Formula> defaultFormulas;
     private Mission mission;  // Parent mission
 
     @Override
@@ -124,8 +122,8 @@ public class RecordConfigController extends AbstractCreationController implement
      * Pre-select default formulas for this game
      */
     private void loadFormulas() {
-        formulas = formulaService.getAll();
-        defaultFormulas = mission.getGame().getFormulas();
+        List<Formula> formulas = formulaService.getAll();
+        Set<Formula> defaultFormulas = mission.getGame().getFormulas();
 
         List<ListViewItem> items = new ArrayList<>();
         for (Formula formula : formulas) {

@@ -106,14 +106,16 @@ public class NewPositionController extends AbstractCreationController implements
         //Show open file dialog
         File file = fileChooser.showOpenDialog(null);
 
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(image);
-            imagePath = file.getAbsolutePath();
-        } catch (IOException ex) {
-            logger.info("Invalid image:" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, ex.getMessage());
+        if(file != null) {
+            try {
+                BufferedImage bufferedImage = ImageIO.read(file);
+                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                imageView.setImage(image);
+                imagePath = file.getAbsolutePath();
+            } catch (IOException ex) {
+                logger.info("Invalid image:" + ex.getMessage());
+                showAlert(Alert.AlertType.ERROR, ex.getMessage());
+            }
         }
 
         // TODO save images to default folder
