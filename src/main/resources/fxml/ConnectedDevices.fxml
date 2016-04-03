@@ -22,7 +22,7 @@
                   </HBox>
                </children>
             </AnchorPane>
-            <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="310.0">
+            <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" visible="false" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="310.0">
                <tabs>
                   <Tab text="General Info">
                     <content>
@@ -37,7 +37,7 @@
             </TabPane>
             <AnchorPane layoutX="306.0" layoutY="-59.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="35.0" layoutY="15.0" text="Devices" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                  <Label layoutX="35.0" layoutY="15.0" styleClass="headerLabel" text="Devices" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font name="Avenir Light" size="35.0" />
                      </font>

@@ -123,7 +123,7 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWPROJECT));
+        titledPane.setText(language.get(Constants.NEWPOSITION));
         nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
         nameLabel.setText(language.get(Constants.NAMELABEL));
         saveButton.setText(language.get(Constants.SAVE));

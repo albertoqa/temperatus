@@ -283,7 +283,7 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML
     private void newMission() {
         NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
-        missionController.setProject(getSelectedElement().getElement());//TODO
+        //missionController.setProject(getSelectedElement().getElement());//TODO
     }
 
     @FXML
