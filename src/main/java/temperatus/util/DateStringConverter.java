@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class DateStringConverter extends StringConverter<Number> {
 
-    boolean slider;
+    private boolean slider;
 
     public DateStringConverter(boolean slider) {
         this.slider = slider;

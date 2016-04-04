@@ -30,10 +30,8 @@ import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * Created by alberto on 7/2/16.
@@ -194,18 +192,33 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML
     void save() {
 
-        // TODO check if selected time is valid
+        Date startDate = null;
+        Date endDate = null;
 
+        try {
+            startDate = Constants.dateTimeFormat.parse(initTime.getText());
+            endDate = Constants.dateTimeFormat.parse(endTime.getText());
+        } catch (ParseException e) {
+            // TODO exception y break
+        }
 
-        // TODO remove time not in between the range
-
+        // Save measurements + check if is in the range
         for (ValidatedData validatedData: data) {
             for (Measurement measurement : validatedData.getMeasurements()) {
-                measurementService.save(measurement);
+                if(measurement.getDate().after(startDate) || measurement.getDate().before(endDate)) {
+                    measurementService.save(measurement);
+                }
             }
         }
 
-        // TODO save checked formulas
+        // TODO joder... missing MISSION_FORMULA table
+
+        List<Formula> selectedFormulas = new ArrayList<>();
+        for(ListViewItem item: listViewFormulas.getItems()) {
+            if(item.isOn()) {
+                selectedFormulas.add(formulaService.getByName(item.getName()));
+            }
+        }
 
         MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
         // missionInfoController.setData(missionId);

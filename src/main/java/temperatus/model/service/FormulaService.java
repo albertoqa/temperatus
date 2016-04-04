@@ -20,4 +20,5 @@ public interface FormulaService {
 
     void saveOrUpdate(Formula formula);
 
+    Formula getByName(String name);
 }

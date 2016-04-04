@@ -44,5 +44,11 @@ public class FormulaServiceImpl implements FormulaService {
     public void saveOrUpdate(Formula formula) {
         formulaDao.saveOrUpdate(formula);
     }
-    
+
+    @Override
+    public Formula getByName(String name) {
+        return formulaDao.getByName(name);
+    }
+
+
 }
