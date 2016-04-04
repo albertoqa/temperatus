@@ -23,6 +23,7 @@ public class Mission implements java.io.Serializable {
     private Date dateIni;
     private String observations;
     private Set<Record> records = new HashSet<Record>(0);
+    private Set<Formula> formulas = new HashSet<Formula>(0);
 
     public Mission() {
     }
@@ -135,6 +136,19 @@ public class Mission implements java.io.Serializable {
     public void setRecords(Set<Record> records) {
         this.records = records;
     }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "MISSION_FORMULA", schema = "PUBLIC", catalog = "DATABASE", joinColumns = {
+            @JoinColumn(name = "MISSION_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
+            @JoinColumn(name = "FORMULA_ID", nullable = false, updatable = false) })
+    public Set<Formula> getFormulas() {
+        return this.formulas;
+    }
+
+    public void setFormulas(Set<Formula> formulas) {
+        this.formulas = formulas;
+    }
+
 
     @Override
     public String toString() {
