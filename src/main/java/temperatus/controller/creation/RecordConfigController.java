@@ -24,6 +24,7 @@ import temperatus.model.service.FormulaService;
 import temperatus.model.service.MeasurementService;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
+import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -84,6 +85,7 @@ public class RecordConfigController extends AbstractCreationController implement
         this.generalData = generalData;
         loadFormulas();
         loadData();
+        loadTimeRange();
     }
 
     /**
@@ -105,13 +107,13 @@ public class RecordConfigController extends AbstractCreationController implement
             String serial = validatedData.getDeviceSerial();
             String alias = validatedData.getIbutton().getAlias();
             String sampleRate = validatedData.getSampleRate();
-            //String startDate = validatedData.getStartDate().toString();
-            //String endDate = validatedData.getFinishDate().toString();
+            String startDate = validatedData.getStartDate().toString();
+            String endDate = validatedData.getFinishDate().toString();
             String totalMeasurements = String.valueOf(validatedData.getMeasurements().size());
             String position = validatedData.getPosition().getPlace();
 
             // Store information in loaded pane
-            recordInfoPaneController.setData(model, sampleRate, "", "", totalMeasurements, "", "");
+            recordInfoPaneController.setData(model, serial, alias, sampleRate, startDate, endDate, totalMeasurements, position);
 
             stackPane.getChildren().setAll(recordInfoPane);
             recordInfoTab.setContent(stackPane);
@@ -124,6 +126,19 @@ public class RecordConfigController extends AbstractCreationController implement
     }
 
     private void loadTimeRange() {
+        rangeSlider.setMax(generalData.getEndDate().getTime() + 50*60000);
+        rangeSlider.setMin(generalData.getStartDate().getTime());
+        rangeSlider.setHighValue(generalData.getEndDate().getTime()-60000);
+        rangeSlider.setLowValue(generalData.getStartDate().getTime()+60000);
+        rangeSlider.setLabelFormatter(new DateStringConverter());
+        rangeSlider.setShowTickMarks(true);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setMajorTickUnit(300000);
+        //rangeSlider.setSnapToTicks(true);
+        rangeSlider.setBlockIncrement(60000);
+
+        initSpinner.setEditable(true);
+        //initSpinner.valueFactoryProperty().bind(rangeSlider.lowValueProperty());
 
     }
 
@@ -187,6 +202,5 @@ public class RecordConfigController extends AbstractCreationController implement
     public void translate() {
 
     }
-
 
 }

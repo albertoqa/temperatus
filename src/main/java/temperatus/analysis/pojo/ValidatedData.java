@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class ValidatedData {
 
-    Position position;
-    Ibutton ibutton;
+    private Position position;
+    private Ibutton ibutton;
     private File dataFile;
     private List<Measurement> measurements;
     private List<Measurement> posibleErrors;

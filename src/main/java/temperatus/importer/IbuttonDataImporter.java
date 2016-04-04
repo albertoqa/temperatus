@@ -59,7 +59,6 @@ public class IbuttonDataImporter extends AbstractImporter {
 
             // Read the iButton info data
             for(line = 0; line < csvRecords.size(); line++) {
-                //TODO save ibutton info
                 CSVRecord csvRecord = csvRecords.get(line);
 
                 if(csvRecord.get(0).contains("Part Number")) {
@@ -144,6 +143,12 @@ public class IbuttonDataImporter extends AbstractImporter {
         return (fahrenheit - 32) * (5/9);
     }
 
+    /**
+     * Check if actual line is the header line
+     *
+     * @param record
+     * @return
+     */
     private boolean isHeaderLine(CSVRecord record) {
         if(FILE_HEADER_MAPPING[0].equals(record.get(0)) && FILE_HEADER_MAPPING[1].equals(record.get(1)) && FILE_HEADER_MAPPING[2].equals(record.get(2))) {
             return true;

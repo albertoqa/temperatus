@@ -17,27 +17,38 @@ import java.util.ResourceBundle;
 @Scope("prototype")
 public class RecordInfoPaneController implements Initializable, AbstractController {
 
+    @FXML private Label modelLabel;
+    @FXML private Label serialLabel;
+    @FXML private Label aliasLabel;
+    @FXML private Label sampleRateLabel;
+    @FXML private Label startDateLabel;
+    @FXML private Label endDateLabel;
+    @FXML private Label totalMeasurementsLabel;
+    @FXML private Label positionLabel;
+
     @FXML private Label model;
+    @FXML private Label serial;
+    @FXML private Label alias;
     @FXML private Label sampleRate;
-    @FXML private Label startTime;
-    @FXML private Label stopTime;
+    @FXML private Label startDate;
+    @FXML private Label endDate;
     @FXML private Label totalMeasurements;
-    @FXML private Label maxTemperature;
-    @FXML private Label minTemperature;
+    @FXML private Label position;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    public void setData(String model, String sampleRate, String startTime, String stopTime, String totalMeasurements, String maxTemp, String minTemp) {
-        /*this.model.setText(model);
+    public void setData(String model, String serial, String alias, String sampleRate, String startTime, String endTime, String totalMeasurements, String position) {
+        this.model.setText(model);
+        this.serial.setText(serial);
+        this.alias.setText(alias);
         this.sampleRate.setText(sampleRate);
-        this.startTime.setText(startTime);
-        this.stopTime.setText(stopTime);
+        this.startDate.setText(startTime);
+        this.endDate.setText(endTime);
         this.totalMeasurements.setText(totalMeasurements);
-        this.maxTemperature.setText(maxTemp);
-        this.minTemperature.setText(minTemp);*/
+        this.position.setText(position);
     }
 
     @Override
