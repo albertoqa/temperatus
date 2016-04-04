@@ -211,14 +211,15 @@ public class RecordConfigController extends AbstractCreationController implement
             }
         }
 
-        // TODO joder... missing MISSION_FORMULA table
-
-        List<Formula> selectedFormulas = new ArrayList<>();
+        Set<Formula> selectedFormulas = new HashSet<>();
         for(ListViewItem item: listViewFormulas.getItems()) {
             if(item.isOn()) {
                 selectedFormulas.add(formulaService.getByName(item.getName()));
             }
         }
+
+        mission.setFormulas(selectedFormulas);
+        missionService.saveOrUpdate(mission);
 
         MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
         // missionInfoController.setData(missionId);
