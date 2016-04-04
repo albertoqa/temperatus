@@ -3,8 +3,10 @@ package temperatus.controller.creation;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import org.controlsfx.control.RangeSlider;
 import org.slf4j.Logger;
@@ -46,6 +48,15 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private Spinner initSpinner;
     @FXML private Spinner endSpinner;
 
+    @FXML private Label modelLabel;
+    @FXML private Label rateLabel;
+    @FXML private Label startDateLabel;
+    @FXML private Label endDateLabel;
+    @FXML private Label avgMeasurementsLabel;
+    @FXML private Label maxTempLabel;
+    @FXML private Label minTempLabel;
+    @FXML private Label avgTempLabel;
+
     @Autowired MeasurementService measurementService;
     @Autowired FormulaService formulaService;
     @Autowired MissionService missionService;
@@ -53,6 +64,7 @@ public class RecordConfigController extends AbstractCreationController implement
     static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     private List<ValidatedData> data;
+    private GeneralData generalData;
     private Mission mission;  // Parent mission
 
     @Override
@@ -69,6 +81,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     public void setData(List<ValidatedData> data, GeneralData generalData) {
         this.data = data;
+        this.generalData = generalData;
         loadFormulas();
         loadData();
     }
@@ -77,44 +90,55 @@ public class RecordConfigController extends AbstractCreationController implement
      * Create a new tab for each iButton with all its info
      */
     private void loadData() {
+        loadGeneralData();
 
-
-
-
-
-        /*for (Map.Entry<Ibutton, List<Measurement>> entry : dataMap.entrySet()) {
+        for (ValidatedData validatedData : data) {
 
             Tab recordInfoTab = new Tab();
+            StackPane stackPane = new StackPane();
 
             // Load a new pane for the tab
             Node recordInfoPane = VistaNavigator.loader.load(RecordConfigController.class.getResource(Constants.RECORD_INFO));
             RecordInfoPaneController recordInfoPaneController = VistaNavigator.loader.getController();
 
-            // Gather information related to iButton/Measurements
-            Ibutton ibutton = entry.getKey();
-            List<Measurement> measurements = entry.getValue();
-
-            String model = ibutton.getModel();
-            String sampleRate = "";
-            String startTime = "";
-            String stopTime = "";
-            String totalMeasurements = String.valueOf(measurements.size());
-            String maxTemp = "";
-            String minTemp = "";
+            String model = validatedData.getDeviceModel();
+            String serial = validatedData.getDeviceSerial();
+            String alias = validatedData.getIbutton().getAlias();
+            String sampleRate = validatedData.getSampleRate();
+            //String startDate = validatedData.getStartDate().toString();
+            //String endDate = validatedData.getFinishDate().toString();
+            String totalMeasurements = String.valueOf(validatedData.getMeasurements().size());
+            String position = validatedData.getPosition().getPlace();
 
             // Store information in loaded pane
-            recordInfoPaneController.setData(model, sampleRate, startTime, stopTime, totalMeasurements, maxTemp, minTemp);
+            recordInfoPaneController.setData(model, sampleRate, "", "", totalMeasurements, "", "");
 
-            recordInfoTab.setContent(recordInfoPane);
-            recordInfoTab.setText(ibutton.getSerial());
+            stackPane.getChildren().setAll(recordInfoPane);
+            recordInfoTab.setContent(stackPane);
+            recordInfoTab.setText(serial);
 
             // Add new tab
             tabPane.getTabs().add(recordInfoTab);
-        }*/
+        }
+
     }
 
     private void loadTimeRange() {
 
+    }
+
+    /**
+     * Show general data on screen (labels)
+     */
+    private void loadGeneralData() {
+        modelLabel.setText(generalData.getModels());
+        rateLabel.setText(generalData.getRate());
+        startDateLabel.setText(generalData.getStartDate().toString());
+        endDateLabel.setText(generalData.getEndDate().toString());
+        avgMeasurementsLabel.setText(String.valueOf(generalData.getMeasurementsPerButton()));
+        maxTempLabel.setText(String.valueOf(generalData.getMaxTemp()));
+        minTempLabel.setText(String.valueOf(generalData.getMinTemp()));
+        avgTempLabel.setText(String.valueOf(generalData.getAvgTemp()));
     }
 
     /**

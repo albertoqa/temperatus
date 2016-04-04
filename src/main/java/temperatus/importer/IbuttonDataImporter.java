@@ -68,7 +68,10 @@ public class IbuttonDataImporter extends AbstractImporter {
                 } else if(csvRecord.get(0).contains("Registration Number")) {
                     deviceSerial = csvRecord.get(0).split(":")[1];
                     deviceSerial.replace(" ", "");
-                }else if(isHeaderLine(csvRecord)) {
+                } else if(csvRecord.get(0).contains("Sample Rate")) {
+                    sampleRate = csvRecord.get(0).split(":")[1];
+                    sampleRate.replace(" ", "");
+                } else if(isHeaderLine(csvRecord)) {
                     line++;
                     break;
                 }
@@ -79,8 +82,14 @@ public class IbuttonDataImporter extends AbstractImporter {
                 CSVRecord record = csvRecords.get(line);
 
                 Date measurementDate = timeStampFormatter.parse(record.get(TIMESTAMP_HEADER));
-                Integer measurementData = Integer.parseInt(record.get(VALUE_HEADER));
-                //TODO check if unit is C or F
+                String unit = record.get(UNIT_HEADER);
+
+                double measurementData = 0.0;
+                if(unit.equals("C")) {
+                    measurementData = getData(record.get(VALUE_HEADER), record.get(3));
+                } else if(unit.equals("F")) {
+                    measurementData = fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
+                }
 
                 Measurement measurement = new Measurement(measurementDate, measurementData, null); // recordId must be set before save to db
                 measurements.add(measurement);
@@ -88,6 +97,8 @@ public class IbuttonDataImporter extends AbstractImporter {
                 line++;
             }
 
+            startDate = measurements.get(0).getDate();
+            finishDate = measurements.get(measurements.size()-1).getDate();
 
         } catch (ControlledTemperatusException ex) {
 
@@ -107,6 +118,30 @@ public class IbuttonDataImporter extends AbstractImporter {
             }
         }
 
+    }
+
+    /**
+     * Conver the two strings to a double with decimals
+     *
+     * @param integer
+     * @param decimal
+     * @return
+     */
+    private double getData(String integer, String decimal) {
+        Double measurementData = Double.parseDouble(integer);
+        String dec = "0." + decimal;
+        Double decimals = Double.parseDouble(dec);
+        return measurementData + decimals;
+    }
+
+    /**
+     * Convert fahrenheit to celsius
+     *
+     * @param fahrenheit
+     * @return
+     */
+    private Double fahrenheitToCelsius(Double fahrenheit) {
+        return (fahrenheit - 32) * (5/9);
     }
 
     private boolean isHeaderLine(CSVRecord record) {

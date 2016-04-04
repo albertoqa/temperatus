@@ -31,13 +31,13 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
     }
 
     public void setData(String model, String sampleRate, String startTime, String stopTime, String totalMeasurements, String maxTemp, String minTemp) {
-        this.model.setText(model);
+        /*this.model.setText(model);
         this.sampleRate.setText(sampleRate);
         this.startTime.setText(startTime);
         this.stopTime.setText(stopTime);
         this.totalMeasurements.setText(totalMeasurements);
         this.maxTemperature.setText(maxTemp);
-        this.minTemperature.setText(minTemp);
+        this.minTemperature.setText(minTemp);*/
     }
 
     @Override
