@@ -515,6 +515,14 @@ public class NewRecordController extends AbstractCreationController implements I
                 for (ValidatedData validatedData : validatedDataList) {
                     Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
                     recordService.save(record);
+
+                    for(int i = 0; i < validatedData.getMeasurements().size(); i++) {
+                        validatedData.getMeasurements().get(i).setRecord(record);
+                    }
+
+                    for(int i = 0; i < validatedData.getPosibleErrors().size(); i++) {
+                        validatedData.getPosibleErrors().get(i).setRecord(record);
+                    }
                 }
 
                 updateProgress(10, 10);

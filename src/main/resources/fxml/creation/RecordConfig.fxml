@@ -68,10 +68,12 @@
             </Button>
             <AnchorPane layoutX="248.0" layoutY="374.0" prefHeight="231.0" prefWidth="452.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="375.0">
                <children>
-                  <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="45.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="45.0" />
-                  <Spinner fx:id="endSpinner" layoutX="309.0" layoutY="116.0" prefHeight="29.0" prefWidth="126.0" AnchorPane.rightAnchor="25.0" />
-                  <Spinner fx:id="initSpinner" layoutX="14.0" layoutY="116.0" prefHeight="29.0" prefWidth="126.0" AnchorPane.leftAnchor="25.0" />
-                  <Label layoutX="17.0" layoutY="182.0" text="* The time not used will be permanently deleted." />
+                  <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="115.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" />
+                  <Label layoutX="17.0" layoutY="182.0" styleClass="label-paneinfo" text="* The time not used will be permanently deleted." AnchorPane.leftAnchor="17.0" />
+                  <TextField fx:id="initTime" alignment="CENTER" layoutX="17.0" layoutY="49.0" styleClass="form" AnchorPane.leftAnchor="17.0" />
+                  <TextField fx:id="endTime" alignment="CENTER" layoutX="458.0" layoutY="49.0" styleClass="form" AnchorPane.rightAnchor="17.0" />
+                  <Label layoutX="17.0" layoutY="23.0" styleClass="label-paneinfo" text="Start date:" AnchorPane.leftAnchor="17.0" />
+                  <Label layoutX="458.0" layoutY="23.0" styleClass="label-paneinfo" text="End Date:" AnchorPane.rightAnchor="111.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="248.0" layoutY="345.0" prefHeight="30.0" prefWidth="452.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="345.0">

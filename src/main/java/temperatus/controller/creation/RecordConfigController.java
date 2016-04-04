@@ -1,5 +1,6 @@
 package temperatus.controller.creation;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +19,7 @@ import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.controller.archived.MissionInfoController;
 import temperatus.model.pojo.Formula;
+import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.types.ListViewItem;
 import temperatus.model.service.FormulaService;
@@ -46,8 +48,8 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private ListView<ListViewItem> listViewFormulas;
 
     @FXML private RangeSlider rangeSlider;
-    @FXML private Spinner initSpinner;
-    @FXML private Spinner endSpinner;
+    @FXML private TextField initTime;
+    @FXML private TextField endTime;
 
     @FXML private Label modelLabel;
     @FXML private Label rateLabel;
@@ -125,21 +127,25 @@ public class RecordConfigController extends AbstractCreationController implement
 
     }
 
+    /**
+     * Set rangeSlider and textInputs to init and end date
+     */
     private void loadTimeRange() {
+        // TODO remove mock data
         rangeSlider.setMax(generalData.getEndDate().getTime() + 50*60000);
         rangeSlider.setMin(generalData.getStartDate().getTime());
-        rangeSlider.setHighValue(generalData.getEndDate().getTime()-60000);
-        rangeSlider.setLowValue(generalData.getStartDate().getTime()+60000);
-        rangeSlider.setLabelFormatter(new DateStringConverter());
+        rangeSlider.setHighValue(generalData.getEndDate().getTime() + 47*60000);
+        rangeSlider.setLowValue(generalData.getStartDate().getTime() + 3*60000);
+        rangeSlider.setLabelFormatter(new DateStringConverter(true));
         rangeSlider.setShowTickMarks(true);
         rangeSlider.setShowTickLabels(true);
+
+        // TODO set this according to the amount of time
         rangeSlider.setMajorTickUnit(300000);
-        //rangeSlider.setSnapToTicks(true);
         rangeSlider.setBlockIncrement(60000);
 
-        initSpinner.setEditable(true);
-        //initSpinner.valueFactoryProperty().bind(rangeSlider.lowValueProperty());
-
+        Bindings.bindBidirectional(initTime.textProperty(), rangeSlider.lowValueProperty(), new DateStringConverter(false));
+        Bindings.bindBidirectional(endTime.textProperty(), rangeSlider.highValueProperty(), new DateStringConverter(false));
     }
 
     /**
@@ -188,11 +194,18 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML
     void save() {
 
-        /*for (List<Measurement> measurements : dataMap.values()) {
-            for (Measurement measurement : measurements) {
+        // TODO check if selected time is valid
+
+
+        // TODO remove time not in between the range
+
+        for (ValidatedData validatedData: data) {
+            for (Measurement measurement : validatedData.getMeasurements()) {
                 measurementService.save(measurement);
             }
-        }*/
+        }
+
+        // TODO save checked formulas
 
         MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
         // missionInfoController.setData(missionId);
