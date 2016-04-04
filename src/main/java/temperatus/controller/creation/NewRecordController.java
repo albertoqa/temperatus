@@ -480,7 +480,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 // Import and check
                 for (int index = 0; index < game.getNumButtons(); index++) {
-                    updateProgress(index, game.getNumButtons());
+                    updateProgress(index, game.getNumButtons()-1);
 
                     // Import data
                     IbuttonDataImporter importedData = importData(index);
