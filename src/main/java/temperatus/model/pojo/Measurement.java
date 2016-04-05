@@ -1,5 +1,6 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.types.Unit;
 
 import javax.persistence.*;
@@ -95,6 +96,21 @@ public class Measurement implements java.io.Serializable {
                 ", data=" + data +
                 ", unit=" + unit +
                 '}';
+    }
+
+
+    @Transient
+    public SimpleStringProperty getDateProperty() {
+        return new SimpleStringProperty(date.toString());
+    }
+
+    @Transient
+    public SimpleStringProperty getUnitProperty() {
+        return new SimpleStringProperty(unit.toString());
+    }
+    @Transient
+    public SimpleStringProperty getDataProperty() {
+        return new SimpleStringProperty(String.valueOf(data));
     }
 
 }

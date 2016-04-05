@@ -120,7 +120,7 @@ public class RecordConfigController extends AbstractCreationController implement
             String position = validatedData.getPosition().getPlace();
 
             // Store information in loaded pane
-            recordInfoPaneController.setData(model, serial, alias, sampleRate, startDate, endDate, totalMeasurements, position);
+            recordInfoPaneController.setData(model, serial, alias, sampleRate, startDate, endDate, totalMeasurements, position, validatedData.getMeasurements());
 
             stackPane.getChildren().setAll(recordInfoPane);
             recordInfoTab.setContent(stackPane);
@@ -253,7 +253,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
         saveMeasurementsAndFormulasForMissionTask.setOnSucceeded(event -> {
             MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-            // missionInfoController.setData(missionId);
+            missionInfoController.setData(mission);
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
             anchorPane.setDisable(false);

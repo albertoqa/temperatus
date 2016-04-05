@@ -32,6 +32,7 @@ public class Constants {
 
     public static final String ARCHIVED = "/fxml/Archived.fxml";
     public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
+    public static final String BUTTON_DATA = "/fxml/ButtonData.fxml";
 
     public static final String NEW_PROJECT = "/fxml/creation/NewProject.fxml";
     public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";

@@ -494,7 +494,7 @@ public class NewRecordController extends AbstractCreationController implements I
                     }
                 }
 
-                // TODO create popup to show problematic data
+                // TODO create popup to show problematic data and manage it
 
 
                 // TODO compare data of different buttons

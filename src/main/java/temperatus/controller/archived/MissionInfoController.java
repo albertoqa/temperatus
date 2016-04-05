@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.*;
-import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.Date;
@@ -51,8 +50,8 @@ public class MissionInfoController implements Initializable {
 
     }
 
-    public void setData(Mission newMission) {
-        mission = newMission;
+    public void setData(Mission mission) {
+        this.mission = mission;
         project = mission.getProject();
         game = mission.getGame();
         subject = mission.getSubject();
@@ -101,7 +100,7 @@ public class MissionInfoController implements Initializable {
     }
 
     @FXML
-    private void back() {
-        VistaNavigator.popViewFromStack();
+    private void exportData() {
+
     }
 }

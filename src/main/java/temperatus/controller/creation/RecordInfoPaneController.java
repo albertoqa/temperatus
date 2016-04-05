@@ -6,8 +6,13 @@ import javafx.scene.control.Label;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.controller.archived.ButtonDataController;
+import temperatus.model.pojo.Measurement;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -35,12 +40,14 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
     @FXML private Label totalMeasurements;
     @FXML private Label position;
 
+    List<Measurement> measurements;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    public void setData(String model, String serial, String alias, String sampleRate, String startTime, String endTime, String totalMeasurements, String position) {
+    public void setData(String model, String serial, String alias, String sampleRate, String startTime, String endTime, String totalMeasurements, String position, List<Measurement> measurements) {
         this.model.setText(model);
         this.serial.setText(serial);
         this.alias.setText(alias);
@@ -49,6 +56,13 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
         this.endDate.setText(endTime);
         this.totalMeasurements.setText(totalMeasurements);
         this.position.setText(position);
+        this.measurements = measurements;
+    }
+
+    @FXML
+    private void completeInfo() {
+        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, "");
+        buttonDataController.setData(measurements);
     }
 
     @Override
