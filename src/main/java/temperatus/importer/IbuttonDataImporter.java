@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Measurement;
+import temperatus.model.pojo.types.Unit;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -82,6 +83,7 @@ public class IbuttonDataImporter extends AbstractImporter {
 
                 Date measurementDate = timeStampFormatter.parse(record.get(TIMESTAMP_HEADER));
                 String unit = record.get(UNIT_HEADER);
+                Unit u = unit.equals("C")?Unit.C:Unit.F;
 
                 double measurementData = 0.0;
                 if(unit.equals("C")) {
@@ -90,7 +92,7 @@ public class IbuttonDataImporter extends AbstractImporter {
                     measurementData = fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
                 }
 
-                Measurement measurement = new Measurement(measurementDate, measurementData, null); // recordId must be set before save to db
+                Measurement measurement = new Measurement(measurementDate, measurementData, u); // recordId must be set before save to db
                 measurements.add(measurement);
 
                 line++;

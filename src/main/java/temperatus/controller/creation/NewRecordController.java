@@ -480,7 +480,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 // Import and check
                 for (int index = 0; index < game.getNumButtons(); index++) {
-                    updateProgress(index, game.getNumButtons()-1);
+                    updateProgress(index, game.getNumButtons() - 1);
 
                     // Import data
                     IbuttonDataImporter importedData = importData(index);
@@ -499,8 +499,8 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 // TODO compare data of different buttons
                 generalData.setAvgTemp(12.5);
-                generalData.setEndDate(new Date());
-                generalData.setStartDate(new Date());
+                generalData.setEndDate(getGlobalEndDate(validatedDataList));
+                generalData.setStartDate(getGlobalStartDate(validatedDataList));
                 generalData.setMaxTemp(15.0);
                 generalData.setMinTemp(11.4);
                 generalData.setRate("5 seconds");
@@ -516,11 +516,11 @@ public class NewRecordController extends AbstractCreationController implements I
                     Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
                     recordService.save(record);
 
-                    for(int i = 0; i < validatedData.getMeasurements().size(); i++) {
+                    for (int i = 0; i < validatedData.getMeasurements().size(); i++) {
                         validatedData.getMeasurements().get(i).setRecord(record);
                     }
 
-                    for(int i = 0; i < validatedData.getPosibleErrors().size(); i++) {
+                    for (int i = 0; i < validatedData.getPosibleErrors().size(); i++) {
                         validatedData.getPosibleErrors().get(i).setRecord(record);
                     }
                 }
@@ -551,6 +551,32 @@ public class NewRecordController extends AbstractCreationController implements I
 
         Thread thread = new Thread(importAndValidateTask);
         thread.start();
+    }
+
+    private Date getGlobalStartDate(List<ValidatedData> data) {
+        if (data.size() > 0) {
+            Date startDate = data.get(0).getStartDate();
+            for (ValidatedData validatedData : data) {
+                if(validatedData.getStartDate().before(startDate)) {
+                    startDate = validatedData.getStartDate();
+                }
+            }
+            return startDate;
+        }
+        return null;
+    }
+
+    private Date getGlobalEndDate(List<ValidatedData> data) {
+        if (data.size() > 0) {
+            Date endDate = data.get(0).getFinishDate();
+            for (ValidatedData validatedData : data) {
+                if(validatedData.getFinishDate().after(endDate)) {
+                    endDate = validatedData.getFinishDate();
+                }
+            }
+            return endDate;
+        }
+        return null;
     }
 
     @FXML

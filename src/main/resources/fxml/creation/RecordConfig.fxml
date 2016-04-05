@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.RangeSlider?>
-<StackPane id="RecordConfig" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="909.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
+<StackPane id="RecordConfig" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="909.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
    <children>
-      <AnchorPane prefHeight="684.0" prefWidth="730.0">
+      <AnchorPane fx:id="anchorPane" prefHeight="684.0" prefWidth="730.0">
          <children>
             <TabPane fx:id="tabPane" layoutX="26.0" layoutY="81.0" prefHeight="239.0" prefWidth="687.0" style="-fx-background-color: #FFFFFF;" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
                <tabs>

@@ -2,12 +2,16 @@ package temperatus.controller.creation;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import org.controlsfx.control.RangeSlider;
 import org.slf4j.Logger;
@@ -39,6 +43,9 @@ import java.util.*;
 @Controller
 @Scope("prototype")
 public class RecordConfigController extends AbstractCreationController implements Initializable {
+
+    @FXML private StackPane stackPane;
+    @FXML private AnchorPane anchorPane;
 
     @FXML private TabPane tabPane;
     @FXML private Tab generalTab;
@@ -129,11 +136,10 @@ public class RecordConfigController extends AbstractCreationController implement
      * Set rangeSlider and textInputs to init and end date
      */
     private void loadTimeRange() {
-        // TODO remove mock data
-        rangeSlider.setMax(generalData.getEndDate().getTime() + 50*60000);
+        rangeSlider.setMax(generalData.getEndDate().getTime());
         rangeSlider.setMin(generalData.getStartDate().getTime());
-        rangeSlider.setHighValue(generalData.getEndDate().getTime() + 47*60000);
-        rangeSlider.setLowValue(generalData.getStartDate().getTime() + 3*60000);
+        rangeSlider.setHighValue(generalData.getEndDate().getTime() - 3 * 60000);
+        rangeSlider.setLowValue(generalData.getStartDate().getTime() + 3 * 60000);
         rangeSlider.setLabelFormatter(new DateStringConverter(true));
         rangeSlider.setShowTickMarks(true);
         rangeSlider.setShowTickLabels(true);
@@ -192,37 +198,75 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML
     void save() {
 
-        Date startDate = null;
-        Date endDate = null;
+        ProgressIndicator pForm = new ProgressIndicator();
 
-        try {
-            startDate = Constants.dateTimeFormat.parse(initTime.getText());
-            endDate = Constants.dateTimeFormat.parse(endTime.getText());
-        } catch (ParseException e) {
-            // TODO exception y break
-        }
+        Task<Void> saveMeasurementsAndFormulasForMissionTask = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
 
-        // Save measurements + check if is in the range
-        for (ValidatedData validatedData: data) {
-            for (Measurement measurement : validatedData.getMeasurements()) {
-                if(measurement.getDate().after(startDate) || measurement.getDate().before(endDate)) {
-                    measurementService.save(measurement);
+                Date startDate = null;
+                Date endDate = null;
+
+                try {
+                    startDate = Constants.dateTimeFormat.parse(initTime.getText());
+                    endDate = Constants.dateTimeFormat.parse(endTime.getText());
+                } catch (ParseException e) {
+                    // TODO exception y break + show warn
                 }
+
+                // Calculate total number of measurements to update the progress indicator
+                int totalMeasurements = 0;
+                for(ValidatedData validatedData: data) {
+                    totalMeasurements += validatedData.getMeasurements().size();
+                }
+
+                // Save measurements + check if is in the range
+                int actualMeasurement = 0;
+                for (ValidatedData validatedData : data) {
+                    for (Measurement measurement : validatedData.getMeasurements()) {
+                        updateProgress(actualMeasurement++, totalMeasurements);
+
+                        if (measurement.getDate().after(startDate) || measurement.getDate().before(endDate)) {
+                            measurementService.save(measurement);
+                        }
+                    }
+                }
+
+                Set<Formula> selectedFormulas = new HashSet<>();
+                for (ListViewItem item : listViewFormulas.getItems()) {
+                    if (item.isOn()) {
+                        selectedFormulas.add(formulaService.getByName(item.getName()));
+                    }
+                }
+
+                mission.setFormulas(selectedFormulas);
+                missionService.saveOrUpdate(mission);
+
+                updateProgress(10, 10);
+
+                return null;
             }
-        }
+        };
 
-        Set<Formula> selectedFormulas = new HashSet<>();
-        for(ListViewItem item: listViewFormulas.getItems()) {
-            if(item.isOn()) {
-                selectedFormulas.add(formulaService.getByName(item.getName()));
-            }
-        }
+        // binds progress of progress bars to progress of task:
+        pForm.progressProperty().bind(saveMeasurementsAndFormulasForMissionTask.progressProperty());
 
-        mission.setFormulas(selectedFormulas);
-        missionService.saveOrUpdate(mission);
+        saveMeasurementsAndFormulasForMissionTask.setOnSucceeded(event -> {
+            MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
+            // missionInfoController.setData(missionId);
 
-        MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-        // missionInfoController.setData(missionId);
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+            anchorPane.setDisable(false);
+        });
+
+        anchorPane.setDisable(true);
+
+        VBox box = new VBox(pForm);
+        box.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(box);
+
+        Thread thread = new Thread(saveMeasurementsAndFormulasForMissionTask);
+        thread.start();
     }
 
     @Override
