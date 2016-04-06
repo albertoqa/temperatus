@@ -226,7 +226,7 @@ public class RecordConfigController extends AbstractCreationController implement
                     for (Measurement measurement : validatedData.getMeasurements()) {
                         updateProgress(actualMeasurement++, totalMeasurements);
 
-                        if (measurement.getDate().after(startDate) || measurement.getDate().before(endDate)) {
+                        if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
                             measurementService.save(measurement);
                         }
                     }

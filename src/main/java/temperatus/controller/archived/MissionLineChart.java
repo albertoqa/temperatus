@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
 import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
  */
 @Controller
 @Scope("prototype")
-public class MissionLineChart implements Initializable, AbstractController{
+public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private LineChart<Date, Number> lineChart;
     @FXML private CheckListView<XYChart.Series<Date, Number>> iButtonsList;
@@ -33,6 +34,7 @@ public class MissionLineChart implements Initializable, AbstractController{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lineChart.setAnimated(false);
+        //lineChart.setCreateSymbols(false);
 
     }
 
@@ -43,7 +45,7 @@ public class MissionLineChart implements Initializable, AbstractController{
     }
 
     private void setLineChartData() {
-        for(Record record: dataMap.keySet()) {
+        for (Record record : dataMap.keySet()) {
             List<Measurement> measurements = dataMap.get(record);
 
             XYChart.Series<Date, Number> serie = new XYChart.Series<Date, Number>();
@@ -61,6 +63,26 @@ public class MissionLineChart implements Initializable, AbstractController{
                 reloadChart();
             }
         });
+
+        /**
+         * Browsing through the Data and applying ToolTip
+         * as well as the class on hover
+         */
+        if (lineChart.getCreateSymbols()) {
+            for (XYChart.Series<Date, Number> s : lineChart.getData()) {
+                for (XYChart.Data<Date, Number> d : s.getData()) {
+                    Tooltip.install(d.getNode(), new Tooltip(
+                            d.getXValue().toString() + "\n" +
+                                    "Temperature : " + d.getYValue()));
+
+                    //Adding class on hover
+                    d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                    //Removing class on exit
+                    d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+                }
+            }
+        }
     }
 
     private void reloadChart() {

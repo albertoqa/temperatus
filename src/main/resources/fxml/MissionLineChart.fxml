@@ -2,23 +2,21 @@
 
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.CheckListView?>
 <?import temperatus.model.pojo.types.DateAxis?>
-<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.MissionLineChart">
+<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../styles/temperatus.css" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.MissionLineChart">
    <children>
-      <LineChart fx:id="lineChart" layoutX="9.0" layoutY="31.0" prefHeight="400.0" prefWidth="648.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="15.0">
+      <LineChart fx:id="lineChart" layoutX="9.0" layoutY="31.0" prefHeight="420.0" prefWidth="568.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="15.0">
         <xAxis>
           <DateAxis side="BOTTOM" />
+          <!--<NumberAxis side="BOTTOM" />-->
         </xAxis>
         <yAxis>
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <CheckListView fx:id="iButtonsList" layoutX="88.0" layoutY="460.0" prefHeight="251.0" prefWidth="214.0" AnchorPane.leftAnchor="88.0" />
-      <CheckListView fx:id="formulasList" layoutX="368.0" layoutY="460.0" prefHeight="251.0" prefWidth="214.0" AnchorPane.rightAnchor="88.0" />
-      <Label layoutX="88.0" layoutY="443.0" text="iButtons" />
-      <Label layoutX="367.0" layoutY="443.0" text="Formulas" />
+      <CheckListView fx:id="iButtonsList" layoutX="595.0" layoutY="29.0" prefHeight="198.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
+      <CheckListView fx:id="formulasList" layoutX="595.0" layoutY="236.0" prefHeight="198.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
    </children>
 </AnchorPane>
