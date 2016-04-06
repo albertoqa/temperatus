@@ -1,11 +1,15 @@
 package temperatus.controller.archived;
 
 import javafx.collections.ListChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.WritableImage;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,9 @@ import temperatus.controller.AbstractController;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
@@ -88,6 +95,30 @@ public class MissionLineChart implements Initializable, AbstractController {
     private void reloadChart() {
         lineChart.getData().clear();
         lineChart.getData().addAll(iButtonsList.getCheckModel().getCheckedItems());
+    }
+
+    @FXML
+    public void saveAsPng() {
+
+        FileChooser fileChooser = new FileChooser();
+
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+
+            WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
+
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            } catch (IOException e) {
+                // TODO: handle exception here
+            }
+        }
     }
 
     @Override
