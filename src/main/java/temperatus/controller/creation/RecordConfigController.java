@@ -121,6 +121,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
             // Store information in loaded pane
             recordInfoPaneController.setData(model, serial, alias, sampleRate, startDate, endDate, totalMeasurements, position, validatedData.getMeasurements());
+            recordInfoPaneController.setParentNode(anchorPane);
 
             stackPane.getChildren().setAll(recordInfoPane);
             recordInfoTab.setContent(stackPane);

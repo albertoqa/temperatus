@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.*?>
 <StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="780.0" styleClass="grayBack" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.ButtonDataController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="modal">
          <children>
             <AnchorPane layoutX="227.0" layoutY="-11.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="69.0" layoutY="27.0" styleClass="headerLabel" text="Complete Data" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0" />
-                  <Button onAction="#back" layoutX="626.0" layoutY="22.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="22.0" />
+                  <Button layoutX="626.0" layoutY="22.0" mnemonicParsing="false" onAction="#back" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="22.0" />
                </children>
             </AnchorPane>
             <TableView fx:id="tableView" layoutX="21.0" layoutY="95.0" prefHeight="457.0" prefWidth="726.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="97.0">

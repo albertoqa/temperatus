@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -101,13 +102,21 @@ public class VistaNavigator {
         return stage;
     }
 
-    public static <T> T openModal(String url, String title) {
+    public static <T> T openModal(String url, String title, AnchorPane pane) {
         Parent root = loader.load(VistaNavigator.class.getResource(url));
         Scene scene = createModalScene(root);
         Stage stage = createModalStage(scene, title);
         Animation.fadeOutIn(null, root);
+        if(pane != null) {
+            pane.setDisable(true);
+        }
         stage.show();
         return loader.getController();
+    }
+
+    public static void closeModal(Node n, Node p) {
+        Animation.fadeInOutClose(n);
+        p.setDisable(false);
     }
 
     public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {

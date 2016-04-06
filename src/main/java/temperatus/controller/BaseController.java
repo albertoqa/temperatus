@@ -177,7 +177,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goConfig() {
-        VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION));
+        VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION), null);
     }
 
     @FXML
@@ -188,7 +188,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT, null);
     }
 
     @FXML
@@ -199,22 +199,22 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, Constants.NEWGAME);
+        VistaNavigator.openModal(Constants.NEW_GAME, Constants.NEWGAME, null);
     }
 
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT, null);
     }
 
     @FXML
     private void goNewSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.NEWSUBJECT);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.NEWSUBJECT, null);
     }
 
     @FXML
     private void goNewPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.NEWPOSITION);
+        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.NEWPOSITION, null);
     }
 
     public void selectBase() {
@@ -333,7 +333,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
             Platform.runLater(new Runnable() {
                 public void run() {
-                    VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE));
+                    VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE), null);
                 }
             });
         }

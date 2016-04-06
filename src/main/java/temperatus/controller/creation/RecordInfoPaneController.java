@@ -3,6 +3,7 @@ package temperatus.controller.creation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
@@ -40,6 +41,7 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
     @FXML private Label totalMeasurements;
     @FXML private Label position;
 
+    private AnchorPane parentNode;
     List<Measurement> measurements;
 
     @Override
@@ -59,10 +61,15 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
         this.measurements = measurements;
     }
 
+    public void setParentNode(AnchorPane parentNode) {
+        this.parentNode = parentNode;
+    }
+
     @FXML
     private void completeInfo() {
-        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, "");
+        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, "", parentNode);
         buttonDataController.setData(measurements);
+        buttonDataController.setParentNode(parentNode);
     }
 
     @Override

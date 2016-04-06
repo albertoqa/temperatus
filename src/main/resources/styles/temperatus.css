@@ -66,14 +66,12 @@
      -fx-font-size: 10pt;
      -fx-font-family: "Avenir Medium";
      -fx-text-fill: black;
-     -fx-opacity: 1;
  }
 
  .label-paneinfodata {
      -fx-font-size: 10pt;
      -fx-font-family: "Avenir Light";
      -fx-text-fill: black;
-     -fx-opacity: 1;
  }
 
  .label-bright {
@@ -862,4 +860,15 @@
     -fx-border-color: -fx-box-border;
     -fx-border-insets: -1 0 0 -1;
     -fx-padding: 0 5 0 10;
+}
+
+/*******************************************************************************
+*                                                                             *
+* Modal Pane                                                                    *
+*                                                                             *
+******************************************************************************/
+
+.modal {
+  -fx-border-width: 0.5;
+  -fx-border-color: black;
 }

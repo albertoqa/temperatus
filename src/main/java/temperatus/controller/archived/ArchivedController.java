@@ -129,7 +129,7 @@ public class ArchivedController implements Initializable, AbstractController {
                     TreeItem<TreeElement> item = treeTable.getSelectionModel().getSelectedItem();
                     if (TreeElementType.Project == item.getValue().getType()) {
                         Project project = (Project) item.getValue().getElement();
-                        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+                        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT), null);
                         newProjectController.setProject(project);
                     }
                     // TODO
@@ -227,7 +227,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT), null);
     }
 
     /**
