@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<?import temperatus.model.pojo.types.DateAxis?>-->
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,147 +12,110 @@
                <content>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0" spacing="10.0">
                      <children>
-                        <AnchorPane prefHeight="127.0" prefWidth="737.0" style="-fx-background-color: #ffffff;">
+                        <AnchorPane prefHeight="46.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
                               <Label layoutX="70.0" layoutY="14.0" prefWidth="109.0" styleClass="label-paneinfo" text="Project:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="projectName" layoutX="179.0" layoutY="14.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
+                              <Label fx:id="projectName" layoutX="125.0" layoutY="7.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="89.0" layoutY="49.0" styleClass="label-paneinfo" text="Date:">
+                              <Label layoutX="497.0" layoutY="14.0" styleClass="label-paneinfo" text="Start Date:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="projectDate" layoutX="179.0" layoutY="49.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Date">
-                                 <font>
-                                    <Font name="Avenir Light" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="83.0" styleClass="label-paneinfo" text="Observations:">
-                                 <font>
-                                    <Font name="Avenir Light" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="projectObservations" layoutX="179.0" layoutY="83.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Observations">
+                              <Label fx:id="projectDate" layoutX="574.0" layoutY="7.0" prefHeight="30.0" prefWidth="148.0" styleClass="label-paneinfodata" text="Date">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
                            </children></AnchorPane>
-                        <AnchorPane prefHeight="187.0" prefWidth="737.0" style="-fx-background-color: #ffffff;">
+                        <AnchorPane prefHeight="113.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
                               <Label layoutX="65.0" layoutY="14.0" styleClass="label-paneinfo" text="Mission:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="missionName" layoutX="179.0" layoutY="14.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
+                              <Label fx:id="missionName" layoutX="125.0" layoutY="7.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="71.0" layoutY="54.0" styleClass="label-paneinfo" text="Author:">
+                              <Label layoutX="68.0" layoutY="46.0" styleClass="label-paneinfo" text="Author:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="missionAuthor" layoutX="179.0" layoutY="54.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Author">
+                              <Label fx:id="missionAuthor" layoutX="125.0" layoutY="39.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Author">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="89.0" layoutY="100.0" styleClass="label-paneinfo" text="Date:">
+                              <Label layoutX="530.0" layoutY="14.0" styleClass="label-paneinfo" text="Date:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="missionDate" layoutX="179.0" layoutY="100.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Date">
+                              <Label fx:id="missionDate" layoutX="574.0" layoutY="7.0" prefHeight="30.0" prefWidth="148.0" styleClass="label-paneinfodata" text="Date">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="14.0" layoutY="143.0" styleClass="label-paneinfo" text="Observations:">
+                              <Label layoutX="29.0" layoutY="78.0" styleClass="label-paneinfo" text="Observations:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="missionObservations" layoutX="179.0" layoutY="143.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Observations">
+                              <Label fx:id="missionObservations" layoutX="125.0" layoutY="71.0" prefHeight="30.0" prefWidth="588.0" styleClass="label-paneinfodata" text="Observations">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
                            </children></AnchorPane>
-                        <AnchorPane prefHeight="139.0" prefWidth="737.0" style="-fx-background-color: #ffffff;">
+                        <AnchorPane prefHeight="46.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
                               <Label layoutX="76.0" layoutY="14.0" styleClass="label-paneinfo" text="Game:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="57.0" layoutY="53.0" styleClass="label-paneinfo" text="iButtons:">
+                              <Label layoutX="507.0" layoutY="14.0" styleClass="label-paneinfo" text="iButtons:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="gameName" layoutX="178.0" layoutY="14.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
+                              <Label fx:id="gameName" layoutX="125.0" layoutY="7.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="14.0" layoutY="94.0" styleClass="label-paneinfo" text="Observations:">
-                                 <font>
-                                    <Font name="Avenir Light" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="gameIbuttonsNumber" layoutX="178.0" layoutY="53.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
-                                 <font>
-                                    <Font name="Avenir Light" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="gameObservations" layoutX="178.0" layoutY="94.0" prefHeight="30.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
+                              <Label fx:id="gameIbuttonsNumber" layoutX="574.0" layoutY="7.0" prefHeight="30.0" prefWidth="148.0" styleClass="label-paneinfodata" text="Name">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
                            </children></AnchorPane>
-                        <AnchorPane prefHeight="60.0" prefWidth="752.0" style="-fx-background-color: #ffffff;">
+                        <AnchorPane prefHeight="45.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
                               <Label layoutX="63.0" layoutY="14.0" styleClass="label-paneinfo" text="Subject:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="subjectName" layoutX="179.0" layoutY="14.0" styleClass="label-paneinfodata" text="Name">
+                              <Label fx:id="subjectName" layoutX="125.0" layoutY="12.0" prefWidth="295.0" styleClass="label-paneinfodata" text="Name">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="589.0" prefWidth="752.0" style="-fx-background-color: #ffffff;">
-                           <children>
-                              <LineChart fx:id="lineChart" layoutX="7.0" layoutY="58.0" prefHeight="400.0" prefWidth="739.0">
-                                <xAxis>
-                                  <!--<DateAxis side="BOTTOM" />-->
-                                  <NumberAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </LineChart>
-                              <Label layoutX="34.0" layoutY="14.0" styleClass="label-paneinfo" text="Report">
-                                 <font>
-                                    <Font name="Avenir Light" size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
+                        <StackPane fx:id="lineChartStackPane" prefHeight="150.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>

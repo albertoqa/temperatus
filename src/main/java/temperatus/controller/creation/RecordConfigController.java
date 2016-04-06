@@ -253,7 +253,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
         saveMeasurementsAndFormulasForMissionTask.setOnSucceeded(event -> {
             MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-            missionInfoController.setData(mission);
+            missionInfoController.setData(mission.getId());
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
             anchorPane.setDisable(false);

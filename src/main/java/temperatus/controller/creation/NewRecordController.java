@@ -38,10 +38,7 @@ import temperatus.util.VistaNavigator;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -512,6 +509,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
 
                 // save Records to database
+                Set<Record> records = new HashSet<>();
                 for (ValidatedData validatedData : validatedDataList) {
                     Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
                     recordService.save(record);
@@ -523,7 +521,10 @@ public class NewRecordController extends AbstractCreationController implements I
                     for (int i = 0; i < validatedData.getPosibleErrors().size(); i++) {
                         validatedData.getPosibleErrors().get(i).setRecord(record);
                     }
+
+                    records.add(record);
                 }
+                mission.setRecords(records);
 
                 updateProgress(10, 10);
 

@@ -2,15 +2,19 @@ package temperatus.controller.archived;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.controller.AbstractController;
 import temperatus.model.pojo.*;
+import temperatus.model.service.MissionService;
+import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,21 +25,21 @@ import java.util.stream.Collectors;
  */
 @Controller
 @Scope("prototype")
-public class MissionInfoController implements Initializable {
+public class MissionInfoController implements Initializable, AbstractController {
 
     @FXML private Label projectName;
     @FXML private Label projectDate;
-    @FXML private Label projectObservations;
     @FXML private Label missionName;
     @FXML private Label missionDate;
     @FXML private Label missionObservations;
     @FXML private Label missionAuthor;
     @FXML private Label gameName;
     @FXML private Label gameIbuttonsNumber;
-    @FXML private Label gameObservations;
     @FXML private Label subjectName;
 
-    @FXML private LineChart<Date, Number> lineChart;
+    @FXML private StackPane lineChartStackPane;
+
+    @Autowired MissionService missionService;
 
     private Project project;
     private Mission mission;
@@ -50,8 +54,8 @@ public class MissionInfoController implements Initializable {
 
     }
 
-    public void setData(Mission mission) {
-        this.mission = mission;
+    public void setData(int missionId) {
+        this.mission = missionService.getById(missionId);
         project = mission.getProject();
         game = mission.getGame();
         subject = mission.getSubject();
@@ -72,7 +76,6 @@ public class MissionInfoController implements Initializable {
     private void writeDataOnView() {
         projectName.setText(project.getName());
         projectDate.setText(project.getDateIni().toString());
-        projectObservations.setText(project.getObservations());
 
         missionName.setText(mission.getName());
         missionDate.setText(mission.getDateIni().toString());
@@ -81,26 +84,23 @@ public class MissionInfoController implements Initializable {
 
         gameName.setText(game.getTitle());
         gameIbuttonsNumber.setText(String.valueOf(game.getNumButtons()));
-        gameObservations.setText(game.getObservations());
 
         subjectName.setText(subject.getName());
 
-        for(Record record: dataMap.keySet()) {
-            List<Measurement> measurements = dataMap.get(record);
+        Node missionLineChartPane = VistaNavigator.loader.load(MissionLineChart.class.getResource(Constants.MISSION_LINE_CHART));
+        MissionLineChart missionLineChart = VistaNavigator.loader.getController();
+        missionLineChart.setData(dataMap);
 
-            XYChart.Series<Date, Number> series = new XYChart.Series<Date, Number>();
-            series.setName(record.getPosition().getPlace());  //TODO change to Position name
-            measurements.stream().forEach((measurement) -> {
-                series.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
-            });
-            lineChart.getData().add(series);
-
-        }
-
+        lineChartStackPane.getChildren().setAll(missionLineChartPane);
     }
 
     @FXML
     private void exportData() {
+
+    }
+
+    @Override
+    public void translate() {
 
     }
 }
