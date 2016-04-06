@@ -152,6 +152,35 @@ public class BaseController implements Initializable, AbstractController, Device
         aboutI.setFitWidth(15);
         about.setGraphic(aboutI);
 
+        ImageView projectI = new ImageView("/images/icons/project.png");
+        projectI.setFitHeight(10);
+        projectI.setFitWidth(10);
+        nProject.setGraphic(projectI);
+
+        ImageView gameI = new ImageView("/images/icons/game.png");
+        gameI.setFitHeight(10);
+        gameI.setFitWidth(10);
+        nGame.setGraphic(gameI);
+
+        ImageView missionI = new ImageView("/images/icons/mission.png");
+        missionI.setFitHeight(10);
+        missionI.setFitWidth(10);
+        nMission.setGraphic(missionI);
+
+        ImageView subjectI = new ImageView("/images/icons/subject.png");
+        subjectI.setFitHeight(10);
+        subjectI.setFitWidth(10);
+        nSubject.setGraphic(subjectI);
+
+        ImageView positionI = new ImageView("/images/icons/position.png");
+        positionI.setFitHeight(10);
+        positionI.setFitWidth(10);
+        nPosition.setGraphic(positionI);
+
+        ImageView formulaI = new ImageView("/images/icons/formula.png");
+        formulaI.setFitHeight(10);
+        formulaI.setFitWidth(10);
+        nFormula.setGraphic(formulaI);
     }
 
     @FXML
@@ -242,8 +271,11 @@ public class BaseController implements Initializable, AbstractController, Device
                 break;
             case Constants.ABOUT: menuGroup.selectToggle(about);
                 break;
-            case Constants.NEW_MISSION: menuGroup.selectToggle(nMission);
+            case Constants.NEW_MISSION: {
+                menuGroup.selectToggle(nMission);
+                accordionPane.setExpanded(true);
                 break;
+            }
             default: break;
         }
     }

@@ -89,7 +89,7 @@ public class MissionInfoController implements Initializable, AbstractController 
 
         Node missionLineChartPane = VistaNavigator.loader.load(MissionLineChart.class.getResource(Constants.MISSION_LINE_CHART));
         MissionLineChart missionLineChart = VistaNavigator.loader.getController();
-        missionLineChart.setData(dataMap);
+        missionLineChart.setData(dataMap, 18.0, 35.0);
 
         lineChartStackPane.getChildren().setAll(missionLineChartPane);
     }

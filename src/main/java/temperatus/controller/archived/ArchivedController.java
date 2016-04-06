@@ -113,10 +113,12 @@ public class ArchivedController implements Initializable, AbstractController {
         treeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if (TreeElementType.Project == newValue.getValue().getType()) { // TODO check nullpointer
-                        projectSelection(newValue.getValue().getElement());
-                    } else {
-                        missionSelection(newValue.getValue().getElement());
+                    if(newValue != null) {
+                        if (TreeElementType.Project == newValue.getValue().getType()) {
+                            projectSelection(newValue.getValue().getElement());
+                        } else {
+                            missionSelection(newValue.getValue().getElement());
+                        }
                     }
                 });
 
@@ -284,12 +286,13 @@ public class ArchivedController implements Initializable, AbstractController {
     private void newMission() {
         NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
         //missionController.setProject(getSelectedElement().getElement());//TODO
+        VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
     }
 
     @FXML
     private void missionInfo() {
         MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
-        //missionInfoController.setData(getSelectedElement().getId());
+        missionInfoController.setData(((Mission) getSelectedElement().getElement()).getId());
     }
 
     @FXML

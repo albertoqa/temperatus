@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.WritableImage;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.DateAxis;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -35,6 +37,8 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private LineChart<Date, Number> lineChart;
     @FXML private CheckListView<XYChart.Series<Date, Number>> iButtonsList;
+    @FXML private NumberAxis yAxis;
+    @FXML private DateAxis xAxis;
 
     private HashMap<Record, List<Measurement>> dataMap;
 
@@ -45,10 +49,13 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     }
 
-    public void setData(HashMap<Record, List<Measurement>> dataMap) {
+    public void setData(HashMap<Record, List<Measurement>> dataMap, double minTemp, double maxTemp) {
         this.dataMap = dataMap;
         setLineChartData();
 
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(minTemp - 5);
+        yAxis.setUpperBound(maxTemp + 5);
     }
 
     private void setLineChartData() {
