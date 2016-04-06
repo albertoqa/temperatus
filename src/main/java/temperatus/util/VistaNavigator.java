@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -81,6 +80,8 @@ public class VistaNavigator {
     ////////////////////////////////////////////////////////////////////////////
     /*  Vista Utils  */
 
+    public static Node parentNode;  // Used to disable when a modal window is opened
+
     public static <T> T preloadController(String url) {
         loader.load(VistaNavigator.class.getResource(url));
         return loader.getController();
@@ -102,21 +103,21 @@ public class VistaNavigator {
         return stage;
     }
 
-    public static <T> T openModal(String url, String title, AnchorPane pane) {
+    public static <T> T openModal(String url, String title) {
         Parent root = loader.load(VistaNavigator.class.getResource(url));
         Scene scene = createModalScene(root);
         Stage stage = createModalStage(scene, title);
         Animation.fadeOutIn(null, root);
-        if(pane != null) {
-            pane.setDisable(true);
+        if(parentNode != null) {
+            parentNode.setDisable(true);
         }
         stage.show();
         return loader.getController();
     }
 
-    public static void closeModal(Node n, Node p) {
+    public static void closeModal(Node n) {
         Animation.fadeInOutClose(n);
-        p.setDisable(false);
+        parentNode.setDisable(false);
     }
 
     public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {

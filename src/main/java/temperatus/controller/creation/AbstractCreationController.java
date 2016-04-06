@@ -5,7 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import temperatus.controller.AbstractController;
-import temperatus.util.Animation;
 import temperatus.util.VistaNavigator;
 
 /**
@@ -24,7 +23,7 @@ public abstract class AbstractCreationController implements AbstractController {
 
     @FXML
     private void cancel() {
-        Animation.fadeInOutClose(titledPane);
+        VistaNavigator.closeModal(titledPane);
         VistaNavigator.baseController.selectBase();
     }
 

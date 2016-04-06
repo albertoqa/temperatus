@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -57,7 +56,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML
     private void okAction() {
         savePrefs();
-        Animation.fadeInOutClose(titledPane);
+        VistaNavigator.closeModal(titledPane);
         VistaNavigator.baseController.selectBase();
     }
 
@@ -91,7 +90,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
      */
     @FXML
     private void cancelAction() {
-        Animation.fadeInOutClose(titledPane);
+        VistaNavigator.closeModal(titledPane);
         VistaNavigator.baseController.selectBase();
     }
 

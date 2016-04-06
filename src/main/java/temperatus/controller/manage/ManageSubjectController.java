@@ -152,7 +152,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT), null);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
     }
 
     @FXML

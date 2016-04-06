@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,6 @@ public class ButtonDataController implements Initializable {
 
     @FXML private TableView<Measurement> tableView;
     @FXML private StackPane stackPane;
-
-    private AnchorPane parentNode;
 
     private TableColumn<Measurement, String> date = new TableColumn<>();
     private TableColumn<Measurement, String> unit = new TableColumn<>();
@@ -54,14 +51,9 @@ public class ButtonDataController implements Initializable {
         this.measurements.addAll(measurements);
     }
 
-    public void setParentNode(AnchorPane parentNode) {
-        this.parentNode = parentNode;
-    }
-
     @FXML
     private void back() {
-//        Animation.fadeInOutClose(stackPane);
-        VistaNavigator.closeModal(stackPane, parentNode);
+        VistaNavigator.closeModal(stackPane);
     }
 
 

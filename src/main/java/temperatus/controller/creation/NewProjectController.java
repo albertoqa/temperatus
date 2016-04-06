@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
-import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -88,7 +87,7 @@ public class NewProjectController extends AbstractCreationController implements 
 
             projectService.saveOrUpdate(project);
 
-            Animation.fadeInOutClose(titledPane);
+            VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null && isSave) {
                 // Only necessary if base view needs to know about the new project creation
                 VistaNavigator.getController().reload(project);

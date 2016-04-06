@@ -21,7 +21,6 @@ import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
-import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -89,7 +88,7 @@ public class NewGameController extends AbstractCreationController implements Ini
 
             gameService.save(game);
 
-            Animation.fadeInOutClose(titledPane);
+            VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 VistaNavigator.getController().reload(game);
             }

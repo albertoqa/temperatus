@@ -193,7 +193,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT), null);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
     }
 
     /**
@@ -201,7 +201,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Constants.NEWGAME), null);
+        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Constants.NEWGAME));
     }
 
     /**
@@ -209,7 +209,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT), null);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
     }
 
     /**

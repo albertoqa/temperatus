@@ -121,7 +121,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
             subjectService.save(subject);
 
-            Animation.fadeInOutClose(titledPane);
+            VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 VistaNavigator.getController().reload(subject);
             }

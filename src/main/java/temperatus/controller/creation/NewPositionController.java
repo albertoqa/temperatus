@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.PositionService;
-import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -74,7 +73,7 @@ public class NewPositionController extends AbstractCreationController implements
             Position position = new Position(name, imagePath);
             positionService.save(position);
 
-            Animation.fadeInOutClose(titledPane);
+            VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new position creation
                 VistaNavigator.getController().reload(position);
