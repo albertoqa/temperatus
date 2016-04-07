@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +65,7 @@ public class MissionInfoController implements Initializable, AbstractController 
         List<Record> records = mission.getRecords().stream().collect(Collectors.toList());
 
         dataMap = new HashMap<>();
-        for(Record record: records) {
+        for (Record record : records) {
             List<Measurement> measurements = record.getMeasurements().stream().collect(Collectors.toList());
             dataMap.put(record, measurements);
         }
@@ -96,7 +98,18 @@ public class MissionInfoController implements Initializable, AbstractController 
 
     @FXML
     private void exportData() {
+        FileChooser fileChooser = new FileChooser();
 
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls");    //TODO file type
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            // TODO export
+        }
     }
 
     @Override
