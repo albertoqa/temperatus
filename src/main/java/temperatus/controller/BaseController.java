@@ -61,6 +61,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private ToggleButton nGame;
     @FXML private ToggleButton nSubject;
     @FXML private ToggleButton nPosition;
+    @FXML private ToggleButton nAuthor;
 
     @FXML private TitledPane accordionPane;
     @FXML private BorderPane parentPane;
@@ -90,7 +91,7 @@ public class BaseController implements Initializable, AbstractController, Device
         translate();
 
         menuGroup = new ToggleGroup();
-        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition);
+        menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition, nAuthor);
         home.setSelected(true);
 
         menuGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -181,6 +182,11 @@ public class BaseController implements Initializable, AbstractController, Device
         formulaI.setFitHeight(10);
         formulaI.setFitWidth(10);
         nFormula.setGraphic(formulaI);
+
+        ImageView authorI = new ImageView("/images/icons/author.png");
+        authorI.setFitHeight(10);
+        authorI.setFitWidth(10);
+        nAuthor.setGraphic(authorI);
     }
 
     @FXML
@@ -236,7 +242,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.NEWFORMULA);
     }
 
     @FXML
@@ -248,6 +254,12 @@ public class BaseController implements Initializable, AbstractController, Device
     private void goNewPosition() {
         VistaNavigator.openModal(Constants.NEW_POSITION, Constants.NEWPOSITION);
     }
+
+    @FXML
+    private void goNewAuthor() {
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.NEWAUTHOR);
+    }
+
 
     public void selectBase() {
         selectMenuButton(actualBaseView);

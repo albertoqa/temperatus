@@ -118,6 +118,7 @@ public class VistaNavigator {
     public static void closeModal(Node n) {
         Animation.fadeInOutClose(n);
         parentNode.setDisable(false);
+        baseController.selectBase();
     }
 
     public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {

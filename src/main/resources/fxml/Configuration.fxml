@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="731.0" stylesheets="@../styles/Metro-UI.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="731.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
          <bottom>
@@ -11,11 +11,11 @@
                <children>
                   <ToolBar fx:id="buttonsToolBar" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <items>
-                      <Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpAction" styleClass="btn" text="Help" />
+                      <Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpAction" prefWidth="127.0" styleClass="cbtn" text="Help" />
                         <Pane prefHeight="0.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" styleClass="btn" text="Cancel" />
-                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applyAction" styleClass="btn" text="Apply" />
-                        <Button fx:id="okButton" mnemonicParsing="false" onAction="#okAction" styleClass="btn" text="OK" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefWidth="127.0" styleClass="cbtn" text="Cancel" />
+                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applyAction" prefWidth="127.0" styleClass="cbtn" text="Apply" />
+                        <Button fx:id="okButton" mnemonicParsing="false" onAction="#okAction" prefWidth="127.0" styleClass="cbtn" text="OK" />
                     </items>
                   </ToolBar>
                </children>
