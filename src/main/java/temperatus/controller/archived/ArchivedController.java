@@ -61,6 +61,14 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Label lastMissionName;
     @FXML private Label projectSubjects;
 
+    @FXML private Label missionName;
+    @FXML private Label missionDate;
+    @FXML private Label missionObservations;
+    @FXML private Label missionGame;
+    @FXML private Label missionProject;
+    @FXML private Label missionSubject;
+    @FXML private Label missionAuthor;
+
     @FXML private AnchorPane projectInfoPane;
     @FXML private AnchorPane missionInfoPane;
 
@@ -221,6 +229,14 @@ public class ArchivedController implements Initializable, AbstractController {
         Animation.fadeInTransition(missionInfoPane);
         projectInfoPane.setDisable(true);
         missionInfoPane.setDisable(false);
+
+        missionName.setText(mission.getName());
+        missionAuthor.setText(mission.getAuthor().getName());
+        missionDate.setText(mission.getDateIni().toString());
+        missionGame.setText(mission.getGame().getTitle());
+        missionProject.setText(mission.getProject().getName());
+        missionSubject.setText(mission.getSubject().getName());
+        missionObservations.setText(mission.getObservations());
     }
 
     /**
