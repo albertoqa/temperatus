@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
@@ -33,6 +34,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @FXML private TabPane infoTabPane;
     @FXML private TableView<Device> connectedDevicesTable;
 
+    @FXML private HBox searchingIndicator;
+
     private TableColumn<Device, String> modelColumn = new TableColumn<>("  Model");
     private TableColumn<Device, String> serialColumn = new TableColumn<>("  Serial");
     private TableColumn<Device, String> aliasColumn = new TableColumn<>("  Alias");
@@ -53,7 +56,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(devicesConnected);
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
-        connectedDevicesTable.setPlaceholder(new Label("No iButtons Connected"));
+//        connectedDevicesTable.setPlaceholder(new Label("No iButtons Connected"));
+        connectedDevicesTable.setPlaceholder(new Label(""));
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             loadInfo(newSelection);
@@ -103,10 +107,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         device.setModel(model);
         device.setSerial(serial);
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                addDeviceToTable(device);
-            }
+        Platform.runLater(() -> {
+            addDeviceToTable(device);
+            searchingIndicator.setVisible(false);
         });
     }
 
@@ -132,17 +135,17 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                 break;
             }
         }
+
+        if(devicesConnected.size() == 0){
+            searchingIndicator.setVisible(true);
+        }
     }
 
     @Override
     public void departure(DeviceDetector event) {
         String serial = event.getSerial();
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                removeDeviceFromTable(serial);
-            }
-        });
+        Platform.runLater(() -> removeDeviceFromTable(serial));
     }
 
     @Override

@@ -44,6 +44,12 @@
                   </Label>
                </children>
             </AnchorPane>
+            <HBox fx:id="searchingIndicator" alignment="CENTER" layoutX="295.0" layoutY="154.0" prefHeight="100.0" prefWidth="191.0" spacing="30.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="296.0">
+               <children>
+                  <Label prefHeight="100.0" prefWidth="95.0" styleClass="label-paneinfo" text="Searching..." />
+                  <ProgressIndicator prefHeight="70.0" prefWidth="70.0" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>
