@@ -6,16 +6,20 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.exporter.MissionExporter;
 import temperatus.model.pojo.*;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +101,7 @@ public class MissionInfoController implements Initializable, AbstractController 
     }
 
     @FXML
-    private void exportData() {
+    private void exportData() throws IOException {
         FileChooser fileChooser = new FileChooser();
 
         //Set extension filter
@@ -109,6 +113,13 @@ public class MissionInfoController implements Initializable, AbstractController 
 
         if (file != null) {
             // TODO export
+            MissionExporter missionExporter = new MissionExporter();
+            missionExporter.setMission(mission);
+            Workbook workBook = missionExporter.export();
+
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workBook.write(fileOut);
+            fileOut.close();
         }
     }
 

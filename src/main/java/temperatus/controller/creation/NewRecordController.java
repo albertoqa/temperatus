@@ -558,7 +558,7 @@ public class NewRecordController extends AbstractCreationController implements I
         if (data.size() > 0) {
             Date startDate = data.get(0).getStartDate();
             for (ValidatedData validatedData : data) {
-                if(validatedData.getStartDate().before(startDate)) {
+                if(validatedData.getStartDate().after(startDate)) {
                     startDate = validatedData.getStartDate();
                 }
             }
@@ -571,7 +571,7 @@ public class NewRecordController extends AbstractCreationController implements I
         if (data.size() > 0) {
             Date endDate = data.get(0).getFinishDate();
             for (ValidatedData validatedData : data) {
-                if(validatedData.getFinishDate().after(endDate)) {
+                if(validatedData.getFinishDate().before(endDate)) {
                     endDate = validatedData.getFinishDate();
                 }
             }

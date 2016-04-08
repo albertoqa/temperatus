@@ -213,6 +213,14 @@ public class NewMissionController extends AbstractCreationController implements 
     }
 
     /**
+     * Open new author modal view -> if a new author is added reload(author) is called and the new author preselected
+     */
+    @FXML
+    private void newAuthor() {
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Constants.NEWAUTHOR));
+    }
+
+    /**
      * While in this view, we can add a new {project - game - subject} without close the view
      * If we add one new object we want to add it to its corresponding choicebox and select it.
      * <p>
@@ -234,6 +242,10 @@ public class NewMissionController extends AbstractCreationController implements 
             Subject subject = (Subject) object;
             subjectBox.getItems().add(subject);
             subjectBox.getSelectionModel().select(subject);
+        } else if (object instanceof Author) {
+            Author author = (Author) object;
+            authorBox.getItems().add(author);
+            authorBox.getSelectionModel().select(author);
         }
     }
 

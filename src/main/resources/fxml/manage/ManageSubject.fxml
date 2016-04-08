@@ -12,7 +12,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #bbc4c6;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
             <Label layoutX="59.0" layoutY="33.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE">
                <font>
@@ -75,6 +75,6 @@
             <Button fx:id="completeInfo" layoutX="241.0" layoutY="187.0" mnemonicParsing="false" onAction="#showCompleteInfo" prefWidth="127.0" styleClass="cbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
          </children></AnchorPane>
       <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />
-      <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="598.0" promptText="Filter..." AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
+      <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="598.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

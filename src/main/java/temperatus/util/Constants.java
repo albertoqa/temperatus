@@ -39,6 +39,7 @@ public class Constants {
     public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";
     public static final String NEW_GAME = "/fxml/creation/NewGame.fxml";
     public static final String NEW_SUBJECT = "/fxml/creation/NewSubject.fxml";
+    public static final String NEW_AUTHOR = "/fxml/creation/NewAuthor.fxml";
     public static final String NEW_RECORD = "/fxml/creation/NewRecord.fxml";
     public static final String NEW_POSITION = "/fxml/creation/NewPosition.fxml";
     public static final String NEW_IBUTTON = "/fxml/device/NewIButton.fxml";
@@ -104,6 +105,9 @@ public class Constants {
     public static final String NAMELABEL = "nameLabel";
     public static final String OBSERVATIONSLABEL = "observationsLabel";
     public static final String STARTDATELABEL = "startDateLabel";
+
+    // New author
+    public static final String NEWAUTHOR = "newAuthor";
 
     // New Game
     public static final String NEWGAME = "newGame";
