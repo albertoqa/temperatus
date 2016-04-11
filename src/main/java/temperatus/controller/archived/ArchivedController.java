@@ -27,6 +27,7 @@ import temperatus.model.pojo.types.FilterableTreeItem;
 import temperatus.model.pojo.types.TreeElement;
 import temperatus.model.pojo.types.TreeElementType;
 import temperatus.model.pojo.types.TreeItemPredicate;
+import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -91,6 +92,7 @@ public class ArchivedController implements Initializable, AbstractController {
     private FilterableTreeItem<TreeElement> root;
 
     @Autowired ProjectService projectService;
+    @Autowired MissionService missionService;
     @Autowired SessionFactory sessionFactory;
 
     private ExecutorService databaseExecutor;
@@ -295,6 +297,17 @@ public class ArchivedController implements Initializable, AbstractController {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             root.getInternalChildren().remove(treeItem);
+        }
+    }
+
+    @FXML
+    private void deleteMission() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            missionService.delete(getSelectedElement().getElement());
+            TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
+//            root.getInternalChildren().remove(treeItem);  // TODO
         }
     }
 

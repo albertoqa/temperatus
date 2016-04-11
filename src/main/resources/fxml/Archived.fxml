@@ -58,7 +58,7 @@
             </AnchorPane>
             <AnchorPane fx:id="missionInfoPane" disable="true" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
-                  <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="27.0" />
+                  <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" onAction="#deleteMission" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="27.0" />
                   <Button fx:id="missionInfoButton" layoutX="342.0" layoutY="196.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.rightAnchor="297.0" />
                   <Label layoutX="60.0" layoutY="24.0" styleClass="label-paneinfo" text="Mission:" />
                   <Label fx:id="missionName" layoutX="130.0" layoutY="24.0" styleClass="label-paneinfodata" text="Mission de prueba" />
