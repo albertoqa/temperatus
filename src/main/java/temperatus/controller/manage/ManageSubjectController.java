@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.controller.creation.NewSubjectController;
 import temperatus.controller.manage.ampliate.SubjectInfoController;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
@@ -138,6 +139,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
         table.getColumns().addAll(subjectType, name, sex, age, weight, height);
         table.setItems(sortedData);
+        table.getSelectionModel().clearSelection();
     }
 
     private void addAllSubjects() { //TODO
@@ -156,6 +158,12 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     }
 
     @FXML
+    private void editSubject() {
+        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
+        newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
     private void deleteSubject() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
@@ -169,7 +177,12 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     @Override
     public void reload(Object object) {
         if(object instanceof Subject) {
+            if(subjects.contains((Subject) object)) {
+                subjects.remove((Subject) object);
+            }
             subjects.add((Subject) object);
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
             table.getSelectionModel().select((Subject) object);
         }
     }

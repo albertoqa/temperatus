@@ -167,6 +167,7 @@ public class Constants {
 
     // Common
     public static final String SAVE = "save";
+    public static final String UPDATE = "update";
     public static final String CANCEL = "cancel";
     public static final String CONTINUE = "continue";
 

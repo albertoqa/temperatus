@@ -29,9 +29,6 @@ import java.util.ResourceBundle;
 @Scope("prototype")
 public class NewSubjectController extends AbstractCreationController implements Initializable {
 
-    // TODO new author controller
-    // TODO change layout + should I include any other attribute to subjects?
-
     @FXML private Label nameLabel;
     @FXML private Label observationsLabel;
     @FXML private Label ageLabel;
@@ -58,10 +55,13 @@ public class NewSubjectController extends AbstractCreationController implements 
     private final ToggleGroup person = new ToggleGroup();
     private final ToggleGroup gender = new ToggleGroup();
 
+    private Subject subject;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        subject = null;
 
-        // form groups os toggle buttons
+        // form groups of toggle buttons
         isPerson.setToggleGroup(person);
         isObject.setToggleGroup(person);
         isMale.setToggleGroup(gender);
@@ -87,6 +87,31 @@ public class NewSubjectController extends AbstractCreationController implements 
         translate();
     }
 
+    public void setSubjectForUpdate(Subject subject) {
+        this.subject = subject;
+        saveButton.setText(language.get(Constants.UPDATE));
+        nameInput.setText(subject.getName());
+        observationsInput.setText(subject.getObservations());
+
+        if(subject.isIsPerson()) {
+            person.selectToggle(isPerson);
+
+            if(subject.getSex()) {
+                gender.selectToggle(isMale);
+            } else {
+                gender.selectToggle(isFemale);
+            }
+
+            ageInput.setText(String.valueOf(subject.getAge()));
+            weightInput.setText(String.valueOf(subject.getWeight()));
+            sizeInput.setText(String.valueOf(subject.getHeight()));
+
+        } else {
+            person.selectToggle(isObject);
+        }
+
+    }
+
     @Override
     @FXML
     void save() {
@@ -100,7 +125,10 @@ public class NewSubjectController extends AbstractCreationController implements 
             name = nameInput.getText();
             observations = observationsInput.getText();
 
-            Subject subject = new Subject();
+            if(subject == null) {
+                subject = new Subject();
+            }
+
             subject.setName(name);
             subject.setObservations(observations);
 
@@ -119,7 +147,7 @@ public class NewSubjectController extends AbstractCreationController implements 
                 subject.setIsPerson(false);
             }
 
-            subjectService.save(subject);
+            subjectService.saveOrUpdate(subject);
 
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="737.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageSubjectController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="737.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageSubjectController">
    <children>
       <TableView fx:id="table" layoutX="14.0" layoutY="51.0" prefHeight="260.0" prefWidth="683.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="51.0">
         <columns>
@@ -12,7 +12,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
             <Label layoutX="59.0" layoutY="33.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE">
                <font>
@@ -71,7 +71,7 @@
                </font>
             </Label>
             <Button layoutX="527.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteSubject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-            <Button layoutX="382.0" layoutY="188.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button layoutX="382.0" layoutY="188.0" mnemonicParsing="false" onAction="#editSubject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
             <Button fx:id="completeInfo" layoutX="241.0" layoutY="187.0" mnemonicParsing="false" onAction="#showCompleteInfo" prefWidth="127.0" styleClass="cbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
          </children></AnchorPane>
       <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />

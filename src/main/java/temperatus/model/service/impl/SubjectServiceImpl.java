@@ -46,7 +46,12 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void saveOrUpdate(Subject subject) {
+    public void saveOrUpdate(Subject subject) throws ControlledTemperatusException {
+
+        if(subject.getName().length() < 1 || subject.getName().length() > 300) {
+            throw new ControlledTemperatusException("Invalid name length");
+        }
+        
         subjectDao.saveOrUpdate(subject);
     }
 }

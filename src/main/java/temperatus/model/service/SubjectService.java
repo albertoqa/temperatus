@@ -18,6 +18,6 @@ public interface SubjectService {
 
     List<Subject> getAll();
 
-    void saveOrUpdate(Subject subject);
+    void saveOrUpdate(Subject subject) throws ControlledTemperatusException;
 
 }
