@@ -15,10 +15,10 @@
          <children>
             <Label layoutX="59.0" layoutY="42.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE" />
             <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button layoutX="396.0" layoutY="136.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button layoutX="484.0" layoutY="144.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button onAction="#editAuthor" layoutX="396.0" layoutY="136.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button onAction="#deleteAuthor" layoutX="484.0" layoutY="144.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
          </children></AnchorPane>
-      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />
+      <Button fx:id="newElementButton" onAction="#newAuthor" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Author" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

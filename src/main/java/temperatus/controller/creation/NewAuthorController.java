@@ -34,21 +34,18 @@ public class NewAuthorController extends AbstractCreationController implements I
 
     @Autowired AuthorService authorService;
     private Author author;
-    private boolean isSave;
 
     static Logger logger = LoggerFactory.getLogger(NewAuthorController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         author = null;
-        isSave = true;
         translate();
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthorForUpdate(Author author) {
         this.author = author;
         nameInput.setText(author.getName());
-        isSave = false;
     }
 
     /**
@@ -75,7 +72,7 @@ public class NewAuthorController extends AbstractCreationController implements I
             authorService.saveOrUpdate(author);
 
             VistaNavigator.closeModal(titledPane);
-            if (VistaNavigator.getController() != null && isSave) {
+            if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new project creation
                 VistaNavigator.getController().reload(author);
             }
