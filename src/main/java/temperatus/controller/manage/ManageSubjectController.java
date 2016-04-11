@@ -177,10 +177,9 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     @Override
     public void reload(Object object) {
         if(object instanceof Subject) {
-            if(subjects.contains((Subject) object)) {
-                subjects.remove((Subject) object);
+            if(!subjects.contains((Subject) object)) {
+                subjects.add((Subject) object);
             }
-            subjects.add((Subject) object);
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             table.getSelectionModel().select((Subject) object);
