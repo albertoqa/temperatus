@@ -18,6 +18,6 @@ public interface PositionService {
 
     List<Position> getAll();
 
-    void saveOrUpdate(Position position);
+    void saveOrUpdate(Position position) throws ControlledTemperatusException;
 
 }

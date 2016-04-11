@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -72,6 +74,11 @@ public class Position implements java.io.Serializable {
 
         return !(getPlace() != null ? !getPlace().equals(position.getPlace()) : position.getPlace() != null);
 
+    }
+
+    @Transient
+    public SimpleStringProperty getPlaceProperty() {
+        return new SimpleStringProperty(getPlace());
     }
 
     @Override

@@ -44,6 +44,7 @@ public class NewAuthorController extends AbstractCreationController implements I
     }
 
     public void setAuthorForUpdate(Author author) {
+        saveButton.setText(language.get(Constants.UPDATE));
         this.author = author;
         nameInput.setText(author.getName());
     }

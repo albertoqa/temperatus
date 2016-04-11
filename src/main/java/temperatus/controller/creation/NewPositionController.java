@@ -45,6 +45,7 @@ public class NewPositionController extends AbstractCreationController implements
     @FXML private Button selectImageButton;
 
     @Autowired PositionService positionService;
+    private Position position;
 
     static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
@@ -52,11 +53,20 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        position = null;
         translate();
 
         // Set the default image to show -> no image picture
         Image image = new Image("/images/noimage.jpg");
         imageView.setImage(image);
+    }
+
+    public void setPositionForUpdate(Position position) {
+        saveButton.setText(language.get(Constants.UPDATE));
+        this.position = position;
+        nameInput.setText(position.getPlace());
+        imagePath = position.getPicture();
+        // TODO show image
     }
 
     @Override
@@ -66,12 +76,17 @@ public class NewPositionController extends AbstractCreationController implements
         String name;
 
         try {
-            logger.info("Saving project...");
+            logger.info("Saving position...");
 
             name = nameInput.getText();
 
-            Position position = new Position(name, imagePath);
-            positionService.save(position);
+            if(position == null) {
+                position = new Position();
+            }
+
+            position.setPlace(name);
+            position.setPicture(imagePath);
+            positionService.saveOrUpdate(position);
 
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {

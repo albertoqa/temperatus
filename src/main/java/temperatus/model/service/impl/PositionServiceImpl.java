@@ -46,7 +46,12 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public void saveOrUpdate(Position position) {
+    public void saveOrUpdate(Position position) throws ControlledTemperatusException {
+
+        if(position.getPlace().length() < 1 || position.getPlace().length() > 100) {
+            throw new ControlledTemperatusException("Invalid name length");
+        }
+
         positionDao.saveOrUpdate(position);
     }
 }
