@@ -5,8 +5,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
-import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Record;
 
 import java.util.ArrayList;
@@ -18,17 +18,19 @@ import java.util.List;
  */
 public class MissionExporter{
 
-    private Mission mission;
+    private int period;
+    private String missionName;
+    private List<Record> records;
+    private List<Formula> formulas;
 
     public Workbook export() {
 
         Workbook wb = new HSSFWorkbook();
-        String missionName = mission.getName();
         Sheet missionSheet = wb.createSheet(missionName);
         Row headerRow = missionSheet.createRow(0);
 
         int row = 1;
-        for(Record record: mission.getRecords()) {
+        for(Record record: records) {
 
             Row dataRow = missionSheet.createRow(row);
 
@@ -60,7 +62,10 @@ public class MissionExporter{
         return wb;
     }
 
-    public void setMission(Mission mission) {
-        this.mission = mission;
+    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas) {
+        this.period = period;
+        this.missionName = missionName;
+        this.records = records;
+        this.formulas = formulas;
     }
 }

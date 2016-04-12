@@ -34,6 +34,7 @@ public class Constants {
     public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
     public static final String BUTTON_DATA = "/fxml/ButtonData.fxml";
     public static final String MISSION_LINE_CHART = "/fxml/MissionLineChart.fxml";
+    public static final String EXPORT_CONFIG = "/fxml/ExportConfiguration.fxml";
 
     public static final String NEW_PROJECT = "/fxml/creation/NewProject.fxml";
     public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";
@@ -98,6 +99,7 @@ public class Constants {
     public static final String PROJECT_COLUMN = "projectColumn";
     public static final String DATE_COLUMN = "dateColumn";
     public static final String SUBJECT_COLUMN = "subjectColumn";
+    public static final String EXPORTCONFIG = "exportConfig";
 
     // New project
     public static final String NEWPROJECT = "newProject";
