@@ -66,6 +66,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
 
+    private Game game;
+
     private List<Image> images;
     private int selectedImage;
     private GraphicsContext gc;
@@ -105,6 +107,21 @@ public class NewGameController extends AbstractCreationController implements Ini
         }
     };
 
+    public void setGameForUpdate(Game game) {
+        saveButton.setText(language.get(Constants.UPDATE));
+        this.game = game;
+        nameInput.setText(game.getTitle());
+        observationsInput.setText(game.getObservations());
+        numButtonsInput.setText(String.valueOf(game.getNumButtons()));
+
+        for(Formula formula: game.getFormulas()) {
+            formulasList.getCheckModel().check(formula);
+        }
+
+        positionsSelector.getTargetItems().addAll(game.getPositions());
+        positionsSelector.getSourceItems().removeAll(game.getPositions());
+    }
+
     @Override
     @FXML
     protected void save() {
@@ -120,7 +137,13 @@ public class NewGameController extends AbstractCreationController implements Ini
             observations = observationsInput.getText();
             numButtons = Integer.parseInt(numButtonsInput.getText());
 
-            Game game = new Game(name, numButtons, observations);
+            if(game == null) {
+                game = new Game();
+            }
+
+            game.setTitle(name);
+            game.setNumButtons(numButtons);
+            game.setObservations(observations);
 
             List<Position> defaultPositions = positionsSelector.getTargetItems();
             game.getPositions().addAll(defaultPositions);
@@ -128,7 +151,7 @@ public class NewGameController extends AbstractCreationController implements Ini
             List<Formula> defaultFormulas = formulasList.getCheckModel().getCheckedItems();
             game.getFormulas().addAll(defaultFormulas);
 
-            gameService.save(game);
+            gameService.saveOrUpdate(game);
 
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
@@ -179,8 +202,7 @@ public class NewGameController extends AbstractCreationController implements Ini
     }
 
     private void saveImages() {
-
-
+        // TODO
     }
 
     @FXML

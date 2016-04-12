@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewSubjectController;
-import temperatus.controller.manage.ampliate.SubjectInfoController;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
@@ -144,12 +143,6 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     private void addAllSubjects() { //TODO
         subjects.addAll(subjectService.getAll());
-    }
-
-    @FXML
-    private void showCompleteInfo() {
-        SubjectInfoController subjectInfoController = VistaNavigator.pushViewToStack(Constants.SUBJECT_INFO);
-        subjectInfoController.setSubject(table.getSelectionModel().getSelectedItem());
     }
 
     @FXML

@@ -18,6 +18,6 @@ public interface GameService {
 
     List<Game> getAll();
 
-    void saveOrUpdate(Game game);
+    void saveOrUpdate(Game game) throws ControlledTemperatusException;
 
 }

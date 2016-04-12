@@ -17,11 +17,11 @@
             <Label layoutX="59.0" layoutY="72.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
             <Label layoutX="59.0" layoutY="104.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
             <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button layoutX="335.0" layoutY="159.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
-            <Button layoutX="404.0" layoutY="160.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button layoutX="481.0" layoutY="154.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button onAction="#gameCompleteInfo" layoutX="335.0" layoutY="159.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
+            <Button onAction="#editGame" layoutX="404.0" layoutY="160.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button onAction="#deleteGame" layoutX="481.0" layoutY="154.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
          </children></AnchorPane>
-      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Game" AnchorPane.rightAnchor="27.0" />
+      <Button onAction="#newGame" fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Game" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

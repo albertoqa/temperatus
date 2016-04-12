@@ -72,7 +72,6 @@
             </Label>
             <Button layoutX="527.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteSubject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
             <Button layoutX="382.0" layoutY="188.0" mnemonicParsing="false" onAction="#editSubject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button fx:id="completeInfo" layoutX="241.0" layoutY="187.0" mnemonicParsing="false" onAction="#showCompleteInfo" prefWidth="127.0" styleClass="cbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
          </children></AnchorPane>
       <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="598.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
