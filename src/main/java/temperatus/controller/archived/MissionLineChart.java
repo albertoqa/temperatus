@@ -37,6 +37,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private LineChart<Date, Number> lineChart;
     @FXML private CheckListView<XYChart.Series<Date, Number>> iButtonsList;
+    @FXML private CheckListView<XYChart.Series<Date, Number>> formulasList;
     @FXML private NumberAxis yAxis;
     @FXML private DateAxis xAxis;
 

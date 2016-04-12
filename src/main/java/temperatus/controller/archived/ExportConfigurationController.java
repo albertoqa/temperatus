@@ -120,7 +120,7 @@ public class ExportConfigurationController implements Initializable {
             }
 
             MissionExporter missionExporter = new MissionExporter();
-            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems());
+            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), mission.getRecords());
 
             Workbook workBook = missionExporter.export();
 
@@ -128,6 +128,8 @@ public class ExportConfigurationController implements Initializable {
             workBook.write(fileOut);
             fileOut.close();
         }
+
+        cancel();
     }
 
 
