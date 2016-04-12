@@ -18,7 +18,7 @@ public interface FormulaService {
 
     List<Formula> getAll();
 
-    void saveOrUpdate(Formula formula);
+    void saveOrUpdate(Formula formula) throws ControlledTemperatusException;
 
     Formula getByName(String name);
 }

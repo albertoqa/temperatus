@@ -17,10 +17,10 @@
             <Label layoutX="59.0" layoutY="72.0" text="Label" textFill="WHITE" />
             <Label layoutX="59.0" layoutY="104.0" text="Label" textFill="WHITE" />
             <Label layoutX="59.0" layoutY="138.0" text="Label" textFill="WHITE" />
-            <Button layoutX="454.0" layoutY="77.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-            <Button layoutX="454.0" layoutY="183.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button onAction="#deleteFormula" layoutX="454.0" layoutY="77.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button onAction="#editFormula" layoutX="454.0" layoutY="183.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
          </children></AnchorPane>
-      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />
+      <Button onAction="#newFormula" fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Formula" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

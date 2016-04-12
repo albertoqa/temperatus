@@ -48,7 +48,14 @@ public class FormulaServiceImpl implements FormulaService {
     }
 
     @Override
-    public void saveOrUpdate(Formula formula) {
+    public void saveOrUpdate(Formula formula) throws ControlledTemperatusException {
+
+        if(formula.getName().length() < 1) {
+            throw new ControlledTemperatusException("Name cannot be empty");
+        } else if(formula.getName().length() > 100) {
+            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        }
+
         formulaDao.saveOrUpdate(formula);
     }
 

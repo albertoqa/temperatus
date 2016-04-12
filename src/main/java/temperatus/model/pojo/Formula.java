@@ -1,5 +1,7 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -102,5 +104,20 @@ public class Formula implements java.io.Serializable {
         int result = getName() != null ? getName().hashCode() : 0;
         result = 31 * result + (getOperation() != null ? getOperation().hashCode() : 0);
         return result;
+    }
+
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return new SimpleStringProperty(getName());
+    }
+
+    @Transient
+    public SimpleStringProperty getReferenceProperty() {
+        return new SimpleStringProperty(getReference());
+    }
+
+    @Transient
+    public SimpleStringProperty getOperationProperty() {
+        return new SimpleStringProperty(getOperation());
     }
 }

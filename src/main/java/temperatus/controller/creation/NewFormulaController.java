@@ -44,6 +44,8 @@ public class NewFormulaController extends AbstractCreationController implements 
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
 
+    private Formula formula;
+
     static Logger logger = LoggerFactory.getLogger(NewFormulaController.class.getName());
 
     private final String plus = "+";
@@ -57,6 +59,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        formula = null;
 
         positionsSelector.getItems().addAll(positionService.getAll());
         addListenerToList();
@@ -78,6 +81,14 @@ public class NewFormulaController extends AbstractCreationController implements 
         });
 
         translate();
+    }
+
+    public void setFormulaForUpdate(Formula formula) {
+        saveButton.setText(language.get(Constants.UPDATE));
+        this.formula = formula;
+        nameInput.setText(formula.getName());
+        referenceInput.setText(formula.getReference());
+        operation.set(formula.getOperation());
     }
 
     private void addListenerToList() {
@@ -201,12 +212,15 @@ public class NewFormulaController extends AbstractCreationController implements 
 
             name = nameInput.getText();
 
-            Formula formula = new Formula();
+            if(formula == null) {
+                formula = new Formula();
+            }
+
             formula.setName(name);
             formula.setOperation(operation.getValue());
             formula.setReference(referenceInput.getText());
 
-            formulaService.save(formula);
+            formulaService.saveOrUpdate(formula);
 
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {

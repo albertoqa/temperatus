@@ -59,7 +59,7 @@ public class ManagePositionController implements Initializable, AbstractControll
         FilteredList<Position> filteredData = new FilteredList<>(positions, p -> true);
 
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(subject -> {
+            filteredData.setPredicate(position -> {
                 // If filter text is empty, display all authors.
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -67,7 +67,7 @@ public class ManagePositionController implements Initializable, AbstractControll
 
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (subject.getPlace().toLowerCase().contains(lowerCaseFilter)) {
+                if (position.getPlace().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false; // Does not match.
