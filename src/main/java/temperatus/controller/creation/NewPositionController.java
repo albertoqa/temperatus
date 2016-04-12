@@ -57,7 +57,8 @@ public class NewPositionController extends AbstractCreationController implements
         translate();
 
         // Set the default image to show -> no image picture
-        Image image = new Image("/images/noimage.jpg");
+        imagePath = "/images/noimage.jpg";
+        Image image = new Image(imagePath);
         imageView.setImage(image);
     }
 

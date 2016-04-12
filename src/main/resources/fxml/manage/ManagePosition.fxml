@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="737.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManagePositionController">
    <children>
@@ -13,14 +14,13 @@
       </TableView>
       <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <Label layoutX="59.0" layoutY="42.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="72.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="104.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button onAction="#editPosition" layoutX="372.0" layoutY="147.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button onAction="#deletePosition" layoutX="399.0" layoutY="129.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Label layoutX="331.0" layoutY="27.0" styleClass="label-paneinfo" text="Position:" textFill="WHITE" />
+            <Button layoutX="372.0" layoutY="147.0" mnemonicParsing="false" onAction="#editPosition" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button layoutX="399.0" layoutY="129.0" mnemonicParsing="false" onAction="#deletePosition" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <ImageView fx:id="imageView" fitHeight="205.0" fitWidth="280.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="10.0" />
+            <Label fx:id="positionName" layoutX="409.0" layoutY="27.0" prefHeight="17.0" prefWidth="174.0" styleClass="label-paneinfodata" text="Label" />
          </children></AnchorPane>
-      <Button onAction="#newPosition" fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Position" AnchorPane.rightAnchor="27.0" />
+      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newPosition" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Position" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

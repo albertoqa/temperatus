@@ -7,6 +7,8 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,9 @@ public class ManagePositionController implements Initializable, AbstractControll
     @FXML private TextField filterInput;
     @FXML private AnchorPane infoPane;
     @FXML private Button newElementButton;
+
+    @FXML private Label positionName;
+    @FXML private ImageView imageView;
 
     private TableColumn<Position, String> place = new TableColumn<>();
 
@@ -78,9 +83,13 @@ public class ManagePositionController implements Initializable, AbstractControll
             Animation.fadeInTransition(infoPane);
 
             if(position != null) {
-                // TODO
+                positionName.setText(position.getPlace());
+                try {
+                    imageView.setImage(new Image(position.getPicture()));
+                } catch (Exception ex) {
+                    // TODO show no image
+                }
             }
-
         });
 
         SortedList<Position> sortedData = new SortedList<>(filteredData);

@@ -99,6 +99,7 @@ public class ManageGameController implements Initializable, AbstractController {
 
         table.getColumns().addAll(title, numberOfButtons, defaultPositions, defaultFormulas);
         table.setItems(sortedData);
+        table.getSelectionModel().clearSelection();
     }
 
     private void addAllGames() {
