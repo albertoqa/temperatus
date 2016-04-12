@@ -41,7 +41,24 @@ public class MissionExporter{
             List<Measurement> measurementList = new ArrayList<>(record.getMeasurements());
             Collections.sort(measurementList, (a, b) -> a.getDate().compareTo(b.getDate()));
 
+            List<Measurement> toExport = new ArrayList<>();
+            int index = 0;
+            Measurement measurementToExport = null;
             for(Measurement measurement: measurementList) {
+                if(index%period == 0) {
+                    if(measurementToExport != null) {
+                        measurementToExport.setData(measurementToExport.getData()/period);
+                        toExport.add(measurementToExport);
+                    }
+                    measurementToExport = new Measurement();
+                    measurementToExport.setData(0);
+                    measurementToExport.setDate(measurement.getDate());
+                }
+                measurementToExport.setData(measurementToExport.getData()+measurement.getData());
+                index++;
+            }
+
+            for(Measurement measurement: toExport) {
                 Cell data = dataRow.createCell(col);
                 data.setCellValue(measurement.getData());
                 col++;
@@ -49,7 +66,7 @@ public class MissionExporter{
 
             if(row == 1) {
                 int c = 1;
-                for(Measurement measurement: measurementList) {
+                for(Measurement measurement: toExport) {
                     Cell time = headerRow.createCell(c);
                     time.setCellValue(measurement.getDate().toString());
                     c++;
