@@ -1,4 +1,4 @@
-package p;
+package temperatus.model.pojo;
 // Generated Apr 13, 2016 9:55:24 AM by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.*;

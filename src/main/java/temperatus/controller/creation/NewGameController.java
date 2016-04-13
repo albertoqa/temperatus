@@ -1,5 +1,6 @@
 package temperatus.controller.creation;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,9 @@ import temperatus.model.service.PositionService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -74,6 +78,9 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     private final int radius = 4;
     private boolean drawed = false;
+
+    private final String frontImage = "frontBody";
+    private final String backImage = "backBody";
 
     static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
@@ -120,11 +127,14 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         positionsSelector.getTargetItems().addAll(game.getPositions());
         positionsSelector.getSourceItems().removeAll(game.getPositions());
+
+        // TODO load images
     }
 
     @Override
     @FXML
     protected void save() {
+        keepImage();
 
         String name;
         String observations;
@@ -150,6 +160,17 @@ public class NewGameController extends AbstractCreationController implements Ini
 
             List<Formula> defaultFormulas = formulasList.getCheckModel().getCheckedItems();
             game.getFormulas().addAll(defaultFormulas);
+
+            game.getImages().clear();
+            int index = 0;
+            for(Image image: images) {
+                File file = saveImage(image, index);
+                temperatus.model.pojo.Image im = new temperatus.model.pojo.Image();
+                im.setGame(game);
+                im.setPath(file.getAbsolutePath());
+                game.getImages().add(im);
+                index++;
+            }
 
             gameService.saveOrUpdate(game);
 
@@ -201,8 +222,19 @@ public class NewGameController extends AbstractCreationController implements Ini
         imageView.setImage(images.get(selectedImage));
     }
 
-    private void saveImages() {
-        // TODO
+    private File saveImage(Image image, int index) {
+        String pathToSave = "/Users/alberto/Desktop/";    // TODO change to application directory
+        String fileName = nameInput.getText() + index + ".png";
+
+        File outputFile = new File(pathToSave + fileName);
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+        try {
+            ImageIO.write(bImage, "png", outputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return outputFile;
     }
 
     @FXML

@@ -29,6 +29,7 @@
         <mapping class="temperatus.model.pojo.Position"/>
         <mapping class="temperatus.model.pojo.Project"/>
         <mapping class="temperatus.model.pojo.Author"/>
+        <mapping class="temperatus.model.pojo.Image"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -22,6 +22,7 @@ public class Game implements java.io.Serializable {
     private String observations;
     private Set<Formula> formulas = new HashSet<Formula>(0);
     private Set<Position> positions = new HashSet<Position>(0);
+    private Set<Image> images = new HashSet<Image>(0);
 
     public Game() {
     }
@@ -106,6 +107,15 @@ public class Game implements java.io.Serializable {
 
     public void setPositions(Set<Position> positions) {
         this.positions = positions;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
+    public Set<Image> getImages() {
+        return this.images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 
     @Override
