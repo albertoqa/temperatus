@@ -1,5 +1,6 @@
 package temperatus.exporter;
 
+import javafx.scene.control.Alert;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +26,8 @@ public class MissionExporter {
     private List<Record> records;
     private Set<Record> allRecords;
     private List<Formula> formulas;
+
+    private boolean showWarn = false;
 
     public Workbook export() {
 
@@ -99,7 +102,7 @@ public class MissionExporter {
                     results.add(result);
                 } catch (Exception ex) {
                     results.add(Double.NaN);
-                    // TODO alguna posición de la formula no se ha encontrado, show warning
+                    showWarn = true;
                 }
             }
 
@@ -116,6 +119,11 @@ public class MissionExporter {
             }
 
             row++;
+        }
+
+        if (showWarn) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Some formulas cannot be calculated due to an error in the operation. Please check that selected formulas are correct.");
+            alert.show();
         }
 
         return wb;
