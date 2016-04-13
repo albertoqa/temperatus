@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Position;
@@ -189,11 +190,19 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     private boolean isValidFormula() {
 
-        // last char is not and operation
-        // all brackets are closed
-        // all positions are correct
+        String op = operation.getValue();
 
-        return true;
+        for (Position position : positionsSelector.getItems()) {
+            op = op.replace(position.getPlace(), "1");
+        }
+
+        try {
+            double result = Calculator.eval(op);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+
     }
 
 
@@ -202,42 +211,42 @@ public class NewFormulaController extends AbstractCreationController implements 
     protected void save() {
 
         if (!isValidFormula()) {
-            // TODO
-        }
+            showAlert(Alert.AlertType.ERROR, "Formula is not correct, please check.");
+        } else {
+            String name;
 
-        String name;
+            try {
+                logger.info("Saving formula...");
 
-        try {
-            logger.info("Saving formula...");
+                name = nameInput.getText();
 
-            name = nameInput.getText();
+                if (formula == null) {
+                    formula = new Formula();
+                }
 
-            if(formula == null) {
-                formula = new Formula();
+                formula.setName(name);
+                formula.setOperation(operation.getValue());
+                formula.setReference(referenceInput.getText());
+
+                formulaService.saveOrUpdate(formula);
+
+                VistaNavigator.closeModal(titledPane);
+                if (VistaNavigator.getController() != null) {
+                    VistaNavigator.getController().reload(formula);
+                }
+
+                logger.info("Saved" + formula);
+
+            } catch (ControlledTemperatusException ex) {
+                logger.warn("Exception: " + ex.getMessage());
+                showAlert(Alert.AlertType.ERROR, ex.getMessage());
+            } catch (ConstraintViolationException ex) {
+                logger.warn("Duplicate entry");
+                showAlert(Alert.AlertType.ERROR, "Duplicate Formula.");
+            } catch (Exception ex) {
+                logger.warn("Unknown exception" + ex.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Unknown error.");
             }
-
-            formula.setName(name);
-            formula.setOperation(operation.getValue());
-            formula.setReference(referenceInput.getText());
-
-            formulaService.saveOrUpdate(formula);
-
-            VistaNavigator.closeModal(titledPane);
-            if (VistaNavigator.getController() != null) {
-                VistaNavigator.getController().reload(formula);
-            }
-
-            logger.info("Saved" + formula);
-
-        } catch (ControlledTemperatusException ex) {
-            logger.warn("Exception: " + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, ex.getMessage());
-        } catch (ConstraintViolationException ex) {
-            logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate Formula.");
-        } catch (Exception ex) {
-            logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
         }
     }
 

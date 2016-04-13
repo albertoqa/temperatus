@@ -1,6 +1,8 @@
 package temperatus.controller.archived;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +10,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
@@ -15,6 +18,7 @@ import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.DateAxis;
@@ -23,10 +27,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by alberto on 6/4/16.
@@ -41,24 +42,39 @@ public class MissionLineChart implements Initializable, AbstractController {
     @FXML private NumberAxis yAxis;
     @FXML private DateAxis xAxis;
 
+    @FXML private Spinner<Integer> spinner;
+
+    private ObservableList<XYChart.Series<Date, Number>> series;
+
     private HashMap<Record, List<Measurement>> dataMap;
+    private List<Formula> formulas;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        series = FXCollections.observableArrayList();
+        lineChart.setData(series);
         lineChart.setAnimated(false);
+
         //lineChart.setCreateSymbols(false);
     }
 
-    public void setData(HashMap<Record, List<Measurement>> dataMap, double minTemp, double maxTemp) {
+    public void setData(HashMap<Record, List<Measurement>> dataMap, double minTemp, double maxTemp, Set<Formula> formulas) {
         this.dataMap = dataMap;
-        setLineChartData();
+        this.formulas = new ArrayList<>(formulas);
+
+        setLineChartDataPositions();
 
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(minTemp - 5);
         yAxis.setUpperBound(maxTemp + 5);
     }
 
-    private void setLineChartData() {
+    private void setLineChartDataFormulas() {
+
+    }
+
+    private void setLineChartDataPositions() {
         for (Record record : dataMap.keySet()) {
             List<Measurement> measurements = dataMap.get(record);
 
@@ -67,14 +83,16 @@ public class MissionLineChart implements Initializable, AbstractController {
             measurements.stream().forEach((measurement) -> {
                 serie.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
             });
-            lineChart.getData().add(serie);
+            series.add(serie);
+            //lineChart.getData().add(serie);
             iButtonsList.getItems().add(serie);
         }
         iButtonsList.getCheckModel().checkAll();
 
         iButtonsList.getCheckModel().getCheckedItems().addListener(new ListChangeListener<XYChart.Series<Date, Number>>() {
             public void onChanged(ListChangeListener.Change<? extends XYChart.Series<Date, Number>> c) {
-                reloadChart();
+                //reloadChart();
+                //series.remove(c);
             }
         });
 
@@ -100,8 +118,8 @@ public class MissionLineChart implements Initializable, AbstractController {
     }
 
     private void reloadChart() {
-        lineChart.getData().clear();
-        lineChart.getData().addAll(iButtonsList.getCheckModel().getCheckedItems());
+        //lineChart.getData().clear();
+        //lineChart.getData().addAll(iButtonsList.getCheckModel().getCheckedItems());
     }
 
     @FXML
