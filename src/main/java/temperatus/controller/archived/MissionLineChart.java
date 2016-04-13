@@ -47,7 +47,6 @@ public class MissionLineChart implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         lineChart.setAnimated(false);
         //lineChart.setCreateSymbols(false);
-
     }
 
     public void setData(HashMap<Record, List<Measurement>> dataMap, double minTemp, double maxTemp) {

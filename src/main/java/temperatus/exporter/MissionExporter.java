@@ -59,6 +59,7 @@ public class MissionExporter {
                 int c = 1;
                 for (Measurement measurement : toExport) {
                     Cell time = headerRow.createCell(c);
+                    // TODO allow user to configure and insead of time write the column index
                     time.setCellValue(measurement.getDate().toString());
                     c++;
                 }
