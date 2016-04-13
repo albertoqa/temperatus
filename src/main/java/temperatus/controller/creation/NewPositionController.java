@@ -81,6 +81,10 @@ public class NewPositionController extends AbstractCreationController implements
 
             name = nameInput.getText();
 
+            if(!isValidName(name)) {
+                throw new ControlledTemperatusException("Name cannot contain any of the following symbols: + - * / ( )");
+            }
+
             if(position == null) {
                 position = new Position();
             }
@@ -107,6 +111,16 @@ public class NewPositionController extends AbstractCreationController implements
             logger.warn("Unknown exception" + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, "Unknown error.");
         }
+    }
+
+    private boolean isValidName(String name) {
+        boolean isValid = true;
+
+        if(name.contains("+") || name.contains("-") || name.contains("*") || name.contains("/") || name.contains("(") || name.contains(")")) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     @FXML
