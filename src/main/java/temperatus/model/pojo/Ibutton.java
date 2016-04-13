@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -113,4 +115,30 @@ public class Ibutton implements java.io.Serializable {
         result = 31 * result + (getAlias() != null ? getAlias().hashCode() : 0);
         return result;
     }
+
+    @Transient
+    public SimpleStringProperty getModelProperty() {
+        return new SimpleStringProperty(getModel());
+    }
+
+    @Transient
+    public SimpleStringProperty getSerialProperty() {
+        return new SimpleStringProperty(getSerial());
+    }
+
+    @Transient
+    public SimpleStringProperty getAliasProperty() {
+        if(getAlias() != null) {
+            return new SimpleStringProperty(getAlias());
+        }
+        return new SimpleStringProperty("");    }
+
+    @Transient
+    public SimpleStringProperty getPositionProperty() {
+        if(getPosition() != null) {
+            return new SimpleStringProperty(getPosition().getPlace());
+        }
+        return new SimpleStringProperty("");
+    }
+
 }
