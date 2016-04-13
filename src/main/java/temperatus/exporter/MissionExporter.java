@@ -125,7 +125,7 @@ public class MissionExporter {
         if (period == 1) {
             return measurementList;
         }
-        // TODO comprobar, las ultimas puede que fallen! las que sobran del periodo no se meten...
+
         List<Measurement> toExport = new ArrayList<>();
         int index = 0;
         Measurement measurementToExport = null;
@@ -142,6 +142,15 @@ public class MissionExporter {
             measurementToExport.setData(measurementToExport.getData() + measurement.getData());
             index++;
         }
+
+        if (!toExport.contains(measurementToExport)) {
+            int div = ((index - 1) % period) + 1;
+            if (div > 0) {
+                measurementToExport.setData(measurementToExport.getData() / div);
+                toExport.add(measurementToExport);
+            }
+        }
+
         return toExport;
     }
 
