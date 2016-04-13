@@ -2,18 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/titlePane.css" text="New iButton" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewIButtonController">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/titlePane.css" text="New iButton" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewIButtonController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <Label fx:id="serialLabel" layoutX="68.0" layoutY="73.0" text="Serial" />
-            <Label fx:id="modelLabel" layoutX="64.0" layoutY="117.0" text="Model" />
-            <Label fx:id="aliasLabel" layoutX="68.0" layoutY="164.0" text="Alias" />
-            <Label fx:id="defaultPosLabel" layoutX="34.0" layoutY="219.0" text="Default Position" />
-            <Label fx:id="serial" layoutX="245.0" layoutY="73.0" text="Label" />
-            <Label fx:id="model" layoutX="245.0" layoutY="117.0" text="Label" />
-            <TextField fx:id="alias" layoutX="179.0" layoutY="159.0" styleClass="form" />
-            <ComboBox fx:id="position" layoutX="187.0" layoutY="214.0" prefWidth="150.0" />
+            <Label fx:id="serialLabel" layoutX="97.0" layoutY="73.0" text="Serial:" />
+            <Label fx:id="modelLabel" layoutX="95.0" layoutY="117.0" text="Model:" />
+            <Label fx:id="aliasLabel" layoutX="104.0" layoutY="163.0" text="Alias:" />
+            <Label fx:id="defaultPosLabel" layoutX="37.0" layoutY="211.0" text="Default Position:" />
+            <Label fx:id="serial" layoutX="181.0" layoutY="73.0" text="Label" />
+            <Label fx:id="model" layoutX="181.0" layoutY="117.0" text="Label" />
+            <TextField fx:id="alias" layoutX="179.0" layoutY="159.0" prefHeight="25.0" prefWidth="380.0" styleClass="form" AnchorPane.rightAnchor="27.0" />
+            <ComboBox fx:id="position" layoutX="179.0" layoutY="206.0" prefHeight="27.0" prefWidth="380.0" AnchorPane.rightAnchor="27.0" />
             <Button fx:id="saveButton" layoutX="395.0" layoutY="300.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
             <Button fx:id="cancelButton" layoutX="468.0" layoutY="300.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
          </children></AnchorPane>
