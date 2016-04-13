@@ -128,7 +128,13 @@ public class NewGameController extends AbstractCreationController implements Ini
         positionsSelector.getTargetItems().addAll(game.getPositions());
         positionsSelector.getSourceItems().removeAll(game.getPositions());
 
-        // TODO load images
+        List<temperatus.model.pojo.Image> imagesPaths = new ArrayList<>(game.getImages());
+        images.clear();
+        for(temperatus.model.pojo.Image image: imagesPaths) {
+            javafx.scene.image.Image im = new javafx.scene.image.Image("file:" + image.getPath());
+            images.add(im);
+        }
+        imageView.setImage(images.get(0));
     }
 
     @Override
