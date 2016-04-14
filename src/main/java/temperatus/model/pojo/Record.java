@@ -88,12 +88,7 @@ public class Record implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Record{" +
-                "id=" + id +
-                ", ibutton=" + ibutton +
-                ", mission=" + mission +
-                ", position=" + position +
-                '}';
+        return position.getPlace();
     }
 
 }

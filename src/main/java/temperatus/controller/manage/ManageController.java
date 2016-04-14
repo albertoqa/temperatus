@@ -17,6 +17,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -37,6 +38,8 @@ public class ManageController implements Initializable, AbstractController {
     private Tab iButtonsTab = new Tab();
 
     static Logger logger = LoggerFactory.getLogger(ManageController.class.getName());
+
+    private HashMap<Tab, AbstractController> controllers = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,12 +69,15 @@ public class ManageController implements Initializable, AbstractController {
                         fxml = Constants.MANAGE_IBUTTON;
                     }
 
-                    if (fxml != "") {
+                    if (!fxml.equals("")) {
                         Parent root = (Parent) VistaNavigator.loader.load(this.getClass().getResource(fxml));
+                        AbstractController controller = VistaNavigator.loader.getController();
                         newValue.setContent(root);
+                        controllers.put(newValue, controller);
                     }
                 } else {
                     Parent root = (Parent) newValue.getContent();
+                    VistaNavigator.setController(controllers.get(newValue));
                 }
             }
         });
