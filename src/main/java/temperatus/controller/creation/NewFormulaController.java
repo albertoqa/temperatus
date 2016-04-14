@@ -142,12 +142,6 @@ public class NewFormulaController extends AbstractCreationController implements 
         return isValidToAddThisOperand(null);
     }
 
-    private boolean isValidToAddRightBracket() {
-
-
-        return true;
-    }
-
     @FXML
     private void plusOperation() {
         if (isValidToAddThisOperation()) {
@@ -185,9 +179,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     @FXML
     private void rightOperation() {
-        if (isValidToAddRightBracket()) {
-            operation.set(operation.getValue() + right);
-        }
+        operation.set(operation.getValue() + right);
     }
 
     private boolean isValidFormula() {
@@ -198,8 +190,8 @@ public class NewFormulaController extends AbstractCreationController implements 
 
         for (int i = 0; i < elements.length; i++) {
             if (!FormulaUtil.isOperator(elements[i])) {
-                for(Position position: positionsSelector.getItems()) {
-                    if(elements[i].equals(position.getPlace())) {
+                for (Position position : positionsSelector.getItems()) {
+                    if (elements[i].equals(position.getPlace())) {
                         elements[i] = "1";
                         break;
                     }

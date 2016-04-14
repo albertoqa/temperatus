@@ -3,7 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="731.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+<?import javafx.scene.text.Font?>
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="731.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
          <bottom>
@@ -35,6 +36,13 @@
                   <Label fx:id="unitLabel" layoutX="59.0" layoutY="117.0" text="Unit:" />
                   <RadioButton fx:id="cRadio" layoutX="157.0" layoutY="115.0" mnemonicParsing="false" text="Cº" />
                   <RadioButton fx:id="fRadio" layoutX="227.0" layoutY="115.0" mnemonicParsing="false" text="F" />
+                  <CheckBox layoutX="46.0" layoutY="182.0" mnemonicParsing="false" text="Auto-sync iButton time with system time." />
+                  <CheckBox layoutX="46.0" layoutY="226.0" mnemonicParsing="false" text="Show Date/Time instead of index in graphics and exported data." />
+                  <Label layoutX="297.0" layoutY="40.0" text="* restart needed">
+                     <font>
+                        <Font size="7.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </center>
