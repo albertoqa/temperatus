@@ -37,7 +37,7 @@
                   <RadioButton fx:id="cRadio" layoutX="157.0" layoutY="115.0" mnemonicParsing="false" text="Cº" />
                   <RadioButton fx:id="fRadio" layoutX="227.0" layoutY="115.0" mnemonicParsing="false" text="F" />
                   <CheckBox layoutX="46.0" layoutY="182.0" mnemonicParsing="false" text="Auto-sync iButton time with system time." />
-                  <CheckBox layoutX="46.0" layoutY="226.0" mnemonicParsing="false" text="Show Date/Time instead of index in graphics and exported data." />
+                  <CheckBox fx:id="writeAsIndexBox" layoutX="46.0" layoutY="226.0" mnemonicParsing="false" text="Show index instead of Date/Time in graphics and exported data." />
                   <Label layoutX="297.0" layoutY="40.0" text="* restart needed">
                      <font>
                         <Font size="7.0" />

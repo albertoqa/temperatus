@@ -75,6 +75,8 @@ public class Constants {
     public static final String LANGUAGE_SP = "es_ES";
     public static final String PREFRANGE = "prefRange";
     public static final String DEFAULT_RANGE = "7";
+    public static final String WRITE_AS_INDEX = "writeIndex";
+    public static final boolean WRITE_INDEX = false;
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

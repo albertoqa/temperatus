@@ -10,6 +10,7 @@ import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
+import temperatus.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +52,24 @@ public class MissionExporter {
                 col++;
             }
 
+
             if (row == 1) {
+
+                boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
                 int c = 1;
-                for (Measurement measurement : toExport) {
-                    Cell time = headerRow.createCell(c);
-                    // TODO allow user to configure and insead of time write the column index
-                    time.setCellValue(measurement.getDate().toString());
-                    c++;
+
+                if(writeAsIndex) {
+                    for (Measurement measurement : toExport) {
+                        Cell time = headerRow.createCell(c);
+                        time.setCellValue(c);
+                        c++;
+                    }
+                } else {
+                    for (Measurement measurement : toExport) {
+                        Cell time = headerRow.createCell(c);
+                        time.setCellValue(measurement.getDate().toString());
+                        c++;
+                    }
                 }
             }
 

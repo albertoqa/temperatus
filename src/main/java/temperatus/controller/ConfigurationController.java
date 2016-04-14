@@ -29,6 +29,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML private ChoiceBox<String> languageChoice;
     @FXML private RadioButton cRadio;
     @FXML private RadioButton fRadio;
+    @FXML private CheckBox writeAsIndexBox;
 
     private ToggleGroup unitGroup = new ToggleGroup();
 
@@ -56,6 +57,14 @@ public class ConfigurationController implements Initializable, AbstractControlle
         } else {
             languageChoice.getSelectionModel().select(Constants.LANG_SP);
         }
+
+        boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
+        if(writeAsIndex) {
+            writeAsIndexBox.setSelected(true);
+        } else {
+            writeAsIndexBox.setSelected(false);
+        }
+
     }
 
     @FXML
@@ -80,12 +89,15 @@ public class ConfigurationController implements Initializable, AbstractControlle
             Constants.prefs.put(Constants.UNIT, Constants.UNIT_F);
         }
 
+        if(writeAsIndexBox.isSelected()) {
+            Constants.prefs.put(Constants.WRITE_AS_INDEX, "true");
+        } else {
+            Constants.prefs.put(Constants.WRITE_AS_INDEX, "false");
+        }
 
         try {
             warnOfRestart();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
