@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.FormulaUtil;
 import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
@@ -99,6 +100,7 @@ public class NewFormulaController extends AbstractCreationController implements 
                 if (isValidToAddThisOperand(newValue)) {
                     operation.set(operation.getValue() + newValue.getPlace());
                 }
+                //positionsSelector.getSelectionModel().clearSelection();
             }
         });
     }
@@ -192,12 +194,23 @@ public class NewFormulaController extends AbstractCreationController implements 
 
         String op = operation.getValue();
 
-        for (Position position : positionsSelector.getItems()) {
-            op = op.replace(position.getPlace(), "1");
+        String[] elements = op.split(FormulaUtil.formulaRegex);
+
+        for (int i = 0; i < elements.length; i++) {
+            if (!FormulaUtil.isOperator(elements[i])) {
+                for(Position position: positionsSelector.getItems()) {
+                    if(elements[i].equals(position.getPlace())) {
+                        elements[i] = "1";
+                        break;
+                    }
+                }
+            }
         }
 
+        String toEval = FormulaUtil.generateFormula(elements);
+
         try {
-            double result = Calculator.eval(op);
+            double result = Calculator.eval(toEval);
             return true;
         } catch (Exception ex) {
             return false;

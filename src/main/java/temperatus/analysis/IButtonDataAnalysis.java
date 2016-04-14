@@ -3,7 +3,6 @@ package temperatus.analysis;
 import temperatus.calculator.Calculator;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
-import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
 
 import java.util.ArrayList;
@@ -57,19 +56,25 @@ public class IButtonDataAnalysis {
         String operation = formula.getOperation();
         List<Measurement> measurements = getListOfMeasurementsForPeriod(new ArrayList<>(records.get(0).getMeasurements()), period).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());
 
-        List<String> operations = new ArrayList<>();
+        List<String[]> operations = new ArrayList<>();
         for (int i = 0; i < measurements.size(); i++) {
-            operations.add(formula.getOperation());
+            operations.add(operation.split(FormulaUtil.formulaRegex));
         }
 
         for (Record record : records) {
-            Position position = record.getPosition();
-            if (operation.contains(position.getPlace())) {
+            String position = record.getPosition().getPlace();
+            if (operation.contains(position)) {
                 List<Measurement> recordMeasurements = getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
                 int index = 0;
                 for (Measurement measurement : recordMeasurements) {
-                    String f = operations.get(index);
-                    f = f.replace(position.getPlace(), String.valueOf(measurement.getData()));
+                    String[] f = operations.get(index);
+
+                    for(int i = 0; i < f.length; i++) {
+                        if(f[i].equals(position)) {
+                            f[i] = String.valueOf(measurement.getData());
+                        }
+                    }
+
                     operations.set(index, f);
                     index++;
                 }
@@ -78,7 +83,7 @@ public class IButtonDataAnalysis {
 
         for (int i = 0; i < operations.size(); i++) {
             try {
-                double result = Calculator.eval(operations.get(i));
+                double result = Calculator.eval(FormulaUtil.generateFormula(operations.get(i)));
                 measurements.get(i).setData(result);
             } catch (Exception ex) {
                 measurements.get(i).setData(Double.NaN);
