@@ -2,9 +2,11 @@ package temperatus.controller.archived;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
-import javafx.util.converter.IntegerStringConverter;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
@@ -14,18 +16,16 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
+import temperatus.util.IntegerSpinner;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 
 /**
  * Created by alberto on 12/4/16.
@@ -48,7 +48,7 @@ public class ExportConfigurationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setSpinner();
+        IntegerSpinner.setSpinner(periodSpinner);
     }
 
     @FXML
@@ -68,32 +68,6 @@ public class ExportConfigurationController implements Initializable {
             positionCheckListView.getItems().add(record.getPosition());
         }
         positionCheckListView.getCheckModel().checkAll();
-    }
-
-    private void setSpinner() {
-        // get a localized format for parsing
-        NumberFormat format = NumberFormat.getIntegerInstance();
-        UnaryOperator<TextFormatter.Change> filter = c -> {
-            if (c.isContentChange()) {
-                ParsePosition parsePosition = new ParsePosition(0);
-                // NumberFormat evaluates the beginning of the text
-                format.parse(c.getControlNewText(), parsePosition);
-                if (parsePosition.getIndex() == 0 ||
-                        parsePosition.getIndex() < c.getControlNewText().length()) {
-                    // reject parsing the complete text failed
-                    return null;
-                }
-            }
-            return c;
-        };
-
-        TextFormatter<Integer> priceFormatter = new TextFormatter<Integer>(
-                new IntegerStringConverter(), 1, filter);
-
-        periodSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                1, 10000, Integer.parseInt("1")));
-        periodSpinner.setEditable(true);
-        periodSpinner.getEditor().setTextFormatter(priceFormatter);
     }
 
     @FXML
