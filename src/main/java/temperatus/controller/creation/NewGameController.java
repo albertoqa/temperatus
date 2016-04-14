@@ -134,7 +134,10 @@ public class NewGameController extends AbstractCreationController implements Ini
             javafx.scene.image.Image im = new javafx.scene.image.Image("file:" + image.getPath());
             images.add(im);
         }
-        imageView.setImage(images.get(0));
+
+        if(images.size() > 0) {
+            imageView.setImage(images.get(0));
+        }
     }
 
     @Override
@@ -162,9 +165,11 @@ public class NewGameController extends AbstractCreationController implements Ini
             game.setObservations(observations);
 
             List<Position> defaultPositions = positionsSelector.getTargetItems();
+            game.getPositions().clear();
             game.getPositions().addAll(defaultPositions);
 
             List<Formula> defaultFormulas = formulasList.getCheckModel().getCheckedItems();
+            game.getFormulas().clear();
             game.getFormulas().addAll(defaultFormulas);
 
             game.getImages().clear();
