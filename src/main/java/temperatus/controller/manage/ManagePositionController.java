@@ -117,7 +117,7 @@ public class ManagePositionController implements Initializable, AbstractControll
 
     @FXML
     private void deletePosition() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure? If a Formula uses this position it will stop working.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Position position = table.getSelectionModel().getSelectedItem();
