@@ -20,7 +20,7 @@
       </LineChart>
       <CheckListView fx:id="positionsList" layoutX="595.0" layoutY="57.0" prefHeight="170.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
       <CheckListView fx:id="formulasList" layoutX="595.0" layoutY="236.0" prefHeight="170.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="487.0" layoutY="29.0" mnemonicParsing="false" onAction="#saveAsPng" styleClass="ibtn" text="Save" AnchorPane.rightAnchor="257.0" AnchorPane.topAnchor="29.0" />
-      <Spinner fx:id="spinner" layoutX="595.0" layoutY="16.0" prefHeight="29.0" prefWidth="214.0" AnchorPane.rightAnchor="14.0"/>
+      <Button layoutX="730.0" layoutY="16.0" mnemonicParsing="false" onAction="#saveAsPng" styleClass="ibtn" text="Save Graphic" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="16.0" />
+      <Spinner fx:id="spinner" layoutX="595.0" layoutY="16.0" prefHeight="29.0" prefWidth="72.0" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="16.0" />
    </children>
 </AnchorPane>

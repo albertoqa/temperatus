@@ -30,6 +30,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML private RadioButton cRadio;
     @FXML private RadioButton fRadio;
     @FXML private CheckBox writeAsIndexBox;
+    @FXML private CheckBox autoSync;
 
     private ToggleGroup unitGroup = new ToggleGroup();
 
@@ -65,6 +66,13 @@ public class ConfigurationController implements Initializable, AbstractControlle
             writeAsIndexBox.setSelected(false);
         }
 
+        boolean autoSynchronization = Constants.prefs.getBoolean(Constants.AUTO_SYNC, Constants.SYNC);
+        if(autoSynchronization) {
+            autoSync.setSelected(true);
+        } else {
+            autoSync.setSelected(false);
+        }
+
     }
 
     @FXML
@@ -95,6 +103,12 @@ public class ConfigurationController implements Initializable, AbstractControlle
             Constants.prefs.put(Constants.WRITE_AS_INDEX, "false");
         }
 
+        if(autoSync.isSelected()) {
+            Constants.prefs.put(Constants.AUTO_SYNC, "true");
+        } else {
+            Constants.prefs.put(Constants.AUTO_SYNC, "false");
+        }
+
         try {
             warnOfRestart();
         } catch (IOException | URISyntaxException e) {
@@ -121,7 +135,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
         }
 
         if(restartNeeded) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Application must restart to apply this changes");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Application must restart to apply this changes. Do you want to restart now?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 restartApplication();
@@ -136,14 +150,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
     private void cancelAction() {
         VistaNavigator.closeModal(titledPane);
         VistaNavigator.baseController.selectBase();
-    }
-
-    /**
-     * Show the user's manual and/or the web page
-     */
-    @FXML
-    private void helpAction() {
-        // TODO
     }
 
     @Override

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="731.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="622.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
          <bottom>
@@ -12,7 +12,6 @@
                <children>
                   <ToolBar fx:id="buttonsToolBar" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <items>
-                      <Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpAction" prefWidth="127.0" styleClass="cbtn" text="Help" />
                         <Pane prefHeight="0.0" HBox.hgrow="ALWAYS" />
                         <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefWidth="127.0" styleClass="cbtn" text="Cancel" />
                         <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applyAction" prefWidth="127.0" styleClass="cbtn" text="Apply" />
@@ -31,13 +30,13 @@
                   <Insets left="-10.0" right="-10.0" top="-10.0" />
                </BorderPane.margin>
                <children>
-                  <Label fx:id="languageLabel" layoutX="43.0" layoutY="44.0" text="Language:" />
-                  <ChoiceBox fx:id="languageChoice" layoutX="141.0" layoutY="39.0" prefWidth="150.0" />
-                  <Label fx:id="unitLabel" layoutX="59.0" layoutY="117.0" text="Unit:" />
-                  <RadioButton fx:id="cRadio" layoutX="157.0" layoutY="115.0" mnemonicParsing="false" text="Cº" />
-                  <RadioButton fx:id="fRadio" layoutX="227.0" layoutY="115.0" mnemonicParsing="false" text="F" />
-                  <CheckBox layoutX="46.0" layoutY="182.0" mnemonicParsing="false" text="Auto-sync iButton time with system time." />
-                  <CheckBox fx:id="writeAsIndexBox" layoutX="46.0" layoutY="226.0" mnemonicParsing="false" text="Show index instead of Date/Time in graphics and exported data." />
+                  <Label fx:id="languageLabel" layoutX="43.0" layoutY="44.0" styleClass="label-paneinfo" text="Language:" />
+                  <ChoiceBox fx:id="languageChoice" layoutX="141.0" layoutY="39.0" prefWidth="150.0" styleClass="form" />
+                  <Label fx:id="unitLabel" layoutX="76.0" layoutY="87.0" styleClass="label-paneinfo" text="Unit:" />
+                  <RadioButton fx:id="cRadio" layoutX="157.0" layoutY="87.0" mnemonicParsing="false" text="C" />
+                  <RadioButton fx:id="fRadio" layoutX="216.0" layoutY="87.0" mnemonicParsing="false" text="F" />
+                  <CheckBox fx:id="autoSync" layoutX="45.0" layoutY="169.0" mnemonicParsing="false" text="Auto-sync iButton time with system time." />
+                  <CheckBox fx:id="writeAsIndexBox" layoutX="45.0" layoutY="208.0" mnemonicParsing="false" text="Show index instead of Date/Time in graphics and exported data." />
                   <Label layoutX="297.0" layoutY="40.0" text="* restart needed">
                      <font>
                         <Font size="7.0" />
