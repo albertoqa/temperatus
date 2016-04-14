@@ -1,5 +1,7 @@
 package temperatus.model.pojo;
 
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -18,11 +20,11 @@ public class Subject implements java.io.Serializable {
 
     private Integer id;
     private boolean isPerson;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     private Boolean sex;
-    private Integer age;
-    private Double weight;
-    private Double height;
+    private SimpleIntegerProperty age = new SimpleIntegerProperty();
+    private SimpleDoubleProperty weight = new SimpleDoubleProperty();
+    private SimpleDoubleProperty height = new SimpleDoubleProperty();
     private String observations;
     private Set<Mission> missions = new HashSet<Mission>(0);
 
@@ -31,17 +33,17 @@ public class Subject implements java.io.Serializable {
 
     public Subject(boolean isPerson, String name) {
         this.isPerson = isPerson;
-        this.name = name;
+        this.name.setValue(name);
     }
 
     public Subject(boolean isPerson, String name, Boolean sex, Integer age, Double weight, Double height,
                    String observations, Set<Mission> missions) {
         this.isPerson = isPerson;
-        this.name = name;
+        this.name.setValue(name);
         this.sex = sex;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
+        this.age.setValue(age);
+        this.weight.setValue(weight);
+        this.height.setValue(height);
         this.observations = observations;
         this.missions = missions;
     }
@@ -69,11 +71,11 @@ public class Subject implements java.io.Serializable {
 
     @Column(name = "NAME", unique = true, nullable = false, length = 300)
     public String getName() {
-        return this.name;
+        return this.name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     @Column(name = "SEX")
@@ -87,29 +89,29 @@ public class Subject implements java.io.Serializable {
 
     @Column(name = "AGE")
     public Integer getAge() {
-        return this.age;
+        return this.age.getValue();
     }
 
     public void setAge(Integer age) {
-        this.age = age;
+        this.age.setValue(age);
     }
 
     @Column(name = "WEIGHT", precision = 17, scale = 0)
     public Double getWeight() {
-        return this.weight;
+        return this.weight.getValue();
     }
 
     public void setWeight(Double weight) {
-        this.weight = weight;
+        this.weight.setValue(weight);
     }
 
     @Column(name = "HEIGHT", precision = 17, scale = 0)
     public Double getHeight() {
-        return this.height;
+        return this.height.getValue();
     }
 
     public void setHeight(Double height) {
-        this.height = height;
+        this.height.setValue(height);
     }
 
     @Column(name = "OBSERVATIONS")
@@ -132,7 +134,7 @@ public class Subject implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return name.getValue();
     }
 
     @Transient
@@ -146,16 +148,12 @@ public class Subject implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getNameProperty() {
-        return new SimpleStringProperty(getName());
+        return name;
     }
 
     @Transient
-    public SimpleIntegerProperty getAgeProperty() {
-        if(getAge() != null) {
-            return new SimpleIntegerProperty(getAge());
-        } else {
-            return new SimpleIntegerProperty(0);
-        }
+    public StringBinding getAgeProperty() {
+        return age.asString();
     }
 
     @Transient
@@ -172,21 +170,13 @@ public class Subject implements java.io.Serializable {
     }
 
     @Transient
-    public SimpleStringProperty getHeightProperty() {
-        if(getHeight() != null) {
-            return new SimpleStringProperty(getHeight().toString());
-        } else {
-            return new SimpleStringProperty();
-        }
+    public StringBinding getHeightProperty() {
+        return height.asString();
     }
 
     @Transient
-    public SimpleStringProperty getWeightProperty() {
-        if(getWeight() != null) {
-            return new SimpleStringProperty(getWeight().toString());
-        } else {
-            return new SimpleStringProperty();
-        }
+    public StringBinding getWeightProperty() {
+        return weight.asString();
     }
 
     @Transient

@@ -17,23 +17,23 @@ public class Ibutton implements java.io.Serializable {
 
     private Integer id;
     private Position defaultPosition;
-    private String serial;
-    private String model;
-    private String alias;
+    private SimpleStringProperty serial = new SimpleStringProperty();
+    private SimpleStringProperty model = new SimpleStringProperty();
+    private SimpleStringProperty alias = new SimpleStringProperty();
 
     public Ibutton() {
     }
 
     public Ibutton(String serial, String model) {
-        this.serial = serial;
-        this.model = model;
+        this.serial.setValue(serial);
+        this.model.setValue(model);
     }
 
     public Ibutton(Position defaultPosition, String serial, String model, String alias) {
         this.defaultPosition = defaultPosition;
-        this.serial = serial;
-        this.model = model;
-        this.alias = alias;
+        this.serial.setValue(serial);
+        this.model.setValue(model);
+        this.alias.setValue(alias);
     }
 
     @Id
@@ -60,29 +60,29 @@ public class Ibutton implements java.io.Serializable {
 
     @Column(name = "SERIAL", unique = true, nullable = false, length = 200)
     public String getSerial() {
-        return this.serial;
+        return this.serial.getValue();
     }
 
     public void setSerial(String serial) {
-        this.serial = serial;
+        this.serial.setValue(serial);
     }
 
     @Column(name = "MODEL", nullable = false, length = 200)
     public String getModel() {
-        return this.model;
+        return this.model.getValue();
     }
 
     public void setModel(String model) {
-        this.model = model;
+        this.model.setValue(model);
     }
 
     @Column(name = "ALIAS", unique = true, length = 30)
     public String getAlias() {
-        return this.alias;
+        return this.alias.getValue();
     }
 
     public void setAlias(String alias) {
-        this.alias = alias;
+        this.alias.setValue(alias);
     }
 
     @Override
@@ -118,25 +118,23 @@ public class Ibutton implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getModelProperty() {
-        return new SimpleStringProperty(getModel());
+        return model;
     }
 
     @Transient
     public SimpleStringProperty getSerialProperty() {
-        return new SimpleStringProperty(getSerial());
+        return serial;
     }
 
     @Transient
     public SimpleStringProperty getAliasProperty() {
-        if(getAlias() != null) {
-            return new SimpleStringProperty(getAlias());
-        }
-        return new SimpleStringProperty("");    }
+        return alias;
+    }
 
     @Transient
     public SimpleStringProperty getPositionProperty() {
-        if(getPosition() != null) {
-            return new SimpleStringProperty(getPosition().getPlace());
+        if (getPosition() != null) {
+            return getPosition().getPlaceProperty();
         }
         return new SimpleStringProperty("");
     }

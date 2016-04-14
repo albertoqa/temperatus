@@ -15,18 +15,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Position implements java.io.Serializable {
 
     private Integer id;
-    private String place;
+    private SimpleStringProperty place = new SimpleStringProperty();
     private String picture;
 
     public Position() {
     }
 
     public Position(String place) {
-        this.place = place;
+        this.place.setValue(place);
     }
 
     public Position(String place, String picture) {
-        this.place = place;
+        this.place.setValue(place);
         this.picture = picture;
     }
 
@@ -44,11 +44,11 @@ public class Position implements java.io.Serializable {
 
     @Column(name = "PLACE", unique = true, nullable = false, length = 100)
     public String getPlace() {
-        return this.place;
+        return this.place.getValue();
     }
 
     public void setPlace(String place) {
-        this.place = place;
+        this.place.setValue(place);
     }
 
     @Column(name = "PICTURE", length = 200)
@@ -62,7 +62,7 @@ public class Position implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return place;
+        return place.getValue();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Position implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getPlaceProperty() {
-        return new SimpleStringProperty(getPlace());
+        return place;
     }
 
     @Override

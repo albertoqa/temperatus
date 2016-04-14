@@ -1,5 +1,6 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.types.Unit;
 
@@ -19,7 +20,7 @@ public class Measurement implements java.io.Serializable {
     private BigInteger id;
     private Record record;
     private Date date;
-    private double data;
+    private SimpleDoubleProperty data = new SimpleDoubleProperty();
     private Unit unit;      // C, F
 
     public Measurement() {
@@ -27,16 +28,15 @@ public class Measurement implements java.io.Serializable {
 
     public Measurement(Date date, double data, Unit unit) {
         this.date = date;
-        this.data = data;
+        this.data.setValue(data);
         this.unit = unit;
     }
 
     public Measurement(Record record, Date date, double data, Unit unit) {
         this.record = record;
         this.date = date;
-        this.data = data;
+        this.data.setValue(data);
         this.unit = unit;
-
     }
 
     @Id
@@ -73,11 +73,11 @@ public class Measurement implements java.io.Serializable {
 
     @Column(name = "DATA", nullable = false, precision = 17, scale = 0)
     public double getData() {
-        return this.data;
+        return this.data.getValue();
     }
 
     public void setData(double data) {
-        this.data = data;
+        this.data.setValue(data);
     }
 
     @Column(name = "UNIT", nullable = false)
@@ -108,6 +108,7 @@ public class Measurement implements java.io.Serializable {
     public SimpleStringProperty getUnitProperty() {
         return new SimpleStringProperty(unit.toString());
     }
+
     @Transient
     public SimpleStringProperty getDataProperty() {
         return new SimpleStringProperty(String.valueOf(data));

@@ -48,7 +48,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     private TableColumn<Subject, String> subjectType = new TableColumn<>();
     private TableColumn<Subject, String> name = new TableColumn<>();
     private TableColumn<Subject, String> sex = new TableColumn<>();
-    private TableColumn<Subject, Integer> age = new TableColumn<>();
+    private TableColumn<Subject, String> age = new TableColumn<>();
     private TableColumn<Subject, String> weight = new TableColumn<>();
     private TableColumn<Subject, String> height = new TableColumn<>();
 
@@ -73,7 +73,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         sex.setText("Sex");
         sex.setCellValueFactory(cellData -> cellData.getValue().getSexProperty());
         age.setText("Age");
-        age.setCellValueFactory(cellData -> cellData.getValue().getAgeProperty().asObject());
+        age.setCellValueFactory(cellData -> cellData.getValue().getAgeProperty());
         weight.setText("Weight");
         weight.setCellValueFactory(cellData -> cellData.getValue().getWeightProperty());
         height.setText("Height");

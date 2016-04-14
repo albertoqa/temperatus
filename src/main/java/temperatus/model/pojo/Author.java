@@ -16,18 +16,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Author implements java.io.Serializable {
 
     private Integer id;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     private Set<Mission> missions = new HashSet<Mission>(0);
 
     public Author() {
     }
 
     public Author(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     public Author(String name, Set<Mission> missions) {
-        this.name = name;
+        this.name.setValue(name);
         this.missions = missions;
     }
 
@@ -45,11 +45,11 @@ public class Author implements java.io.Serializable {
 
     @Column(name = "NAME", unique = true, nullable = false, length = 100)
     public String getName() {
-        return this.name;
+        return this.name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
@@ -63,12 +63,12 @@ public class Author implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return name.getValue();
     }
 
     @Transient
     public SimpleStringProperty getNameProperty() {
-        return new SimpleStringProperty(getName());
+        return name;
     }
 
 }

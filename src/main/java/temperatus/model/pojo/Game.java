@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.persistence.*;
@@ -17,8 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Game implements java.io.Serializable {
 
     private Integer id;
-    private String title;
-    private int numButtons;
+    private SimpleStringProperty title = new SimpleStringProperty();
+    private SimpleIntegerProperty numButtons = new SimpleIntegerProperty();
     private String observations;
     private Set<Formula> formulas = new HashSet<Formula>(0);
     private Set<Position> positions = new HashSet<Position>(0);
@@ -28,19 +30,19 @@ public class Game implements java.io.Serializable {
     }
 
     public Game(String title, int numButtons) {
-        this.title = title;
-        this.numButtons = numButtons;
+        this.title.setValue(title);
+        this.numButtons.setValue(numButtons);
     }
 
     public Game(String title, int numButtons, String observations) {
-        this.title = title;
-        this.numButtons = numButtons;
+        this.title.setValue(title);
+        this.numButtons.setValue(numButtons);
         this.observations = observations;
     }
 
     public Game(String title, int numButtons, String observations, Set<Formula> formulas, Set<Position> positions) {
-        this.title = title;
-        this.numButtons = numButtons;
+        this.title.setValue(title);
+        this.numButtons.setValue(numButtons);
         this.observations = observations;
         this.formulas = formulas;
         this.positions = positions;
@@ -60,20 +62,20 @@ public class Game implements java.io.Serializable {
 
     @Column(name = "TITLE", unique = true, nullable = false, length = 100)
     public String getTitle() {
-        return this.title;
+        return this.title.getValue();
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title.setValue(title);
     }
 
     @Column(name = "NUM_BUTTONS", nullable = false)
     public int getNumButtons() {
-        return this.numButtons;
+        return this.numButtons.getValue();
     }
 
     public void setNumButtons(int numButtons) {
-        this.numButtons = numButtons;
+        this.numButtons.setValue(numButtons);
     }
 
     @Column(name = "OBSERVATIONS")
@@ -120,17 +122,17 @@ public class Game implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return title;
+        return title.getValue();
     }
 
     @Transient
     public SimpleStringProperty getTitleProperty() {
-        return new SimpleStringProperty(title);
+        return title;
     }
 
     @Transient
-    public SimpleStringProperty getNumberOfButtonsProperty() {
-        return new SimpleStringProperty(String.valueOf(numButtons));
+    public StringBinding getNumberOfButtonsProperty() {
+        return numButtons.asString();
     }
 
     @Transient

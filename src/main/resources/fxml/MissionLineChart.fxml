@@ -11,11 +11,11 @@
    <children>
       <LineChart fx:id="lineChart" layoutX="9.0" layoutY="31.0" prefHeight="420.0" prefWidth="568.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="15.0">
         <xAxis>
-          <DateAxis fx:id="xAxis" side="BOTTOM" />
+          <DateAxis fx:id="dateAxis" side="BOTTOM" />
           <!--<NumberAxis side="BOTTOM" />-->
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxis" side="LEFT" />
+          <NumberAxis fx:id="temperatureAxis" side="LEFT" />
         </yAxis>
       </LineChart>
       <CheckListView fx:id="positionsList" layoutX="595.0" layoutY="57.0" prefHeight="170.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />

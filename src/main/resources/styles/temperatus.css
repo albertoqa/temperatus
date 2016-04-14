@@ -568,7 +568,7 @@
      -fx-background-insets: 0 1 0 1,0,0;
  }
  .tab-pane .tab {
-     -fx-background-color: #e6e6e6;
+     -fx-background-color: #2b3940;
 
  }
 
@@ -579,14 +579,15 @@
 
  .tab .tab-label {
      -fx-alignment: CENTER;
-     -fx-text-fill: #828282;
+     -fx-text-fill: #ffffff;
      -fx-font-size: 12px;
-     -fx-font-weight: bold;
+     -fx-font-weight: normal;
  }
 
  .tab:selected .tab-label {
      -fx-alignment: CENTER;
      -fx-text-fill: #ffffff;
+     -fx-font-weight: bold;
  }
 
  /*******************************************************************************

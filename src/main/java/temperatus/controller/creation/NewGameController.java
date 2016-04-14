@@ -79,8 +79,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     private final int radius = 4;
     private boolean drawed = false;
 
-    private final String frontImage = "frontBody";
-    private final String backImage = "backBody";
+    private final String frontImage = "/images/frontBody.png";
+    private final String backImage = "/images/backBody.png";
 
     static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
@@ -88,8 +88,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     public void initialize(URL location, ResourceBundle resources) {
 
         images = new ArrayList<>();
-        images.add(new Image("/images/frontBody.png"));
-        images.add(new Image("/images/backBody.png"));
+        images.add(new Image(frontImage));
+        images.add(new Image(backImage));
 
         imageView.setImage(images.get(0));
         selectedImage = 0;
@@ -100,6 +100,8 @@ public class NewGameController extends AbstractCreationController implements Ini
         positionsSelector.getSourceItems().addAll(positionService.getAll());
         formulasList.getItems().addAll(formulaService.getAll());
 
+        drawNumber.setText("0");
+
         translate();
     }
 
@@ -108,7 +110,8 @@ public class NewGameController extends AbstractCreationController implements Ini
         public void handle(MouseEvent mouseEvent) {
             if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 gc.fillOval(mouseEvent.getX()-radius, mouseEvent.getY()-radius, radius, radius);
-                gc.fillText(drawNumber.getText(), mouseEvent.getX(), mouseEvent.getX());
+                gc.fillText(drawNumber.getText(), mouseEvent.getX() + radius, mouseEvent.getY() + radius);
+                drawNumber.setText(String.valueOf(Integer.valueOf(drawNumber.getText())+1));
                 drawed = true;
             }
         }
@@ -209,7 +212,8 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     private void keepImage() {
         if(drawed) {
-            WritableImage snapshot = imageStack.snapshot(new SnapshotParameters(), null);
+            SnapshotParameters snapshotParameters = new SnapshotParameters();
+            WritableImage snapshot = imageStack.snapshot(snapshotParameters, null);
             images.set(selectedImage, snapshot);
             clearCanvas();
             drawed = false;

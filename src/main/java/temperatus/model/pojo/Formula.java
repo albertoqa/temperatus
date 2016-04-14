@@ -14,24 +14,24 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Formula implements java.io.Serializable {
 
     private Integer id;
-    private String name;
-    private String description;
-    private String reference;
-    private String operation;
+    private SimpleStringProperty name = new SimpleStringProperty();
+    private SimpleStringProperty description = new SimpleStringProperty();
+    private SimpleStringProperty reference = new SimpleStringProperty();
+    private SimpleStringProperty operation = new SimpleStringProperty();
 
     public Formula() {
     }
 
     public Formula(String name, String operation) {
-        this.name = name;
-        this.operation = operation;
+        this.name.setValue(name);
+        this.operation.setValue(operation);
     }
 
     public Formula(String name, String description, String reference, String operation) {
-        this.name = name;
-        this.description = description;
-        this.reference = reference;
-        this.operation = operation;
+        this.name.setValue(name);
+        this.description.setValue(description);
+        this.reference.setValue(reference);
+        this.operation.setValue(operation);
     }
 
     @Id
@@ -48,43 +48,43 @@ public class Formula implements java.io.Serializable {
 
     @Column(name = "NAME", unique = true, nullable = false, length = 50)
     public String getName() {
-        return this.name;
+        return this.name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     @Column(name = "DESCRIPTION", length = 200)
     public String getDescription() {
-        return this.description;
+        return this.description.getValue();
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description.setValue(description);
     }
 
     @Column(name = "REFERENCE", length = 200)
     public String getReference() {
-        return this.reference;
+        return this.reference.getValue();
     }
 
     public void setReference(String reference) {
-        this.reference = reference;
+        this.reference.setValue(reference);
     }
 
     @Column(name = "OPERATION", nullable = false, length = 200)
     public String getOperation() {
-        return this.operation;
+        return this.operation.getValue();
     }
 
     public void setOperation(String operation) {
-        this.operation = operation;
+        this.operation.setValue(operation);
     }
 
     @Override
     public String toString() {
-        return name;
+        return this.name.getValue();
     }
 
     @Override
@@ -108,16 +108,16 @@ public class Formula implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getNameProperty() {
-        return new SimpleStringProperty(getName());
+        return name;
     }
 
     @Transient
     public SimpleStringProperty getReferenceProperty() {
-        return new SimpleStringProperty(getReference());
+        return reference;
     }
 
     @Transient
     public SimpleStringProperty getOperationProperty() {
-        return new SimpleStringProperty(getOperation());
+        return operation;
     }
 }

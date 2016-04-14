@@ -40,6 +40,9 @@ import java.util.*;
 public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private LineChart<Date, Number> lineChart;
+    @FXML private DateAxis dateAxis;
+    @FXML private NumberAxis temperatureAxis;
+
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
     @FXML private NumberAxis yAxis;
@@ -67,6 +70,8 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
+        dateAxis.setLabel("Time of measurement");
+        temperatureAxis.setLabel("Temperature in ºC");
         //lineChart.setCreateSymbols(false);
 
         positionsList.getCheckModel().getCheckedItems().addListener(new ListChangeListener<Record>() {
