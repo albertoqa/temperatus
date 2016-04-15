@@ -4,11 +4,11 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * <p>
  * Contributors:
- *     Christoph Keimel <c.keimel@emsw.de> - initial API and implementation
+ * Christoph Keimel <c.keimel@emsw.de> - initial API and implementation
  *******************************************************************************/
-package temperatus.model.pojo.types;
+package temperatus.model.pojo.utils;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -27,13 +27,13 @@ import java.util.function.Predicate;
  * An extension of {@link TreeItem} with the possibility to filter its children. To enable filtering
  * it is necessary to set the . If a predicate is set, then the tree item
  * will also use this predicate to filter its children (if they are of the type FilterableTreeItem).
- *
+ * <p>
  * A tree item that has children will not be filtered. The predicate will only be evaluated, if the
  * tree item is a leaf. Since the predicate is also set for the child tree items, the tree item in question
  * can turn into a leaf if all its children are filtered.
- *
+ * <p>
  * This class extends {@link CheckBoxTreeItem} so it can, but does not need to be, used in conjunction
- * with {@link CheckBoxTreeCell} cells. 
+ * with {@link CheckBoxTreeCell} cells.
  *
  * @param <T> The type of the {@link #getValue() value} property within {@link TreeItem}.
  */
@@ -55,7 +55,7 @@ public class FilterableTreeItem<T> extends CheckBoxTreeItem<T> {
         this.sourceList = FXCollections.observableArrayList();
         this.filteredList = new FilteredList<>(this.sourceList);
         this.filteredList.predicateProperty().bind(Bindings.createObjectBinding(() -> {
-            Predicate<TreeItem<T>> p =  child -> {
+            Predicate<TreeItem<T>> p = child -> {
                 // Set the predicate of child items to force filtering
                 if (child instanceof FilterableTreeItem) {
                     FilterableTreeItem<T> filterableChild = (FilterableTreeItem<T>) child;
@@ -79,9 +79,10 @@ public class FilterableTreeItem<T> extends CheckBoxTreeItem<T> {
     /**
      * Set the hidden private field {@link TreeItem#children} through reflection and hook the hidden
      * {@link ListChangeListener} in {@link TreeItem#childrenListener} to the list
+     *
      * @param list the list to set
      */
-    @SuppressWarnings({ "unchecked", "javadoc" })
+    @SuppressWarnings({"unchecked", "javadoc"})
     protected void setHiddenFieldChildren(ObservableList<TreeItem<T>> list) {
         ReflectionUtil.setFieldValue(this, "children", list); //$NON-NLS-1$
         Object childrenListener = ReflectionUtil.getFieldValue(this, "childrenListener"); //$NON-NLS-1$
@@ -90,6 +91,7 @@ public class FilterableTreeItem<T> extends CheckBoxTreeItem<T> {
 
     /**
      * Returns the list of children that is backing the filtered list.
+     *
      * @return underlying list of children
      */
     public ObservableList<TreeItem<T>> getInternalChildren() {
@@ -112,6 +114,7 @@ public class FilterableTreeItem<T> extends CheckBoxTreeItem<T> {
 
     /**
      * Set the predicate
+     *
      * @param predicate the predicate
      */
     public final void setPredicate(TreeItemPredicate<T> predicate) {

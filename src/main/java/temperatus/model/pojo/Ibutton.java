@@ -105,7 +105,6 @@ public class Ibutton implements java.io.Serializable {
         if (getSerial() != null ? !getSerial().equals(ibutton.getSerial()) : ibutton.getSerial() != null) return false;
         if (getModel() != null ? !getModel().equals(ibutton.getModel()) : ibutton.getModel() != null) return false;
         return !(getAlias() != null ? !getAlias().equals(ibutton.getAlias()) : ibutton.getAlias() != null);
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package temperatus.model.pojo.types;
+package temperatus.model.pojo.utils;
 
 /*******************************************************************************
  * Copyright (c) 2014 EM-SOFTWARE and others.

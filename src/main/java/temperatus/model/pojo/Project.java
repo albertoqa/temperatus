@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated 09-feb-2016 22:15:19 by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Project implements java.io.Serializable {
 
     private Integer id;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     private Date dateIni;
     private String observations;
     private Set<Mission> missions = new HashSet<Mission>(0);
@@ -25,18 +27,18 @@ public class Project implements java.io.Serializable {
     }
 
     public Project(String name, Date dateIni) {
-        this.name = name;
+        this.name.setValue(name);
         this.dateIni = dateIni;
     }
 
     public Project(String name, Date dateIni, String observations) {
-        this.name = name;
+        this.name.setValue(name);
         this.dateIni = dateIni;
         this.observations = observations;
     }
 
     public Project(String name, Date dateIni, String observations, Set<Mission> missions) {
-        this.name = name;
+        this.name.setValue(name);
         this.dateIni = dateIni;
         this.observations = observations;
         this.missions = missions;
@@ -56,11 +58,11 @@ public class Project implements java.io.Serializable {
 
     @Column(name = "NAME", unique = true, nullable = false, length = 100)
     public String getName() {
-        return this.name;
+        return this.name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     @Temporal(TemporalType.DATE)
@@ -93,7 +95,11 @@ public class Project implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return getName();
+        return name.getValue();
     }
 
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return name;
+    }
 }

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
-import temperatus.model.pojo.types.AutoCompleteComboBoxListener;
+import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.IbuttonService;
 import temperatus.model.service.PositionService;
 import temperatus.util.Constants;

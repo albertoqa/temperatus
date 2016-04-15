@@ -1,18 +1,17 @@
 package temperatus.controller.creation;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
+import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.RangeSlider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,6 @@ import temperatus.controller.archived.MissionInfoController;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Mission;
-import temperatus.model.pojo.types.ListViewItem;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.MeasurementService;
 import temperatus.model.service.MissionService;
@@ -50,7 +48,7 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private TabPane tabPane;
     @FXML private Tab generalTab;
     @FXML private Button addFormulaButton;
-    @FXML private ListView<ListViewItem> listViewFormulas;
+    @FXML private CheckListView<Formula> listViewFormulas;
 
     @FXML private RangeSlider rangeSlider;
     @FXML private TextField initTime;
@@ -174,19 +172,10 @@ public class RecordConfigController extends AbstractCreationController implement
         List<Formula> formulas = formulaService.getAll();
         Set<Formula> defaultFormulas = mission.getGame().getFormulas();
 
-        List<ListViewItem> items = new ArrayList<>();
-        for (Formula formula : formulas) {
-            boolean checked = defaultFormulas.contains(formula);
-            items.add(new ListViewItem(formula.getName(), checked));
+        listViewFormulas.setItems(FXCollections.observableArrayList(formulas));
+        for(Formula formula: defaultFormulas) {
+            listViewFormulas.getCheckModel().check(formula);
         }
-
-        listViewFormulas.getItems().addAll(items);
-        listViewFormulas.setCellFactory(CheckBoxListCell.forListView(new Callback<ListViewItem, ObservableValue<Boolean>>() {
-            @Override
-            public ObservableValue<Boolean> call(ListViewItem item) {
-                return item.onProperty();
-            }
-        }));
     }
 
     @FXML
@@ -233,11 +222,7 @@ public class RecordConfigController extends AbstractCreationController implement
                 }
 
                 Set<Formula> selectedFormulas = new HashSet<>();
-                for (ListViewItem item : listViewFormulas.getItems()) {
-                    if (item.isOn()) {
-                        selectedFormulas.add(formulaService.getByName(item.getName()));
-                    }
-                }
+                selectedFormulas.addAll(listViewFormulas.getCheckModel().getCheckedItems());
 
                 mission.setFormulas(selectedFormulas);
                 missionService.saveOrUpdate(mission);

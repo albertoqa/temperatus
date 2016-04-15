@@ -4,6 +4,9 @@ import com.dalsemi.onewire.container.OneWireContainer;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
+ * Used to show connected devices in a tableView. When a new iButton is connected to the computer a new instance of this class
+ * is created and added to the tableView of Connected Devices
+ * <p>
  * Created by alberto on 13/2/16.
  */
 public class Device {
@@ -12,11 +15,10 @@ public class Device {
     private SimpleStringProperty serial = new SimpleStringProperty();
     private SimpleStringProperty model = new SimpleStringProperty();
     private SimpleStringProperty alias = new SimpleStringProperty();
-
-    private OneWireContainer container;
+    private OneWireContainer container; // container referencing the device
 
     public String getDefaultPosition() {
-        return defaultPosition.get();
+        return defaultPosition.getValue();
     }
 
     public SimpleStringProperty defaultPositionProperty() {
@@ -24,11 +26,11 @@ public class Device {
     }
 
     public void setDefaultPosition(String defaultPosition) {
-        this.defaultPosition.set(defaultPosition);
+        this.defaultPosition.setValue(defaultPosition);
     }
 
     public String getSerial() {
-        return serial.get();
+        return serial.getValue();
     }
 
     public SimpleStringProperty serialProperty() {
@@ -36,11 +38,11 @@ public class Device {
     }
 
     public void setSerial(String serial) {
-        this.serial.set(serial);
+        this.serial.setValue(serial);
     }
 
     public String getModel() {
-        return model.get();
+        return model.getValue();
     }
 
     public SimpleStringProperty modelProperty() {
@@ -48,11 +50,11 @@ public class Device {
     }
 
     public void setModel(String model) {
-        this.model.set(model);
+        this.model.setValue(model);
     }
 
     public String getAlias() {
-        return alias.get();
+        return alias.getValue();
     }
 
     public SimpleStringProperty aliasProperty() {
@@ -60,7 +62,7 @@ public class Device {
     }
 
     public void setAlias(String alias) {
-        this.alias.set(alias);
+        this.alias.setValue(alias);
     }
 
     public OneWireContainer getContainer() {

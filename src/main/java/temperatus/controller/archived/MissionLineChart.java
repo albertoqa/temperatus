@@ -23,7 +23,7 @@ import temperatus.controller.AbstractController;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
-import temperatus.model.pojo.types.DateAxis;
+import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.IntegerSpinner;
 
 import javax.imageio.ImageIO;

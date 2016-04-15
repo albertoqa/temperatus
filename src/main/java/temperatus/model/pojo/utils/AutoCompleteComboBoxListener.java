@@ -1,4 +1,4 @@
-package temperatus.model.pojo.types;
+package temperatus.model.pojo.utils;
 
 import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.collections.ObservableList;
@@ -9,9 +9,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
+ * Make Combobox editable and auto-completable
+ * to use it just: new AutoCompleteComboBoxListener(comboBox);
+ * <p>
+ * http://stackoverflow.com/questions/19924852/autocomplete-combobox-in-javafx
+ * <p>
  * Created by alberto on 11/2/16.
  */
-public class AutoCompleteComboBoxListener<T> {
+public class AutoCompleteComboBoxListener<T> {  // FIXME check with different versions of JAVA - it may not work well
 
     private ComboBox<T> comboBox;
     private StringBuilder sb;
@@ -47,10 +52,11 @@ public class AutoCompleteComboBoxListener<T> {
             // remove selected string index until end so only unselected text will be recorded
             try {
                 sb.delete(ir.getStart(), sb.length());
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
 
             ObservableList<T> items = comboBox.getItems();
-            for (int i=0; i<items.size(); i++) {
+            for (int i = 0; i < items.size(); i++) {
                 if (items.get(i) != null && comboBox.getEditor().getText() != null && items.get(i).toString().toLowerCase().startsWith(comboBox.getEditor().getText().toLowerCase())) {
                     try {
                         comboBox.getEditor().setText(sb.toString() + items.get(i).toString().substring(sb.toString().length()));
@@ -90,7 +96,7 @@ public class AutoCompleteComboBoxListener<T> {
     private void selectClosestResultBasedOnTextFieldValue(boolean affect, boolean inFocus) {
         ObservableList items = AutoCompleteComboBoxListener.this.comboBox.getItems();
         boolean found = false;
-        for (int i=0; i<items.size(); i++) {
+        for (int i = 0; i < items.size(); i++) {
             if (items.get(i) != null && AutoCompleteComboBoxListener.this.comboBox.getEditor().getText() != null && AutoCompleteComboBoxListener.this.comboBox.getEditor().getText().toLowerCase().equals(items.get(i).toString().toLowerCase())) {
                 try {
                     ListView lv = ((ComboBoxListViewSkin) AutoCompleteComboBoxListener.this.comboBox.getSkin()).getListView();
@@ -98,7 +104,8 @@ public class AutoCompleteComboBoxListener<T> {
                     lv.scrollTo(lv.getSelectionModel().getSelectedIndex());
                     found = true;
                     break;
-                } catch (Exception ignored) { }
+                } catch (Exception ignored) {
+                }
             }
         }
 

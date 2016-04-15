@@ -73,7 +73,11 @@ public class Position implements java.io.Serializable {
         Position position = (Position) o;
 
         return !(getPlace() != null ? !getPlace().equals(position.getPlace()) : position.getPlace() != null);
+    }
 
+    @Override
+    public int hashCode() {
+        return getPlace() != null ? getPlace().hashCode() : 0;
     }
 
     @Transient
@@ -81,8 +85,4 @@ public class Position implements java.io.Serializable {
         return place;
     }
 
-    @Override
-    public int hashCode() {
-        return getPlace() != null ? getPlace().hashCode() : 0;
-    }
 }

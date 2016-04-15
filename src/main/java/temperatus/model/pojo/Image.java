@@ -12,47 +12,47 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "IMAGE", schema = "PUBLIC", catalog = "DATABASE")
 public class Image implements java.io.Serializable {
 
-	private Integer id;
-	private Game game;
-	private String path;
+    private Integer id;
+    private Game game;
+    private String path;
 
-	public Image() {
-	}
+    public Image() {
+    }
 
-	public Image(Game game, String path) {
-		this.game = game;
-		this.path = path;
-	}
+    public Image(Game game, String path) {
+        this.game = game;
+        this.path = path;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "GAME_ID", nullable = false)
-	public Game getGame() {
-		return this.game;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GAME_ID", nullable = false)
+    public Game getGame() {
+        return this.game;
+    }
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
-	@Column(name = "PATH", nullable = false, length = 300)
-	public String getPath() {
-		return this.path;
-	}
+    @Column(name = "PATH", nullable = false, length = 300)
+    public String getPath() {
+        return this.path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
 }

@@ -1,5 +1,7 @@
 package temperatus.model.pojo;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,7 +21,7 @@ public class Mission implements java.io.Serializable {
     private Game game;
     private Project project;
     private Subject subject;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     private Date dateIni;
     private String observations;
     private Set<Record> records = new HashSet<Record>(0);
@@ -33,7 +35,7 @@ public class Mission implements java.io.Serializable {
         this.game = game;
         this.project = project;
         this.subject = subject;
-        this.name = name;
+        this.name.setValue(name);
         this.dateIni = dateIni;
     }
 
@@ -43,7 +45,7 @@ public class Mission implements java.io.Serializable {
         this.game = game;
         this.project = project;
         this.subject = subject;
-        this.name = name;
+        this.name.setValue(name);
         this.dateIni = dateIni;
         this.observations = observations;
     }
@@ -102,11 +104,11 @@ public class Mission implements java.io.Serializable {
 
     @Column(name = "NAME", unique = true, nullable = false, length = 100)
     public String getName() {
-        return this.name;
+        return this.name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     @Temporal(TemporalType.DATE)
@@ -139,8 +141,8 @@ public class Mission implements java.io.Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MISSION_FORMULA", schema = "PUBLIC", catalog = "DATABASE", joinColumns = {
-            @JoinColumn(name = "MISSION_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
-            @JoinColumn(name = "FORMULA_ID", nullable = false, updatable = false) })
+            @JoinColumn(name = "MISSION_ID", nullable = false, updatable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "FORMULA_ID", nullable = false, updatable = false)})
     public Set<Formula> getFormulas() {
         return this.formulas;
     }
@@ -156,6 +158,11 @@ public class Mission implements java.io.Serializable {
                 "name='" + name + '\'' +
                 ", dateIni=" + dateIni +
                 '}';
+    }
+
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return name;
     }
 
 }

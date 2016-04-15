@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.*;
-import temperatus.model.pojo.types.AutoCompleteComboBoxListener;
+import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;

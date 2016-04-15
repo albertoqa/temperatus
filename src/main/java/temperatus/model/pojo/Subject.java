@@ -139,7 +139,7 @@ public class Subject implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getType() {
-        if(this.isIsPerson()) {
+        if (this.isIsPerson()) {
             return new SimpleStringProperty("Person");
         } else {
             return new SimpleStringProperty("Object");
@@ -158,14 +158,14 @@ public class Subject implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getSexProperty() {
-        if(getSex() != null) {
-            if(getSex()) {
+        if (getSex() != null) {
+            if (getSex()) {
                 return new SimpleStringProperty("Male");
             } else {
                 return new SimpleStringProperty("Female");
             }
         } else {
-            return new SimpleStringProperty();
+            return new SimpleStringProperty("");
         }
     }
 
@@ -177,11 +177,6 @@ public class Subject implements java.io.Serializable {
     @Transient
     public StringBinding getWeightProperty() {
         return weight.asString();
-    }
-
-    @Transient
-    public SimpleIntegerProperty getNumberOfMissionsProperty() {
-        return new SimpleIntegerProperty(getMissions().size());
     }
 
 }

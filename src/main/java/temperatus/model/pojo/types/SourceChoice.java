@@ -5,15 +5,16 @@ import temperatus.model.pojo.Ibutton;
 import java.io.File;
 
 /**
+ * Used to add data to a mission (in Comboboxes). User can select data from a file (then file will be set)
+ * or from a connected device (then iButton will be set). If both of them are set, we will
+ * always prefer the iButton.
+ * <p>
  * Created by alberto on 5/2/16.
  */
 public class SourceChoice {
 
-    private File file;
-    private Ibutton ibutton;
-
-    public SourceChoice() {
-    }
+    private File file;          // csv file
+    private Ibutton ibutton;    // connected device
 
     public SourceChoice(Ibutton ibutton) {
         this.ibutton = ibutton;
@@ -39,8 +40,14 @@ public class SourceChoice {
         this.ibutton = ibutton;
     }
 
+    /**
+     * Check if passed button is the same as the stored one
+     *
+     * @param ibutton new button
+     * @return is the same?
+     */
     public boolean isSameiButton(Ibutton ibutton) {
-       return ibutton.equals(this.ibutton);
+        return ibutton.equals(this.ibutton);
     }
 
     @Override
@@ -64,14 +71,12 @@ public class SourceChoice {
 
     @Override
     public String toString() {
-        if(ibutton != null) {
+        if (ibutton != null) {
             return ibutton.getSerial();
-        } else if(file == null) {
+        } else if (file == null) {
             return "Import from file";
-        } else if(file != null) {
-            return file.getName();
         } else {
-            return "Error";
+            return file.getName();
         }
     }
 }
