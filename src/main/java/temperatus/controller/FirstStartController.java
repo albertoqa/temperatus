@@ -7,6 +7,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.controlsfx.dialog.Wizard;
 import org.controlsfx.dialog.WizardPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class FirstStartController {
+
+    private static Logger logger = LoggerFactory.getLogger(FirstStartController.class.getName());
 
     private Wizard wizard;
 
@@ -25,8 +29,9 @@ public class FirstStartController {
     }
 
     public void startWizard() {
-        wizard = new Wizard();
+        logger.info("Starting wizard...");
 
+        wizard = new Wizard();
 
         int row = 0;
 
@@ -52,7 +57,6 @@ public class FirstStartController {
         WizardPane wizardPane1 = new WizardPane();
 
         wizard.setFlow(new Wizard.LinearFlow(page1, wizardPane1));
-
 
         wizard.showAndWait().ifPresent(result -> {
             if (result == ButtonType.FINISH) {

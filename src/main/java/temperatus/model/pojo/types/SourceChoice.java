@@ -9,8 +9,8 @@ import java.io.File;
  */
 public class SourceChoice {
 
-    File file;
-    Ibutton ibutton;
+    private File file;
+    private Ibutton ibutton;
 
     public SourceChoice() {
     }

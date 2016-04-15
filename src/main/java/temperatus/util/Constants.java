@@ -11,7 +11,11 @@ public class Constants {
 
     public static final String VERSION = "1.0";
 
-    public static int DELAY = 0;
+    public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    public static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+    public static int DELAY = 0;    // DeviceDetectorTask delay in seconds
     public static int PERIOD = 8;   // DeviceDetectorTask run period (s)
 
     //#########################################################################//
@@ -22,13 +26,7 @@ public class Constants {
     public static final String BASE = "/fxml/Base.fxml";
     public static final String HOME = "/fxml/Home.fxml";
     public static final String ABOUT = "/fxml/About.fxml";
-
     public static final String CONFIG = "/fxml/Configuration.fxml";
-    public static final String SUBJECT_CONFIG = "/fxml/Configuration.fxml";
-
-    public static final String CONFIG_GENERAL = "/fxml/configuration/General.fxml";
-    public static final String CONFIG_IMPORTEXPORT = "/fxml/configuration/ImportExport.fxml";
-    public static final String CONFIG_DEFAULTS = "/fxml/configuration/Defaults.fxml";
 
     public static final String ARCHIVED = "/fxml/Archived.fxml";
     public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
@@ -61,6 +59,7 @@ public class Constants {
     public static final String GAME_INFO = "/fxml/manage/ampliate/GameInfo.fxml";
 
     //#########################################################################//
+    // * User preferences
 
     public static Preferences prefs = Preferences.userRoot().node("temperatus");
 
@@ -80,14 +79,14 @@ public class Constants {
     public static final String AUTO_SYNC = "autoSync";
     public static final boolean SYNC = false;
 
-    public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
     public static final String LANG_EN = "English";
     public static final String LANG_SP = "Spanish";
 
-    //#########################################################################//
-    // * Constants for language names
+    // ###################################################################### //
+    // *                                                                    * //
+    // *                Constants for language names                        * //
+    // *                                                                    * //
+    // ###################################################################### //
 
     // Base controller
     public static final String RIGHTS = "rights";

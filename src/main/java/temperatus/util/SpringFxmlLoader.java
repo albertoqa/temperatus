@@ -1,9 +1,5 @@
 package temperatus.util;
 
-/**
- * Created by alberto on 17/1/16.
- */
-
 import javafx.fxml.FXMLLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -11,6 +7,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Override JavaFX loader to load Spring Beans for Controllers
+ * <p>
+ * Created by alberto on 17/1/16.
+ */
 public class SpringFxmlLoader {
 
     private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringApplicationConfig.class);
@@ -18,7 +19,7 @@ public class SpringFxmlLoader {
     private Object controller = null;
 
     public <T> T load(URL url) {
-        try  {
+        try {
             FXMLLoader loader = new FXMLLoader(url);
             loader.setControllerFactory(applicationContext::getBean);
             T r = loader.load();
@@ -29,6 +30,12 @@ public class SpringFxmlLoader {
         }
     }
 
+    /**
+     * Get the controller of the last loaded view
+     *
+     * @param <T>
+     * @return
+     */
     public <T> T getController() {
         return (T) controller;
     }

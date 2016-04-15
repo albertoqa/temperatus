@@ -12,13 +12,13 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 /**
- * TEMPERATUS
+ * TEMPERATUS Main - Configure if first start
  * <p>
  * Created by alberto on 17/1/16.
  */
 public class Main extends Application {
 
-    static Logger logger = LoggerFactory.getLogger(Main.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(Main.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,7 +30,7 @@ public class Main extends Application {
         if (isFirstTime) {
             Constants.prefs.putBoolean(Constants.FIRST_TIME, false);
 
-            FirstStartController firstStartController = new FirstStartController(); // TODO should I include this in spring context?
+            FirstStartController firstStartController = new FirstStartController();
             firstStartController.startWizard();
         }
 

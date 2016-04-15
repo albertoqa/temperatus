@@ -3,8 +3,6 @@ package temperatus.util;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,14 +13,15 @@ import temperatus.controller.BaseController;
 
 /**
  * Utility class for controlling navigation between vistas.
+ *
  */
 public class VistaNavigator {
 
-    static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
-    public static final double MIN_HEIGHT = 800.0;
+    public static final double MIN_HEIGHT = 800.0;  // TODO calculate min size for all screens
     public static final double MIN_WIDTH = 1200.0;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -39,11 +38,9 @@ public class VistaNavigator {
     }
 
     public static void setController(AbstractController controller) {
-        logger.debug("VistaNavigator: abstractController set to " + controller.getClass().getName());
-
         VistaNavigator.controller = controller;
+        logger.debug("VistaNavigator: abstractController set to " + controller.getClass().getName());
     }
-
 
     ////////////////////////////////////////////////////////////////////////////
     /*  The main application layout  */
@@ -55,6 +52,8 @@ public class VistaNavigator {
     }
 
     public static <T> T loadVista(String fxml) {
+        logger.debug("Loading fxml: " + fxml);
+
         if (baseController.getVistaHolder().getChildren().size() > 0) {
             //avoid to set the same controller twice -- remember to set the id of all fxml set in the baseView
             if (baseController.getVistaHolder().getChildren().get(baseController.getVistaHolder().getChildren().size() - 1).getId().equals(fxml)) {
@@ -78,22 +77,17 @@ public class VistaNavigator {
 
 
     ////////////////////////////////////////////////////////////////////////////
-    /*  Vista Utils  */
+    /*  Modal Views Utils  */
 
     public static Node parentNode;  // Used to disable when a modal window is opened
 
-    public static <T> T preloadController(String url) {
-        loader.load(VistaNavigator.class.getResource(url));
-        return loader.getController();
-    }
-
-    public static Scene createModalScene(Parent root) {
+    private static Scene createModalScene(Parent root) {
         Scene scene = new Scene(root);
         scene.setFill(null);
         return scene;
     }
 
-    public static Stage createModalStage(Scene scene, String title) {
+    private static Stage createModalStage(Scene scene, String title) {
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setScene(scene);
@@ -104,6 +98,8 @@ public class VistaNavigator {
     }
 
     public static <T> T openModal(String url, String title) {
+        logger.debug("Loading modal view: " + title);
+
         Parent root = loader.load(VistaNavigator.class.getResource(url));
         Scene scene = createModalScene(root);
         Stage stage = createModalStage(scene, title);
@@ -119,22 +115,6 @@ public class VistaNavigator {
         Animation.fadeInOutClose(n);
         parentNode.setDisable(false);
         baseController.selectBase();
-    }
-
-    public static <T> T setViewInStackPane(StackPane stackPane, String fxml) {
-        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
-
-        if (stackPane.getChildren().size() > 0) {
-            Animation.fadeOutIn(stackPane.getChildren().get(0), node);
-        }
-        stackPane.getChildren().setAll(node);
-        return loader.getController();
-    }
-
-    public static <T> T loadViewInTab(Tab tab, String fxml) {
-        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
-        tab.setContent(node);
-        return loader.getController();
     }
 
 }

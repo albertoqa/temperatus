@@ -1,51 +1,54 @@
 package temperatus.util;
 
 import javafx.util.StringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Convert long to Date and format with custom format as String
+ * Used for the Slider and TextInput binding of RecordConfigController
+ * <p>
  * Created by alberto on 4/4/16.
  */
 public class DateStringConverter extends StringConverter<Number> {
 
     private boolean slider;
 
+    private static Logger logger = LoggerFactory.getLogger(DateStringConverter.class.getName());
+
     public DateStringConverter(boolean slider) {
         this.slider = slider;
     }
 
+    /**
+     * If slider     -> show Date Time
+     * If TextInput  -> show Time
+     *
+     * @param number
+     * @return
+     */
     @Override
     public String toString(Number number) {
-        Date date = new Date(number.longValue());
-        SimpleDateFormat localDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        SimpleDateFormat localTimeFormat = new SimpleDateFormat("HH:mm:ss");
-
-        if(slider) {
-            return localTimeFormat.format(date);
+        if (slider) {
+            return Constants.timeFormat.format(new Date(number.longValue()));
         } else {
-            return localDateFormat.format(date);
+            return Constants.dateTimeFormat.format(new Date(number.longValue()));
         }
     }
 
     @Override
     public Number fromString(String s) {
-        SimpleDateFormat localDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        Date d = null;
+        Date date = null;
         try {
-            d = localDateFormat.parse(s);
+            date = Constants.dateTimeFormat.parse(s);
+            return date.getTime();
         } catch (ParseException e) {
+            logger.warn("Cannot parse String to Date");
+            return 0;
         }
-
-        long a = 0;
-
-        if(d != null) {
-            a = d.getTime();
-        }
-
-        return a;
     }
 
 }

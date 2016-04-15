@@ -106,8 +106,7 @@ public class MissionLineChart implements Initializable, AbstractController {
             }
         });
 
-        spinner.valueProperty().addListener((obs, oldValue, newValue) ->
-                reloadSelectedSeriesForPeriod(newValue));
+        spinner.valueProperty().addListener((obs, oldValue, newValue) -> reloadSelectedSeriesForPeriod(newValue));
 
     }
 
@@ -169,10 +168,13 @@ public class MissionLineChart implements Initializable, AbstractController {
         return serie;
     }
 
-    public void setData(HashMap<Record, List<Measurement>> dataMap, double minTemp, double maxTemp, Set<Formula> formulas) {
+    public void setData(HashMap<Record, List<Measurement>> dataMap, Set<Formula> formulas) {
         this.dataMap = dataMap;
         this.formulas.addAll(formulas);
         this.records.addAll(dataMap.keySet());
+
+        positionsList.getCheckModel().checkAll();
+        reloadSelectedSeriesForPeriod(1);   // TODO check this solution...
     }
 
     /**
