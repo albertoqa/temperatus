@@ -26,6 +26,8 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataValidator;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
+import temperatus.exception.ControlledTemperatusException;
+import temperatus.importer.AbstractImporter;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -420,9 +422,13 @@ public class NewRecordController extends AbstractCreationController implements I
      * @param index
      * @return
      */
-    private IbuttonDataImporter importData(int index) {
+    private IbuttonDataImporter importIbuttonData(int index) {
         if (filesToSave[index] != null) {
-            return new IbuttonDataImporter(filesToSave[index]);
+            try {
+                return new IbuttonDataImporter(filesToSave[index]);
+            } catch (ControlledTemperatusException e) {
+                // TODO show warning with e.getMessage()
+            }
         }
         return null;
     }
@@ -435,10 +441,10 @@ public class NewRecordController extends AbstractCreationController implements I
      * @param importedData
      * @return
      */
-    private ValidatedData validateData(int index, IbuttonDataImporter importedData) {
+    private ValidatedData validateData(int index, AbstractImporter importedData) {
 
         ValidatedData validatedData = new ValidatedData(importedData);
-        validatedData.setPosibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
+        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
         validatedData.setPosition(getPositionForIndex(index));
 
         SourceChoice sourceChoice = getSourceChoiceForIndex(index);
@@ -480,7 +486,7 @@ public class NewRecordController extends AbstractCreationController implements I
                     updateProgress(index, game.getNumButtons() - 1);
 
                     // Import data
-                    IbuttonDataImporter importedData = importData(index);
+                    AbstractImporter importedData = importIbuttonData(index);
 
                     if (importedData != null) {
                         // Validate data
@@ -518,8 +524,8 @@ public class NewRecordController extends AbstractCreationController implements I
                         validatedData.getMeasurements().get(i).setRecord(record);
                     }
 
-                    for (int i = 0; i < validatedData.getPosibleErrors().size(); i++) {
-                        validatedData.getPosibleErrors().get(i).setRecord(record);
+                    for (int i = 0; i < validatedData.getPossibleErrors().size(); i++) {
+                        validatedData.getPossibleErrors().get(i).setRecord(record);
                     }
 
                     records.add(record);

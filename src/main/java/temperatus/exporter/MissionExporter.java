@@ -6,6 +6,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
@@ -17,31 +19,46 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Export mission data to excel format
+ * Needs org.apache.poi to work
+ * <p>
  * Created by alberto on 8/4/16.
  */
 public class MissionExporter {
 
     private int period;
     private String missionName;
-    private List<Record> records;
-    private Set<Record> allRecords;
-    private List<Formula> formulas;
+    private List<Record> records;       // Records (positions) selected by the user to export
+    private Set<Record> allRecords;     // All the records of the mission - used to calculate values of formulas
+    private List<Formula> formulas;     // Formulas selected to export
 
-    private boolean showWarn = false;
+    private boolean showWarn = false;   // Show alert if formula cannot be computed
 
+    private static Logger logger = LoggerFactory.getLogger(MissionExporter.class.getName());
+
+    /**
+     * Export data to excel
+     *
+     * @return workbook containing formatted data
+     */
     public Workbook export() {
+        logger.debug("Generating data to export excel");
 
         Workbook wb = new HSSFWorkbook();
         Sheet missionSheet = wb.createSheet(missionName);
-        Row headerRow = missionSheet.createRow(0);
+        Row headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
 
+        /**
+         * Calculate independent positions first
+         */
         int row = 1;
         for (Record record : records) {
+            logger.debug("Exporting data for record: " + record);
 
             Row dataRow = missionSheet.createRow(row);
 
             Cell device = dataRow.createCell(0);
-            device.setCellValue(record.getIbutton().getSerial());
+            device.setCellValue(record.getPosition().getPlace());
 
             List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
 
@@ -52,13 +69,14 @@ public class MissionExporter {
                 col++;
             }
 
-
+            // Write the header as Index or DateTime
             if (row == 1) {
+                logger.debug("Generating header");
 
                 boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
-                int c = 1;
+                int c = 1;  // column
 
-                if(writeAsIndex) {
+                if (writeAsIndex) {
                     for (Measurement measurement : toExport) {
                         Cell time = headerRow.createCell(c);
                         time.setCellValue(c);
@@ -76,8 +94,11 @@ public class MissionExporter {
             row++;
         }
 
-        // Formulas
+        /**
+         * Calculate formulas
+         */
         for (Formula formula : formulas) {
+            logger.debug("Exporting data for formula: " + formula);
 
             List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(allRecords), formula, period);
 
@@ -86,12 +107,13 @@ public class MissionExporter {
             device.setCellValue(formula.getName());
 
             int col = 1;
-            for (Measurement measurement: measurements) {
+            for (Measurement measurement : measurements) {
                 Cell data = dataRow.createCell(col);
                 data.setCellValue(measurement.getData());
                 col++;
 
-                if(measurement.getData() == Double.NaN) {
+                if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
+                    logger.warn("Error in formula: " + formula);
                     showWarn = true;
                 }
             }
@@ -99,14 +121,24 @@ public class MissionExporter {
             row++;
         }
 
+        // Inform the user of the error/incorrect value
         if (showWarn) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Some formulas cannot be calculated due to an error in the operation. Please check that selected formulas are correct.");
+            Alert alert = new Alert(Alert.AlertType.WARNING, Constants.ERROR_CALCULATING_FORMULA);
             alert.show();
         }
 
         return wb;
     }
 
+    /**
+     * Set mission data to export
+     *
+     * @param period      calculate average of <<period>> measurements
+     * @param missionName name of the mission -- name of the excel sheet
+     * @param records     records selected by the user to export
+     * @param formulas    formulas related to the mission and selected to export
+     * @param allRecords  all records of the mission
+     */
     public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, Set<Record> allRecords) {
         this.period = period;
         this.missionName = missionName;

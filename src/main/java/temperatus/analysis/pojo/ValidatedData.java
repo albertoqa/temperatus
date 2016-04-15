@@ -1,6 +1,6 @@
 package temperatus.analysis.pojo;
 
-import temperatus.importer.IbuttonDataImporter;
+import temperatus.importer.AbstractImporter;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Position;
@@ -10,32 +10,33 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Validated data of a mission, used to calculate possible errors on the measurements and allow the user to fix them
+ * <p>
  * Created by alberto on 2/4/16.
  */
 public class ValidatedData {
 
-    private Position position;
-    private Ibutton ibutton;
-    private File dataFile;
-    private List<Measurement> measurements;
-    private List<Measurement> posibleErrors;
-    private String deviceModel;
-    private String deviceSerial;
-    private String sampleRate;
-    private Date startDate;
-    private Date finishDate;
+    private Position position;  // position where the data was measured
+    private Ibutton ibutton;    // device used to measure the data
+    private File dataFile;      // file where the data is saved
+    private List<Measurement> measurements; // complete list of measurements
+    private List<Measurement> possibleErrors;    // possible errors on the data detected (outliers...)
+    private String deviceModel; // model of the device used to measure the data
+    private String deviceSerial;    // serial of the device
+    private String sampleRate;  // sample rate of measure
+    private Date startDate; // start date of the experiment
+    private Date finishDate;    // end date of the experiment
 
-    public ValidatedData() {
-    }
-
-    public ValidatedData(IbuttonDataImporter importedData) {
-        this.dataFile = importedData.getReadedFile();
-        this.deviceModel = importedData.getDeviceModel();
-        this.deviceSerial = importedData.getDeviceSerial();
-        this.measurements = importedData.getMeasurements();
-        this.sampleRate = importedData.getSampleRate();
-        this.startDate = importedData.getStartDate();
-        this.finishDate = importedData.getFinishDate();
+    public ValidatedData(AbstractImporter importedData) {
+        if (importedData != null) {
+            this.dataFile = importedData.getReadedFile();
+            this.deviceModel = importedData.getDeviceModel();
+            this.deviceSerial = importedData.getDeviceSerial();
+            this.measurements = importedData.getMeasurements();
+            this.sampleRate = importedData.getSampleRate();
+            this.startDate = importedData.getStartDate();
+            this.finishDate = importedData.getFinishDate();
+        }
     }
 
     public Position getPosition() {
@@ -70,12 +71,12 @@ public class ValidatedData {
         this.measurements = measurements;
     }
 
-    public List<Measurement> getPosibleErrors() {
-        return posibleErrors;
+    public List<Measurement> getPossibleErrors() {
+        return possibleErrors;
     }
 
-    public void setPosibleErrors(List<Measurement> posibleErrors) {
-        this.posibleErrors = posibleErrors;
+    public void setPossibleErrors(List<Measurement> possibleErrors) {
+        this.possibleErrors = possibleErrors;
     }
 
     public String getDeviceModel() {

@@ -176,4 +176,12 @@ public class Constants {
     public static final String CANCEL = "cancel";
     public static final String CONTINUE = "continue";
 
+    // Mission exporter
+    public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
+
+    // ERRORS
+    public static final String FILE_NOT_FOUND = "fileNotFound";
+    public static final String PARSE_ERROR = "parseError";
+    public static final String READING_ERROR = "readingError";
+
 }

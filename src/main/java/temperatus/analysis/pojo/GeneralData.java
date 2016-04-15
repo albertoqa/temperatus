@@ -3,18 +3,20 @@ package temperatus.analysis.pojo;
 import java.util.Date;
 
 /**
+ * General data of a mission, used to show information to the user in the general TAB of RecordConfigController
+ * <p>
  * Created by alberto on 2/4/16.
  */
 public class GeneralData {
 
-    String models;
-    String rate;
-    Date startDate;
-    Date endDate;
-    double maxTemp;
-    double minTemp;
-    double avgTemp;
-    int measurementsPerButton;
+    private String models;  // model/s of device used to measure the temperature
+    private String rate;    // rate used to measure
+    private Date startDate; // start date of the experiment
+    private Date endDate;   // end date of the experiment
+    private double maxTemp; // maximum temperature registered
+    private double minTemp; // minimum temperature registered
+    private double avgTemp; // average temperature registered
+    private int measurementsPerButton;  // average number of measurements per device
 
     public String getModels() {
         return models;

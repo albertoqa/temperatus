@@ -1,5 +1,6 @@
 package temperatus.model.pojo;
 
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.types.Unit;
@@ -110,8 +111,8 @@ public class Measurement implements java.io.Serializable {
     }
 
     @Transient
-    public SimpleStringProperty getDataProperty() {
-        return new SimpleStringProperty(String.valueOf(data));
+    public StringBinding getDataProperty() {
+        return data.asString();
     }
 
 }

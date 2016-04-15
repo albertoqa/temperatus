@@ -1,11 +1,27 @@
 package temperatus.calculator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
+ * Evaluate a math expression given in string form
+ * <p>
+ * It does addition, subtraction, multiplication, division, exponentiation (using the ^ symbol),
+ * and a few basic functions like sqrt. It supports grouping using (...), and it gets the operator
+ * precedence and associativity rules correct.
+ * <p>
+ * http://stackoverflow.com/questions/3422673/evaluating-a-math-expression-given-in-string-form
+ * <p>
  * Created by alberto on 12/4/16.
  */
 public class Calculator {
 
+    private static Logger logger = LoggerFactory.getLogger(Calculator.class.getName());
+
     public static double eval(final String str) {
+
+        logger.debug("Evaluating string: " + str);
+
         return new Object() {
             int pos = -1, ch;
 
@@ -25,7 +41,7 @@ public class Calculator {
             double parse() {
                 nextChar();
                 double x = parseExpression();
-                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char) ch);
                 return x;
             }
 
@@ -37,8 +53,8 @@ public class Calculator {
 
             double parseExpression() {
                 double x = parseTerm();
-                for (;;) {
-                    if      (eat('+')) x += parseTerm(); // addition
+                for (; ; ) {
+                    if (eat('+')) x += parseTerm(); // addition
                     else if (eat('-')) x -= parseTerm(); // subtraction
                     else return x;
                 }
@@ -46,8 +62,8 @@ public class Calculator {
 
             double parseTerm() {
                 double x = parseFactor();
-                for (;;) {
-                    if      (eat('*')) x *= parseFactor(); // multiplication
+                for (; ; ) {
+                    if (eat('*')) x *= parseFactor(); // multiplication
                     else if (eat('/')) x /= parseFactor(); // division
                     else return x;
                 }
@@ -75,7 +91,7 @@ public class Calculator {
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
                     else throw new RuntimeException("Unknown function: " + func);
                 } else {
-                    throw new RuntimeException("Unexpected: " + (char)ch);
+                    throw new RuntimeException("Unexpected: " + (char) ch);
                 }
 
                 if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation

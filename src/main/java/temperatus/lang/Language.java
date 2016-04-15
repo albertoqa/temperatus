@@ -1,7 +1,7 @@
 package temperatus.lang;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import temperatus.util.Constants;
 
 import java.util.*;
@@ -11,22 +11,28 @@ import java.util.*;
  */
 public class Language {
 
+    private final String UNDERSCORE = "_";  // Split by underscore
+
     private static final Language instance = new Language();
     private final List<String> languages = Arrays.asList("Spanish", "English");
     private final List<String> locales = Arrays.asList("es_ES", "en_US");
     private ResourceBundle resourceBundle;
-    private Locale locale;
+
+    private static Logger logger = LoggerFactory.getLogger(Language.class.getName());
 
     private Language() {
         loadLanguage();
     }
 
-    public final void loadLanguage() {
+    private void loadLanguage() {
+        Locale locale;
         try {
-            String[] language = Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN).split("_");
+            String[] language = Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN).split(UNDERSCORE);
             locale = new Locale(language[0], language[1]);
         } catch (Exception ex) {
-            locale = new Locale("en", "US");
+            logger.error("Error loading language");
+
+            locale = new Locale("en", "US");    // If any error, load English
         }
         resourceBundle = ResourceBundle.getBundle("languages/language", locale);
     }
@@ -35,20 +41,12 @@ public class Language {
         try {
             return resourceBundle.getString(message);
         } catch (MissingResourceException ex) {
-            return "?????";
+            logger.warn("String not found in resources");
+            return "??????";
         }
     }
 
-    public ObservableList<String> getLanguagesList() {
-        ObservableList<String> idiomas = FXCollections.observableList(languages);
-        return idiomas;
-    }
-
-    public String languageToLocale(String language) {
-        return locales.get(languages.indexOf(language));
-    }
-
-    public String localeToLanguage(String locale) {
+    private String localeToLanguage(String locale) {
         return languages.get(locales.indexOf(locale));
     }
 
