@@ -82,11 +82,11 @@ public class BaseController implements Initializable, AbstractController, Device
         deviceDetectorSource.addEventListener(connectedDevicesController);
         // FIXME add all listeners here
 
-        setImages();    // Set icon images
         translate();    // Translate menu buttons
 
         menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition, nAuthor);
         home.setSelected(true);
+        setImages();    // Set icon images
 
         // A toggleButton must be selected always, this prevent to deselect a button
         menuGroup.selectedToggleProperty().addListener((ov, toggle, new_toggle) -> {
@@ -106,28 +106,29 @@ public class BaseController implements Initializable, AbstractController, Device
      * Load images for menu icons
      */
     private void setImages() {
+        if(Constants.NUMBER_OF_ICONS == Constants.ICONS.length && Constants.NUMBER_OF_ICONS == menuGroup.getToggles().size()) {
+            ImageView[] images = new ImageView[Constants.NUMBER_OF_ICONS];
+            for (int i = 0; i < images.length; i++) {
+                ImageView imageView = new ImageView(Constants.ICONS[i]);
+                imageView.setFitHeight(Constants.ICON_SIZE);
+                imageView.setFitWidth(Constants.ICON_SIZE);
+                images[i] = imageView;
+            }
 
-        ImageView[] images = new ImageView[Constants.NUMBER_OF_ICONS];
-        for(int i = 0; i < images.length; i++) {
-            ImageView imageView = new ImageView(Constants.ICONS[i]);
-            imageView.setFitHeight(Constants.ICON_SIZE);
-            imageView.setFitWidth(Constants.ICON_SIZE);
-            images[i] = imageView;
+            about.setGraphic(images[0]);
+            archive.setGraphic(images[1]);
+            nAuthor.setGraphic(images[2]);
+            configuration.setGraphic(images[3]);
+            devices.setGraphic(images[4]);
+            nFormula.setGraphic(images[5]);
+            nGame.setGraphic(images[6]);
+            home.setGraphic(images[7]);
+            manage.setGraphic(images[8]);
+            nMission.setGraphic(images[9]);
+            nPosition.setGraphic(images[10]);
+            nProject.setGraphic(images[11]);
+            nSubject.setGraphic(images[12]);
         }
-
-        about.setGraphic(images[0]);
-        archive.setGraphic(images[1]);
-        nAuthor.setGraphic(images[2]);
-        configuration.setGraphic(images[3]);
-        devices.setGraphic(images[4]);
-        nFormula.setGraphic(images[5]);
-        nGame.setGraphic(images[6]);
-        home.setGraphic(images[7]);
-        manage.setGraphic(images[8]);
-        nMission.setGraphic(images[9]);
-        nPosition.setGraphic(images[10]);
-        nProject.setGraphic(images[11]);
-        nSubject.setGraphic(images[12]);
     }
 
     @FXML
