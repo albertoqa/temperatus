@@ -149,7 +149,7 @@ public class NewRecordController extends AbstractCreationController implements I
             choiceBoxSource.valueProperty().addListener(new ChangeListener<SourceChoice>() {
                 @Override
                 public void changed(ObservableValue ov, SourceChoice t, SourceChoice t1) {
-                    logger.debug("selected iButton");
+                    logger.info("selected iButton");
                     if (t1 != null) {
                         if (t1.getIbutton() != null) {
                             ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(false);

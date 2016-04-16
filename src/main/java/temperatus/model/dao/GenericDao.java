@@ -3,6 +3,12 @@ package temperatus.model.dao;
 import java.util.List;
 
 /**
+ * Generic methods that all DAOs will use and prevent the necessity
+ * of implement them one time for each entity
+ * <p>
+ * This is a generic DAO interface which includes the most fundamental DAO
+ * operations for any persistent object.
+ * <p>
  * Created by alberto on 26/12/15.
  */
 public interface GenericDao {

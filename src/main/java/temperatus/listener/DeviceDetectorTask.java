@@ -18,7 +18,8 @@ import java.util.List;
  */
 @Component
 public class DeviceDetectorTask implements Runnable {
-    static Logger logger = LoggerFactory.getLogger(DeviceDetectorTask.class.getName());
+
+    private static Logger logger = LoggerFactory.getLogger(DeviceDetectorTask.class.getName());
 
     private List<String> serialsDetected = new ArrayList<>();
 
@@ -28,9 +29,9 @@ public class DeviceDetectorTask implements Runnable {
     @Override
     public void run() {
         try {
-            logger.debug("Searching for connected devices... trying to acquire semaphore");
+            logger.info("Searching for connected devices... trying to acquire semaphore");
             deviceSemaphore.acquire();
-            logger.debug("Semaphore adquired!");
+            logger.info("Semaphore adquired!");
 
             //searchForDevices();
             Thread.sleep(2000);
@@ -39,17 +40,17 @@ public class DeviceDetectorTask implements Runnable {
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();
-            logger.debug("Semaphore released");
+            logger.info("Semaphore released");
         }
     }
 
     private void searchForDevices() {
-        logger.debug("Semaphore acquired...Performing search");
+        logger.info("Semaphore acquired...Performing search");
 
-        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements();) {
+        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
             DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
 
-            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements();) {
+            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
                 String port_name = (String) port_name_enum.nextElement();
 
                 try {
@@ -66,7 +67,7 @@ public class DeviceDetectorTask implements Runnable {
                         adapter.beginExclusive(true);
                         adapter.setSearchAllDevices();
                         adapter.targetAllFamilies();
-                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements();) {
+                        for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
                             OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
                             String serial = ibutton.getAddressAsString();
 
@@ -92,9 +93,8 @@ public class DeviceDetectorTask implements Runnable {
             }
         }
 
-        logger.debug("Search finished");
+        logger.info("Search finished");
     }
-
 
 
 }

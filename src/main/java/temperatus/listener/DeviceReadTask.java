@@ -15,16 +15,16 @@ import java.util.concurrent.Callable;
 @Scope("prototype")
 public class DeviceReadTask implements Callable {
 
-    static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
 
     @Autowired DeviceSemaphore deviceSemaphore;
 
     @Override
     public Object call() throws Exception {
         try {
-            logger.debug("Reading device... trying to acquire semaphore");
+            logger.info("Reading device... trying to acquire semaphore");
             deviceSemaphore.acquire();
-            logger.debug("Read Semaphore adquired!");
+            logger.info("Read Semaphore adquired!");
 
             Thread.sleep(2000);
 
@@ -32,7 +32,7 @@ public class DeviceReadTask implements Callable {
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();
-            logger.debug("Semaphore released");
+            logger.info("Semaphore released");
         }
 
         return null;

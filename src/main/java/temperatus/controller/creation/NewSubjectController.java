@@ -75,10 +75,10 @@ public class NewSubjectController extends AbstractCreationController implements 
             public void changed(ObservableValue<? extends Toggle> ov,
                                 Toggle old_toggle, Toggle new_toggle) {
                 if (person.getSelectedToggle() == isPerson) {
-                    logger.debug("Showing person pane");
+                    logger.info("Showing person pane");
                     Animation.fadeInTransition(personDataPane);
                 } else {
-                    logger.debug("Hiding person pane");
+                    logger.info("Hiding person pane");
                     Animation.fadeOutTransition(personDataPane);
                 }
             }

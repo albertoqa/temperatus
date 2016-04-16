@@ -39,7 +39,7 @@ public class VistaNavigator {
 
     public static void setController(AbstractController controller) {
         VistaNavigator.controller = controller;
-        logger.debug("VistaNavigator: abstractController set to " + controller.getClass().getName());
+        logger.info("VistaNavigator: abstractController set to " + controller.getClass().getName());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public class VistaNavigator {
     }
 
     public static <T> T loadVista(String fxml) {
-        logger.debug("Loading fxml: " + fxml);
+        logger.info("Loading fxml: " + fxml);
 
         if (baseController.getVistaHolder().getChildren().size() > 0) {
             //avoid to set the same controller twice -- remember to set the id of all fxml set in the baseView
@@ -98,7 +98,7 @@ public class VistaNavigator {
     }
 
     public static <T> T openModal(String url, String title) {
-        logger.debug("Loading modal view: " + title);
+        logger.info("Loading modal view: " + title);
 
         Parent root = loader.load(VistaNavigator.class.getResource(url));
         Scene scene = createModalScene(root);

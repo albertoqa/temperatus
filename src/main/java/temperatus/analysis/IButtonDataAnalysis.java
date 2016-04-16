@@ -33,7 +33,7 @@ public class IButtonDataAnalysis {
      * @return the list of generated measurements
      */
     public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int period) {
-        logger.debug("Generating average measurements for period " + period);
+        logger.info("Generating average measurements for period " + period);
 
         List<Measurement> toExport = new ArrayList<>();
         Collections.sort(measurementList, (a, b) -> a.getDate().compareTo(b.getDate()));    // sort list by date
@@ -86,7 +86,7 @@ public class IButtonDataAnalysis {
      * @return list of measurements in groups and with the operation performed
      */
     public static List<Measurement> getListOfMeasurementsForFormulaAndPeriod(List<Record> records, Formula formula, int period) {
-        logger.debug("Performing formula [" + formula.getOperation() + "] and average measurements with period " + period);
+        logger.info("Performing formula [" + formula.getOperation() + "] and average measurements with period " + period);
 
         String operation = formula.getOperation();
         List<Measurement> measurements = getListOfMeasurementsForPeriod(new ArrayList<>(records.get(0).getMeasurements()), period).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());

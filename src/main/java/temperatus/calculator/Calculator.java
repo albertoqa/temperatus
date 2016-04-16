@@ -20,7 +20,7 @@ public class Calculator {
 
     public static double eval(final String str) {
 
-        logger.debug("Evaluating string: " + str);
+        logger.info("Evaluating string: " + str);
 
         return new Object() {
             int pos = -1, ch;

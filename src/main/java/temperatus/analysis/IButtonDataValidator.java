@@ -26,7 +26,7 @@ public class IButtonDataValidator {
      * @return measurements found that appear to be incorrect
      */
     public static List<Measurement> getAllOutliers(final List<Measurement> measurements) {
-        logger.debug("Generating list of outliers using a range of: [+-" + RANGE + "]");
+        logger.info("Generating list of outliers using a range of: [+-" + RANGE + "]");
 
         List<Measurement> outliers = new ArrayList<>();
         Double average = getAverage(measurements);
@@ -49,7 +49,7 @@ public class IButtonDataValidator {
      * @return average temperature of the list
      */
     private static Double getAverage(final List<Measurement> measurements) {
-        logger.debug("Calculating average temperature");
+        logger.info("Calculating average temperature");
 
         Double sum = 0.0;
         if (!measurements.isEmpty()) {

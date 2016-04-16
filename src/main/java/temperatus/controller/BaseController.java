@@ -80,7 +80,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logger.debug("Initializing base controller");
+        logger.info("Initializing base controller");
 
         deviceOperationsManager.init();
 
@@ -309,7 +309,7 @@ public class BaseController implements Initializable, AbstractController, Device
      * @param node
      */
     public void setView(Node node) {
-        logger.debug("Setting view in the root vistaHolder");
+        logger.info("Setting view in the root vistaHolder");
 
         if (vistaHolder.getChildren().size() > 0) {
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
@@ -323,7 +323,7 @@ public class BaseController implements Initializable, AbstractController, Device
      * @param node - new view to push to the stack
      */
     public void pushViewToStack(Node node) {
-        logger.debug("Pushing view into the stack vistaHolder");
+        logger.info("Pushing view into the stack vistaHolder");
 
         if (vistaHolder.getChildren().size() > 0) {
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), node);
@@ -336,7 +336,7 @@ public class BaseController implements Initializable, AbstractController, Device
      * Only if after pop stack is not empty
      */
     public void popViewFromStack() {
-        logger.debug("Poping view from the stack vistaHolder");
+        logger.info("Poping view from the stack vistaHolder");
 
         if (vistaHolder.getChildren().size() >= 2) { // stack cannot be empty
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 2));

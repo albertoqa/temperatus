@@ -101,7 +101,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logger.debug("Initializing archived controller");
+        logger.info("Initializing archived controller");
 
         VistaNavigator.setController(this);
         translate();
@@ -179,7 +179,7 @@ public class ArchivedController implements Initializable, AbstractController {
         });
 
         // run the task using a thread from the thread pool:
-        logger.debug("Submiting task to retrieve all projects");
+        logger.info("Submiting task to retrieve all projects");
         databaseExecutor.submit(getAllProjectsTask);
 
         return root;
@@ -208,7 +208,7 @@ public class ArchivedController implements Initializable, AbstractController {
             });
 
             // run the task using a thread from the thread pool:
-            logger.debug("Submiting task to retrieve all missions for project: " + project.getName());
+            logger.info("Submiting task to retrieve all missions for project: " + project.getName());
             databaseExecutor.submit(getMissionsTask);
         }
     }

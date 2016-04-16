@@ -15,7 +15,7 @@ public class MeasurementDaoImpl extends GenericDaoImpl implements MeasurementDao
     @Override
     public List<Measurement> getAllByRecordId(int recordId) {
         return this.sessionFactory.getCurrentSession()
-                .createQuery("from Measurement where recordId=:recordId")
+                .createQuery("from Measurement where id =: recordId")
                 .setParameter("recordId", recordId)
                 .list();
     }

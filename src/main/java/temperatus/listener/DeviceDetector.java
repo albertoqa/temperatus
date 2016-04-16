@@ -5,14 +5,16 @@ import com.dalsemi.onewire.container.OneWireContainer;
 import java.util.EventObject;
 
 /**
+ * Event containing all the info of what happened - the device connected/disconnected
+ * <p>
  * Created by alberto on 12/2/16.
  */
 public class DeviceDetector extends EventObject {
 
-    private OneWireContainer container;
-    private String serial;
+    private OneWireContainer container;     // container of the connected device
+    private String serial;                  // serial of the connected device
 
-    public DeviceDetector(Object source) {
+    DeviceDetector(Object source) {
         super(source);
     }
 
@@ -20,7 +22,7 @@ public class DeviceDetector extends EventObject {
         return container;
     }
 
-    public void setContainer(OneWireContainer container) {
+    void setContainer(OneWireContainer container) {
         this.container = container;
     }
 
@@ -28,7 +30,7 @@ public class DeviceDetector extends EventObject {
         return serial;
     }
 
-    public void setSerial(String serial) {
+    void setSerial(String serial) {
         this.serial = serial;
     }
 }

@@ -54,7 +54,7 @@ public class IbuttonDataImporter extends AbstractImporter {
 
     @Override
     public void readData() throws ControlledTemperatusException {
-        logger.debug("Reading csv data");
+        logger.info("Reading csv data");
 
         FileReader fileReader = null;
         CSVParser csvFileParser = null;
@@ -72,7 +72,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             int line;   // current line being read
 
             // Read the iButton info data
-            logger.debug("Reading iButton info data");
+            logger.info("Reading iButton info data");
             for (line = 0; line < csvRecords.size(); line++) {
                 CSVRecord csvRecord = csvRecords.get(line);
 
@@ -92,7 +92,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             }
 
             // Read the measurements
-            logger.debug("Reading measurements");
+            logger.info("Reading measurements");
             while (line < csvRecords.size()) {
                 CSVRecord record = csvRecords.get(line);
 

@@ -13,11 +13,11 @@ public class DeviceSemaphore {
     
     private Semaphore semaphore = new Semaphore(1);
     
-    public void acquire() throws InterruptedException {
+    void acquire() throws InterruptedException {
         semaphore.acquire();
     }
     
-    public void release() {
+    void release() {
         semaphore.release();
     }
 }

@@ -1,45 +1,80 @@
 package temperatus.listener;
 
 import com.dalsemi.onewire.container.OneWireContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Component generator of events. It let know to all the listeners that something (arrival/departure) has happened.
+ * If a class needs to know about device's connections, it must implement DeviceDetectorListener interface and be
+ * added to the listener's list.
+ * <p>
+ * Singleton instance of this class is shared by all the application.
+ * <p>
  * Created by alberto on 12/2/16.
  */
 @Component
 public class DeviceDetectorSource {
 
-    private List listeners = new ArrayList();
+    private static Logger logger = LoggerFactory.getLogger(DeviceDetectorSource.class.getName());
 
+    /**
+     * List of observers/listeners to notify of any change in the state
+     */
+    private List<DeviceDetectorListener> listeners = new ArrayList<>();
+
+    /**
+     * Register a new observer/listener
+     *
+     * @param listener new listener to include in the list
+     */
     public synchronized void addEventListener(DeviceDetectorListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Unregister a observer/listener
+     *
+     * @param listener listener to exclude from the list
+     */
     public synchronized void removeEventListener(DeviceDetectorListener listener) {
         listeners.remove(listener);
     }
 
-    public synchronized void arrivalEvent(OneWireContainer container) {
+    /**
+     * Fire a action in each registered listener to let it know that a device has been connected
+     *
+     * @param container device's container
+     */
+    synchronized void arrivalEvent(OneWireContainer container) {
+        logger.info("Arrival event \n Notifying of the arrival to all the listeners");
+
         DeviceDetector event = new DeviceDetector(this);
         event.setContainer(container);
         event.setSerial(container.getAddressAsString());
 
-        Iterator i = listeners.iterator();
-        while (i.hasNext()) {
-            ((DeviceDetectorListener) i.next()).arrival(event);
+        for (DeviceDetectorListener listener : listeners) {
+            (listener).arrival(event);
         }
     }
 
-    public synchronized void departureEvent(String serial) {
+    /**
+     * Fire a action in each registered listener to let it know that a device has been disconnected
+     *
+     * @param serial device's serial
+     */
+    synchronized void departureEvent(String serial) {
+        logger.info("Departure event with serial: " + serial + "\n Notifying of the departure to all the listeners");
+
         DeviceDetector event = new DeviceDetector(this);
         event.setSerial(serial);
-        Iterator i = listeners.iterator();
-        while (i.hasNext()) {
-            ((DeviceDetectorListener) i.next()).departure(event);
+
+        for (DeviceDetectorListener listener : listeners) {
+            (listener).departure(event);
         }
     }
 }
