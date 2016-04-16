@@ -26,6 +26,7 @@ public class DeviceReadTask implements Callable {
             deviceSemaphore.acquire();
             logger.info("Read Semaphore adquired!");
 
+            // TODO replace for readAction
             Thread.sleep(2000);
 
         } catch (InterruptedException e) {

@@ -76,7 +76,7 @@ public class BaseController implements Initializable, AbstractController, Device
     private final static String clockPattern = "HH:mm:ss";
     private static String actualBaseView = Constants.HOME;
 
-    static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,6 +86,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(connectedDevicesController);
+        // FIXME add all listeners here
 
         setImages();
         translate();
