@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * About view controller.
+ * <p>
  * Created by alberto on 14/2/16.
  */
 @Controller

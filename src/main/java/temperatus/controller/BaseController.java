@@ -1,18 +1,15 @@
 package temperatus.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +27,11 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
  * This is the base controller of the application.
- * There will be always an instance of this class in the VistaNavigator class.
+ * There will be always an instance of this class stored in the VistaNavigator class.
  * <p>
  * A StackPane (vistaHolder) is used to keep the actual view and it must have at least one element always.
  * <p>
@@ -46,7 +41,6 @@ import java.util.ResourceBundle;
 public class BaseController implements Initializable, AbstractController, DeviceDetectorListener {
 
     @FXML private StackPane vistaHolder;
-    @FXML private Label clock;
 
     @FXML private ToggleButton home;
     @FXML private ToggleButton archive;
@@ -67,14 +61,14 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private BorderPane parentPane;
 
     @Autowired IbuttonService ibuttonService;
+
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
-    private ToggleGroup menuGroup;
+    private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
-    private final static String clockPattern = "HH:mm:ss";
-    private static String actualBaseView = Constants.HOME;
+    private static String actualBaseView = Constants.HOME;  // name of the current selected view
 
     private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
@@ -82,112 +76,58 @@ public class BaseController implements Initializable, AbstractController, Device
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing base controller");
 
-        deviceOperationsManager.init();
+        deviceOperationsManager.init(); // start executors (and device scan task)
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(connectedDevicesController);
         // FIXME add all listeners here
 
-        setImages();
-        translate();
+        setImages();    // Set icon images
+        translate();    // Translate menu buttons
 
-        menuGroup = new ToggleGroup();
         menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition, nAuthor);
         home.setSelected(true);
 
-        menuGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            public void changed(ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) {
-                if (new_toggle == null) {
-                    toggle.setSelected(true);
-                }
+        // A toggleButton must be selected always, this prevent to deselect a button
+        menuGroup.selectedToggleProperty().addListener((ov, toggle, new_toggle) -> {
+            if (new_toggle == null) {
+                toggle.setSelected(true);
             }
         });
 
-        VistaNavigator.parentNode = this.parentPane;
-    }
-
-    /**
-     * Starts the clock
-     */
-    private void startClock() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0),
-                event -> clock.setText(LocalTime.now().format(DateTimeFormatter.ofPattern(clockPattern)))),
-                new KeyFrame(Duration.seconds(1)));
-
-        timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        timeline.play();
+        VistaNavigator.parentNode = this.parentPane;    // used to disable its elements when a modal window is opened
     }
 
     /***********************************
-     *             Menu
+     * Menu
      **********************************/
 
+    /**
+     * Load images for menu icons
+     */
     private void setImages() {
 
-        ImageView homeI = new ImageView("/images/icons/home.png");
-        homeI.setFitHeight(15);
-        homeI.setFitWidth(15);
-        home.setGraphic(homeI);
+        ImageView[] images = new ImageView[Constants.NUMBER_OF_ICONS];
+        for(int i = 0; i < images.length; i++) {
+            ImageView imageView = new ImageView(Constants.ICONS[i]);
+            imageView.setFitHeight(Constants.ICON_SIZE);
+            imageView.setFitWidth(Constants.ICON_SIZE);
+            images[i] = imageView;
+        }
 
-        ImageView archiveI = new ImageView("/images/icons/archive.png");
-        archiveI.setFitHeight(15);
-        archiveI.setFitWidth(15);
-        archive.setGraphic(archiveI);
-
-        ImageView deviceI = new ImageView("/images/icons/devices.png");
-        deviceI.setFitHeight(15);
-        deviceI.setFitWidth(15);
-        devices.setGraphic(deviceI);
-
-        ImageView manageI = new ImageView("/images/icons/manage.png");
-        manageI.setFitHeight(15);
-        manageI.setFitWidth(15);
-        manage.setGraphic(manageI);
-
-        ImageView confI = new ImageView("/images/icons/conf.png");
-        confI.setFitHeight(15);
-        confI.setFitWidth(15);
-        configuration.setGraphic(confI);
-
-        ImageView aboutI = new ImageView("/images/icons/about.png");
-        aboutI.setFitHeight(15);
-        aboutI.setFitWidth(15);
-        about.setGraphic(aboutI);
-
-        ImageView projectI = new ImageView("/images/icons/project.png");
-        projectI.setFitHeight(10);
-        projectI.setFitWidth(10);
-        nProject.setGraphic(projectI);
-
-        ImageView gameI = new ImageView("/images/icons/game.png");
-        gameI.setFitHeight(10);
-        gameI.setFitWidth(10);
-        nGame.setGraphic(gameI);
-
-        ImageView missionI = new ImageView("/images/icons/mission.png");
-        missionI.setFitHeight(10);
-        missionI.setFitWidth(10);
-        nMission.setGraphic(missionI);
-
-        ImageView subjectI = new ImageView("/images/icons/subject.png");
-        subjectI.setFitHeight(10);
-        subjectI.setFitWidth(10);
-        nSubject.setGraphic(subjectI);
-
-        ImageView positionI = new ImageView("/images/icons/position.png");
-        positionI.setFitHeight(10);
-        positionI.setFitWidth(10);
-        nPosition.setGraphic(positionI);
-
-        ImageView formulaI = new ImageView("/images/icons/formula.png");
-        formulaI.setFitHeight(10);
-        formulaI.setFitWidth(10);
-        nFormula.setGraphic(formulaI);
-
-        ImageView authorI = new ImageView("/images/icons/author.png");
-        authorI.setFitHeight(10);
-        authorI.setFitWidth(10);
-        nAuthor.setGraphic(authorI);
+        about.setGraphic(images[0]);
+        archive.setGraphic(images[1]);
+        nAuthor.setGraphic(images[2]);
+        configuration.setGraphic(images[3]);
+        devices.setGraphic(images[4]);
+        nFormula.setGraphic(images[5]);
+        nGame.setGraphic(images[6]);
+        home.setGraphic(images[7]);
+        manage.setGraphic(images[8]);
+        nMission.setGraphic(images[9]);
+        nPosition.setGraphic(images[10]);
+        nProject.setGraphic(images[11]);
+        nSubject.setGraphic(images[12]);
     }
 
     @FXML
@@ -262,36 +202,57 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
 
+    /**
+     * Select the toggleButton matching the current view
+     */
     public void selectBase() {
         selectMenuButton(actualBaseView);
     }
 
+    /**
+     * Set the name of the current view
+     *
+     * @param newBaseView name of the view currently on screen
+     */
     public void setActualBaseView(String newBaseView) {
         actualBaseView = newBaseView;
     }
 
+    /**
+     * Select the corresponding toggleButton
+     *
+     * @param view name of the current view
+     */
     public void selectMenuButton(String view) {
         switch (view) {
-            case Constants.HOME: menuGroup.selectToggle(home);
+            case Constants.HOME:
+                menuGroup.selectToggle(home);
                 break;
-            case Constants.ARCHIVED: menuGroup.selectToggle(archive);
+            case Constants.ARCHIVED:
+                menuGroup.selectToggle(archive);
                 break;
-            case Constants.CONNECTED: menuGroup.selectToggle(devices);
+            case Constants.CONNECTED:
+                menuGroup.selectToggle(devices);
                 break;
-            case Constants.MANAGE: menuGroup.selectToggle(manage);
+            case Constants.MANAGE:
+                menuGroup.selectToggle(manage);
                 break;
-            case Constants.CONFIG: menuGroup.selectToggle(configuration);
+            case Constants.CONFIG:
+                menuGroup.selectToggle(configuration);
                 break;
-            case Constants.ABOUT: menuGroup.selectToggle(about);
+            case Constants.ABOUT:
+                menuGroup.selectToggle(about);
                 break;
             case Constants.NEW_MISSION: {
                 menuGroup.selectToggle(nMission);
                 accordionPane.setExpanded(true);
                 break;
             }
-            default: break;
+            default:
+                break;
         }
     }
+
 
     /***********************************
      *       View Operations
@@ -307,7 +268,7 @@ public class BaseController implements Initializable, AbstractController, Device
     /**
      * Replaces the actual view for a new one
      *
-     * @param node
+     * @param node new view to show
      */
     public void setView(Node node) {
         logger.info("Setting view in the root vistaHolder");
@@ -353,6 +314,13 @@ public class BaseController implements Initializable, AbstractController, Device
         manage.setText(language.get(Constants.LMANAGE));
         configuration.setText(language.get(Constants.CONFIGURATION));
         about.setText(language.get(Constants.LABOUT));
+        nPosition.setText(language.get(Constants.NPOSITION));
+        nProject.setText(language.get(Constants.NPROJECT));
+        nMission.setText(language.get(Constants.NMISSION));
+        nFormula.setText(language.get(Constants.NFORMULA));
+        nGame.setText(language.get(Constants.NGAME));
+        nSubject.setText(language.get(Constants.NSUBJECT));
+        nAuthor.setText(language.get(Constants.NAUTHOR));
     }
 
 
@@ -367,31 +335,18 @@ public class BaseController implements Initializable, AbstractController, Device
      * If it is the first time -> Allow the user to save the button to db and assign a default position to it
      * If it is not the first time (already in db) -> just show an alert to let the user know that is has been detected
      *
-     * @param event
+     * @param event info of the device connected
      */
     @Override
     public void arrival(DeviceDetector event) {
         logger.info("Listening event... device detected!");
 
-        boolean isNewButton = false;
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());    // Search for this serial on DB
 
         if (ibutton == null) {
-            isNewButton = true;
-
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE));
-                }
-            });
-        }
-
-        if (!isNewButton) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    Notifications.create().title("iButton detected").text("Serial: " + ibutton.getSerial()).show();
-                }
-            });
+            Platform.runLater(() -> VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE)));
+        } else {
+            Platform.runLater(() -> Notifications.create().title(language.get(Constants.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
         }
     }
 

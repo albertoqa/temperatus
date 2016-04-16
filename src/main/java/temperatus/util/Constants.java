@@ -58,6 +58,19 @@ public class Constants {
 
     public static final String GAME_INFO = "/fxml/manage/ampliate/GameInfo.fxml";
 
+
+    //#########################################################################//
+    // * Resources addresses
+
+    // Icon images
+    public static final String[] ICONS = {"/images/icons/about.png", "/images/icons/archive.png", "/images/icons/author.png",
+            "/images/icons/conf.png", "/images/icons/devices.png", "/images/icons/formula.png", "/images/icons/game.png",
+            "/images/icons/home.png", "/images/icons/manage.png", "/images/icons/mission.png", "/images/icons/position.png",
+            "/images/icons/project.png", "/images/icons/subject.png"};
+
+    public static final int ICON_SIZE = 15;
+    public static final int NUMBER_OF_ICONS = 13;
+
     //#########################################################################//
     // * User preferences
 
@@ -97,6 +110,13 @@ public class Constants {
     public static final String LMANAGE = "manage";
     public static final String CONFIGURATION = "configuration";
     public static final String LABOUT = "about";
+    public static final String NPROJECT = "nProject";
+    public static final String NMISSION = "nMission";
+    public static final String NAUTHOR = "nAuthor";
+    public static final String NSUBJECT = "nSubject";
+    public static final String NFORMULA = "nFormula";
+    public static final String NPOSITION = "nPosition";
+    public static final String NGAME = "nGame";
 
     // Archived
     public static final String PROJECT_COLUMN = "projectColumn";
@@ -169,6 +189,7 @@ public class Constants {
 
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
+    public static final String IBUTTONDETECTED = "iBDetected";
 
     // Common
     public static final String SAVE = "save";

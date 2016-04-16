@@ -9,12 +9,12 @@ import temperatus.lang.Language;
  */
 public interface AbstractController {
 
-    Language language = Language.getInstance();
+    Language language = Language.getInstance(); // Only instance of language used in the application
 
     /**
      * Reload a given object
      *
-     * @param object
+     * @param object object to reload
      */
     default void reload(Object object) {
         System.out.println("Nothing to reload...");
