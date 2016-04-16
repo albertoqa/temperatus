@@ -41,7 +41,7 @@ public class Language {
         try {
             return resourceBundle.getString(message);
         } catch (MissingResourceException ex) {
-            logger.warn("String not found in resources");
+            logger.warn("String [" + message + "] not found in resources");
             return "??????";
         }
     }

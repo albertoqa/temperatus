@@ -167,7 +167,7 @@ public class NewPositionController extends AbstractCreationController implements
                 imageView.setImage(image);
                 imagePath = file.getAbsolutePath();
             } catch (IOException ex) {
-                logger.info("Invalid image:" + ex.getMessage());
+                logger.warn("Invalid image:" + ex.getMessage());
                 showAlert(Alert.AlertType.ERROR, ex.getMessage());
             }
         }

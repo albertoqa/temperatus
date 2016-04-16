@@ -1,8 +1,6 @@
 package temperatus.controller.creation;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -146,19 +144,16 @@ public class NewRecordController extends AbstractCreationController implements I
 
             // SOURCE -> all detected iButtons
             ComboBox<SourceChoice> choiceBoxSource = new ComboBox<>();
-            choiceBoxSource.valueProperty().addListener(new ChangeListener<SourceChoice>() {
-                @Override
-                public void changed(ObservableValue ov, SourceChoice t, SourceChoice t1) {
-                    logger.info("selected iButton");
-                    if (t1 != null) {
-                        if (t1.getIbutton() != null) {
-                            ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(false);
-                        } else if (t1.getFile() == null) {
-                            ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(true);
-                        }
-                    } else {
+            choiceBoxSource.valueProperty().addListener((ov, t, t1) -> {
+                logger.info("selected iButton");
+                if (t1 != null) {
+                    if (t1.getIbutton() != null) {
+                        ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(false);
+                    } else if (t1.getFile() == null) {
                         ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(true);
                     }
+                } else {
+                    ((ToggleButton) keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData())).setDisable(true);
                 }
             });
 

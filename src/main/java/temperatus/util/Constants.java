@@ -174,18 +174,21 @@ public class Constants {
     public static final String SELECTIMAGEBUTTON = "selectImageButton";
 
     // Configuration
-    public static final String GENERAL = "general";
-    public static final String IMPORTEXPORT = "importExport";
-    public static final String DEFAULTS = "defaults";
     public static final String CONFIGURATIONTITLE = "configurationTitle";
-    public static final String GENERALPANE = "generalPane";
-    public static final String GRAPHICSPANE = "graphicsPane";
     public static final String FORMULASPANE = "formulasPane";
     public static final String GAMESPANE = "gamesPane";
     public static final String SUBJECTSPANE = "subjectsPane";
     public static final String POSITIONSPANE = "positionsPane";
     public static final String AUTHORSPANE = "authorsPane";
     public static final String IBUTTONSPANE = "iButtonsPane";
+
+    public static final String LANG_SELECTOR = "langSel";
+    public static final String UNIT_SELECTOR = "unitSel";
+    public static final String WRITE_AS_INDEX_LABEL = "writeAsIndexLab";
+    public static final String AUTO_SYNC_LABEL = "autoSyncLab";
+    public static final String RESTART_LABEL = "restartLab";
+
+    public static final String RESTART = "restart";
 
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
@@ -196,6 +199,8 @@ public class Constants {
     public static final String UPDATE = "update";
     public static final String CANCEL = "cancel";
     public static final String CONTINUE = "continue";
+    public static final String OK = "ok";
+    public static final String APPLY = "apply";
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";

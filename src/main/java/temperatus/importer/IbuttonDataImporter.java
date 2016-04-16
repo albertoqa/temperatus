@@ -72,7 +72,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             int line;   // current line being read
 
             // Read the iButton info data
-            logger.info("Reading iButton info data");
+            logger.debug("Reading iButton info data");
             for (line = 0; line < csvRecords.size(); line++) {
                 CSVRecord csvRecord = csvRecords.get(line);
 
@@ -92,7 +92,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             }
 
             // Read the measurements
-            logger.info("Reading measurements");
+            logger.debug("Reading measurements");
             while (line < csvRecords.size()) {
                 CSVRecord record = csvRecords.get(line);
 
@@ -118,7 +118,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             finishDate = measurements.get(measurements.size() - 1).getDate();
 
         } catch (ControlledTemperatusException ex) {
-            logger.warn("Invalid file format");
+            logger.error("Invalid file format");
             throw new ControlledTemperatusException(ex.getMessage());
         } catch (FileNotFoundException e) {
             logger.error("File not found");

@@ -39,7 +39,7 @@ public class VistaNavigator {
 
     public static void setController(AbstractController controller) {
         VistaNavigator.controller = controller;
-        logger.info("VistaNavigator: abstractController set to " + controller.getClass().getName());
+        logger.debug("VistaNavigator: abstractController set to " + controller.getClass().getName());
     }
 
     ////////////////////////////////////////////////////////////////////////////

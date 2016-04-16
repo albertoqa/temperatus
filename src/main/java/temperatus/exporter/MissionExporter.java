@@ -53,7 +53,7 @@ public class MissionExporter {
          */
         int row = 1;
         for (Record record : records) {
-            logger.info("Exporting data for record: " + record);
+            logger.debug("Exporting data for record: " + record);
 
             Row dataRow = missionSheet.createRow(row);
 
@@ -71,7 +71,7 @@ public class MissionExporter {
 
             // Write the header as Index or DateTime
             if (row == 1) {
-                logger.info("Generating header");
+                logger.debug("Generating header");
 
                 boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
                 int c = 1;  // column
@@ -98,7 +98,7 @@ public class MissionExporter {
          * Calculate formulas
          */
         for (Formula formula : formulas) {
-            logger.info("Exporting data for formula: " + formula);
+            logger.debug("Exporting data for formula: " + formula);
 
             List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(allRecords), formula, period);
 

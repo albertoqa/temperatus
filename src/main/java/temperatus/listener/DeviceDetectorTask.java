@@ -29,9 +29,9 @@ public class DeviceDetectorTask implements Runnable {
     @Override
     public void run() {
         try {
-            logger.info("Searching for connected devices... trying to acquire semaphore");
+            logger.info("Searching for connected devices...");
             deviceSemaphore.acquire();
-            logger.info("Semaphore adquired!");
+            logger.debug("Scan Semaphore adquired!");
 
             //searchForDevices();
             Thread.sleep(2000);
@@ -40,12 +40,12 @@ public class DeviceDetectorTask implements Runnable {
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();
-            logger.info("Semaphore released");
+            logger.debug("Scan Semaphore released");
         }
     }
 
     private void searchForDevices() {
-        logger.info("Semaphore acquired...Performing search");
+        logger.debug("Semaphore acquired...Performing search");
 
         for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
             DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
@@ -93,7 +93,7 @@ public class DeviceDetectorTask implements Runnable {
             }
         }
 
-        logger.info("Search finished");
+        logger.debug("Search finished");
     }
 
 
