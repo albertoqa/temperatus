@@ -150,6 +150,7 @@ public class ArchivedController implements Initializable, AbstractController {
         }, filterField.textProperty()));
 
         treeTable.setRoot(root);
+        treeTable.sort();
     }
 
     /**
@@ -299,8 +300,8 @@ public class ArchivedController implements Initializable, AbstractController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             missionService.delete(getSelectedElement().getElement());
-            TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
-            //root.getInternalChildren().remove(treeItem);  // TODO
+            FilterableTreeItem<TreeItem<TreeElement>> treeItem = (FilterableTreeItem) treeTable.getSelectionModel().getSelectedItem();
+            ((FilterableTreeItem<TreeItem<TreeElement>>) treeItem.getParent()).getInternalChildren().remove(treeItem);
         }
     }
 

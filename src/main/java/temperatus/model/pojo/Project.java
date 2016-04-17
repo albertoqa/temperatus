@@ -102,4 +102,23 @@ public class Project implements java.io.Serializable {
     public SimpleStringProperty getNameProperty() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+
+        Project project = (Project) o;
+
+        if (getName() != null ? !getName().equals(project.getName()) : project.getName() != null) return false;
+        return getDateIni() != null ? getDateIni().equals(project.getDateIni()) : project.getDateIni() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getDateIni() != null ? getDateIni().hashCode() : 0);
+        return result;
+    }
 }

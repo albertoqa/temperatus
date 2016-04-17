@@ -98,5 +98,26 @@ public class TreeElement {
             return mission.getName() + " " + mission.getSubject().getName() + " " + mission.getDateIni().toString() + " " + mission.getProject().getName();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TreeElement)) return false;
+
+        TreeElement that = (TreeElement) o;
+
+        if (getType() != that.getType()) return false;
+        if (project != null ? !project.equals(that.project) : that.project != null) return false;
+        return mission != null ? mission.equals(that.mission) : that.mission == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getType() != null ? getType().hashCode() : 0;
+        result = 31 * result + (project != null ? project.hashCode() : 0);
+        result = 31 * result + (mission != null ? mission.hashCode() : 0);
+        return result;
+    }
 }
 

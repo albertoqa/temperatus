@@ -160,6 +160,25 @@ public class Mission implements java.io.Serializable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mission)) return false;
+
+        Mission mission = (Mission) o;
+
+        if (getName() != null ? !getName().equals(mission.getName()) : mission.getName() != null) return false;
+        return getDateIni() != null ? getDateIni().equals(mission.getDateIni()) : mission.getDateIni() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getDateIni() != null ? getDateIni().hashCode() : 0);
+        return result;
+    }
+
     @Transient
     public SimpleStringProperty getNameProperty() {
         return name;
