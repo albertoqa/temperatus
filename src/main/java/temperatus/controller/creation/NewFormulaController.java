@@ -18,11 +18,11 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.FormulaUtil;
 import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.PositionService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -86,7 +86,7 @@ public class NewFormulaController extends AbstractCreationController implements 
     }
 
     public void setFormulaForUpdate(Formula formula) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.formula = formula;
         nameInput.setText(formula.getName());
         referenceInput.setText(formula.getReference());
@@ -186,7 +186,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
         String op = operation.getValue();
 
-        String[] elements = op.split(FormulaUtil.formulaRegex);
+        String[] elements = op.split(FormulaUtil.FORMULA_REGEX);
 
         for (int i = 0; i < elements.length; i++) {
             if (!FormulaUtil.isOperator(elements[i])) {
@@ -257,11 +257,11 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWFORMULA));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
+        titledPane.setText(language.get(Lang.NEWFORMULA));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
     }
 
 }

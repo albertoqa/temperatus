@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.lang.Lang;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -55,17 +56,17 @@ public class ManageController implements Initializable, AbstractController {
 
                     String fxml = "";
 
-                    if (language.get(Constants.SUBJECTSPANE).equals(newValue.getText())) {
+                    if (language.get(Lang.SUBJECTSPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_SUBJECT;
-                    } else if (language.get(Constants.GAMESPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.GAMESPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_GAME;
-                    } else if (language.get(Constants.FORMULASPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.FORMULASPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_FORMULA;
-                    } else if (language.get(Constants.POSITIONSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.POSITIONSPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_POSITION;
-                    } else if (language.get(Constants.AUTHORSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.AUTHORSPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_AUTHOR;
-                    } else if (language.get(Constants.IBUTTONSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.IBUTTONSPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_IBUTTON;
                     }
 
@@ -87,11 +88,11 @@ public class ManageController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-        subjectsTab.setText(language.get(Constants.SUBJECTSPANE));
-        gamesTab.setText(language.get(Constants.GAMESPANE));
-        formulasTab.setText(language.get(Constants.FORMULASPANE));
-        positionsTab.setText(language.get(Constants.POSITIONSPANE));
-        authorsTab.setText(language.get(Constants.AUTHORSPANE));
-        iButtonsTab.setText(language.get(Constants.IBUTTONSPANE));
+        subjectsTab.setText(language.get(Lang.SUBJECTSPANE));
+        gamesTab.setText(language.get(Lang.GAMESPANE));
+        formulasTab.setText(language.get(Lang.FORMULASPANE));
+        positionsTab.setText(language.get(Lang.POSITIONSPANE));
+        authorsTab.setText(language.get(Lang.AUTHORSPANE));
+        iButtonsTab.setText(language.get(Lang.IBUTTONSPANE));
     }
 }

@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
@@ -122,13 +123,13 @@ public class IbuttonDataImporter extends AbstractImporter {
             throw new ControlledTemperatusException(ex.getMessage());
         } catch (FileNotFoundException e) {
             logger.error("File not found");
-            throw new ControlledTemperatusException(Constants.FILE_NOT_FOUND);
+            throw new ControlledTemperatusException(Lang.FILE_NOT_FOUND);
         } catch (IOException e) {
             logger.error("Error while reading the file");
-            throw new ControlledTemperatusException(Constants.READING_ERROR);
+            throw new ControlledTemperatusException(Lang.READING_ERROR);
         } catch (ParseException e) {
             logger.error("Error parsing the file");
-            throw new ControlledTemperatusException(Constants.PARSE_ERROR);
+            throw new ControlledTemperatusException(Lang.PARSE_ERROR);
         } finally {
             try {
                 if (fileReader != null) fileReader.close();

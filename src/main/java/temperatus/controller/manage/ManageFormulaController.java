@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewFormulaController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.service.FormulaService;
 import temperatus.util.Animation;
@@ -107,13 +108,13 @@ public class ManageFormulaController implements Initializable, AbstractControlle
 
     @FXML
     private void editFormula() {
-        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Constants.NEWFORMULA));
+        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
         newFormulaController.setFormulaForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void newFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Constants.NEWFORMULA));
+        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
     }
 
     @FXML

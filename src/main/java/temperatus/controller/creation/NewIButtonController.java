@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.IbuttonService;
 import temperatus.model.service.PositionService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -91,7 +91,7 @@ public class NewIButtonController extends AbstractCreationController implements 
     }
 
     public void setIbuttonForUpdate(Ibutton ibutton) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.ibutton = ibutton;
         serial.setText(ibutton.getSerial());
         model.setText(ibutton.getModel());

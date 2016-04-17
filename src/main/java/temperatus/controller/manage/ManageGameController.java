@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewGameController;
 import temperatus.controller.manage.ampliate.GameInfoController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
 import temperatus.util.Animation;
@@ -108,13 +109,13 @@ public class ManageGameController implements Initializable, AbstractController {
 
     @FXML
     private void editGame() {
-        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, language.get(Constants.NEWGAME));
+        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
         newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Constants.NEWGAME));
+        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
     }
 
     @FXML

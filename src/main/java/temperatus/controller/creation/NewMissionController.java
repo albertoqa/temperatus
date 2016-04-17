@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
@@ -193,7 +194,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
     }
 
     /**
@@ -201,7 +202,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Constants.NEWGAME));
+        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
     }
 
     /**
@@ -209,7 +210,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
     }
 
     /**
@@ -217,7 +218,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Constants.NEWAUTHOR));
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
     }
 
     /**
@@ -251,21 +252,21 @@ public class NewMissionController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        saveButton.setText(language.get(Constants.CONTINUE));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
-        title.setText(language.get(Constants.NEWMISSIONTITLE));
-        projectLabel.setText(language.get(Constants.PROJECTLABEL));
-        authorLabel.setText(language.get(Constants.AUTHORLABEL));
-        startDateLabel.setText(language.get(Constants.STARTDATELABEL));
-        gameLabel.setText(language.get(Constants.GAMELABEL));
-        subjectLabel.setText(language.get(Constants.SUBJECTLABEL));
-        newProjectButton.setText(language.get(Constants.NEWPROJECTBUTTON));
-        newGameButton.setText(language.get(Constants.NEWGAMEBUTTON));
-        newSubjectButton.setText(language.get(Constants.NEWSUBJECTBUTTON));
+        saveButton.setText(language.get(Lang.CONTINUE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
+        title.setText(language.get(Lang.NEWMISSIONTITLE));
+        projectLabel.setText(language.get(Lang.PROJECTLABEL));
+        authorLabel.setText(language.get(Lang.AUTHORLABEL));
+        startDateLabel.setText(language.get(Lang.STARTDATELABEL));
+        gameLabel.setText(language.get(Lang.GAMELABEL));
+        subjectLabel.setText(language.get(Lang.SUBJECTLABEL));
+        newProjectButton.setText(language.get(Lang.NEWPROJECTBUTTON));
+        newGameButton.setText(language.get(Lang.NEWGAMEBUTTON));
+        newSubjectButton.setText(language.get(Lang.NEWSUBJECTBUTTON));
     }
 
 }

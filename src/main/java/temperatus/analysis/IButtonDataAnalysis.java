@@ -29,15 +29,16 @@ public class IButtonDataAnalysis {
      * then the generated list will contain: M1[11º], M2[7.5º]
      *
      * @param measurementList complete list of measurements
-     * @param period          generate a measurement withe the average temperature of each <<period>> measurements
+     * @param periodInput          generate a measurement withe the average temperature of each <<period>> measurements
      * @return the list of generated measurements
      */
-    public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int period) {
-        logger.debug("Generating average measurements for period " + period);
+    public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int periodInput) {
+        logger.debug("Generating average measurements for period " + periodInput);
 
         List<Measurement> toExport = new ArrayList<>();
         Collections.sort(measurementList, (a, b) -> a.getDate().compareTo(b.getDate()));    // sort list by date
 
+        int period = periodInput;
         if (period <= 0) {  // empty list
             return toExport;
         } else if (period == 1) {  // same list as input
@@ -94,7 +95,7 @@ public class IButtonDataAnalysis {
         // Split operation in all its elements and save it one time for each group of measurements
         List<String[]> operations = new ArrayList<>();
         for (int i = 0; i < measurements.size(); i++) {
-            operations.add(operation.split(FormulaUtil.formulaRegex));
+            operations.add(operation.split(FormulaUtil.FORMULA_REGEX));
         }
 
         // for each record check if its position is part of the operation, if yes - replace the position name for its temperature value

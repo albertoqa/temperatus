@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewSubjectController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
@@ -147,12 +148,12 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
     }
 
     @FXML
     private void editSubject() {
-        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Constants.NEWSUBJECT));
+        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
         newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

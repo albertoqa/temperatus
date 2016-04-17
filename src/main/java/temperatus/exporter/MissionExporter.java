@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
@@ -123,7 +124,7 @@ public class MissionExporter {
 
         // Inform the user of the error/incorrect value
         if (showWarn) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, Constants.ERROR_CALCULATING_FORMULA);
+            Alert alert = new Alert(Alert.AlertType.WARNING, Lang.ERROR_CALCULATING_FORMULA);
             alert.show();
         }
 

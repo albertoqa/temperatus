@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Author;
 import temperatus.model.service.AuthorService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -44,7 +44,7 @@ public class NewAuthorController extends AbstractCreationController implements I
     }
 
     public void setAuthorForUpdate(Author author) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.author = author;
         nameInput.setText(author.getName());
     }
@@ -91,10 +91,10 @@ public class NewAuthorController extends AbstractCreationController implements I
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWAUTHOR));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
+        titledPane.setText(language.get(Lang.NEWAUTHOR));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
     }
 }

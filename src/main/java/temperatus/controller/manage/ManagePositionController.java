@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewPositionController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.PositionService;
 import temperatus.util.Animation;
@@ -106,13 +107,13 @@ public class ManagePositionController implements Initializable, AbstractControll
 
     @FXML
     private void editPosition() {
-        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Constants.NEWPOSITION));
+        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
         newPositionController.setPositionForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void newPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Constants.NEWPOSITION));
+        VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
     }
 
     @FXML

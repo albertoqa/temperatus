@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.lang.Lang;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -121,8 +122,8 @@ public class SplashController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-        rights.setText(language.get(Constants.RIGHTS));
-        subtitle.setText(language.get(Constants.SUBTITLE));
+        rights.setText(language.get(Lang.RIGHTS));
+        subtitle.setText(language.get(Lang.SUBTITLE));
         version.setText(Constants.VERSION);
     }
 }

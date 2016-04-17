@@ -7,8 +7,10 @@ package temperatus.analysis;
  */
 public class FormulaUtil {
 
+    private FormulaUtil() {}
+
     // Regex used to split a formula in all its operands/operators - split by +-*/()
-    public static final String formulaRegex = "((?<=\\+)|(?=\\+))|((?<=\\-)|(?=\\-))|((?<=\\*)|(?=\\*))|((?<=\\/)|(?=\\/))|((?<=\\())|(?=\\()|(?<=\\))|(?=\\))";
+    public static final String FORMULA_REGEX = "((?<=\\+)|(?=\\+))|((?<=\\-)|(?=\\-))|((?<=\\*)|(?=\\*))|((?<=\\/)|(?=\\/))|((?<=\\())|(?=\\()|(?<=\\))|(?=\\))";
 
     /**
      * Check if a given string is a operator or a operand
@@ -16,7 +18,7 @@ public class FormulaUtil {
      * @return is operator?
      */
     public static boolean isOperator(String o) {
-        return o.equals("+") || o.equals("-") || o.equals("*") || o.equals("/") || o.equals("(") || o.equals(")");
+        return "+".equals(o) || "-".equals(o) || "*".equals(o) || "/".equals(o) || "(".equals(o) || ")".equals(o);
     }
 
     /**

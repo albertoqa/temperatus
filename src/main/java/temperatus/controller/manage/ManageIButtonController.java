@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewIButtonController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
@@ -112,7 +113,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
 
     @FXML
     private void editIbutton() {
-        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE));
+        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
         newIButtonController.setIbuttonForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

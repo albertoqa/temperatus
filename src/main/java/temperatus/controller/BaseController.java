@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
+import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.listener.DeviceDetectorSource;
@@ -157,7 +158,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goConfig() {
-        VistaNavigator.openModal(Constants.CONFIG, language.get(Constants.CONFIGURATION));
+        VistaNavigator.openModal(Constants.CONFIG, language.get(Lang.CONFIGURATION));
     }
 
     @FXML
@@ -168,7 +169,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.NEWPROJECT);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Lang.NEWPROJECT);
     }
 
     @FXML
@@ -179,27 +180,27 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, Constants.NEWGAME);
+        VistaNavigator.openModal(Constants.NEW_GAME, Lang.NEWGAME);
     }
 
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.NEWFORMULA);
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Lang.NEWFORMULA);
     }
 
     @FXML
     private void goNewSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.NEWSUBJECT);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Lang.NEWSUBJECT);
     }
 
     @FXML
     private void goNewPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.NEWPOSITION);
+        VistaNavigator.openModal(Constants.NEW_POSITION, Lang.NEWPOSITION);
     }
 
     @FXML
     private void goNewAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.NEWAUTHOR);
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Lang.NEWAUTHOR);
     }
 
 
@@ -309,19 +310,19 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Override
     public void translate() {
-        home.setText(language.get(Constants.LHOME));
-        archive.setText(language.get(Constants.ARCHIVE));
-        devices.setText(language.get(Constants.DEVICES));
-        manage.setText(language.get(Constants.LMANAGE));
-        configuration.setText(language.get(Constants.CONFIGURATION));
-        about.setText(language.get(Constants.LABOUT));
-        nPosition.setText(language.get(Constants.NPOSITION));
-        nProject.setText(language.get(Constants.NPROJECT));
-        nMission.setText(language.get(Constants.NMISSION));
-        nFormula.setText(language.get(Constants.NFORMULA));
-        nGame.setText(language.get(Constants.NGAME));
-        nSubject.setText(language.get(Constants.NSUBJECT));
-        nAuthor.setText(language.get(Constants.NAUTHOR));
+        home.setText(language.get(Lang.LHOME));
+        archive.setText(language.get(Lang.ARCHIVE));
+        devices.setText(language.get(Lang.DEVICES));
+        manage.setText(language.get(Lang.LMANAGE));
+        configuration.setText(language.get(Lang.CONFIGURATION));
+        about.setText(language.get(Lang.LABOUT));
+        nPosition.setText(language.get(Lang.NPOSITION));
+        nProject.setText(language.get(Lang.NPROJECT));
+        nMission.setText(language.get(Lang.NMISSION));
+        nFormula.setText(language.get(Lang.NFORMULA));
+        nGame.setText(language.get(Lang.NGAME));
+        nSubject.setText(language.get(Lang.NSUBJECT));
+        nAuthor.setText(language.get(Lang.NAUTHOR));
     }
 
 
@@ -345,9 +346,9 @@ public class BaseController implements Initializable, AbstractController, Device
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());    // Search for this serial on DB
 
         if (ibutton == null) {
-            Platform.runLater(() -> VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Constants.NEWBUTTONTITLE)));
+            Platform.runLater(() -> VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE)));
         } else {
-            Platform.runLater(() -> Notifications.create().title(language.get(Constants.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
+            Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
         }
     }
 

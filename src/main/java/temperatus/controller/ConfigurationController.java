@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import temperatus.lang.Lang;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -149,7 +150,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
         }
 
         if (restartNeeded) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Constants.RESTART));
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.RESTART));
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && ButtonType.OK == result.get()) {
                 restartApplication();
@@ -168,15 +169,15 @@ public class ConfigurationController implements Initializable, AbstractControlle
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.CONFIGURATIONTITLE));
-        languageLabel.setText(language.get(Constants.LANG_SELECTOR));
-        unitLabel.setText(language.get(Constants.UNIT_SELECTOR));
-        restartLabel.setText(language.get(Constants.RESTART_LABEL));
-        writeAsIndexBox.setText(language.get(Constants.WRITE_AS_INDEX_LABEL));
-        autoSync.setText(language.get(Constants.AUTO_SYNC_LABEL));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        applyButton.setText(language.get(Constants.APPLY));
-        okButton.setText(language.get(Constants.OK));
+        titledPane.setText(language.get(Lang.CONFIGURATIONTITLE));
+        languageLabel.setText(language.get(Lang.LANG_SELECTOR));
+        unitLabel.setText(language.get(Lang.UNIT_SELECTOR));
+        restartLabel.setText(language.get(Lang.RESTART_LABEL));
+        writeAsIndexBox.setText(language.get(Lang.WRITE_AS_INDEX_LABEL));
+        autoSync.setText(language.get(Lang.AUTO_SYNC_LABEL));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        applyButton.setText(language.get(Lang.APPLY));
+        okButton.setText(language.get(Lang.OK));
     }
 
     /**

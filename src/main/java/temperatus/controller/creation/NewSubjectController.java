@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -89,7 +89,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     public void setSubjectForUpdate(Subject subject) {
         this.subject = subject;
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         nameInput.setText(subject.getName());
         observationsInput.setText(subject.getObservations());
 
@@ -173,23 +173,23 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWGAME));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
-        ageLabel.setText(language.get(Constants.AGELABEL));
-        ageInput.setPromptText(language.get(Constants.AGEPROMPT));
-        weightLabel.setText(language.get(Constants.WEIGHTLABEL));
-        weightInput.setPromptText(language.get(Constants.WEIGHTPROMPT));
-        sizeLabel.setText(language.get(Constants.SIZELABEL));
-        sizeInput.setPromptText(language.get(Constants.SIZEPROMPT));
-        isPerson.setText(language.get(Constants.ISPERSON));
-        isObject.setText(language.get(Constants.ISOBJECT));
-        isMale.setText(language.get(Constants.ISMALE));
-        isFemale.setText(language.get(Constants.ISFEMALE));
+        titledPane.setText(language.get(Lang.NEWGAME));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
+        ageLabel.setText(language.get(Lang.AGELABEL));
+        ageInput.setPromptText(language.get(Lang.AGEPROMPT));
+        weightLabel.setText(language.get(Lang.WEIGHTLABEL));
+        weightInput.setPromptText(language.get(Lang.WEIGHTPROMPT));
+        sizeLabel.setText(language.get(Lang.SIZELABEL));
+        sizeInput.setPromptText(language.get(Lang.SIZEPROMPT));
+        isPerson.setText(language.get(Lang.ISPERSON));
+        isObject.setText(language.get(Lang.ISOBJECT));
+        isMale.setText(language.get(Lang.ISMALE));
+        isFemale.setText(language.get(Lang.ISFEMALE));
     }
 
 }

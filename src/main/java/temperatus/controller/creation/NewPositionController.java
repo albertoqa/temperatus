@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.PositionService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
@@ -65,7 +65,7 @@ public class NewPositionController extends AbstractCreationController implements
     }
 
     public void setPositionForUpdate(Position position) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.position = position;
         nameInput.setText(position.getPlace());
         imagePath = position.getPicture();
@@ -177,13 +177,13 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWPOSITION));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        imageLabel.setText(language.get(Constants.IMAGELABEL));
-        selectImageButton.setText(language.get(Constants.SELECTIMAGEBUTTON));
+        titledPane.setText(language.get(Lang.NEWPOSITION));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        imageLabel.setText(language.get(Lang.IMAGELABEL));
+        selectImageButton.setText(language.get(Lang.SELECTIMAGEBUTTON));
     }
 
 }

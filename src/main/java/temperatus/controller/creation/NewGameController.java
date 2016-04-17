@@ -25,13 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
@@ -118,7 +118,7 @@ public class NewGameController extends AbstractCreationController implements Ini
     };
 
     public void setGameForUpdate(Game game) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.game = game;
         nameInput.setText(game.getTitle());
         observationsInput.setText(game.getObservations());
@@ -260,15 +260,15 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWGAME));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
-        numButtonsLabel.setText(language.get(Constants.NUMBUTTONSLABEL));
-        numButtonsInput.setPromptText(language.get(Constants.NUMBUTTONSPROMPT));
+        titledPane.setText(language.get(Lang.NEWGAME));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
+        numButtonsLabel.setText(language.get(Lang.NUMBUTTONSLABEL));
+        numButtonsInput.setPromptText(language.get(Lang.NUMBUTTONSPROMPT));
     }
 
 }

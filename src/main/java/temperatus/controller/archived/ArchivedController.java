@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewProjectController;
 import temperatus.controller.creation.NewRecordController;
+import temperatus.lang.Lang;
 import temperatus.listener.DatabaseThreadFactory;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
@@ -233,7 +234,7 @@ public class ArchivedController implements Initializable, AbstractController {
         projectDate.setText(project.getDateIni().toString());
         projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
         projectObservations.setText(project.getObservations());
-        //projectAuthors.setText(missions.get(0).getAuthor());
+        projectAuthors.setText(""); // TODO
     }
 
     /**
@@ -262,7 +263,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
     }
 
     /**
@@ -271,7 +272,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void editProject() {
-        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
         newProjectController.setProject(getSelectedElement().getElement());
     }
 
@@ -281,7 +282,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteProject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Constants.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             projectService.delete(getSelectedElement().getElement());
@@ -296,7 +297,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteMission() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Constants.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             missionService.delete(getSelectedElement().getElement());
@@ -348,8 +349,37 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-        nameColumn.setText(language.get(Constants.PROJECT_COLUMN));
-        dateColumn.setText(language.get(Constants.DATE_COLUMN));
-        subjectColumn.setText(language.get(Constants.SUBJECT_COLUMN));
+        nameColumn.setText(language.get(Lang.PROJECT_COLUMN));
+        dateColumn.setText(language.get(Lang.DATE_COLUMN));
+        subjectColumn.setText(language.get(Lang.SUBJECT_COLUMN));
+
+
+        /* TODO
+
+    @FXML private Label missionNameLabel;
+    @FXML private Label missionDateLabel;
+    @FXML private Label missionObservationsLabel;
+    @FXML private Label missionGameLabel;
+    @FXML private Label missionProjectLabel;
+    @FXML private Label missionSubjectLabel;
+    @FXML private Label missionAuthorLabel;
+    @FXML private Label projectNameLabel;
+    @FXML private Label projectStartDateLabel;
+    @FXML private Label projectNumberOfMissionsLabel;
+    @FXML private Label projectObservationsLabel;
+    @FXML private Label projectAuthorsLabel;
+
+        @FXML private Button deleteProjectButton;
+    @FXML private Button editProjectButton;
+
+    @FXML private Button missionInfoButton;
+    @FXML private Button deleteMissionButton;
+    @FXML private Button editMissionButton;
+
+        @FXML private TextField filterField;
+
+        @FXML private Button newMissionButton;
+    @FXML private Button newProjectButton;
+         */
     }
 }

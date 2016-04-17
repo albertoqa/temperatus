@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -52,7 +52,7 @@ public class NewProjectController extends AbstractCreationController implements 
     }
 
     public void setProject(Project project) {
-        saveButton.setText(language.get(Constants.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));
         this.project = project;
         nameInput.setText(project.getName());
         observationsInput.setText(project.getObservations());
@@ -110,13 +110,13 @@ public class NewProjectController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Constants.NEWPROJECT));
-        nameInput.setPromptText(language.get(Constants.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Constants.OBSERVATIONSPROMPT));
-        nameLabel.setText(language.get(Constants.NAMELABEL));
-        observationsLabel.setText(language.get(Constants.OBSERVATIONSLABEL));
-        startDateLabel.setText(language.get(Constants.STARTDATELABEL));
-        saveButton.setText(language.get(Constants.SAVE));
-        cancelButton.setText(language.get(Constants.CANCEL));
+        titledPane.setText(language.get(Lang.NEWPROJECT));
+        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
+        nameLabel.setText(language.get(Lang.NAMELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        startDateLabel.setText(language.get(Lang.STARTDATELABEL));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
     }
 }

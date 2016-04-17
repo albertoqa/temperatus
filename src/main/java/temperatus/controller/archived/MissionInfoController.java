@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
@@ -97,7 +98,7 @@ public class MissionInfoController implements Initializable, AbstractController 
 
     @FXML
     private void exportData() throws IOException {
-        ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, language.get(Constants.EXPORTCONFIG));
+        ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, language.get(Lang.EXPORTCONFIG));
         exportConfigurationController.setMission(mission);
     }
 

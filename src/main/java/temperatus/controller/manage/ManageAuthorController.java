@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewAuthorController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Author;
 import temperatus.model.service.AuthorService;
 import temperatus.util.Animation;
@@ -97,13 +98,13 @@ public class ManageAuthorController implements Initializable, AbstractController
 
     @FXML
     private void editAuthor() {
-        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Constants.NEWAUTHOR));
+        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
         newAuthorController.setAuthorForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Constants.NEWAUTHOR));
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
     }
 
     @FXML
