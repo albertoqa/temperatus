@@ -201,6 +201,7 @@ public class Constants {
     public static final String CONTINUE = "continue";
     public static final String OK = "ok";
     public static final String APPLY = "apply";
+    public static final String CONFIRMATION = "confirmation";
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";

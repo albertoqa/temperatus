@@ -52,6 +52,7 @@ public class NewProjectController extends AbstractCreationController implements 
     }
 
     public void setProject(Project project) {
+        saveButton.setText(language.get(Constants.UPDATE));
         this.project = project;
         nameInput.setText(project.getName());
         observationsInput.setText(project.getObservations());

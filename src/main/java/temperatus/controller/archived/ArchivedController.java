@@ -4,20 +4,16 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
-import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
 import temperatus.controller.creation.NewRecordController;
 import temperatus.listener.DatabaseThreadFactory;
@@ -34,8 +30,6 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,18 +43,36 @@ import java.util.concurrent.Executors;
 @Scope("prototype")
 public class ArchivedController implements Initializable, AbstractController {
 
-    @FXML private TreeTableView<TreeElement> treeTable;
+    //#####################################################
+    // Project Information Pane
+    @FXML private AnchorPane projectInfoPane;
+
+    @FXML private Label projectNameLabel;
+    @FXML private Label projectStartDateLabel;
+    @FXML private Label projectNumberOfMissionsLabel;
+    @FXML private Label projectObservationsLabel;
+    @FXML private Label projectAuthorsLabel;
 
     @FXML private Label projectName;
     @FXML private Label projectDate;
     @FXML private Label projectNumberOfMissions;
     @FXML private Label projectObservations;
     @FXML private Label projectAuthors;
-    @FXML private Label firstMissionDate;
-    @FXML private Label firstMissionName;
-    @FXML private Label lastMissionDate;
-    @FXML private Label lastMissionName;
-    @FXML private Label projectSubjects;
+
+    @FXML private Button deleteProjectButton;
+    @FXML private Button editProjectButton;
+
+    //#####################################################
+    // Mission Information Pane labels
+    @FXML private AnchorPane missionInfoPane;
+
+    @FXML private Label missionNameLabel;
+    @FXML private Label missionDateLabel;
+    @FXML private Label missionObservationsLabel;
+    @FXML private Label missionGameLabel;
+    @FXML private Label missionProjectLabel;
+    @FXML private Label missionSubjectLabel;
+    @FXML private Label missionAuthorLabel;
 
     @FXML private Label missionName;
     @FXML private Label missionDate;
@@ -70,40 +82,36 @@ public class ArchivedController implements Initializable, AbstractController {
     @FXML private Label missionSubject;
     @FXML private Label missionAuthor;
 
-    @FXML private AnchorPane projectInfoPane;
-    @FXML private AnchorPane missionInfoPane;
+    @FXML private Button missionInfoButton;
+    @FXML private Button deleteMissionButton;
+    @FXML private Button editMissionButton;
 
-    @FXML private TextField filterField;
+    //#####################################################
 
-    @FXML private TextField editableProjectName;
-    @FXML private TextArea editableProjectObservations;
-    @FXML private DatePicker editableProjectDate;
-
-    @FXML private Button deleteProjectButton;
-    @FXML private Button saveProjectButton;
-    @FXML private Button editProjectButton;
     @FXML private Button newMissionButton;
-    @FXML private Button cancelProjectButton;
+    @FXML private Button newProjectButton;
+
+    @FXML private TreeTableView<TreeElement> treeTable;
+    @FXML private TextField filterField;
 
     private TreeTableColumn<TreeElement, String> nameColumn = new TreeTableColumn<>();
     private TreeTableColumn<TreeElement, String> dateColumn = new TreeTableColumn<>();
     private TreeTableColumn<TreeElement, String> subjectColumn = new TreeTableColumn<>();
 
-    private FilterableTreeItem<TreeElement> root;
+    private FilterableTreeItem<TreeElement> root;   // root element of the tree
 
     @Autowired ProjectService projectService;
     @Autowired MissionService missionService;
-    @Autowired SessionFactory sessionFactory;
 
-    private ExecutorService databaseExecutor;
+    private ExecutorService databaseExecutor;     // executes database operations concurrent to JavaFX operations.
 
-    static Logger logger = LoggerFactory.getLogger(ArchivedController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(ArchivedController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing archived controller");
 
-        VistaNavigator.setController(this);
+        VistaNavigator.setController(this);     // let the application know that this is the current controller
         translate();
 
         /* Executor is used to perform long operations in a different thread than the UI elements
@@ -116,14 +124,14 @@ public class ArchivedController implements Initializable, AbstractController {
         subjectColumn.setCellValueFactory(param -> param.getValue().getValue().getSubject());
 
         treeTable.getColumns().setAll(nameColumn, dateColumn, subjectColumn);
-        treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
+        treeTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);   // adjust width of columns to distribute on the screen
         treeTable.setShowRoot(false);
 
-        // Check the type of element selected and show its information
+        // Check the type of element selected and show its information (Project or Mission)
         treeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if(newValue != null) {
+                    if (newValue != null) {
                         if (TreeElementType.Project == newValue.getValue().getType()) {
                             projectSelection(newValue.getValue().getElement());
                         } else {
@@ -132,25 +140,9 @@ public class ArchivedController implements Initializable, AbstractController {
                     }
                 });
 
+        root = getTreeProjects();   // set data
 
-        // When double click on a row, open edition window
-        treeTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() == 2) {
-                    TreeItem<TreeElement> item = treeTable.getSelectionModel().getSelectedItem();
-                    if (TreeElementType.Project == item.getValue().getType()) {
-                        Project project = (Project) item.getValue().getElement();
-                        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
-                        newProjectController.setProject(project);
-                    }
-                    // TODO
-                }
-            }
-
-        });
-
-        root = getTreeProjects();
+        // bind filter text input to treeView so it filters with user input search
         root.predicateProperty().bind(Bindings.createObjectBinding(() -> {
             if (filterField.getText() == null || filterField.getText().isEmpty())
                 return null;
@@ -158,14 +150,19 @@ public class ArchivedController implements Initializable, AbstractController {
         }, filterField.textProperty()));
 
         treeTable.setRoot(root);
-
     }
 
+    /**
+     * Get all projects and missions from database on a new thread so the UI remain responsive
+     *
+     * @return tree root element
+     */
     private FilterableTreeItem<TreeElement> getTreeProjects() {
 
+        // root element holds all projects but it is not shown in the tree
         FilterableTreeItem<TreeElement> root = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
-        List<Project> projects = new ArrayList<>();
 
+        // Get all projects on a different thread than the JavaFX UI thread to remain responsive
         Task<List<Project>> getAllProjectsTask = new Task<List<Project>>() {
             @Override
             public List<Project> call() throws Exception {
@@ -173,22 +170,27 @@ public class ArchivedController implements Initializable, AbstractController {
             }
         };
 
+        // on task completion add all projects to the tree and get all missions for each project
         getAllProjectsTask.setOnSucceeded(e -> {
-            projects.addAll(getAllProjectsTask.getValue());
-            getTreeMissions(projects, root);
+            getTreeMissions(getAllProjectsTask.getValue(), root);
         });
 
-        // run the task using a thread from the thread pool:
+        // run the task using a thread from the thread pool
         logger.info("Submiting task to retrieve all projects");
         databaseExecutor.submit(getAllProjectsTask);
 
         return root;
     }
 
+    /**
+     * For each project get its missions and create a new element on the tree
+     *
+     * @param projects all the projects fetched from db
+     * @param root     root element of the tree
+     */
     private void getTreeMissions(List<Project> projects, FilterableTreeItem<TreeElement> root) {
         for (Project project : projects) {
             FilterableTreeItem<TreeElement> treeItemProject = new FilterableTreeItem<>(new TreeElement(project));
-            List<TreeElement> missions = new ArrayList<>();
 
             // getMissions FetchType is LAZY so it's necessary another access to DB when called
             Task<Set<Mission>> getMissionsTask = new Task<Set<Mission>>() {
@@ -198,12 +200,14 @@ public class ArchivedController implements Initializable, AbstractController {
                 }
             };
 
+            // on task completion add all missions to their parent project
             getMissionsTask.setOnSucceeded(e -> {
-                getMissionsTask.getValue().stream().forEach(mission -> missions.add(new TreeElement(mission)));
-                ObservableList<TreeElement> missionList = FXCollections.observableArrayList(missions);
+                ObservableList<TreeElement> missionList = FXCollections.observableArrayList();
+
+                getMissionsTask.getValue().stream().forEach(mission -> missionList.add(new TreeElement(mission)));
                 missionList.forEach(mission -> treeItemProject.getInternalChildren().add(new FilterableTreeItem<>(mission)));
 
-                treeItemProject.setExpanded(true);
+                treeItemProject.setExpanded(true);  // expanded by default
                 root.getInternalChildren().add(treeItemProject);
             });
 
@@ -213,6 +217,11 @@ public class ArchivedController implements Initializable, AbstractController {
         }
     }
 
+    /**
+     * Show project info when a project is selected on the tree
+     *
+     * @param project project to show
+     */
     private void projectSelection(Project project) {
         Animation.fadeOutTransition(missionInfoPane);
         Animation.fadeInTransition(projectInfoPane);
@@ -226,6 +235,11 @@ public class ArchivedController implements Initializable, AbstractController {
         //projectAuthors.setText(missions.get(0).getAuthor());
     }
 
+    /**
+     * Show mission info when a mission is selected on the tree
+     *
+     * @param mission mission to show
+     */
     private void missionSelection(Mission mission) {
         Animation.fadeOutTransition(projectInfoPane);
         Animation.fadeInTransition(missionInfoPane);
@@ -243,7 +257,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
     /**
      * Open modal window for insert a new project
-     * If project is inserted, the treetableview is automatically updated by the newProject view
+     * If project is inserted, the tree-table-view is automatically updated by the newProject view
      */
     @FXML
     private void newProject() {
@@ -251,73 +265,57 @@ public class ArchivedController implements Initializable, AbstractController {
     }
 
     /**
-     * Show the edition elements for the selected Project
+     * Open modal window for edit a new project
+     * The project to edit is the selected project
      */
     @FXML
     private void editProject() {
-        editingVisibility();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(projectDate.getText(), formatter);
-
-        editableProjectDate.setValue(date);
-        editableProjectName.setText(projectName.getText());
-        editableProjectObservations.setText(projectObservations.getText());
+        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Constants.NEWPROJECT));
+        newProjectController.setProject(getSelectedElement().getElement());
     }
 
-    @FXML
-    private void saveUpdatedProject() {
-        Project project = getSelectedElement().getElement();
-        project.setName(editableProjectName.getText());
-        project.setObservations(editableProjectObservations.getText());
-        //project.setDateIni(Date.from(editableProjectDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-
-        projectService.saveOrUpdate(project);
-
-        projectName.setText(project.getName());
-        projectDate.setText(project.getDateIni().toString());
-        projectObservations.setText(project.getObservations());
-
-        //getSelectedElement().setName(project.getName());
-        //getSelectedElement().setDate(project.getDateIni());
-
-        notEditingVisibility();
-    }
-
-    @FXML
-    private void cancelProjectEdition() {
-        notEditingVisibility();
-    }
-
+    /**
+     * Delete selected project (and all its missions) from the database
+     * Ask user for confirmation first.
+     */
     @FXML
     private void deleteProject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Constants.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && ButtonType.OK == result.get()) {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             root.getInternalChildren().remove(treeItem);
         }
     }
 
+    /**
+     * Delete selected mission (and all its data) from the database
+     * Ask user for confirmation first.
+     */
     @FXML
     private void deleteMission() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Constants.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && ButtonType.OK == result.get()) {
             missionService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
-//            root.getInternalChildren().remove(treeItem);  // TODO
+            //root.getInternalChildren().remove(treeItem);  // TODO
         }
     }
 
+    /**
+     * Create a new mission -> load view and select its icon from the lateral menu
+     */
     @FXML
     private void newMission() {
-        NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
-        //missionController.setProject(getSelectedElement().getElement());//TODO
+        VistaNavigator.loadVista(Constants.NEW_MISSION);
         VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
     }
 
+    /**
+     * Show complete mission information
+     */
     @FXML
     private void missionInfo() {
         MissionInfoController missionInfoController = VistaNavigator.pushViewToStack(Constants.MISSION_INFO);
@@ -328,9 +326,14 @@ public class ArchivedController implements Initializable, AbstractController {
     private void addDataToMission() {   // TODO remember to remove if not needed
         Mission mission = getSelectedElement().getElement();
         NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
-        newRecordController.loadData(mission);
+        if (newRecordController != null) {
+            newRecordController.loadData(mission);
+        }
     }
 
+    /**
+     * @return currently selected element on the tree
+     */
     private TreeElement getSelectedElement() {
         return treeTable.getSelectionModel().getSelectedItem().getValue();
     }
@@ -338,7 +341,6 @@ public class ArchivedController implements Initializable, AbstractController {
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
-            // TODO me falta por actualizar si se hace una actualización
             root.getInternalChildren().add(new FilterableTreeItem<>(new TreeElement((Project) object)));
         }
     }
@@ -349,27 +351,4 @@ public class ArchivedController implements Initializable, AbstractController {
         dateColumn.setText(language.get(Constants.DATE_COLUMN));
         subjectColumn.setText(language.get(Constants.SUBJECT_COLUMN));
     }
-
-    private void notEditingVisibility() {
-        saveProjectButton.setVisible(false);
-        cancelProjectButton.setVisible(false);
-        editProjectButton.setVisible(true);
-        deleteProjectButton.setVisible(true);
-        editableProjectDate.setVisible(false);
-        editableProjectName.setVisible(false);
-        editableProjectObservations.setVisible(false);
-    }
-
-    private void editingVisibility() {
-        editableProjectDate.setVisible(true);
-        editableProjectName.setVisible(true);
-        editableProjectObservations.setVisible(true);
-        saveProjectButton.setVisible(true);
-        cancelProjectButton.setVisible(true);
-        editProjectButton.setVisible(false);
-        deleteProjectButton.setVisible(false);
-    }
-
-
-
 }

@@ -35,6 +35,7 @@ public class DeviceOperationsManager {
 
     /**
      * Submit a new read task to the operationsExecutor
+     * The future's data will be available once the read task has been complete.
      *
      * @param readTask task to submit
      */
