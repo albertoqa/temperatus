@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadFactory;
  * <p>
  * Created by alberto on 13/2/16.
  */
-class DaemonThreadFactory implements ThreadFactory {
+public class DaemonThreadFactory implements ThreadFactory {
 
     public Thread newThread(Runnable r) {
         Thread t = Executors.defaultThreadFactory().newThread(r);

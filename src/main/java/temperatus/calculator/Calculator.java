@@ -101,4 +101,14 @@ public class Calculator {
         }.parse();
     }
 
+    /**
+     * Convert fahrenheit to celsius
+     *
+     * @param fahrenheit temperature to convert in fahrenheit
+     * @return temperature in celsius
+     */
+    public static Double fahrenheitToCelsius(Double fahrenheit) {
+        return (fahrenheit - 32) * (5 / 9);
+    }
+
 }

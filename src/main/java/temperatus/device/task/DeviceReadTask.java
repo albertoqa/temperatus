@@ -1,23 +1,18 @@
-package temperatus.listener;
+package temperatus.device.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Callable;
 
 /**
  * @author aquesada
  */
 @Component
 @Scope("prototype")
-public class DeviceReadTask implements Callable {
+public class DeviceReadTask extends DeviceTask {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
-
-    @Autowired DeviceSemaphore deviceSemaphore;
 
     @Override
     public Object call() throws Exception {

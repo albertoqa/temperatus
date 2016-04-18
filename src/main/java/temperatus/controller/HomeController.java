@@ -4,8 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import temperatus.listener.DeviceOperationsManager;
-import temperatus.listener.DeviceReadTask;
+import temperatus.device.DeviceOperationsManager;
+import temperatus.device.task.DeviceReadTask;
 import temperatus.util.SpringFxmlLoader;
 
 import java.net.URL;
@@ -20,6 +20,7 @@ public class HomeController implements Initializable, AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        addNewReadTask();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class HomeController implements Initializable, AbstractController {
     private void addNewReadTask() {
         DeviceReadTask deviceReadTask = (DeviceReadTask) SpringFxmlLoader.getApplicationContext().getBean("deviceReadTask");
 
-        deviceOperationsManager.submitReadTask(deviceReadTask);
+        deviceOperationsManager.submitTask(deviceReadTask);
     }
 
 }

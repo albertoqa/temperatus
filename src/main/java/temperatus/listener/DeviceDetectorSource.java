@@ -51,7 +51,7 @@ public class DeviceDetectorSource {
      *
      * @param container device's container
      */
-    synchronized void arrivalEvent(OneWireContainer container) {
+    public synchronized void arrivalEvent(OneWireContainer container) {
         logger.info("Arrival event \n Notifying of the arrival to all the listeners");
 
         DeviceDetector event = new DeviceDetector(this);
@@ -68,7 +68,7 @@ public class DeviceDetectorSource {
      *
      * @param serial device's serial
      */
-    synchronized void departureEvent(String serial) {
+    public synchronized void departureEvent(String serial) {
         logger.info("Departure event with serial: " + serial + "\n Notifying of the departure to all the listeners");
 
         DeviceDetector event = new DeviceDetector(this);

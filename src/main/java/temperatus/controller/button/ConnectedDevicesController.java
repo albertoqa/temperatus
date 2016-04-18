@@ -3,19 +3,26 @@ package temperatus.controller.button;
 import com.dalsemi.onewire.container.OneWireContainer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.controller.creation.RecordConfigController;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
+import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -45,9 +52,12 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     @Autowired IbuttonService ibuttonService;
 
+    private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
+        translate();
 
         modelColumn.setCellValueFactory(cellData -> cellData.getValue().modelProperty());
         serialColumn.setCellValueFactory(cellData -> cellData.getValue().serialProperty());
@@ -56,31 +66,74 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(devicesConnected);
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
-//        connectedDevicesTable.setPlaceholder(new Label("No iButtons Connected"));
-        connectedDevicesTable.setPlaceholder(new Label(""));
+        connectedDevicesTable.setPlaceholder(new Label(""));    // no placeholder
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            infoTabPane.getSelectionModel().clearSelection();
             loadInfo(newSelection);
         });
+
+        connectedDevicesTable.getSelectionModel().clearSelection();
+
+        devicesConnected.addListener((ListChangeListener<Device>) c -> {
+            if(devicesConnected.size() == 0) {
+                searchingIndicator.setVisible(true);
+            } else {
+                searchingIndicator.setVisible(false);
+            }
+        });
+
+        // FIXME remove
+        Device d = new Device();
+        d.setAlias("Alias");
+        d.setDefaultPosition("Hombro");
+        d.setModel("DS1922");
+        d.setSerial("0918374098rqe7");
+        devicesConnected.add(d);
     }
 
     private void loadInfo(Device device) {
+        infoTabPane.getTabs().clear();
 
+        Animation.fadeInTransition(infoTabPane);
 
-
+        infoTabPane.getTabs().add(generalTab(device));
+        infoTabPane.getTabs().add(currentTemperatureTab(device));
     }
 
-    private void search() {
+    private Tab generalTab(Device device) {
 
+        return new Tab();
     }
 
-    private void addIbuttonToTable() {
+    private Tab currentTemperatureTab(Device device) {
+        Tab realTimeTempTab = new Tab();
+        StackPane stackPane = new StackPane();
 
+        // Load a new pane for the tab
+        Node realTimeTempPane = VistaNavigator.loader.load(RecordConfigController.class.getResource(Constants.REAL_TIME_TEMP));
+        RealTimeTemperatureController realTimeTemperatureController = VistaNavigator.loader.getController();
+        realTimeTemperatureController.setContainer(device.getContainer());
+
+        stackPane.getChildren().setAll(realTimeTempPane);
+        realTimeTempTab.setContent(stackPane);
+        realTimeTempTab.setText("Real Time Temperature");
+
+        realTimeTempTab.setOnSelectionChanged(t -> {
+            if (realTimeTempTab.isSelected()) {
+                realTimeTemperatureController.startReading();
+            } else {
+                realTimeTemperatureController.stopReading();
+            }
+        });
+
+        return realTimeTempTab;
     }
 
     @FXML
     private void newMission() {
         VistaNavigator.loadVista(Constants.NEW_MISSION);
+        VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
     }
 
     @FXML
@@ -100,7 +153,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         String model = container.getName();
         String serial = container.getAddressAsString();
         String alternateNames = container.getAlternateNames();
-        String alias = "";
 
         Device device = new Device();
         device.setContainer(container);
@@ -109,7 +161,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         Platform.runLater(() -> {
             addDeviceToTable(device);
-            searchingIndicator.setVisible(false);
         });
     }
 
@@ -132,12 +183,10 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         for (Device device : devicesConnected) {
             if (serial.equals(device.getSerial())) {
                 devicesConnected.remove(device);
+                connectedDevicesTable.getSelectionModel().clearSelection();
+                Animation.fadeOutTransition(infoTabPane);
                 break;
             }
-        }
-
-        if(devicesConnected.size() == 0){
-            searchingIndicator.setVisible(true);
         }
     }
 

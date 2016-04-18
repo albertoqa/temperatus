@@ -1,4 +1,4 @@
-package temperatus.listener;
+package temperatus.device;
 
 import org.springframework.stereotype.Component;
 
@@ -14,11 +14,11 @@ public class DeviceSemaphore {
 
     private Semaphore semaphore = new Semaphore(1); // Only one access is allowed at a time
 
-    void acquire() throws InterruptedException {
+    public void acquire() throws InterruptedException {
         semaphore.acquire();
     }
 
-    void release() {
+    public void release() {
         semaphore.release();
     }
 }

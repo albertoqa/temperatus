@@ -1,4 +1,4 @@
-package temperatus.listener;
+package temperatus.device.task;
 
 import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.OneWireException;
@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import temperatus.device.DeviceSemaphore;
+import temperatus.listener.DeviceDetectorSource;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

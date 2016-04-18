@@ -45,8 +45,6 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
-    @FXML private NumberAxis yAxis;
-    @FXML private DateAxis xAxis;
 
     @FXML private Spinner<Integer> spinner;
 

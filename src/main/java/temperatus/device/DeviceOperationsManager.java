@@ -1,7 +1,10 @@
-package temperatus.listener;
+package temperatus.device;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import temperatus.device.task.DeviceDetectorTask;
+import temperatus.device.task.DeviceTask;
+import temperatus.listener.DaemonThreadFactory;
 import temperatus.util.Constants;
 
 import java.util.concurrent.*;
@@ -21,7 +24,7 @@ public class DeviceOperationsManager {
 
     private DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();    // stop thread on application exit
 
-    private ExecutorService operationsExecutor;                 // Read tasks executor
+    private ExecutorService operationsExecutor;                 // Read/Write tasks executor
     private ScheduledExecutorService scanSchedulerExecutor;     // Scan tasks executor
 
     @Autowired DeviceDetectorTask scanTask;                     // Scan task
@@ -34,13 +37,13 @@ public class DeviceOperationsManager {
     }
 
     /**
-     * Submit a new read task to the operationsExecutor
-     * The future's data will be available once the read task has been complete.
+     * Submit a new task to the operationsExecutor
+     * The future's data will be available once the task has been complete.
      *
-     * @param readTask task to submit
+     * @param deviceTask task to submit
      */
-    public <T> Future submitReadTask(DeviceReadTask readTask) {
-        return operationsExecutor.submit(readTask);
+    public <T> Future submitTask(DeviceTask deviceTask) {
+        return operationsExecutor.submit(deviceTask);
     }
 
 }

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="/fxml/ConnectedDevices.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="782.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.ConnectedDevicesController">
+<StackPane id="/fxml/ConnectedDevices.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="782.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.ConnectedDevicesController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="536.0" prefWidth="782.0" styleClass="grayBack">
          <children>
@@ -22,17 +22,8 @@
                   </HBox>
                </children>
             </AnchorPane>
-            <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" visible="false" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="310.0">
+            <TabPane fx:id="infoTabPane" layoutX="14.0" layoutY="300.0" opacity="0.0" prefHeight="293.0" prefWidth="754.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="310.0">
                <tabs>
-                  <Tab text="General Info">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutX="316.0" layoutY="105.0" styleClass="label-paneinfo" text="Nothig selected" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="316.0" AnchorPane.rightAnchor="315.0" AnchorPane.topAnchor="105.0" />
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
                </tabs>
             </TabPane>
             <AnchorPane layoutX="306.0" layoutY="-59.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
