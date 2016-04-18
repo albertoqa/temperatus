@@ -35,8 +35,8 @@ public class DeviceDetectorTask implements Runnable {
             deviceSemaphore.acquire();
             logger.debug("Scan Semaphore adquired!");
 
-            //searchForDevices();
-            Thread.sleep(2000);
+            searchForDevices();
+            //Thread.sleep(2000);
 
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);

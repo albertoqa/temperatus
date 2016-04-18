@@ -29,8 +29,8 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             deviceSemaphore.acquire();
             logger.debug("Real-time temperature Semaphore adquired!");
 
-            return 0.0;
-//            return getCurrentTemperature();
+            //return 0.0;
+            return getCurrentTemperature();
 
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
@@ -65,7 +65,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             logger.info("Temperature (celsius) read: " + currentTemp);
 
         } catch (Exception e) {
-            throw new ControlledTemperatusException("Error while reading temperature.");
+            throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
         } finally {
             adapter.endExclusive();
             logger.debug("Adapter end exclusivity");
