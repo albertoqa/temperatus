@@ -85,13 +85,13 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             }
         });
 
-        // FIXME remove
+        /*// FIXME remove
         Device d = new Device();
         d.setAlias("Alias");
         d.setDefaultPosition("Hombro");
         d.setModel("DS1922");
         d.setSerial("0918374098rqe7");
-        devicesConnected.add(d);
+        devicesConnected.add(d);*/
     }
 
     private void loadInfo(Device device) {

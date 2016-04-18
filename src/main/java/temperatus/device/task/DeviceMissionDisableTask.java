@@ -26,8 +26,7 @@ public class DeviceMissionDisableTask extends DeviceTask {
             deviceSemaphore.acquire();
             logger.debug("Disable mission Semaphore adquired!");
 
-            // disableMission();
-            Thread.sleep(2000);
+            disableMission();
 
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);

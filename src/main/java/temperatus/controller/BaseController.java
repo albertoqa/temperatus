@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
+import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
@@ -346,7 +347,10 @@ public class BaseController implements Initializable, AbstractController, Device
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());    // Search for this serial on DB
 
         if (ibutton == null) {
-            Platform.runLater(() -> VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE)));
+            Platform.runLater(() -> {
+                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
+                newIButtonController.setData(event.getSerial(), event.getContainer().getName());
+            });
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
         }
