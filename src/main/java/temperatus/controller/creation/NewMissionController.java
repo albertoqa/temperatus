@@ -80,7 +80,7 @@ public class NewMissionController extends AbstractCreationController implements 
          * For example: if the user create a new project while in this page
          * the project will be added to the choiceBox and pre-selected
          *
-         * Works for: New Project, New Game and New Subject
+         * Works for: New Project, New Author, New Game and New Subject
          */
         VistaNavigator.setController(this);
         logger.info("VistaNavigator -> AbstractController set to NewMissionController");

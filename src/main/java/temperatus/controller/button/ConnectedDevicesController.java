@@ -1,5 +1,6 @@
 package temperatus.controller.button;
 
+import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
 import javafx.application.Platform;
@@ -77,7 +78,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         connectedDevicesTable.getSelectionModel().clearSelection();
 
         devicesConnected.addListener((ListChangeListener<Device>) c -> {
-            if(devicesConnected.size() == 0) {
+            if (devicesConnected.size() == 0) {
                 searchingIndicator.setVisible(true);
             } else {
                 searchingIndicator.setVisible(false);
@@ -99,7 +100,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         infoTabPane.getTabs().add(generalTab(device));
 
-        if(device.getContainer() !=  null && temperatureContainerSupported(device.getContainer())) {
+        if (device.getContainer() != null && temperatureContainerSupported(device.getContainer())) {
             infoTabPane.getTabs().add(currentTemperatureTab(device));
         }
     }
@@ -217,7 +218,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     }
 
 
-
     /**
      * Checks if this container supports the temperature view.
      *
@@ -227,6 +227,17 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      */
     private boolean temperatureContainerSupported(OneWireContainer owc) {
         return (owc instanceof TemperatureContainer);
+    }
+
+    /**
+     * Checks if this container supports the mission view.
+     *
+     * @param owc - container to check for viewer support.
+     * @return 'true' if this viewer supports the provided
+     * container.
+     */
+    public boolean missionContainerSupported(OneWireContainer owc) {
+        return (owc instanceof MissionContainer);
     }
 
 }

@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 /**
  * @author aquesada
  */
@@ -15,7 +17,7 @@ public class DeviceReadTask extends DeviceTask {
     private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
 
     @Override
-    public Object call() throws Exception {
+    public File call() throws Exception {
         try {
             logger.info("Reading device...");
             deviceSemaphore.acquire();
@@ -30,6 +32,12 @@ public class DeviceReadTask extends DeviceTask {
             deviceSemaphore.release();
             logger.debug("Read Semaphore released");
         }
+
+        return null;
+    }
+
+    private File readDataAndSaveToFile() {
+
 
         return null;
     }

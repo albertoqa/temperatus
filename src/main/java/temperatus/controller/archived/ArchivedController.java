@@ -300,6 +300,7 @@ public class ArchivedController implements Initializable, AbstractController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
+            ((Project) treeTable.getSelectionModel().getSelectedItem().getParent().getValue().getElement()).getMissions().remove((Mission) getSelectedElement().getElement());
             missionService.delete(getSelectedElement().getElement());
             FilterableTreeItem<TreeItem<TreeElement>> treeItem = (FilterableTreeItem) treeTable.getSelectionModel().getSelectedItem();
             ((FilterableTreeItem<TreeItem<TreeElement>>) treeItem.getParent()).getInternalChildren().remove(treeItem);
