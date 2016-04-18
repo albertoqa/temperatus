@@ -23,7 +23,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
     private DSPortAdapter adapter = null;
 
     @Override
-    public Object call() throws Exception {
+    public Double call() throws Exception {
         try {
             logger.info("Getting current temperature from device...");
             deviceSemaphore.acquire();

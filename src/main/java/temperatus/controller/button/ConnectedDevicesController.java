@@ -1,6 +1,7 @@
 package temperatus.controller.button;
 
 import com.dalsemi.onewire.container.OneWireContainer;
+import com.dalsemi.onewire.container.TemperatureContainer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -94,11 +95,13 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     private void loadInfo(Device device) {
         infoTabPane.getTabs().clear();
-
         Animation.fadeInTransition(infoTabPane);
 
         infoTabPane.getTabs().add(generalTab(device));
-        infoTabPane.getTabs().add(currentTemperatureTab(device));
+
+        if(device.getContainer() !=  null && temperatureContainerSupported(device.getContainer())) {
+            infoTabPane.getTabs().add(currentTemperatureTab(device));
+        }
     }
 
     private Tab generalTab(Device device) {
@@ -212,4 +215,18 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         }
     }
+
+
+
+    /**
+     * Checks if this container supports the temperature view.
+     *
+     * @param owc - container to check for viewer support.
+     * @return 'true' if this viewer supports the provided
+     * container.
+     */
+    private boolean temperatureContainerSupported(OneWireContainer owc) {
+        return (owc instanceof TemperatureContainer);
+    }
+
 }

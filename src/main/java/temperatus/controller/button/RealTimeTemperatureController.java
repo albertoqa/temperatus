@@ -1,7 +1,6 @@
 package temperatus.controller.button;
 
 import com.dalsemi.onewire.container.OneWireContainer;
-import com.dalsemi.onewire.container.TemperatureContainer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -70,18 +69,14 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
     }
 
     void setContainer(OneWireContainer container) {
-        if (container != null && containerSupported(container)) {
-            this.container = container;
-            deviceRealTimeTempTask.setContainer(container);
-        } else {
-            // TODO
-        }
+        this.container = container;
+        deviceRealTimeTempTask.setContainer(container);
     }
 
     private void createTimeLineWithPeriod() {
         fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(period), event -> {
 
-            if(!(VistaNavigator.getController() instanceof ConnectedDevicesController)) {
+            if (!(VistaNavigator.getController() instanceof ConnectedDevicesController)) {
                 fiveSecondsWonder.stop();
                 serie.getData().clear();
             }
@@ -92,7 +87,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
             try {
                 temperature = (double) future.get();
 
-                if(unitGroup.getSelectedToggle().equals(unitF)) {
+                if (unitGroup.getSelectedToggle().equals(unitF)) {
                     temperature = Calculator.fahrenheitToCelsius(temperature);
                 }
 
@@ -128,14 +123,4 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
 
     }
 
-    /**
-     * Checks if this viewer supports the supplied container.
-     *
-     * @param owc - container to check for viewer support.
-     * @return 'true' if this viewer supports the provided
-     * container.
-     */
-    private boolean containerSupported(OneWireContainer owc) {
-        return (owc instanceof TemperatureContainer);
-    }
 }
