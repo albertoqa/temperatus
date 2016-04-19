@@ -23,6 +23,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
 
     private OneWireContainer container = null;
     private DSPortAdapter adapter = null;
+    private String adapterName = null;
     private String adapterPort = null;
 
     @Override
@@ -58,6 +59,8 @@ public class DeviceRealTimeTempTask extends DeviceTask {
         double currentTemp = Double.NaN;
 
         try {
+            this.adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
+
             adapter.selectPort(adapterPort);
             adapter.beginExclusive(true);
             container.setupContainer(adapter, container.getAddress());
@@ -72,7 +75,11 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
         } finally {
             adapter.endExclusive();
-            adapter.freePort();
+            try {
+                adapter.freePort();
+            } catch (OneWireException ex) {
+                logger.error("Error closing port");
+            }
             logger.debug("Adapter end exclusivity");
         }
 
@@ -85,17 +92,10 @@ public class DeviceRealTimeTempTask extends DeviceTask {
      * @param container device container
      */
     public void setContainer(OneWireContainer container, String adapterName, String adapterPort) {
-        if (container != null) {
+        if (container != null && adapterName != null && adapterPort != null) {
             this.container =  container;
             this.adapterPort = adapterPort;
-            try {
-                deviceSemaphore.acquire();
-                this.adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
-            } catch (OneWireException | InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                deviceSemaphore.release();
-            }
+            this.adapterName = adapterName;
         }
     }
 
