@@ -1,5 +1,8 @@
 package temperatus.device;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.device.task.DeviceDetectorTask;
@@ -7,7 +10,9 @@ import temperatus.device.task.DeviceTask;
 import temperatus.listener.DaemonThreadFactory;
 import temperatus.util.Constants;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Control all operations related to devices.
@@ -24,13 +29,13 @@ public class DeviceOperationsManager {
 
     private DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();    // stop thread on application exit
 
-    private ExecutorService operationsExecutor;                 // Read/Write tasks executor
+    private ListeningExecutorService operationsExecutor;                 // Read/Write tasks executor
     private ScheduledExecutorService scanSchedulerExecutor;     // Scan tasks executor
 
     @Autowired DeviceDetectorTask scanTask;                     // Scan task
 
     public void init() {
-        operationsExecutor = Executors.newSingleThreadExecutor(daemonThreadFactory);
+        operationsExecutor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor(daemonThreadFactory));
 
         scanSchedulerExecutor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
         scanSchedulerExecutor.scheduleAtFixedRate(scanTask, Constants.DELAY, Constants.PERIOD, TimeUnit.SECONDS);
@@ -42,7 +47,7 @@ public class DeviceOperationsManager {
      *
      * @param deviceTask task to submit
      */
-    public <T> Future submitTask(DeviceTask deviceTask) {
+    public <T> ListenableFuture submitTask(DeviceTask deviceTask) {
         return operationsExecutor.submit(deviceTask);
     }
 

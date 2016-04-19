@@ -1,8 +1,12 @@
 package temperatus.controller.button;
 
 import com.dalsemi.onewire.container.OneWireContainer;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,30 +32,37 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Show a graphic with the temperature read form the device in real time
- * <p>
+ * <p/>
  * Created by alberto on 18/4/16.
  */
 @Controller
 public class RealTimeTemperatureController implements Initializable, AbstractController {
 
-    @FXML private LineChart<Date, Number> lineChart;
-    @FXML private DateAxis dateAxis;    // time of measurement
-    @FXML private NumberAxis temperatureAxis;   // temperature read
+    @FXML
+    private LineChart<Date, Number> lineChart;
+    @FXML
+    private DateAxis dateAxis;    // time of measurement
+    @FXML
+    private NumberAxis temperatureAxis;   // temperature read
 
-    @FXML private TextField currentTemp;    // show the current temperature in text
-    @FXML private RadioButton unitC;
-    @FXML private RadioButton unitF;
+    @FXML
+    private TextField currentTemp;    // show the current temperature in text
+    @FXML
+    private RadioButton unitC;
+    @FXML
+    private RadioButton unitF;
 
-    @Autowired DeviceRealTimeTempTask deviceRealTimeTempTask;   // read from device task
-    @Autowired DeviceOperationsManager deviceOperationsManager;
+    @Autowired
+    DeviceRealTimeTempTask deviceRealTimeTempTask;   // read from device task
+    @Autowired
+    DeviceOperationsManager deviceOperationsManager;
 
     private Timeline fiveSecondsWonder;     // read temperature and show it in the graph every X seconds
     private XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-    private static final int period = 15;   // period of read device
+    private static final int period = 10;   // period of read device
     private ToggleGroup unitGroup = new ToggleGroup();
 
     private OneWireContainer container;     // device container
@@ -67,22 +78,6 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         lineChart.setData(FXCollections.observableArrayList(serie));
         serie.setName("Real-time Temperature");
 
-        deviceRealTimeTempTask.setOnSucceeded(event1 -> {
-            double temperature = 0.0;
-            try {
-                temperature = (double) deviceRealTimeTempTask.get();
-
-                if (unitGroup.getSelectedToggle().equals(unitF)) {
-                    temperature = Calculator.fahrenheitToCelsius(temperature);
-                }
-
-                serie.getData().add(new XYChart.Data<>(new Date(), temperature));
-                currentTemp.setText(temperature + "");
-                logger.info("Temperature read: " + temperature);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     void setDevice(Device device) {
@@ -96,7 +91,30 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
                 fiveSecondsWonder.stop();
                 serie.getData().clear();
             }
-            deviceOperationsManager.submitTask(deviceRealTimeTempTask);
+
+            ListenableFuture future = deviceOperationsManager.submitTask(deviceRealTimeTempTask);
+
+            Futures.addCallback(future, new FutureCallback<Double>() {
+                public void onSuccess(Double result) {
+                    Platform.runLater(() -> {
+                        double temperature = result;
+
+                        if (unitGroup.getSelectedToggle().equals(unitF)) {
+                            temperature = Calculator.fahrenheitToCelsius(temperature);
+                        }
+
+                        serie.getData().add(new XYChart.Data<>(new Date(), temperature));
+                        currentTemp.setText(temperature + "");
+                        logger.info("Temperature read: " + temperature);
+                    });
+                }
+
+                public void onFailure(Throwable thrown) {
+                    logger.error("Error fetching temperature - Future error");
+                }
+            });
+
+
         }));
 
         fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
