@@ -117,7 +117,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         // Load a new pane for the tab
         Node realTimeTempPane = VistaNavigator.loader.load(RecordConfigController.class.getResource(Constants.REAL_TIME_TEMP));
         RealTimeTemperatureController realTimeTemperatureController = VistaNavigator.loader.getController();
-        realTimeTemperatureController.setContainer(device.getContainer());
+        realTimeTemperatureController.setDevice(device);
 
         stackPane.getChildren().setAll(realTimeTempPane);
         realTimeTempTab.setContent(stackPane);
@@ -153,6 +153,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @Override
     public void arrival(DeviceDetector event) {
         OneWireContainer container = event.getContainer();
+        String adapterName = event.getAdapterName();
+        String adapterPort = event.getAdapterPort();
 
         String model = container.getName();
         String serial = container.getAddressAsString();
@@ -162,6 +164,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         device.setContainer(container);
         device.setModel(model);
         device.setSerial(serial);
+        device.setAdapterName(adapterName);
+        device.setAdapterPort(adapterPort);
 
         Platform.runLater(() -> {
             addDeviceToTable(device);

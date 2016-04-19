@@ -12,6 +12,8 @@ import java.util.EventObject;
 public class DeviceDetector extends EventObject {
 
     private OneWireContainer container;     // container of the connected device
+    private String adapterName;
+    private String adapterPort;
     private String serial;                  // serial of the connected device
 
     DeviceDetector(Object source) {
@@ -32,5 +34,21 @@ public class DeviceDetector extends EventObject {
 
     void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getAdapterName() {
+        return adapterName;
+    }
+
+    public void setAdapterName(String adapterName) {
+        this.adapterName = adapterName;
+    }
+
+    public String getAdapterPort() {
+        return adapterPort;
+    }
+
+    public void setAdapterPort(String adapterPort) {
+        this.adapterPort = adapterPort;
     }
 }

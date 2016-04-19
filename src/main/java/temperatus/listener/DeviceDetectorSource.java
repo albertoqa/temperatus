@@ -51,12 +51,14 @@ public class DeviceDetectorSource {
      *
      * @param container device's container
      */
-    public synchronized void arrivalEvent(OneWireContainer container) {
+    public synchronized void arrivalEvent(OneWireContainer container, String adapterName, String adapterPort) {
         logger.info("Arrival event \n Notifying of the arrival to all the listeners");
 
         DeviceDetector event = new DeviceDetector(this);
         event.setContainer(container);
         event.setSerial(container.getAddressAsString());
+        event.setAdapterName(adapterName);
+        event.setAdapterPort(adapterPort);
 
         for (DeviceDetectorListener listener : listeners) {
             (listener).arrival(event);

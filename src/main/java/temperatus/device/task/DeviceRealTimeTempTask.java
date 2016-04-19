@@ -1,5 +1,7 @@
 package temperatus.device.task;
 
+import com.dalsemi.onewire.OneWireAccessProvider;
+import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.adapter.DSPortAdapter;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
@@ -19,8 +21,9 @@ public class DeviceRealTimeTempTask extends DeviceTask {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceRealTimeTempTask.class.getName());
 
-    private TemperatureContainer container = null;
+    private OneWireContainer container = null;
     private DSPortAdapter adapter = null;
+    private String adapterPort = null;
 
     @Override
     public Double call() throws Exception {
@@ -29,7 +32,6 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             deviceSemaphore.acquire();
             logger.debug("Real-time temperature Semaphore adquired!");
 
-            //return 0.0;
             return getCurrentTemperature();
 
         } catch (InterruptedException e) {
@@ -46,7 +48,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
      * @return current temperature
      * @throws ControlledTemperatusException
      */
-    private double getCurrentTemperature() throws ControlledTemperatusException {
+    private double getCurrentTemperature() throws ControlledTemperatusException, OneWireException {
 
         if (container == null || adapter == null) {
             logger.warn("Error reading temperature, container is null");
@@ -56,18 +58,21 @@ public class DeviceRealTimeTempTask extends DeviceTask {
         double currentTemp = Double.NaN;
 
         try {
+            adapter.selectPort(adapterPort);
             adapter.beginExclusive(true);
+            container.setupContainer(adapter, container.getAddress());
             logger.debug("Adapter is exclusive now, reading device's temperature");
 
-            byte[] state = container.readDevice();
-            container.doTemperatureConvert(state);
-            currentTemp = container.getTemperature(state);
+            byte[] state = ((TemperatureContainer) container).readDevice();
+            ((TemperatureContainer) container).doTemperatureConvert(state);
+            currentTemp = ((TemperatureContainer) container).getTemperature(state);
             logger.info("Temperature (celsius) read: " + currentTemp);
 
         } catch (Exception e) {
             throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
         } finally {
             adapter.endExclusive();
+            adapter.freePort();
             logger.debug("Adapter end exclusivity");
         }
 
@@ -79,10 +84,18 @@ public class DeviceRealTimeTempTask extends DeviceTask {
      *
      * @param container device container
      */
-    public void setContainer(OneWireContainer container) {
+    public void setContainer(OneWireContainer container, String adapterName, String adapterPort) {
         if (container != null) {
-            this.container = (TemperatureContainer) container;
-            this.adapter = container.getAdapter();
+            this.container =  container;
+            this.adapterPort = adapterPort;
+            try {
+                deviceSemaphore.acquire();
+                this.adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
+            } catch (OneWireException | InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                deviceSemaphore.release();
+            }
         }
     }
 

@@ -75,7 +75,7 @@ public class DeviceDetectorTask implements Runnable {
 
                             if (!serialsDetected.contains(serial)) {
                                 serialsDetected.add(serial);
-                                deviceDetectorSource.arrivalEvent(ibutton);
+                                deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
                             }
                         }
                         adapter.endExclusive();

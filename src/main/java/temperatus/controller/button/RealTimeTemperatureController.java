@@ -21,6 +21,7 @@ import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceRealTimeTempTask;
+import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.VistaNavigator;
 
@@ -51,7 +52,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
 
     private Timeline fiveSecondsWonder;     // read temperature and show it in the graph every X seconds
     private XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-    private static final int period = 5;   // period of read device
+    private static final int period = 15;   // period of read device
     private ToggleGroup unitGroup = new ToggleGroup();
 
     private OneWireContainer container;     // device container
@@ -68,9 +69,9 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         serie.setName("Real-time Temperature");
     }
 
-    void setContainer(OneWireContainer container) {
-        this.container = container;
-        deviceRealTimeTempTask.setContainer(container);
+    void setDevice(Device device) {
+        this.container = device.getContainer();
+        deviceRealTimeTempTask.setContainer(container, device.getAdapterName(), device.getAdapterPort());
     }
 
     private void createTimeLineWithPeriod() {

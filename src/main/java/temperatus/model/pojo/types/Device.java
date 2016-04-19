@@ -16,6 +16,8 @@ public class Device {
     private SimpleStringProperty model = new SimpleStringProperty();
     private SimpleStringProperty alias = new SimpleStringProperty();
     private OneWireContainer container; // container referencing the device
+    private String adapterName;
+    private String adapterPort;
 
     public String getDefaultPosition() {
         return defaultPosition.getValue();
@@ -71,5 +73,21 @@ public class Device {
 
     public void setContainer(OneWireContainer container) {
         this.container = container;
+    }
+
+    public String getAdapterName() {
+        return adapterName;
+    }
+
+    public void setAdapterName(String adapterName) {
+        this.adapterName = adapterName;
+    }
+
+    public String getAdapterPort() {
+        return adapterPort;
+    }
+
+    public void setAdapterPort(String adapterPort) {
+        this.adapterPort = adapterPort;
     }
 }
