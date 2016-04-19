@@ -12,9 +12,51 @@ import temperatus.exception.ControlledTemperatusException;
 
 import java.util.concurrent.Callable;
 
+
+//###################################################################################
+//                                                                                  #
+//                              GENERAL INFO                                        #
+//                                                                                  #
+//###################################################################################
+/*
+
+    ------- Every call override must follow this pattern ------
+
+    @Override
+    public T call() throws Exception {
+        try {
+            deviceSemaphore.acquire();
+
+            return operation();
+
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        } finally {
+            deviceSemaphore.release();
+        }
+    }
+
+    ------- Every device operation must follow this pattern -------
+
+    private double operation() throws ControlledTemperatusException {
+        try {
+            setUpAdapter();
+
+            return operate();
+
+        } catch (OneWireException e) {
+            throw new ControlledTemperatusException("Error" + e.getMessage());
+        } finally {
+            releaseAdapter();
+        }
+
+//###################################################################################
+
+*/
+
 /**
  * Abstract class for task over a device
- * <p/>
+ * <p>
  * Created by alberto on 18/4/16.
  */
 public abstract class DeviceTask implements Callable {
@@ -23,56 +65,63 @@ public abstract class DeviceTask implements Callable {
 
     @Autowired DeviceSemaphore deviceSemaphore; // shared semaphore
 
-    OneWireContainer container = null;
-    DSPortAdapter adapter = null;
-    String adapterName = null;
-    String adapterPort = null;
+    public OneWireContainer container = null;
+    private DSPortAdapter adapter = null;
+    private String adapterName = null;
+    private String adapterPort = null;
 
+    /**
+     * Set up the adapter and container, select the port and start adapter's exclusivity
+     * This must be called before read/write from/to the device
+     *
+     * @throws ControlledTemperatusException
+     */
     void setUpAdapter() throws ControlledTemperatusException {
         try {
-            adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
+            adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);   // get the adapter from the previously saved info
 
             if (container == null || adapter == null) {
-                logger.warn("Error reading temperature, container is null");
-                throw new ControlledTemperatusException("Container is null, cannot read temperature");
+                logger.error("Error setting up adapter. Container or adapter is null");
+                throw new ControlledTemperatusException("Container or adapter is null. Cannot set up adapter");
             }
 
+            adapter.selectPort(adapterPort);    // get the port, from now on the port is exclusive
+            adapter.beginExclusive(true);       // begin adapter's exclusivity
+            container.setupContainer(adapter, container.getAddress());  // set up the adapter in the device's container
+            logger.debug("Adapter is exclusive now");
+
         } catch (OneWireException e) {
-            e.printStackTrace();
+            throw new ControlledTemperatusException("Error while setting up Container/Adapter.  " + e.getMessage());
         }
 
-        try {
-            adapter.selectPort(adapterPort);
-            adapter.beginExclusive(true);
-            container.setupContainer(adapter, container.getAddress());
-            logger.debug("Adapter is exclusive now, reading device's temperature");
-
-        } catch (Exception e) {
-            throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
-        }
-    }
-
-    void releaseAdapter() {
-        adapter.endExclusive();
-        try {
-            adapter.freePort();
-        } catch (OneWireException ex) {
-            logger.error("Error closing port");
-        }
-        logger.debug("Adapter end exclusivity");
     }
 
     /**
-     * Set container to read temperature from
-     *
-     * @param container device container
+     * Free the port and end adapter exclusivity
+     * This function must be called inside the finally {} part
      */
-    public void setContainer(OneWireContainer container, String adapterName, String adapterPort) {
-        if (container != null && adapterName != null && adapterPort != null) {
-            this.container = container;
-            this.adapterPort = adapterPort;
-            this.adapterName = adapterName;
+    void releaseAdapter() {
+        try {
+            adapter.endExclusive();
+            adapter.freePort();
+        } catch (OneWireException ex) {
+            logger.error("Error freeing port or ending adapter's exclusivity.  " + ex.getMessage());
         }
+        logger.debug("Adapter end exclusivity successfully.");
+    }
+
+
+    /**
+     * Set device's data to read from
+     *
+     * @param container   device's container
+     * @param adapterName adapter where the device is connected name
+     * @param adapterPort port where the adapter is connected
+     */
+    public void setDeviceData(OneWireContainer container, String adapterName, String adapterPort) {
+        this.container = container;
+        this.adapterPort = adapterPort;
+        this.adapterName = adapterName;
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Control all operations related to devices.
- * There are two executors with only one thread each. The first one will hold the device read tasks (read from device).
+ * There are two executors with only one thread each. The first one will hold the device read/write tasks (read/write from/to device).
  * The second one is a scheduled executor which runs a scan task every PERIOD seconds.
  * <p>
  * Both tasks (scan and read) are required to get a semaphore before perform the operation over the device so only one
@@ -47,7 +47,7 @@ public class DeviceOperationsManager {
      *
      * @param deviceTask task to submit
      */
-    public <T> ListenableFuture submitTask(DeviceTask deviceTask) {
+    public ListenableFuture submitTask(DeviceTask deviceTask) {
         return operationsExecutor.submit(deviceTask);
     }
 

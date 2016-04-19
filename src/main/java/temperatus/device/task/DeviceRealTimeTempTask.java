@@ -41,25 +41,22 @@ public class DeviceRealTimeTempTask extends DeviceTask {
      * @return current temperature
      * @throws ControlledTemperatusException
      */
-    private double getCurrentTemperature() throws ControlledTemperatusException, OneWireException {
-
-        double currentTemp = Double.NaN;
-
+    private double getCurrentTemperature() throws ControlledTemperatusException {
         try {
             setUpAdapter();
 
             byte[] state = ((TemperatureContainer) container).readDevice();
             ((TemperatureContainer) container).doTemperatureConvert(state);
-            currentTemp = ((TemperatureContainer) container).getTemperature(state);
-            logger.info("Temperature (celsius) read: " + currentTemp);
+            double currentTemp = ((TemperatureContainer) container).getTemperature(state);
 
-        } catch (Exception e) {
+            logger.debug("Temperature (celsius) read: " + currentTemp);
+            return currentTemp;
+
+        } catch (OneWireException e) {
             throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
         } finally {
             releaseAdapter();
         }
-
-        return currentTemp;
     }
 
 }

@@ -5,7 +5,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Used to show connected devices in a tableView. When a new iButton is connected to the computer a new instance of this class
- * is created and added to the tableView of Connected Devices
+ * is created and added to the tableView of Connected Devices.
+ * <p>
+ * It's also used to pass the device to read tasks so we need to store the container and the info to regenerate the adapter.
  * <p>
  * Created by alberto on 13/2/16.
  */
@@ -15,9 +17,10 @@ public class Device {
     private SimpleStringProperty serial = new SimpleStringProperty();
     private SimpleStringProperty model = new SimpleStringProperty();
     private SimpleStringProperty alias = new SimpleStringProperty();
+
     private OneWireContainer container; // container referencing the device
-    private String adapterName;
-    private String adapterPort;
+    private String adapterName; // connected adapter name
+    private String adapterPort; // port where the adapter is connected
 
     public String getDefaultPosition() {
         return defaultPosition.getValue();

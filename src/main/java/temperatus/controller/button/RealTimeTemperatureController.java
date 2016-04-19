@@ -41,24 +41,16 @@ import java.util.ResourceBundle;
 @Controller
 public class RealTimeTemperatureController implements Initializable, AbstractController {
 
-    @FXML
-    private LineChart<Date, Number> lineChart;
-    @FXML
-    private DateAxis dateAxis;    // time of measurement
-    @FXML
-    private NumberAxis temperatureAxis;   // temperature read
+    @FXML private LineChart<Date, Number> lineChart;
+    @FXML private DateAxis dateAxis;    // time of measurement
+    @FXML private NumberAxis temperatureAxis;   // temperature read
 
-    @FXML
-    private TextField currentTemp;    // show the current temperature in text
-    @FXML
-    private RadioButton unitC;
-    @FXML
-    private RadioButton unitF;
+    @FXML private TextField currentTemp;    // show the current temperature in text
+    @FXML private RadioButton unitC;
+    @FXML private RadioButton unitF;
 
-    @Autowired
-    DeviceRealTimeTempTask deviceRealTimeTempTask;   // read from device task
-    @Autowired
-    DeviceOperationsManager deviceOperationsManager;
+    @Autowired DeviceRealTimeTempTask deviceRealTimeTempTask;   // read from device task
+    @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Timeline fiveSecondsWonder;     // read temperature and show it in the graph every X seconds
     private XYChart.Series<Date, Number> serie = new XYChart.Series<>();
@@ -82,7 +74,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
 
     void setDevice(Device device) {
         this.container = device.getContainer();
-        deviceRealTimeTempTask.setContainer(container, device.getAdapterName(), device.getAdapterPort());
+        deviceRealTimeTempTask.setDeviceData(container, device.getAdapterName(), device.getAdapterPort());
     }
 
     private void createTimeLineWithPeriod() {
@@ -100,6 +92,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
                         addNewTemperature(result);
                     });
                 }
+
                 public void onFailure(Throwable thrown) {
                     logger.error("Error fetching temperature - Future error");
                 }

@@ -11,7 +11,7 @@ import java.io.File;
  * @author aquesada
  */
 @Component
-@Scope("prototype")
+@Scope("prototype") // TODO???
 public class DeviceReadTask extends DeviceTask {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());

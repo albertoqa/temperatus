@@ -18,7 +18,6 @@ import java.util.List;
  * Created by alberto on 12/2/16.
  */
 @Component
-//@Scope("prototype")   // TODO ¿should it be singleton?
 public class DeviceDetectorSource {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceDetectorSource.class.getName());

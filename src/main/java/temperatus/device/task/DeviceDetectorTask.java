@@ -16,6 +16,12 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
+ * Keep a list with all connected devices.
+ * Iterate over all possible adapters and ports looking for new connected devices.
+ * When a new event (arrival/departure) is detected, the list is updated and all registered listeners are warned of the event.
+ * <p>
+ * This task runs every X seconds.
+ * <p>
  * Created by alberto on 12/2/16.
  */
 @Component
@@ -23,10 +29,10 @@ public class DeviceDetectorTask implements Runnable {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceDetectorTask.class.getName());
 
-    private List<String> serialsDetected = new ArrayList<>();
+    private List<String> serialsDetected = new ArrayList<>();   // list of device's serials currently connected (already detected)
 
-    @Autowired DeviceDetectorSource deviceDetectorSource;
-    @Autowired DeviceSemaphore deviceSemaphore;
+    @Autowired DeviceDetectorSource deviceDetectorSource;   // create event to let all listeners know about what is happening
+    @Autowired DeviceSemaphore deviceSemaphore;             // shared semaphore
 
     @Override
     public void run() {
@@ -36,7 +42,6 @@ public class DeviceDetectorTask implements Runnable {
             logger.debug("Scan Semaphore adquired!");
 
             searchForDevices();
-            //Thread.sleep(2000);
 
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
@@ -46,6 +51,9 @@ public class DeviceDetectorTask implements Runnable {
         }
     }
 
+    /**
+     * Iterate over all possible adapters and ports looking for connected devices
+     */
     private void searchForDevices() {
         logger.debug("Semaphore acquired...Performing search");
 
@@ -59,6 +67,7 @@ public class DeviceDetectorTask implements Runnable {
                     adapter.selectPort(port_name);
                     if (adapter.adapterDetected()) {
 
+                        // Check if devices previously detected are still connected
                         for (String serial : serialsDetected) {
                             if (!adapter.isPresent(serial)) {
                                 serialsDetected.remove(serial);
@@ -73,6 +82,7 @@ public class DeviceDetectorTask implements Runnable {
                             OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
                             String serial = ibutton.getAddressAsString();
 
+                            // New device detected, add it to the list and warn the listeners
                             if (!serialsDetected.contains(serial)) {
                                 serialsDetected.add(serial);
                                 deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
@@ -84,12 +94,13 @@ public class DeviceDetectorTask implements Runnable {
 
                 } catch (Exception e) {
                     // only prevent exception, not manage it at all... ¿NetAdapter?
+                    logger.debug("Exception in scan...  " + e.getMessage());
                 } finally {
                     try {
                         adapter.endExclusive();
                         adapter.freePort();
                     } catch (OneWireException e) {
-                        e.printStackTrace();
+                        logger.debug("Error closing ports... " + e.getMessage());
                     }
                 }
             }
