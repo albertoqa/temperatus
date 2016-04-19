@@ -351,7 +351,7 @@ public class NewRecordController extends AbstractCreationController implements I
      *
      * @return selected file
      */
-    protected File importDataFromSource() {
+    private File importDataFromSource() {
         FileChooser fileChooser = new FileChooser();
 
         //Set extension filter
@@ -602,11 +602,7 @@ public class NewRecordController extends AbstractCreationController implements I
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
 
         if (ibutton != null) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    addiButtonToBoxes(ibutton);
-                }
-            });
+            Platform.runLater(() -> addiButtonToBoxes(ibutton));
         }
     }
 
@@ -615,11 +611,7 @@ public class NewRecordController extends AbstractCreationController implements I
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
 
         if (ibutton != null) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    removeiButtonFromBoxes(ibutton);
-                }
-            });
+            Platform.runLater(() -> removeiButtonFromBoxes(ibutton));
         }
     }
 

@@ -80,13 +80,18 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         connectedDevicesTable.getSelectionModel().clearSelection();
 
         devicesConnected.addListener((ListChangeListener<Device>) c -> {
-            if (devicesConnected.size() == 0) {
-                searchingIndicator.setVisible(true);
-            } else {
-                searchingIndicator.setVisible(false);
-            }
+            updateIndicator();
         });
 
+        updateIndicator();
+    }
+
+    private void updateIndicator() {
+        if (devicesConnected.size() == 0) {
+            searchingIndicator.setVisible(true);
+        } else {
+            searchingIndicator.setVisible(false);
+        }
     }
 
     private void loadInfo(Device device) {
