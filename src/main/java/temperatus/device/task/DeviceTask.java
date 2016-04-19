@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 /**
  * Abstract class for task over a device
- * <p>
+ * <p/>
  * Created by alberto on 18/4/16.
  */
 public abstract class DeviceTask implements Callable {
@@ -53,13 +53,13 @@ public abstract class DeviceTask implements Callable {
     }
 
     void releaseAdapter() {
-            adapter.endExclusive();
-            try {
-                adapter.freePort();
-            } catch (OneWireException ex) {
-                logger.error("Error closing port");
-            }
-            logger.debug("Adapter end exclusivity");
+        adapter.endExclusive();
+        try {
+            adapter.freePort();
+        } catch (OneWireException ex) {
+            logger.error("Error closing port");
+        }
+        logger.debug("Adapter end exclusivity");
     }
 
     /**

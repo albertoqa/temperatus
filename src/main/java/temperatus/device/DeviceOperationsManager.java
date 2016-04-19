@@ -29,7 +29,7 @@ public class DeviceOperationsManager {
 
     private DaemonThreadFactory daemonThreadFactory = new DaemonThreadFactory();    // stop thread on application exit
 
-    private ListeningExecutorService operationsExecutor;                 // Read/Write tasks executor
+    private ListeningExecutorService operationsExecutor;        // Read/Write tasks executor
     private ScheduledExecutorService scanSchedulerExecutor;     // Scan tasks executor
 
     @Autowired DeviceDetectorTask scanTask;                     // Scan task

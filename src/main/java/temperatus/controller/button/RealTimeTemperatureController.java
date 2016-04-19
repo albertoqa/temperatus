@@ -97,27 +97,28 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
             Futures.addCallback(future, new FutureCallback<Double>() {
                 public void onSuccess(Double result) {
                     Platform.runLater(() -> {
-                        double temperature = result;
-
-                        if (unitGroup.getSelectedToggle().equals(unitF)) {
-                            temperature = Calculator.fahrenheitToCelsius(temperature);
-                        }
-
-                        serie.getData().add(new XYChart.Data<>(new Date(), temperature));
-                        currentTemp.setText(temperature + "");
-                        logger.info("Temperature read: " + temperature);
+                        addNewTemperature(result);
                     });
                 }
-
                 public void onFailure(Throwable thrown) {
                     logger.error("Error fetching temperature - Future error");
                 }
             });
-
-
         }));
 
         fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    private void addNewTemperature(double temp) {
+        double temperature = temp;
+
+        if (unitGroup.getSelectedToggle().equals(unitF)) {
+            temperature = Calculator.fahrenheitToCelsius(temperature);
+        }
+
+        serie.getData().add(new XYChart.Data<>(new Date(), temperature));
+        currentTemp.setText(temperature + "");
+        logger.info("Temperature read: " + temperature);
     }
 
     /**
