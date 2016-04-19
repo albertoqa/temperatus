@@ -51,6 +51,8 @@ public class DeviceRealTimeTempTask extends DeviceTask {
      */
     private double getCurrentTemperature() throws ControlledTemperatusException, OneWireException {
 
+        adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
+
         if (container == null || adapter == null) {
             logger.warn("Error reading temperature, container is null");
             throw new ControlledTemperatusException("Container is null, cannot read temperature");
@@ -59,8 +61,6 @@ public class DeviceRealTimeTempTask extends DeviceTask {
         double currentTemp = Double.NaN;
 
         try {
-            this.adapter = OneWireAccessProvider.getAdapter(adapterName, adapterPort);
-
             adapter.selectPort(adapterPort);
             adapter.beginExclusive(true);
             container.setupContainer(adapter, container.getAddress());

@@ -72,7 +72,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             infoTabPane.getSelectionModel().clearSelection();
-            loadInfo(newSelection);
+            if(newSelection != null) {
+                loadInfo(newSelection);
+            }
         });
 
         connectedDevicesTable.getSelectionModel().clearSelection();

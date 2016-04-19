@@ -29,7 +29,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * Show a graphic with the temperature read form the device in real time
@@ -67,6 +66,23 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         createTimeLineWithPeriod();
         lineChart.setData(FXCollections.observableArrayList(serie));
         serie.setName("Real-time Temperature");
+
+        deviceRealTimeTempTask.setOnSucceeded(event1 -> {
+            double temperature = 0.0;
+            try {
+                temperature = (double) deviceRealTimeTempTask.get();
+
+                if (unitGroup.getSelectedToggle().equals(unitF)) {
+                    temperature = Calculator.fahrenheitToCelsius(temperature);
+                }
+
+                serie.getData().add(new XYChart.Data<>(new Date(), temperature));
+                currentTemp.setText(temperature + "");
+                logger.info("Temperature read: " + temperature);
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     void setDevice(Device device) {
@@ -76,29 +92,11 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
 
     private void createTimeLineWithPeriod() {
         fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(period), event -> {
-
             if (!(VistaNavigator.getController() instanceof ConnectedDevicesController)) {
                 fiveSecondsWonder.stop();
                 serie.getData().clear();
             }
-
-            Future future = deviceOperationsManager.submitTask(deviceRealTimeTempTask);
-
-            double temperature = 0.0;
-            try {
-                temperature = (double) future.get();
-
-                if (unitGroup.getSelectedToggle().equals(unitF)) {
-                    temperature = Calculator.fahrenheitToCelsius(temperature);
-                }
-
-                serie.getData().add(new XYChart.Data<>(new Date(), temperature));
-                currentTemp.setText(temperature + "");
-                logger.info("Temperature read: " + temperature);
-
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+            deviceOperationsManager.submitTask(deviceRealTimeTempTask);
         }));
 
         fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
