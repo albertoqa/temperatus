@@ -97,8 +97,14 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         loadDefaultConfiguration();
     }
 
+    /**
+     * Generate a configuration object with the values obtained from the user input
+     *
+     * @return generated configuration object
+     */
     private Configuration generateConfiguration() {
         Configuration configuration = new Configuration();
+
         configuration.setName(nameInput.getText());
         configuration.setSyncTime(syncTime.isSelected());
         configuration.setRollover(rollOver.isSelected());
@@ -107,14 +113,17 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         configuration.setSuta(onAlarmCheck.isSelected());
 
         configuration.setChannelEnabledC1(true);
+        configuration.setChannelEnabledC2(false);
         configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
-        if(activateAlarmCheck.isSelected()) {
+        if (activateAlarmCheck.isSelected()) {
             configuration.setHighAlarmC1(highAlarm.getValue());
             configuration.setLowAlarmC1(lowAlarm.getValue());
             configuration.setEnableAlarmC1(true);
         } else {
             configuration.setEnableAlarmC1(false);
         }
+
+        configuration.setObservations(observationsArea.getText());
 
         return configuration;
     }
@@ -140,9 +149,14 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         }
     }
 
+    /**
+     * Load configuration data on the view
+     * @param configuration to be loaded
+     */
     private void loadConfiguration(Configuration configuration) {
         nameInput.setText(configuration.getName());
         rateInput.setText(String.valueOf(configuration.getRate()));
+        observationsArea.setText(configuration.getObservations());
 
         if (configuration.isSyncTime()) {
             syncTime.setSelected(true);
@@ -157,12 +171,32 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         }
 
         if (configuration.isSuta()) {
-            // TODO
+            onAlarmCheck.setSelected(true);
+        } else {
+            onAlarmCheck.setSelected(false);
         }
 
-        //observationsArea.setText(configuration.getObservations()); // TODO add observations to database
+        delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
+        onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
+
+        if(configuration.getResolutionC1() == RES_LOW) {
+            resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
+        } else {
+            resolutionBox.getSelectionModel().select(RESOLUTION_HIGH);
+        }
+
+        if(configuration.getEnableAlarmC1()) {
+            activateAlarmCheck.setSelected(true);
+            highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
+            lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
+        } else {
+            activateAlarmCheck.setSelected(false);
+        }
     }
 
+    /**
+     * Search for the default configuration and load it on screen
+     */
     private void loadDefaultConfiguration() {
         for (Configuration configuration : configurationListView.getItems()) {
             if ("Default".equals(configuration.getName())) {
@@ -180,7 +214,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         } else if (onDateCheck.isSelected()) {
             return calculateDateDelay(dateInput.getText());
         } else {
-            return 0; // Todo check
+            return onAlarmDelayInput.getValue();
         }
     }
 
@@ -206,27 +240,33 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
     @FXML
     private void startMission() {
         Configuration configuration = generateConfiguration();  // current configuration options
+        if (isConfigurationValid(configuration)) {
+            for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
 
-        for(Device device: deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
+                deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
+                deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
+                ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
 
-            deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
-            deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
-            ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
+                // TODO show progress???
 
-            // TODO show progress???
+                Futures.addCallback(future, new FutureCallback<Boolean>() {
+                    public void onSuccess(Boolean result) {
+                        Platform.runLater(() -> {
+                            logger.info("Device configured correctly");
+                        });
+                    }
 
-            Futures.addCallback(future, new FutureCallback<Boolean>() {
-                public void onSuccess(Boolean result) {
-                    Platform.runLater(() -> {
-                        logger.info("Device configured correctly");
-                    });
-                }
-
-                public void onFailure(Throwable thrown) {
-                    logger.error("Error starting mission on device - Future error");
-                }
-            });
+                    public void onFailure(Throwable thrown) {
+                        logger.error("Error starting mission on device - Future error");
+                    }
+                });
+            }
         }
+    }
+
+    // TODO
+    private boolean isConfigurationValid(Configuration configuration) {
+        return true;
     }
 
 }

@@ -108,12 +108,17 @@ public class ManageConfigurationController implements Initializable, AbstractCon
 
     @FXML
     private void deleteConfiguration() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Configuration configuration = table.getSelectionModel().getSelectedItem();
-            configurationService.delete(configuration);
-            configurations.remove(configuration);
+        Configuration configuration = table.getSelectionModel().getSelectedItem();
+        if("Default".equals(configuration.getName())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Default configuration cannot be deleted.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                configurationService.delete(configuration);
+                configurations.remove(configuration);
+            }
         }
     }
 
