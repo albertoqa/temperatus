@@ -94,7 +94,7 @@ public class DeviceDetectorTask implements Runnable {
 
                 } catch (Exception e) {
                     // only prevent exception, not manage it at all... ¿NetAdapter?
-                    logger.debug("Exception in scan...  " + e.getMessage());
+                    // logger.debug("Exception in scan...  " + e.getMessage());
                 } finally {
                     try {
                         adapter.endExclusive();
