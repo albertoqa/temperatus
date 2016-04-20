@@ -199,29 +199,34 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
 
     }
 
+    /**
+     * Generate a configuration to apply to a mission. Get all selected devices and start a mission in each
+     * of them with the selected parameters.
+     */
     @FXML
     private void startMission() {
-        Configuration configuration = generateConfiguration();
+        Configuration configuration = generateConfiguration();  // current configuration options
 
-        deviceMissionStartTask.setConfiguration(configuration);
-        ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
+        for(Device device: deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
 
-        // TODO show progress???
+            deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
+            deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
+            ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
 
+            // TODO show progress???
 
-        Futures.addCallback(future, new FutureCallback<Boolean>() {
-            public void onSuccess(Boolean result) {
-                Platform.runLater(() -> {
-                    logger.info("Device configured correctly");
+            Futures.addCallback(future, new FutureCallback<Boolean>() {
+                public void onSuccess(Boolean result) {
+                    Platform.runLater(() -> {
+                        logger.info("Device configured correctly");
+                    });
+                }
 
-                });
-            }
-
-            public void onFailure(Throwable thrown) {
-                logger.error("Error starting mission on device - Future error");
-            }
-        });
-
+                public void onFailure(Throwable thrown) {
+                    logger.error("Error starting mission on device - Future error");
+                }
+            });
+        }
     }
 
 }
