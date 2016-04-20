@@ -1,6 +1,7 @@
 package temperatus.device;
 
 import com.dalsemi.onewire.container.OneWireContainer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,12 +73,20 @@ public class DeviceConnectedList implements DeviceDetectorListener {
             }
         }
 
-        devices.add(device);
+        Platform.runLater(() -> devices.add(device));
     }
 
     @Override
     public void departure(DeviceDetector event) {
+        String serial = event.getSerial();
 
+        for (Device device : devices) {
+            if (serial.equals(device.getSerial())) {
+                Platform.runLater(() -> devices.remove(device));
+                break;
+            }
+        }
     }
+
 
 }

@@ -91,6 +91,7 @@ public class Lang {
     public static final String POSITIONSPANE = "positionsPane";
     public static final String AUTHORSPANE = "authorsPane";
     public static final String IBUTTONSPANE = "iButtonsPane";
+    public static final String CONFIGURATIONSPANE = "configurationsPane";
     public static final String LANG_SELECTOR = "langSel";
     public static final String UNIT_SELECTOR = "unitSel";
     public static final String WRITE_AS_INDEX_LABEL = "writeAsIndexLab";

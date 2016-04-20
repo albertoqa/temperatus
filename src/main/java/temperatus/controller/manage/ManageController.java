@@ -37,6 +37,7 @@ public class ManageController implements Initializable, AbstractController {
     private Tab positionsTab = new Tab();
     private Tab authorsTab = new Tab();
     private Tab iButtonsTab = new Tab();
+    private Tab configurationsTab = new Tab();
 
     static Logger logger = LoggerFactory.getLogger(ManageController.class.getName());
 
@@ -46,7 +47,7 @@ public class ManageController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        tabPane.getTabs().addAll(subjectsTab, authorsTab, gamesTab, formulasTab, positionsTab, iButtonsTab);
+        tabPane.getTabs().addAll(subjectsTab, authorsTab, gamesTab, formulasTab, positionsTab, iButtonsTab, configurationsTab);
 
         tabPane.getSelectionModel().clearSelection();
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -68,6 +69,8 @@ public class ManageController implements Initializable, AbstractController {
                         fxml = Constants.MANAGE_AUTHOR;
                     } else if (language.get(Lang.IBUTTONSPANE).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_IBUTTON;
+                    } else if (language.get(Lang.CONFIGURATIONSPANE).equals(newValue.getText())) {
+                        fxml = Constants.MANAGE_CONFIGURATIONS;
                     }
 
                     if (!fxml.equals("")) {
@@ -94,5 +97,6 @@ public class ManageController implements Initializable, AbstractController {
         positionsTab.setText(language.get(Lang.POSITIONSPANE));
         authorsTab.setText(language.get(Lang.AUTHORSPANE));
         iButtonsTab.setText(language.get(Lang.IBUTTONSPANE));
+        configurationsTab.setText(language.get(Lang.CONFIGURATIONSPANE));
     }
 }

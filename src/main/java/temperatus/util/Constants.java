@@ -59,6 +59,7 @@ public class Constants {
     public static final String MANAGE_AUTHOR = "/fxml/manage/ManageAuthor.fxml";
     public static final String MANAGE_FORMULA = "/fxml/manage/ManageFormula.fxml";
     public static final String MANAGE_IBUTTON = "/fxml/manage/ManageIButton.fxml";
+    public static final String MANAGE_CONFIGURATIONS = "/fxml/manage/ManageConfiguration.fxml";
 
     public static final String GAME_INFO = "/fxml/manage/ampliate/GameInfo.fxml";
 

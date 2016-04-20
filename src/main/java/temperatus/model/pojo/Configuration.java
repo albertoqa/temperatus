@@ -1,6 +1,8 @@
 package temperatus.model.pojo;
 // Generated Apr 19, 2016 8:16:42 PM by Hibernate Tools 4.3.1.Final
 
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -12,212 +14,218 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "CONFIGURATION", schema = "PUBLIC", catalog = "DATABASE", uniqueConstraints = @UniqueConstraint(columnNames = "NAME"))
 public class Configuration implements java.io.Serializable {
 
-	private Integer id;
-	private String name;
-	private boolean syncTime;   		// sync device time with system time
-	private int rate;           		// sample rate
-	private int delay;          		// start mission delay. 0 = start delay
-	private boolean rollover;   		// override data if memory full
-	private boolean suta;       		// start upon temperature alarm enabled
-	private Boolean enableAlarmC1;
-	private Boolean channelEnabledC1;
-	private Double lowAlarmC1;
-	private Double highAlarmC1;
-	private Double resolutionC1;
-	private Boolean enableAlarmC2;
-	private Boolean channelEnabledC2;
-	private Double lowAlarmC2;
-	private Double highAlarmC2;
-	private Double resolutionC2;
+    private Integer id;
+    private SimpleStringProperty name = new SimpleStringProperty();
+    private boolean syncTime;        // sync device time with system time
+    private int rate;                // sample rate
+    private int delay;                // start mission delay. 0 = start delay
+    private boolean rollover;        // override data if memory full
+    private boolean suta;            // start upon temperature alarm enabled
+    private Boolean enableAlarmC1;
+    private Boolean channelEnabledC1;
+    private Double lowAlarmC1;
+    private Double highAlarmC1;
+    private Double resolutionC1;
+    private Boolean enableAlarmC2;
+    private Boolean channelEnabledC2;
+    private Double lowAlarmC2;
+    private Double highAlarmC2;
+    private Double resolutionC2;
 
-	public Configuration() {
-	}
+    public Configuration() {
+    }
 
-	public Configuration(String name, boolean syncTime, int rate, int delay, boolean rollover, boolean suta) {
-		this.name = name;
-		this.syncTime = syncTime;
-		this.rate = rate;
-		this.delay = delay;
-		this.rollover = rollover;
-		this.suta = suta;
-	}
+    public Configuration(String name, boolean syncTime, int rate, int delay, boolean rollover, boolean suta) {
+        this.name.setValue(name);
+        this.syncTime = syncTime;
+        this.rate = rate;
+        this.delay = delay;
+        this.rollover = rollover;
+        this.suta = suta;
+    }
 
-	public Configuration(String name, boolean syncTime, int rate, int delay, boolean rollover, boolean suta,
-			Boolean enableAlarmC1, Boolean channelEnabledC1, Double lowAlarmC1, Double highAlarmC1, Double resolutionC1,
-			Boolean enableAlarmC2, Boolean channelEnabledC2, Double lowAlarmC2, Double highAlarmC2,
-			Double resolutionC2) {
-		this.name = name;
-		this.syncTime = syncTime;
-		this.rate = rate;
-		this.delay = delay;
-		this.rollover = rollover;
-		this.suta = suta;
-		this.enableAlarmC1 = enableAlarmC1;
-		this.channelEnabledC1 = channelEnabledC1;
-		this.lowAlarmC1 = lowAlarmC1;
-		this.highAlarmC1 = highAlarmC1;
-		this.resolutionC1 = resolutionC1;
-		this.enableAlarmC2 = enableAlarmC2;
-		this.channelEnabledC2 = channelEnabledC2;
-		this.lowAlarmC2 = lowAlarmC2;
-		this.highAlarmC2 = highAlarmC2;
-		this.resolutionC2 = resolutionC2;
-	}
+    public Configuration(String name, boolean syncTime, int rate, int delay, boolean rollover, boolean suta,
+                         Boolean enableAlarmC1, Boolean channelEnabledC1, Double lowAlarmC1, Double highAlarmC1, Double resolutionC1,
+                         Boolean enableAlarmC2, Boolean channelEnabledC2, Double lowAlarmC2, Double highAlarmC2,
+                         Double resolutionC2) {
+        this.name.setValue(name);
+        this.syncTime = syncTime;
+        this.rate = rate;
+        this.delay = delay;
+        this.rollover = rollover;
+        this.suta = suta;
+        this.enableAlarmC1 = enableAlarmC1;
+        this.channelEnabledC1 = channelEnabledC1;
+        this.lowAlarmC1 = lowAlarmC1;
+        this.highAlarmC1 = highAlarmC1;
+        this.resolutionC1 = resolutionC1;
+        this.enableAlarmC2 = enableAlarmC2;
+        this.channelEnabledC2 = channelEnabledC2;
+        this.lowAlarmC2 = lowAlarmC2;
+        this.highAlarmC2 = highAlarmC2;
+        this.resolutionC2 = resolutionC2;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "ID", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
+    @Column(name = "ID", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Column(name = "NAME", unique = true, nullable = false, length = 50)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "NAME", unique = true, nullable = false, length = 50)
+    public String getName() {
+        return this.name.getValue();
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name.setValue(name);
 
-	@Column(name = "SYNC_TIME", nullable = false)
-	public boolean isSyncTime() {
-		return this.syncTime;
-	}
+    }
 
-	public void setSyncTime(boolean syncTime) {
-		this.syncTime = syncTime;
-	}
+    @Transient
+    public SimpleStringProperty getNameProperty() {
+        return this.name;
+    }
 
-	@Column(name = "RATE", nullable = false)
-	public int getRate() {
-		return this.rate;
-	}
+    @Column(name = "SYNC_TIME", nullable = false)
+    public boolean isSyncTime() {
+        return this.syncTime;
+    }
 
-	public void setRate(int rate) {
-		this.rate = rate;
-	}
+    public void setSyncTime(boolean syncTime) {
+        this.syncTime = syncTime;
+    }
 
-	@Column(name = "DELAY", nullable = false)
-	public int getDelay() {
-		return this.delay;
-	}
+    @Column(name = "RATE", nullable = false)
+    public int getRate() {
+        return this.rate;
+    }
 
-	public void setDelay(int delay) {
-		this.delay = delay;
-	}
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
 
-	@Column(name = "ROLLOVER", nullable = false)
-	public boolean isRollover() {
-		return this.rollover;
-	}
+    @Column(name = "DELAY", nullable = false)
+    public int getDelay() {
+        return this.delay;
+    }
 
-	public void setRollover(boolean rollover) {
-		this.rollover = rollover;
-	}
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
 
-	@Column(name = "SUTA", nullable = false)
-	public boolean isSuta() {
-		return this.suta;
-	}
+    @Column(name = "ROLLOVER", nullable = false)
+    public boolean isRollover() {
+        return this.rollover;
+    }
 
-	public void setSuta(boolean suta) {
-		this.suta = suta;
-	}
+    public void setRollover(boolean rollover) {
+        this.rollover = rollover;
+    }
 
-	@Column(name = "ENABLE_ALARM_C1")
-	public Boolean getEnableAlarmC1() {
-		return this.enableAlarmC1;
-	}
+    @Column(name = "SUTA", nullable = false)
+    public boolean isSuta() {
+        return this.suta;
+    }
 
-	public void setEnableAlarmC1(Boolean enableAlarmC1) {
-		this.enableAlarmC1 = enableAlarmC1;
-	}
+    public void setSuta(boolean suta) {
+        this.suta = suta;
+    }
 
-	@Column(name = "CHANNEL_ENABLED_C1")
-	public Boolean getChannelEnabledC1() {
-		return this.channelEnabledC1;
-	}
+    @Column(name = "ENABLE_ALARM_C1")
+    public Boolean getEnableAlarmC1() {
+        return this.enableAlarmC1;
+    }
 
-	public void setChannelEnabledC1(Boolean channelEnabledC1) {
-		this.channelEnabledC1 = channelEnabledC1;
-	}
+    public void setEnableAlarmC1(Boolean enableAlarmC1) {
+        this.enableAlarmC1 = enableAlarmC1;
+    }
 
-	@Column(name = "LOW_ALARM_C1", precision = 17, scale = 0)
-	public Double getLowAlarmC1() {
-		return this.lowAlarmC1;
-	}
+    @Column(name = "CHANNEL_ENABLED_C1")
+    public Boolean getChannelEnabledC1() {
+        return this.channelEnabledC1;
+    }
 
-	public void setLowAlarmC1(Double lowAlarmC1) {
-		this.lowAlarmC1 = lowAlarmC1;
-	}
+    public void setChannelEnabledC1(Boolean channelEnabledC1) {
+        this.channelEnabledC1 = channelEnabledC1;
+    }
 
-	@Column(name = "HIGH_ALARM_C1", precision = 17, scale = 0)
-	public Double getHighAlarmC1() {
-		return this.highAlarmC1;
-	}
+    @Column(name = "LOW_ALARM_C1", precision = 17, scale = 0)
+    public Double getLowAlarmC1() {
+        return this.lowAlarmC1;
+    }
 
-	public void setHighAlarmC1(Double highAlarmC1) {
-		this.highAlarmC1 = highAlarmC1;
-	}
+    public void setLowAlarmC1(Double lowAlarmC1) {
+        this.lowAlarmC1 = lowAlarmC1;
+    }
 
-	@Column(name = "RESOLUTION_C1", precision = 17, scale = 0)
-	public Double getResolutionC1() {
-		return this.resolutionC1;
-	}
+    @Column(name = "HIGH_ALARM_C1", precision = 17, scale = 0)
+    public Double getHighAlarmC1() {
+        return this.highAlarmC1;
+    }
 
-	public void setResolutionC1(Double resolutionC1) {
-		this.resolutionC1 = resolutionC1;
-	}
+    public void setHighAlarmC1(Double highAlarmC1) {
+        this.highAlarmC1 = highAlarmC1;
+    }
 
-	@Column(name = "ENABLE_ALARM_C2")
-	public Boolean getEnableAlarmC2() {
-		return this.enableAlarmC2;
-	}
+    @Column(name = "RESOLUTION_C1", precision = 17, scale = 0)
+    public Double getResolutionC1() {
+        return this.resolutionC1;
+    }
 
-	public void setEnableAlarmC2(Boolean enableAlarmC2) {
-		this.enableAlarmC2 = enableAlarmC2;
-	}
+    public void setResolutionC1(Double resolutionC1) {
+        this.resolutionC1 = resolutionC1;
+    }
 
-	@Column(name = "CHANNEL_ENABLED_C2")
-	public Boolean getChannelEnabledC2() {
-		return this.channelEnabledC2;
-	}
+    @Column(name = "ENABLE_ALARM_C2")
+    public Boolean getEnableAlarmC2() {
+        return this.enableAlarmC2;
+    }
 
-	public void setChannelEnabledC2(Boolean channelEnabledC2) {
-		this.channelEnabledC2 = channelEnabledC2;
-	}
+    public void setEnableAlarmC2(Boolean enableAlarmC2) {
+        this.enableAlarmC2 = enableAlarmC2;
+    }
 
-	@Column(name = "LOW_ALARM_C2", precision = 17, scale = 0)
-	public Double getLowAlarmC2() {
-		return this.lowAlarmC2;
-	}
+    @Column(name = "CHANNEL_ENABLED_C2")
+    public Boolean getChannelEnabledC2() {
+        return this.channelEnabledC2;
+    }
 
-	public void setLowAlarmC2(Double lowAlarmC2) {
-		this.lowAlarmC2 = lowAlarmC2;
-	}
+    public void setChannelEnabledC2(Boolean channelEnabledC2) {
+        this.channelEnabledC2 = channelEnabledC2;
+    }
 
-	@Column(name = "HIGH_ALARM_C2", precision = 17, scale = 0)
-	public Double getHighAlarmC2() {
-		return this.highAlarmC2;
-	}
+    @Column(name = "LOW_ALARM_C2", precision = 17, scale = 0)
+    public Double getLowAlarmC2() {
+        return this.lowAlarmC2;
+    }
 
-	public void setHighAlarmC2(Double highAlarmC2) {
-		this.highAlarmC2 = highAlarmC2;
-	}
+    public void setLowAlarmC2(Double lowAlarmC2) {
+        this.lowAlarmC2 = lowAlarmC2;
+    }
 
-	@Column(name = "RESOLUTION_C2", precision = 17, scale = 0)
-	public Double getResolutionC2() {
-		return this.resolutionC2;
-	}
+    @Column(name = "HIGH_ALARM_C2", precision = 17, scale = 0)
+    public Double getHighAlarmC2() {
+        return this.highAlarmC2;
+    }
 
-	public void setResolutionC2(Double resolutionC2) {
-		this.resolutionC2 = resolutionC2;
-	}
+    public void setHighAlarmC2(Double highAlarmC2) {
+        this.highAlarmC2 = highAlarmC2;
+    }
+
+    @Column(name = "RESOLUTION_C2", precision = 17, scale = 0)
+    public Double getResolutionC2() {
+        return this.resolutionC2;
+    }
+
+    public void setResolutionC2(Double resolutionC2) {
+        this.resolutionC2 = resolutionC2;
+    }
 
 }

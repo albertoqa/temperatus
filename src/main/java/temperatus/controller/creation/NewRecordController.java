@@ -1,6 +1,5 @@
 package temperatus.controller.creation;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -24,11 +23,10 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataValidator;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
+import temperatus.device.DeviceConnectedList;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.AbstractImporter;
 import temperatus.importer.IbuttonDataImporter;
-import temperatus.listener.DeviceDetector;
-import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
@@ -46,7 +44,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @Scope("prototype")
-public class NewRecordController extends AbstractCreationController implements Initializable, DeviceDetectorListener {
+public class NewRecordController extends AbstractCreationController implements Initializable {
 
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
@@ -78,11 +76,12 @@ public class NewRecordController extends AbstractCreationController implements I
     @Autowired RecordService recordService;
     @Autowired MeasurementService measurementService;
 
+    @Autowired DeviceConnectedList deviceConnectedList;     // List of currently connected devices
+
     private Mission mission;
     private Game game;                                      // Game assigned to the mission
     private List<Position> defaultPositions;                // Default positions for selected game
     private List<Position> positions;                       // All positions saved to the db
-    private List<Ibutton> iButtons = new ArrayList<>();     // Detected iButtons
 
     private File[] filesToSave;                         // Files where temp data is temporary stored
 
@@ -594,24 +593,6 @@ public class NewRecordController extends AbstractCreationController implements I
             for (int i = 0; i < game.getNumButtons(); i++) {
                 ((ComboBox) positionBox.getChildren().get(i)).getItems().add(newPosition);
             }
-        }
-    }
-
-    @Override
-    public void arrival(DeviceDetector event) {
-        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
-
-        if (ibutton != null) {
-            Platform.runLater(() -> addiButtonToBoxes(ibutton));
-        }
-    }
-
-    @Override
-    public void departure(DeviceDetector event) {
-        Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());
-
-        if (ibutton != null) {
-            Platform.runLater(() -> removeiButtonFromBoxes(ibutton));
         }
     }
 
