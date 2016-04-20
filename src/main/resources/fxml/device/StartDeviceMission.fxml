@@ -25,7 +25,6 @@
             <CheckBox fx:id="syncTime" layoutX="466.0" layoutY="164.0" mnemonicParsing="false" text="Sync time" />
             <CheckBox fx:id="rollOver" layoutX="466.0" layoutY="199.0" mnemonicParsing="false" text="Rollover" />
             <TextArea fx:id="observationsArea" layoutX="408.0" layoutY="411.0" prefHeight="30.0" prefWidth="156.0" promptText="Observations" styleClass="form" />
-            <CheckBox fx:id="enableClock" layoutX="466.0" layoutY="229.0" mnemonicParsing="false" text="Enable/disable clock" />
             <Label fx:id="rateLabel" layoutX="56.0" layoutY="165.0" styleClass="label-paneinfo" text="Rate:" />
             <TextField fx:id="rateInput" layoutX="112.0" layoutY="160.0" promptText="Sample rate..." styleClass="form" />
             <ChoiceBox fx:id="resolutionBox" layoutX="113.0" layoutY="202.0" prefHeight="27.0" prefWidth="156.0" />
@@ -46,7 +45,9 @@
             <Label fx:id="lowLabel" layoutX="662.0" layoutY="328.0" text="Low" />
             <TextField fx:id="dateInput" layoutX="240.0" layoutY="315.0" styleClass="form" text="18/12/2016 10:00:00" />
             <Spinner fx:id="delayInput" layoutX="240.0" layoutY="286.0" prefHeight="29.0" prefWidth="156.0" />
-            <Button fx:id="saveButton" onAction="#saveConfiguration" layoutX="661.0" layoutY="479.0" mnemonicParsing="false" styleClass="cbtn" text="Save" />
+            <Button fx:id="saveButton" layoutX="661.0" layoutY="479.0" mnemonicParsing="false" onAction="#saveConfiguration" styleClass="cbtn" text="Save" />
+            <Spinner fx:id="onAlarmDelayInput" layoutX="240.0" layoutY="340.0" prefHeight="29.0" prefWidth="156.0" />
+            <CheckBox fx:id="activateAlarmCheck" layoutX="465.0" layoutY="245.0" mnemonicParsing="false" text="Activate alarm" />
          </children>
       </AnchorPane>
    </children>

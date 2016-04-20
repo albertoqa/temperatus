@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.controlsfx.control.CheckListView;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,11 @@ import temperatus.device.task.DeviceMissionStartTask;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.ConfigurationService;
+import temperatus.util.Constants;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -47,19 +51,20 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
     @FXML private RadioButton delayCheck;
 
     @FXML private CheckBox syncTime;
-    @FXML private CheckBox enableClock;
     @FXML private CheckBox rollOver;
+    @FXML private CheckBox activateAlarmCheck;
 
     @FXML private Spinner<Double> highAlarm;
     @FXML private Spinner<Double> lowAlarm;
     @FXML private Spinner<Integer> delayInput;
+    @FXML private Spinner<Integer> onAlarmDelayInput;
 
     @FXML private TextField nameInput;
     @FXML private TextField dateInput;
     @FXML private TextField rateInput;
     @FXML private TextArea observationsArea;
 
-    @FXML private ChoiceBox resolutionBox;
+    @FXML private ChoiceBox<String> resolutionBox;
     @FXML private Button configureButton;
     @FXML private Button helpButton;
 
@@ -73,10 +78,18 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
 
     private static Logger logger = LoggerFactory.getLogger(StartDeviceMissionController.class.getName());
 
+    private static final String RESOLUTION_LOW = "0.5 (low)";
+    private static final String RESOLUTION_HIGH = "0.065 (high)";
+    private static final double RES_LOW = 0.5;
+    private static final double RES_HIGH = 0.065;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         startGroup.getToggles().addAll(immediatelyCheck, onDateCheck, onAlarmCheck, delayCheck);
+        immediatelyCheck.setSelected(true);
+        resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
+        resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
 
         deviceCheckListView.setItems(deviceConnectedList.getDevices());
         configurationListView.setItems(FXCollections.observableArrayList(configurationService.getAll()));
@@ -89,46 +102,96 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         configuration.setName(nameInput.getText());
         configuration.setSyncTime(syncTime.isSelected());
         configuration.setRollover(rollOver.isSelected());
+        configuration.setDelay(getStart());
+        configuration.setRate(Integer.valueOf(rateInput.getText()));
+        configuration.setSuta(onAlarmCheck.isSelected());
+
+        configuration.setChannelEnabledC1(true);
+        configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
+        if(activateAlarmCheck.isSelected()) {
+            configuration.setHighAlarmC1(highAlarm.getValue());
+            configuration.setLowAlarmC1(lowAlarm.getValue());
+            configuration.setEnableAlarmC1(true);
+        } else {
+            configuration.setEnableAlarmC1(false);
+        }
 
         return configuration;
     }
 
     @FXML
     private void saveConfiguration() {
-        Configuration configuration = generateConfiguration();
+        try {
+            logger.info("Saving configuration...");
 
-        if(configuration != null) {
+            Configuration configuration = generateConfiguration();
             configurationService.saveOrUpdate(configuration);
+
+            logger.info("Saved: " + configuration);
+
+        } catch (ConstraintViolationException ex) {
+            logger.warn("Duplicate entry");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Duplicate entry");
+            alert.show();
+        } catch (Exception ex) {
+            logger.warn("Unknown exception" + ex.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unknown error.");
+            alert.show();
         }
     }
 
+    private void loadConfiguration(Configuration configuration) {
+        nameInput.setText(configuration.getName());
+        rateInput.setText(String.valueOf(configuration.getRate()));
+
+        if (configuration.isSyncTime()) {
+            syncTime.setSelected(true);
+        } else {
+            syncTime.setSelected(false);
+        }
+
+        if (configuration.isRollover()) {
+            rollOver.setSelected(true);
+        } else {
+            rollOver.setSelected(false);
+        }
+
+        if (configuration.isSuta()) {
+            // TODO
+        }
+
+        //observationsArea.setText(configuration.getObservations()); // TODO add observations to database
+    }
+
     private void loadDefaultConfiguration() {
-        for(Configuration configuration: configurationListView.getItems()) {
-            if("Default".equals(configuration.getName())) {
-                nameInput.setText(configuration.getName());
-                rateInput.setText(String.valueOf(configuration.getRate()));
-
-                if(configuration.isSyncTime()) {
-                    syncTime.setSelected(true);
-                } else {
-                    syncTime.setSelected(false);
-                }
-
-                if(configuration.isRollover()) {
-                    rollOver.setSelected(true);
-                } else {
-                    rollOver.setSelected(false);
-                }
-
-                if(configuration.isSuta()) {
-                    // TODO
-                }
-
-                //observationsArea.setText(configuration.getObservations()); // TODO add observations to database
-
+        for (Configuration configuration : configurationListView.getItems()) {
+            if ("Default".equals(configuration.getName())) {
+                loadConfiguration(configuration);
                 break;
             }
         }
+    }
+
+    private int getStart() {
+        if (immediatelyCheck.isSelected()) {
+            return 0;
+        } else if (delayCheck.isSelected()) {
+            return delayInput.getValue();
+        } else if (onDateCheck.isSelected()) {
+            return calculateDateDelay(dateInput.getText());
+        } else {
+            return 0; // Todo check
+        }
+    }
+
+    private int calculateDateDelay(String d) {
+        try {
+            return (int) (Constants.dateTimeFormat.parse(d).getTime() - new Date().getTime()) / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return 0; //TODO
     }
 
     @Override
@@ -138,8 +201,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
 
     @FXML
     private void startMission() {
-        Configuration configuration = new Configuration();
-        // TODO set
+        Configuration configuration = generateConfiguration();
 
         deviceMissionStartTask.setConfiguration(configuration);
         ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
@@ -150,7 +212,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         Futures.addCallback(future, new FutureCallback<Boolean>() {
             public void onSuccess(Boolean result) {
                 Platform.runLater(() -> {
-
+                    logger.info("Device configured correctly");
 
                 });
             }
