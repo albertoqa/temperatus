@@ -53,6 +53,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             return currentTemp;
 
         } catch (OneWireException e) {
+            logger.error("Error reading temperature:  " + e.getMessage());
             throw new ControlledTemperatusException("Error while reading temperature." + e.getMessage());
         } finally {
             releaseAdapter();
