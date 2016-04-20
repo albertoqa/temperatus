@@ -35,6 +35,7 @@ public class Constants {
     public static final String BUTTON_DATA = "/fxml/ButtonData.fxml";
     public static final String MISSION_LINE_CHART = "/fxml/MissionLineChart.fxml";
     public static final String EXPORT_CONFIG = "/fxml/ExportConfiguration.fxml";
+    public static final String CONFIG_DEVICE = "/fxml/device/StartDeviceMission.fxml";
 
     public static final String NEW_PROJECT = "/fxml/creation/NewProject.fxml";
     public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";

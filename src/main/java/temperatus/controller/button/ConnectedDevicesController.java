@@ -142,7 +142,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     @FXML
     private void configureIbutton() {
-
+        VistaNavigator.loadVista(Constants.CONFIG_DEVICE);
     }
 
     @Override

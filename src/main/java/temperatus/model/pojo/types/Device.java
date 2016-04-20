@@ -93,4 +93,20 @@ public class Device {
     public void setAdapterPort(String adapterPort) {
         this.adapterPort = adapterPort;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Device)) return false;
+
+        Device device = (Device) o;
+
+        return getSerial() != null ? getSerial().equals(device.getSerial()) : device.getSerial() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getSerial() != null ? getSerial().hashCode() : 0;
+    }
 }
