@@ -1,6 +1,7 @@
 package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.Event;
@@ -28,6 +29,7 @@ import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.AbstractImporter;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.model.pojo.*;
+import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
@@ -49,7 +51,7 @@ public class NewRecordController extends AbstractCreationController implements I
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
 
-    @FXML private Label titleLabel;
+    @FXML private Label titleLabel; // title of the view
     @FXML private Label indexLabel;
     @FXML private Label positionLabel;
     @FXML private Label dataSourceLabel;
@@ -85,16 +87,33 @@ public class NewRecordController extends AbstractCreationController implements I
 
     private File[] filesToSave;                         // Files where temp data is temporary stored
 
-    private final Double prefHeight = 30.0;     // Preferred height for "rows"
-    private final Double prefWidth = 200.0;     // Preferred width for combobox
+    private static final Double prefHeight = 30.0;     // Preferred height for "rows"
+    private static final Double prefWidth = 200.0;     // Preferred width for combo-box
 
-    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(NewRecordController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
 
+        keepSameColumnWidth();
+
+        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) change -> {
+            for(Device device: change.getAddedSubList()) {
+                addiButtonToBoxes(device.getSerial());  // TODO breakpoint
+            }
+
+            for(Device device: change.getRemoved()) {
+                removeiButtonFromBoxes(device.getSerial());
+            }
+        });
+    }
+
+    /**
+     * Keep the same width for column names and rows
+     */
+    private void keepSameColumnWidth() {
         idBoxTitle.prefWidthProperty().bind(idBox.widthProperty());
         positionBoxTitle.prefWidthProperty().bind(positionBox.widthProperty());
         addPositionBoxTitle.prefWidthProperty().bind(addPositionBox.widthProperty());
@@ -167,8 +186,8 @@ public class NewRecordController extends AbstractCreationController implements I
     /**
      * Get row index for a given selected position
      *
-     * @param position
-     * @return
+     * @param position position to look for
+     * @return index of the position
      */
     private int getRowForPosition(Position position) {
         for (int index = 0; index < positionBox.getChildren().size(); index++) {
@@ -182,8 +201,8 @@ public class NewRecordController extends AbstractCreationController implements I
     /**
      * Get Position for a given Index
      *
-     * @param index
-     * @return
+     * @param index index to get the position from
+     * @return position at index
      */
     private Position getPositionForIndex(int index) {
         return (Position) ((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
@@ -192,8 +211,8 @@ public class NewRecordController extends AbstractCreationController implements I
     /**
      * Get Source for a given Index
      *
-     * @param index
-     * @return
+     * @param index index to get the source from
+     * @return source at index
      */
     private SourceChoice getSourceChoiceForIndex(int index) {
         return (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
@@ -201,29 +220,26 @@ public class NewRecordController extends AbstractCreationController implements I
 
 
     /**
-     * Add all positions to the choicebox
+     * Add all positions to the Combo-box
      *
-     * @return
+     * @return combo-box filled with all positions
      */
     private ComboBox<Position> addAllPositions() {
-        ComboBox<Position> choiceBoxPositions = new ComboBox<>();
-        choiceBoxPositions.setItems(FXCollections.observableArrayList(positions));
-        return choiceBoxPositions;
+        return new ComboBox<>(FXCollections.observableArrayList(positions));
     }
 
     /**
      * Create a new "ROW" of input data with: INDEX | POSITION | + | KEEP DATA
      *
-     * @param index
-     * @param posBox
-     * @param srcBox
+     * @param index  index of the row
+     * @param posBox combo-box of positions
+     * @param srcBox combo-box of sources
      */
     private void addNewRow(int index, ComboBox<Position> posBox, ComboBox<SourceChoice> srcBox) {
         Label id = new Label(String.valueOf(index));
         id.setPrefHeight(prefHeight);
         id.setMaxHeight(prefHeight);
         id.setMinHeight(prefHeight);
-
         idBox.getChildren().add(id);
 
         posBox.getStylesheets().add("/styles/temperatus.css");
@@ -234,7 +250,6 @@ public class NewRecordController extends AbstractCreationController implements I
         posBox.setPrefWidth(250);
         posBox.setMinWidth(prefWidth);
         posBox.setUserData(index);
-
         positionBox.getChildren().add(posBox);
 
         srcBox.getStylesheets().add("/styles/temperatus.css");
@@ -245,7 +260,6 @@ public class NewRecordController extends AbstractCreationController implements I
         srcBox.setPrefWidth(250);
         srcBox.setMinWidth(prefWidth);
         srcBox.setUserData(index);
-
         sourceBox.getChildren().add(srcBox);
 
         Button importSource = new Button();
@@ -256,7 +270,6 @@ public class NewRecordController extends AbstractCreationController implements I
         importSource.getStyleClass().add("ibtn");
         importSource.setText("+");
         importSource.addEventHandler(MouseEvent.MOUSE_CLICKED, addImportDataButtonHandler());
-
         addSourceBox.getChildren().addAll(importSource);
 
         ToggleButton keepButton = new ToggleButton();
@@ -268,7 +281,6 @@ public class NewRecordController extends AbstractCreationController implements I
         keepButton.getStyleClass().add("kbtn");
         keepButton.setDisable(true);
         keepButton.addEventHandler(MouseEvent.MOUSE_CLICKED, keepDataForRow());
-
         keepDataBox.getChildren().addAll(keepButton);
     }
 
@@ -364,7 +376,14 @@ public class NewRecordController extends AbstractCreationController implements I
     /**
      * On iButton arrival, add it to all boxes and select it in its corresponding position if exists
      */
-    private void addiButtonToBoxes(Ibutton ibutton) {
+    private void addiButtonToBoxes(String serial) {
+
+        Ibutton ibutton = ibuttonService.getBySerial(serial);
+
+        if(ibutton == null) {
+            ibutton = new Ibutton();
+            ibutton.setSerial(serial);
+        }
 
         SourceChoice sourceChoice = new SourceChoice(ibutton);
         for (int i = 0; i < game.getNumButtons(); i++) {
@@ -385,9 +404,9 @@ public class NewRecordController extends AbstractCreationController implements I
     /**
      * Remove iButton from all boxes but when "keep data" selected
      *
-     * @param ibutton
+     * @param serial
      */
-    private void removeiButtonFromBoxes(Ibutton ibutton) {
+    private void removeiButtonFromBoxes(String serial) {
         for (int i = 0; i < game.getNumButtons(); i++) {
             boolean remove = false;
             // if "keep data" is not selected, remove iButton on this row
@@ -395,13 +414,13 @@ public class NewRecordController extends AbstractCreationController implements I
                 remove = true;
             }
             // if "keep data" is selected and iButton source is not the same as this ibutton remove
-            else if (!ibutton.equals(((SourceChoice) ((ComboBox) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem()).getIbutton())) {
+            else if (!serial.equals(((SourceChoice) ((ComboBox) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem()).getIbutton().getSerial())) {
                 remove = true;
             }
 
             if (remove) {
                 for (SourceChoice sourceChoice : (ObservableList<SourceChoice>) ((ComboBox) sourceBox.getChildren().get(i)).getItems()) {
-                    if (sourceChoice.isSameiButton(ibutton)) {
+                    if (sourceChoice.isSameiButton(serial)) {
                         ((ComboBox) sourceBox.getChildren().get(i)).getItems().remove(sourceChoice);
                         break;
                     }
@@ -558,7 +577,7 @@ public class NewRecordController extends AbstractCreationController implements I
         if (data.size() > 0) {
             Date startDate = data.get(0).getStartDate();
             for (ValidatedData validatedData : data) {
-                if(validatedData.getStartDate().after(startDate)) {
+                if (validatedData.getStartDate().after(startDate)) {
                     startDate = validatedData.getStartDate();
                 }
             }
@@ -571,7 +590,7 @@ public class NewRecordController extends AbstractCreationController implements I
         if (data.size() > 0) {
             Date endDate = data.get(0).getFinishDate();
             for (ValidatedData validatedData : data) {
-                if(validatedData.getFinishDate().before(endDate)) {
+                if (validatedData.getFinishDate().before(endDate)) {
                     endDate = validatedData.getFinishDate();
                 }
             }

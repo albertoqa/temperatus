@@ -41,13 +41,13 @@ public class SourceChoice {
     }
 
     /**
-     * Check if passed button is the same as the stored one
+     * Check if passed button serial is the same as the stored one
      *
-     * @param ibutton new button
+     * @param serial button serial
      * @return is the same?
      */
-    public boolean isSameiButton(Ibutton ibutton) {
-        return ibutton.equals(this.ibutton);
+    public boolean isSameiButton(String serial) {
+        return serial.equals(this.ibutton.getSerial());
     }
 
     @Override

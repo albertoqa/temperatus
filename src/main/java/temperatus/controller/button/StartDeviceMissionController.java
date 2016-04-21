@@ -23,6 +23,7 @@ import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.text.ParseException;
@@ -30,13 +31,16 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
+ * Create new configurations and save them to database.
+ * Apply a configuration to a device and start a mission.
+ * <p>
  * Created by alberto on 19/4/16.
  */
 @Controller
 public class StartDeviceMissionController implements Initializable, AbstractController {
 
-    @FXML private CheckListView<Device> deviceCheckListView;
-    @FXML private ComboBox<Configuration> configurationsCombobox;
+    @FXML private CheckListView<Device> deviceCheckListView;        // list of connected devices
+    @FXML private ComboBox<Configuration> configurationsCombobox;   // stored configurations
 
     @FXML private Label nameLabel;
     @FXML private Label rateLabel;
@@ -86,9 +90,13 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        VistaNavigator.setController(this);
+        translate();
 
         startGroup.getToggles().addAll(immediatelyCheck, onDateCheck, onAlarmCheck, delayCheck);
         immediatelyCheck.setSelected(true);
+        addListenersToStartTypes();
+
         resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
         resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
 
@@ -98,6 +106,22 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         loadDefaultConfiguration();
 
         new AutoCompleteComboBoxListener<>(configurationsCombobox);
+
+        // if selected a pre-configuration, load it
+        configurationsCombobox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && newValue.intValue() > 0) {
+                loadConfiguration(configurationsCombobox.getItems().get(newValue.intValue()));
+            }
+        });
+    }
+
+    /**
+     * Depending on the type of start, the user will be required to input different values
+     */
+    private void addListenersToStartTypes() {
+        onDateCheck.selectedProperty().addListener((observable, oldValue, newValue) -> dateInput.setVisible(newValue));
+        onAlarmCheck.selectedProperty().addListener((observable, oldValue, newValue) -> onAlarmDelayInput.setVisible(newValue));
+        delayCheck.selectedProperty().addListener((observable, oldValue, newValue) -> delayInput.setVisible(newValue));
     }
 
     /**
@@ -131,6 +155,9 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         return configuration;
     }
 
+    /**
+     * Save the current configuration to database
+     */
     @FXML
     private void saveConfiguration() {
         try {
@@ -154,6 +181,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
 
     /**
      * Load configuration data on the view
+     *
      * @param configuration to be loaded
      */
     private void loadConfiguration(Configuration configuration) {
@@ -182,13 +210,13 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
         onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
 
-        if(configuration.getResolutionC1() == RES_LOW) {
+        if (configuration.getResolutionC1() == RES_LOW) {
             resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
         } else {
             resolutionBox.getSelectionModel().select(RESOLUTION_HIGH);
         }
 
-        if(configuration.getEnableAlarmC1()) {
+        if (configuration.getEnableAlarmC1()) {
             activateAlarmCheck.setSelected(true);
             highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
             lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
@@ -213,7 +241,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         if (immediatelyCheck.isSelected()) {
             return 0;
         } else if (delayCheck.isSelected()) {
-            return delayInput.getValue();
+            return Integer.valueOf(delayInput.getEditor().getText());
         } else if (onDateCheck.isSelected()) {
             return calculateDateDelay(dateInput.getText());
         } else {
@@ -234,6 +262,14 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
     @Override
     public void translate() {
 
+    }
+
+    @Override
+    public void reload(Object object) {
+        if (object instanceof Configuration) {
+            configurationsCombobox.getItems().add((Configuration) object);
+            configurationsCombobox.getSelectionModel().select((Configuration) object);
+        }
     }
 
     /**
