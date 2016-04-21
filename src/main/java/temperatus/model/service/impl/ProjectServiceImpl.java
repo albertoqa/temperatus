@@ -48,7 +48,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void saveOrUpdate(Project project) {
+    public void saveOrUpdate(Project project) throws ControlledTemperatusException {
+
+        if(project.getName().length() < 1) {
+            throw new ControlledTemperatusException("Name cannot be empty");
+        } else if(project.getName().length() > 100) {
+            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        }
+
         projectDao.saveOrUpdate(project);
     }
 

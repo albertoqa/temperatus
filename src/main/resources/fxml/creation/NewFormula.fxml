@@ -16,12 +16,12 @@
             <TextArea fx:id="operationArea" editable="true" layoutX="341.0" layoutY="170.0" prefHeight="255.0" prefWidth="407.0" promptText="Operation" styleClass="form" AnchorPane.rightAnchor="27.0" />
             <Button fx:id="saveButton" layoutX="292.0" layoutY="323.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="170.0" />
             <Button fx:id="cancelButton" layoutX="435.0" layoutY="323.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="27.0" />
-            <Label fx:id="nameLabel1" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="75.0" prefHeight="20.0" prefWidth="135.0" text="Reference:">
+            <Label fx:id="referenceLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="75.0" prefHeight="20.0" prefWidth="135.0" text="Reference:">
                <font>
                   <Font name="Avenir Roman" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="nameLabel11" alignment="CENTER_RIGHT" layoutX="341.0" layoutY="140.0" prefHeight="20.0" prefWidth="73.0" text="Operation:">
+            <Label fx:id="operationLabel" alignment="CENTER_RIGHT" layoutX="341.0" layoutY="140.0" prefHeight="20.0" prefWidth="73.0" text="Operation:">
                <font>
                   <Font name="Avenir Roman" size="14.0" />
                </font>

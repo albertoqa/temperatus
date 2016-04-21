@@ -18,7 +18,7 @@ public interface ProjectService {
 
     List<Project> getAll();
 
-    void saveOrUpdate(Project project);
+    void saveOrUpdate(Project project) throws ControlledTemperatusException;
 
     Project getByName(String name);
 

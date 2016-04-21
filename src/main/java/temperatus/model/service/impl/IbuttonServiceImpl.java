@@ -41,6 +41,9 @@ public class IbuttonServiceImpl implements IbuttonService {
 
     @Override
     public void saveOrUpdate(Ibutton ibutton) {
+
+        // TODO check other constraints
+
         ibuttonDao.saveOrUpdate(ibutton);
     }
 

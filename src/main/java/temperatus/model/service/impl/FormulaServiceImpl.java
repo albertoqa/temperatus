@@ -56,6 +56,8 @@ public class FormulaServiceImpl implements FormulaService {
             throw new ControlledTemperatusException("Name cannot be longer than 100");
         }
 
+        // TODO check other constraints
+
         formulaDao.saveOrUpdate(formula);
     }
 

@@ -26,7 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void save(Author author) throws ControlledTemperatusException {
+    public void save(Author author) {
         authorDao.save(author);
     }
 
@@ -41,7 +41,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void saveOrUpdate(Author author) {
+    public void saveOrUpdate(Author author) throws ControlledTemperatusException {
+
+        if(author.getName() == null || author.getName().length() < 1 || author.getName().length() > 100) {
+            throw new ControlledTemperatusException("Invalid author name");
+        }
+
         authorDao.saveOrUpdate(author);
     }
 }

@@ -9,19 +9,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
- * View to create and save a new project
+ * View to create/update and save a new project
  * <p>
  * Created by alberto on 19/1/16.
  */
@@ -38,26 +40,33 @@ public class NewProjectController extends AbstractCreationController implements 
     @FXML private TextArea observationsInput;
 
     @Autowired ProjectService projectService;
-    private Project project;
-    private boolean isSave;
 
-    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
+    private Project project;
+    private boolean isNew;  // if project is not new (update) then don't reload
+
+    private static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         project = null;
-        isSave = true;
-        dateInput.setValue(LocalDate.now());
+        isNew = true;
         translate();
+
+        dateInput.setValue(LocalDate.now());    // default date to now
     }
 
+    /**
+     * Update an existing project
+     *
+     * @param project project to update
+     */
     public void setProject(Project project) {
         saveButton.setText(language.get(Lang.UPDATE));
         this.project = project;
         nameInput.setText(project.getName());
         observationsInput.setText(project.getObservations());
-        dateInput.setValue(LocalDate.now());
-        isSave = false;
+        dateInput.setValue(asLocalDate(project.getDateIni()));
+        isNew = false;
     }
 
     /**
@@ -67,44 +76,38 @@ public class NewProjectController extends AbstractCreationController implements 
     @Override
     @FXML
     void save() {
-        String name;
-        Date startDate;
-        String observations;
-
         try {
             logger.info("Saving project...");
 
-            name = nameInput.getText();
-            observations = observationsInput.getText();
-            startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-            if(project == null) {
+            if (project == null) {
                 project = new Project();
             }
 
-            project.setName(name);
-            project.setObservations(observations);
+            Date startDate = asUtilDate(dateInput.getValue());
+
+            project.setName(nameInput.getText());
+            project.setObservations(observationsInput.getText());
             project.setDateIni(startDate);
 
             projectService.saveOrUpdate(project);
 
             VistaNavigator.closeModal(titledPane);
-            if (VistaNavigator.getController() != null && isSave) {
+            if (VistaNavigator.getController() != null && isNew) {
                 // Only necessary if base view needs to know about the new project creation
                 VistaNavigator.getController().reload(project);
             }
 
             logger.info("Saved: " + project);
 
-            //} catch (ControlledTemperatusException ex) {
-            //    logger.warn("Exception while saving project: " + ex.getMessage());
-            //    showAlert(Alert.AlertType.ERROR, ex.getMessage());
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Exception while saving project: " + ex.getMessage());
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
@@ -118,5 +121,31 @@ public class NewProjectController extends AbstractCreationController implements 
         startDateLabel.setText(language.get(Lang.STARTDATELABEL));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
+    }
+
+    /**
+     * Generate a LocalDate object from a Date
+     *
+     * @param date date to generate
+     * @return LocalDate
+     */
+    private static LocalDate asLocalDate(Date date) {
+        if (date == null)
+            return null;
+
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    /**
+     * Generate a Date from a LocalDate object
+     *
+     * @param date LocalDate to generate
+     * @return Date
+     */
+    private static Date asUtilDate(LocalDate date) {
+        if (date == null)
+            return null;
+
+        return Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

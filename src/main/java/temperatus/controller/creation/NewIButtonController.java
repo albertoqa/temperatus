@@ -1,7 +1,6 @@
 package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -24,9 +23,10 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
+ * View to create/update a iButton
+ * <p>
  * Created by alberto on 13/2/16.
  */
 @Controller
@@ -48,26 +48,44 @@ public class NewIButtonController extends AbstractCreationController implements 
 
     private Ibutton ibutton;
 
-    static Logger logger = LoggerFactory.getLogger(NewIButtonController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(NewIButtonController.class.getName());
 
-    @Override @FXML
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        translate();
+        ibutton = null;
+
+        // * Load all positions from database and allow the user to choose them
+        position.setItems(FXCollections.observableArrayList(positionService.getAll()));
+        new AutoCompleteComboBoxListener<>(position);
+    }
+
+    /**
+     * Serial and model cannot be modified by the user. Set them from the device information
+     *
+     * @param serial device serial
+     * @param model  device model
+     */
+    public void setData(String serial, String model) {
+        this.serial.setText(serial);
+        this.model.setText(model);
+    }
+
+    /**
+     * Save or update a iButton
+     */
+    @Override
+    @FXML
     void save() {
-
-        String al;
-        Position pos;
-
         try {
             logger.info("Saving iButton...");
 
-            al = alias.getText();
-            pos = position.getSelectionModel().getSelectedItem();
-
-            if(ibutton == null) {
+            if (ibutton == null) {
                 ibutton = new Ibutton();
             }
 
-            ibutton.setAlias(al);
-            ibutton.setPosition(pos);
+            ibutton.setAlias(alias.getText());
+            ibutton.setPosition(position.getSelectionModel().getSelectedItem());
             ibutton.setModel(model.getText());
             ibutton.setSerial(serial.getText());
 
@@ -83,15 +101,20 @@ public class NewIButtonController extends AbstractCreationController implements 
 
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
+    /**
+     * When editing an iButton, pre-load its data
+     *
+     * @param ibutton iButton to update/edit
+     */
     public void setIbuttonForUpdate(Ibutton ibutton) {
-        saveButton.setText(language.get(Lang.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));  // change save button text to update
         this.ibutton = ibutton;
         serial.setText(ibutton.getSerial());
         model.setText(ibutton.getModel());
@@ -101,22 +124,14 @@ public class NewIButtonController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-
+        titledPane.setText(language.get(Lang.NEWAUTHOR));
+        saveButton.setText(language.get(Lang.SAVE));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        serialLabel.setText(language.get(Lang.SERIALLABEL));
+        modelLabel.setText(language.get(Lang.MODELLABEL));
+        defaultPosLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
+        aliasLabel.setText(language.get(Lang.ALIASLABEL));
+        alias.setPromptText(language.get(Lang.ALIASPROMPT));
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // * Load all positions from database and allow the user to choose them
-        ObservableList<Position> positions = FXCollections.observableArrayList();
-        positions.addAll(positionService.getAll().stream().collect(Collectors.toList()));
-        position.setItems(positions);
-
-        new AutoCompleteComboBoxListener<>(position);
-
-    }
-
-    public void setData(String serial, String model) {
-        this.serial.setText(serial);
-        this.model.setText(model);
-    }
 }

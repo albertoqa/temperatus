@@ -52,6 +52,10 @@ public class Lang {
 
     // New Formula
     public static final String NEWFORMULA = "newFormula";
+    public static final String OPERATIONLABEL = "operationLabel";
+    public static final String OPERATIONPROMPT = "operationPrompt";
+    public static final String REFERENCELABEL = "referenceLabel";
+    public static final String REFERENCEPROMPT = "referencePrompt";
 
     // New Subject
     public static final String AGELABEL = "ageLabel";
@@ -102,6 +106,11 @@ public class Lang {
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
     public static final String IBUTTONDETECTED = "iBDetected";
+    public static final String SERIALLABEL = "serialLabel";
+    public static final String MODELLABEL = "modelLabel";
+    public static final String DEFAULTPOSLABEL = "defaultPosLabel";
+    public static final String ALIASLABEL = "aliasLabel";
+    public static final String ALIASPROMPT = "aliasPrompt";
 
     // Common
     public static final String SAVE = "save";
@@ -119,5 +128,10 @@ public class Lang {
     public static final String FILE_NOT_FOUND = "fileNotFound";
     public static final String PARSE_ERROR = "parseError";
     public static final String READING_ERROR = "readingError";
+
+    public static final String UNKNOWN_ERROR = "unknownError";
+    public static final String DUPLICATE_ENTRY = "duplicateEntry";
+    public static final String INVALID_NAME = "invalidName";
+    public static final String INVALID_FORMULA = "invalidFormula";
 
 }

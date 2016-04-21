@@ -1,14 +1,10 @@
 package temperatus.controller.creation;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,165 +25,175 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * View to create/update a formula. A formula can contain any of this operators: + - * / ( )
+ * <p>
  * Created by alberto on 26/1/16.
  */
 @Controller
 @Scope("prototype")
 public class NewFormulaController extends AbstractCreationController implements Initializable {
 
-    @FXML Label nameLabel;
-    @FXML TextField nameInput;
-    @FXML TextField referenceInput;
+    @FXML private Label nameLabel;
+    @FXML private Label referenceLabel;
+    @FXML private Label operationLabel;
 
-    @FXML TextArea operationArea;
+    @FXML private TextField nameInput;
+    @FXML private TextField referenceInput;
+    @FXML private TextArea operationArea;
 
-    @FXML ListView<Position> positionsSelector;
+    @FXML private ListView<Position> positionsSelector; // list of all possible positions
 
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
 
+    private static Logger logger = LoggerFactory.getLogger(NewFormulaController.class.getName());
+
+    private static final String PLUS = "+";
+    private static final String MINUS = "-";
+    private static final String MULT = "*";
+    private static final String DIV = "/";
+    private static final String LEFT = "(";
+    private static final String RIGHT = ")";
+
+    private SimpleStringProperty operation = new SimpleStringProperty("");  // contains the actual formula created
+
     private Formula formula;
-
-    static Logger logger = LoggerFactory.getLogger(NewFormulaController.class.getName());
-
-    private final String plus = "+";
-    private final String minus = "-";
-    private final String mult = "*";
-    private final String div = "/";
-    private final String left = "(";
-    private final String right = ")";
-
-    private SimpleStringProperty operation = new SimpleStringProperty("");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         formula = null;
 
         positionsSelector.getItems().addAll(positionService.getAll());
-        addListenerToList();
+        addListenerToList();    // if a position is selected try to add it to the formula
 
         operationArea.textProperty().bind(operation);
 
-        operationArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() != KeyCode.BACK_SPACE) {
-
-                } else {
-                    String value = operation.getValue();
-                    if (value.length() > 0) {
-                        operation.set(value.substring(0, value.length() - 1));
-                    }
+        // user is not allowed to insert characters directly on the operation, only delete them
+        operationArea.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+                String value = operation.getValue();
+                if (value.length() > 0) {
+                    operation.set(value.substring(0, value.length() - 1));
                 }
             }
+            keyEvent.consume();
         });
 
         translate();
     }
 
+    /**
+     * When editing a formula, pre-load its data
+     *
+     * @param formula formula to update
+     */
     public void setFormulaForUpdate(Formula formula) {
-        saveButton.setText(language.get(Lang.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));  // change save button text to update
         this.formula = formula;
         nameInput.setText(formula.getName());
         referenceInput.setText(formula.getReference());
         operation.set(formula.getOperation());
     }
 
+    /**
+     * When user select a position from the list, try to add it to the current operation
+     */
     private void addListenerToList() {
-        positionsSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Position>() {
-            @Override
-            public void changed(ObservableValue<? extends Position> observable, Position oldValue, Position newValue) {
-                if (isValidToAddThisOperand(newValue)) {
+        positionsSelector.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (isValidToAddAnOperand()) {
                     operation.set(operation.getValue() + newValue.getPlace());
                 }
-                //positionsSelector.getSelectionModel().clearSelection();
             }
         });
     }
 
-    private boolean isValidToAddThisOperand(Position position) {
-
-        if (operation.length().get() < 1) {
-            return true;
-        }
-
-        String lastChar = operation.getValue().substring(operation.length().get() - 1);
-        if (plus.equals(lastChar) || minus.equals(lastChar) || mult.equals(lastChar) || div.equals(lastChar) || left.equals(lastChar)) {
-            return true;
-        }
-
-        return false;
+    /**
+     * @return is valid to add an operand to the formula RIGHT now?
+     */
+    private boolean isValidToAddAnOperand() {
+        return operation.length().get() < 1 || isLastCharAnOperator();
     }
 
-    private boolean isValidToAddThisOperation() {
-
-        if (operation.length().get() < 1) {
-            return false;
-        }
-
-        String lastChar = operation.getValue().substring(operation.length().get() - 1);
-        if (plus.equals(lastChar) || minus.equals(lastChar) || mult.equals(lastChar) || div.equals(lastChar) || left.equals(lastChar)) {
-            return false;
-        }
-
-        return true;
+    /**
+     * @return is valid to add an operator to the formula RIGHT now?
+     */
+    private boolean isValidToAddAnOperator() {
+        return !isValidToAddAnOperand();
     }
 
+    /**
+     * @return the last element of the operation is an operator?
+     */
+    private boolean isLastCharAnOperator() {
+        String lastChar = operation.getValue().substring(operation.length().get() - 1);
+        return PLUS.equals(lastChar) || MINUS.equals(lastChar) || MULT.equals(lastChar) || DIV.equals(lastChar) || LEFT.equals(lastChar);
+    }
+
+    /**
+     * @return is valid to add a "(" LEFT bracket to the formula RIGHT now?
+     */
     private boolean isValidToAddLeftBracket() {
+        return operation.length().get() == 0 || operation.getValue().substring(operation.length().get() - 1).equals(LEFT) || isValidToAddAnOperand();
+    }
 
-        if (operation.length().get() == 0 || operation.getValue().substring(operation.length().get() - 1).equals(left)) {
-            return true;
+    /**
+     * Check if is valid to add an operator, add it to the formula and clear the selection
+     *
+     * @param operator operator to add
+     */
+    private void operator(String operator) {
+        if (isValidToAddAnOperator()) {
+            operation.set(operation.getValue() + operator);
         }
-
-        return isValidToAddThisOperand(null);
+        positionsSelector.getSelectionModel().clearSelection();
     }
 
     @FXML
     private void plusOperation() {
-        if (isValidToAddThisOperation()) {
-            operation.set(operation.getValue() + plus);
-        }
+        operator(PLUS);
     }
 
     @FXML
     private void minusOperation() {
-        if (isValidToAddThisOperation()) {
-            operation.set(operation.getValue() + minus);
-        }
+        operator(MINUS);
     }
 
     @FXML
     private void multOperation() {
-        if (isValidToAddThisOperation()) {
-            operation.set(operation.getValue() + mult);
-        }
+        operator(MULT);
     }
 
     @FXML
     private void divOperation() {
-        if (isValidToAddThisOperation()) {
-            operation.set(operation.getValue() + div);
-        }
+        operator(DIV);
     }
 
     @FXML
     private void leftOperation() {
         if (isValidToAddLeftBracket()) {
-            operation.set(operation.getValue() + left);
+            operation.set(operation.getValue() + LEFT);
         }
+        positionsSelector.getSelectionModel().clearSelection();
     }
 
     @FXML
     private void rightOperation() {
-        operation.set(operation.getValue() + right);
+        operation.set(operation.getValue() + RIGHT);
+        positionsSelector.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Check if the actual formula is valid
+     *
+     * @return is the formula valid?
+     */
     private boolean isValidFormula() {
 
-        String op = operation.getValue();
+        String op = operation.getValue();   // current formula
+        String[] elements = op.split(FormulaUtil.FORMULA_REGEX);    // split formula in all its elements
 
-        String[] elements = op.split(FormulaUtil.FORMULA_REGEX);
-
+        // replace all operands (positions) for 1
         for (int i = 0; i < elements.length; i++) {
             if (!FormulaUtil.isOperator(elements[i])) {
                 for (Position position : positionsSelector.getItems()) {
@@ -199,37 +205,38 @@ public class NewFormulaController extends AbstractCreationController implements 
             }
         }
 
+        // reconstruct the formula from its elements (with all the operands (positions) replaced by 1s
         String toEval = FormulaUtil.generateFormula(elements);
 
+        // try to perform the operation
         try {
-            double result = Calculator.eval(toEval);
+            Calculator.eval(toEval);
             return true;
         } catch (Exception ex) {
+            logger.warn("Invalid formula: " + ex.getMessage());
             return false;
         }
-
     }
 
-
+    /**
+     * Save or update a formula to the db
+     */
     @Override
     @FXML
     protected void save() {
 
         if (!isValidFormula()) {
-            showAlert(Alert.AlertType.ERROR, "Formula is not correct, please check.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_FORMULA));
         } else {
-            String name;
-
             try {
                 logger.info("Saving formula...");
 
-                name = nameInput.getText();
-
+                // no update, new formula
                 if (formula == null) {
                     formula = new Formula();
                 }
 
-                formula.setName(name);
+                formula.setName(nameInput.getText());
                 formula.setOperation(operation.getValue());
                 formula.setReference(referenceInput.getText());
 
@@ -237,6 +244,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
                 VistaNavigator.closeModal(titledPane);
                 if (VistaNavigator.getController() != null) {
+                    // Only necessary if base view needs to know about the new formula creation
                     VistaNavigator.getController().reload(formula);
                 }
 
@@ -247,10 +255,10 @@ public class NewFormulaController extends AbstractCreationController implements 
                 showAlert(Alert.AlertType.ERROR, ex.getMessage());
             } catch (ConstraintViolationException ex) {
                 logger.warn("Duplicate entry");
-                showAlert(Alert.AlertType.ERROR, "Duplicate Formula.");
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
             } catch (Exception ex) {
                 logger.warn("Unknown exception" + ex.getMessage());
-                showAlert(Alert.AlertType.ERROR, "Unknown error.");
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
             }
         }
     }
@@ -262,6 +270,10 @@ public class NewFormulaController extends AbstractCreationController implements 
         cancelButton.setText(language.get(Lang.CANCEL));
         nameLabel.setText(language.get(Lang.NAMELABEL));
         nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
+        referenceLabel.setText(language.get(Lang.REFERENCELABEL));
+        referenceInput.setPromptText(language.get(Lang.REFERENCEPROMPT));
+        operationLabel.setText(language.get(Lang.OPERATIONLABEL));
+        operationArea.setPromptText(language.get(Lang.OPERATIONPROMPT));
     }
 
 }

@@ -11,17 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Author;
 import temperatus.model.service.AuthorService;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
- * View to create and save a new project
+ * View to create and save a new author
  * <p>
  * Created by alberto on 19/1/16.
  */
@@ -35,7 +35,7 @@ public class NewAuthorController extends AbstractCreationController implements I
     @Autowired AuthorService authorService;
     private Author author;
 
-    static Logger logger = LoggerFactory.getLogger(NewAuthorController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(NewAuthorController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,49 +43,50 @@ public class NewAuthorController extends AbstractCreationController implements I
         translate();
     }
 
+    /**
+     * When editing an author, pre-load its data
+     *
+     * @param author author to update/edit
+     */
     public void setAuthorForUpdate(Author author) {
-        saveButton.setText(language.get(Lang.UPDATE));
+        saveButton.setText(language.get(Lang.UPDATE));  // change save button text to update
         this.author = author;
         nameInput.setText(author.getName());
     }
 
     /**
-     * Save a new author on the DB
+     * Save or update an author on the DB
      */
     @Override
     @FXML
     void save() {
-        String name;
-        Date startDate;
-        String observations;
-
         try {
             logger.info("Saving author...");
 
-            name = nameInput.getText();
-
-            if(author == null) {
+            if (author == null) {   // creation of new author - no update
                 author = new Author();
             }
 
-            author.setName(name);
-
+            author.setName(nameInput.getText());
             authorService.saveOrUpdate(author);
 
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
-                // Only necessary if base view needs to know about the new project creation
+                // Only necessary if base view needs to know about the new author creation
                 VistaNavigator.getController().reload(author);
             }
 
             logger.info("Saved: " + author);
 
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Invalid name");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_NAME));
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 

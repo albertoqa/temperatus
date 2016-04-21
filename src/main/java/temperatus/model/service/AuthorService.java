@@ -12,11 +12,11 @@ public interface AuthorService {
 
     Author getById(int id);
 
-    void save(Author author) throws ControlledTemperatusException;
+    void save(Author author);
 
     void delete(Author author);
 
     List<Author> getAll();
 
-    void saveOrUpdate(Author author);
+    void saveOrUpdate(Author author) throws ControlledTemperatusException;
 }
