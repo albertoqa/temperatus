@@ -72,6 +72,9 @@ public class SourceChoice {
     @Override
     public String toString() {
         if (ibutton != null) {
+            if(ibutton.getAlias() != null && ibutton.getAlias().length() > 0) {
+                return ibutton.getAlias();
+            }
             return ibutton.getSerial();
         } else if (file == null) {
             return "Import from file";

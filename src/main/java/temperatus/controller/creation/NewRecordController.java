@@ -98,16 +98,6 @@ public class NewRecordController extends AbstractCreationController implements I
         translate();
 
         keepSameColumnWidth();
-
-        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) change -> {
-            for(Device device: change.getAddedSubList()) {
-                addiButtonToBoxes(device.getSerial());  // TODO breakpoint
-            }
-
-            for(Device device: change.getRemoved()) {
-                removeiButtonFromBoxes(device.getSerial());
-            }
-        });
     }
 
     /**
@@ -181,6 +171,23 @@ public class NewRecordController extends AbstractCreationController implements I
 
         // At his point all choiceBoxes are full with all positions
         // Also, if the game has default positions, those positions are pre-selected
+
+        // Now we add all detected devices to the source box
+
+        for(Device device: deviceConnectedList.getDevices()){
+            addiButtonToBoxes(device.getSerial());
+        }
+
+        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) change -> {
+            while(change.next()) {
+                for (Device device : change.getAddedSubList()) {
+                    addiButtonToBoxes(device.getSerial());
+                }
+                for (Device device : change.getRemoved()) {
+                    removeiButtonFromBoxes(device.getSerial());
+                }
+            }
+        });
     }
 
     /**
