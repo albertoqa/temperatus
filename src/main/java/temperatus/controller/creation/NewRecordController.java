@@ -1,5 +1,9 @@
 package temperatus.controller.creation;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +29,8 @@ import temperatus.analysis.IButtonDataValidator;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.device.DeviceConnectedList;
+import temperatus.device.DeviceOperationsManager;
+import temperatus.device.task.DeviceReadTask;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.AbstractImporter;
 import temperatus.importer.IbuttonDataImporter;
@@ -79,6 +85,8 @@ public class NewRecordController extends AbstractCreationController implements I
     @Autowired MeasurementService measurementService;
 
     @Autowired DeviceConnectedList deviceConnectedList;     // List of currently connected devices
+    @Autowired DeviceReadTask deviceReadTask;   // read from device task
+    @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Mission mission;
     private Game game;                                      // Game assigned to the mission
@@ -316,10 +324,31 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 SourceChoice sourceChoice = (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
 
-                // TODO save data to temp file!
+                Device device = getDeviceFromIbutton(sourceChoice.getIbutton());
 
-                // Alert user that iButton can be removed
-                Notifications.create().title("Data Saved").text("You can safely remove iButton now").show();
+                if(device != null) {
+
+                    ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
+
+                    Futures.addCallback(future, new FutureCallback<File>() {
+                        public void onSuccess(File result) {
+                            Platform.runLater(() -> {
+                                sourceChoice.setFile(result);
+
+                                // Alert user that iButton can be removed
+                                Notifications.create().title("Data Saved").text("You can safely remove iButton now").show();
+
+                            });
+                        }
+
+                        public void onFailure(Throwable thrown) {
+                            logger.error("Error reading data - Future error");
+                        }
+                    });
+
+                } else {
+                    // TODO show error
+                }
 
             } else {
                 positionBox.getChildren().get(index).setDisable(false);
@@ -331,6 +360,15 @@ public class NewRecordController extends AbstractCreationController implements I
         };
 
         return myHandler;
+    }
+
+    private Device getDeviceFromIbutton(Ibutton ibutton) {
+        for(Device device: deviceConnectedList.getDevices()) {
+            if(device.getSerial().equals(ibutton.getSerial())) {
+                return device;
+            }
+        }
+        return null;
     }
 
     /**

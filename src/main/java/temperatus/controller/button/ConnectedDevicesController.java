@@ -199,8 +199,12 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         for (Device device : devicesConnected) {
             if (serial.equals(device.getSerial())) {
                 devicesConnected.remove(device);
-                connectedDevicesTable.getSelectionModel().clearSelection();
-                Animation.fadeOutTransition(infoTabPane);
+                try {
+                    connectedDevicesTable.getSelectionModel().clearSelection();
+                    Animation.fadeOutTransition(infoTabPane);
+                } catch (Exception e) {
+                    logger.warn("Exception thrown while removing device from table: " + e.getMessage());
+                }
                 break;
             }
         }
