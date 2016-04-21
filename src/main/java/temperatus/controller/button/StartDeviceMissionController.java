@@ -20,6 +20,7 @@ import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionStartTask;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
+import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
 
@@ -35,7 +36,7 @@ import java.util.ResourceBundle;
 public class StartDeviceMissionController implements Initializable, AbstractController {
 
     @FXML private CheckListView<Device> deviceCheckListView;
-    @FXML private ListView<Configuration> configurationListView;
+    @FXML private ComboBox<Configuration> configurationsCombobox;
 
     @FXML private Label nameLabel;
     @FXML private Label rateLabel;
@@ -92,9 +93,11 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
 
         deviceCheckListView.setItems(deviceConnectedList.getDevices());
-        configurationListView.setItems(FXCollections.observableArrayList(configurationService.getAll()));
+        configurationsCombobox.setItems(FXCollections.observableArrayList(configurationService.getAll()));
 
         loadDefaultConfiguration();
+
+        new AutoCompleteComboBoxListener<>(configurationsCombobox);
     }
 
     /**
@@ -198,7 +201,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
      * Search for the default configuration and load it on screen
      */
     private void loadDefaultConfiguration() {
-        for (Configuration configuration : configurationListView.getItems()) {
+        for (Configuration configuration : configurationsCombobox.getItems()) {
             if ("Default".equals(configuration.getName())) {
                 loadConfiguration(configuration);
                 break;

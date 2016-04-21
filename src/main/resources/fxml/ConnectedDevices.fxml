@@ -18,6 +18,7 @@
                      <children>
                         <Button fx:id="newMissionButton" mnemonicParsing="false" onAction="#newMission" prefWidth="147.0" styleClass="cbtn" text="New Mission" />
                         <Button fx:id="configureButton" mnemonicParsing="false" onAction="#configureIbutton" prefWidth="147.0" styleClass="cbtn" text="Configure iButton" />
+                        <Button fx:id="disableMissionButton" mnemonicParsing="false" onAction="#stopDeviceMission" prefWidth="147.0" styleClass="cbtn" text="Disable Mission" />
                      </children>
                   </HBox>
                </children>

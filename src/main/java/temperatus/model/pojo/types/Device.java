@@ -109,4 +109,9 @@ public class Device {
     public int hashCode() {
         return getSerial() != null ? getSerial().hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return alias + " | " + serial;
+    }
 }

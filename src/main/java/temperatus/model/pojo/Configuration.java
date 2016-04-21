@@ -238,4 +238,8 @@ public class Configuration implements java.io.Serializable {
         this.observations = observations;
     }
 
+    @Override
+    public String toString() {
+        return name.getValue();
+    }
 }

@@ -3,6 +3,9 @@ package temperatus.controller.button;
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -19,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.RecordConfigController;
+import temperatus.device.DeviceOperationsManager;
+import temperatus.device.task.DeviceMissionDisableTask;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.Ibutton;
@@ -52,6 +57,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     private ObservableList<Device> devicesConnected = FXCollections.observableArrayList();
 
+    @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
+    @Autowired DeviceOperationsManager deviceOperationsManager;
+
     @Autowired IbuttonService ibuttonService;
 
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
@@ -72,7 +80,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             infoTabPane.getSelectionModel().clearSelection();
-            if(newSelection != null) {
+            if (newSelection != null) {
                 loadInfo(newSelection);
             }
         });
@@ -195,6 +203,32 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                 Animation.fadeOutTransition(infoTabPane);
                 break;
             }
+        }
+    }
+
+    @FXML
+    private void stopDeviceMission() {
+
+        Device device = connectedDevicesTable.getSelectionModel().getSelectedItem();
+
+        if (missionContainerSupported(device.getContainer())) {
+
+            deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
+            ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
+
+            // TODO show progress???
+
+            Futures.addCallback(future, new FutureCallback<Boolean>() {
+                public void onSuccess(Boolean result) {
+                    Platform.runLater(() -> {
+                        logger.info("Device configured correctly");
+                    });
+                }
+
+                public void onFailure(Throwable thrown) {
+                    logger.error("Error starting mission on device - Future error");
+                }
+            });
         }
     }
 
