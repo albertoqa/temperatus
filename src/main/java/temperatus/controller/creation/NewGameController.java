@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -44,27 +41,36 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
+ * View to create and update a game
+ * <p>
  * Created by alberto on 26/1/16.
  */
 @Controller
 @Scope("prototype")
 public class NewGameController extends AbstractCreationController implements Initializable {
 
-    @FXML Label nameLabel;
-    @FXML Label observationsLabel;
-    @FXML Label numButtonsLabel;
+    @FXML private Label nameLabel;
+    @FXML private Label observationsLabel;
+    @FXML private Label numButtonsLabel;
 
-    @FXML TextField nameInput;
-    @FXML TextArea observationsInput;
-    @FXML TextField numButtonsInput;
+    @FXML private TextField nameInput;
+    @FXML private TextArea observationsInput;
+    @FXML private TextField numButtonsInput;
 
-    @FXML StackPane imageStack;
-    @FXML ImageView imageView;
-    @FXML Canvas canvas;
-    @FXML TextField drawNumber;
+    @FXML private StackPane imageStack;
+    @FXML private ImageView imageView;
+    @FXML private Canvas canvas;
+    @FXML private TextField drawNumber;
 
-    @FXML ListSelectionView<Position> positionsSelector;
-    @FXML CheckListView<Formula> formulasList;
+    @FXML private Label defaultPositionsLabel;
+    @FXML private Label defaultFormulasLabel;
+
+    @FXML private ListSelectionView<Position> positionsSelector;
+    @FXML private CheckListView<Formula> formulasList;
+
+    @FXML private Button rightButton;
+    @FXML private Button leftButton;
+    @FXML private Button cleanButton;
 
     @Autowired GameService gameService;
     @Autowired PositionService positionService;
@@ -72,24 +78,31 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     private Game game;
 
-    private List<Image> images;
-    private int selectedImage;
-    private GraphicsContext gc;
+    private List<Image> images; // list of images shown
+    private int selectedImage;  // index of the image currently selected
+    private GraphicsContext gc; // graphic context to be able to draw circles and text over the image
 
-    private final int radius = 4;
-    private boolean drawed = false;
+    private static final int RADIUS = 4;    // size of the circle drawn when click over image
+    private boolean drawn = false;          // detect if something was drawn over the current image
 
-    private final String frontImage = "/images/frontBody.png";
-    private final String backImage = "/images/backBody.png";
+    private static final String FILE = "file:";
+    private static final String PNG = ".png";
+    private static final String FRONT_IMAGE = "/images/frontBody.png";
+    private static final String BACK_IMAGE = "/images/backBody.png";
+    private static final String LAT_IMAGE = "/images/backBody.png";
+    private static final String DEFAULT_IMAGE = "/images/noimage.jpg";
 
-    static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
+    private static final String PATH_TO_SAVE = "/Users/alberto/Desktop/";    // TODO change to application directory
+
+    private static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         images = new ArrayList<>();
-        images.add(new Image(frontImage));
-        images.add(new Image(backImage));
+        images.add(new Image(FRONT_IMAGE));
+        images.add(new Image(BACK_IMAGE));
+        images.add(new Image(LAT_IMAGE));
 
         imageView.setImage(images.get(0));
         selectedImage = 0;
@@ -99,24 +112,32 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         positionsSelector.getSourceItems().addAll(positionService.getAll());
         formulasList.getItems().addAll(formulaService.getAll());
-
         drawNumber.setText("0");
 
         translate();
     }
 
+    /**
+     * Handle mouse clicks over the images. Draw a small black circle on the position of the click
+     * and draw the number from the input text
+     */
     private EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                gc.fillOval(mouseEvent.getX()-radius, mouseEvent.getY()-radius, radius, radius);
-                gc.fillText(drawNumber.getText(), mouseEvent.getX() + radius, mouseEvent.getY() + radius);
-                drawNumber.setText(String.valueOf(Integer.valueOf(drawNumber.getText())+1));
-                drawed = true;
+                gc.fillOval(mouseEvent.getX() - RADIUS, mouseEvent.getY() - RADIUS, RADIUS, RADIUS);    // draw circle
+                gc.fillText(drawNumber.getText(), mouseEvent.getX() + RADIUS, mouseEvent.getY() + RADIUS);  // draw text
+                drawNumber.setText(String.valueOf(Integer.valueOf(drawNumber.getText()) + 1));  // update text +1
+                drawn = true;   // has been drawn to true to save snapshot
             }
         }
     };
 
+    /**
+     * When editing a game, pre-load its data
+     *
+     * @param game game to update/edit
+     */
     public void setGameForUpdate(Game game) {
         saveButton.setText(language.get(Lang.UPDATE));
         this.game = game;
@@ -124,60 +145,57 @@ public class NewGameController extends AbstractCreationController implements Ini
         observationsInput.setText(game.getObservations());
         numButtonsInput.setText(String.valueOf(game.getNumButtons()));
 
-        for(Formula formula: game.getFormulas()) {
-            formulasList.getCheckModel().check(formula);
+        for (Formula formula : game.getFormulas()) {
+            formulasList.getCheckModel().check(formula);    // check game's formulas
         }
 
         positionsSelector.getTargetItems().addAll(game.getPositions());
         positionsSelector.getSourceItems().removeAll(game.getPositions());
 
         List<temperatus.model.pojo.Image> imagesPaths = new ArrayList<>(game.getImages());
-        images.clear();
-        for(temperatus.model.pojo.Image image: imagesPaths) {
-            javafx.scene.image.Image im = new javafx.scene.image.Image("file:" + image.getPath());
-            images.add(im);
+        images.clear();  // clear default images
+        for (temperatus.model.pojo.Image image : imagesPaths) {
+            try {
+                Image im = new Image(FILE + image.getPath());
+                images.add(im);
+            } catch (Exception ex) {
+                logger.error("Image file not found... " + ex.getMessage());
+                images.add(new Image(DEFAULT_IMAGE));
+            }
         }
 
-        if(images.size() > 0) {
+        if (images.size() > 0) {
             imageView.setImage(images.get(0));
         }
     }
 
+    /**
+     * Save or update a game to database
+     */
     @Override
     @FXML
     protected void save() {
-        keepImage();
-
-        String name;
-        String observations;
-        Integer numButtons;
-
         try {
             logger.info("Saving game...");
 
-            name = nameInput.getText();
-            observations = observationsInput.getText();
-            numButtons = Integer.parseInt(numButtonsInput.getText());
-
-            if(game == null) {
+            if (game == null) {
                 game = new Game();
             }
 
-            game.setTitle(name);
-            game.setNumButtons(numButtons);
-            game.setObservations(observations);
+            game.setTitle(nameInput.getText());
+            game.setNumButtons(Integer.parseInt(numButtonsInput.getText()));
+            game.setObservations(observationsInput.getText());
 
-            List<Position> defaultPositions = positionsSelector.getTargetItems();
             game.getPositions().clear();
-            game.getPositions().addAll(defaultPositions);
+            game.getPositions().addAll(positionsSelector.getTargetItems()); // default positions
 
-            List<Formula> defaultFormulas = formulasList.getCheckModel().getCheckedItems();
             game.getFormulas().clear();
-            game.getFormulas().addAll(defaultFormulas);
+            game.getFormulas().addAll(formulasList.getCheckModel().getCheckedItems());  // default formulas
 
+            keepImage();
             game.getImages().clear();
             int index = 0;
-            for(Image image: images) {
+            for (Image image : images) {                // save current images
                 File file = saveImage(image, index);
                 temperatus.model.pojo.Image im = new temperatus.model.pojo.Image();
                 im.setGame(game);
@@ -200,28 +218,35 @@ public class NewGameController extends AbstractCreationController implements Ini
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (NumberFormatException ex) {
             logger.warn("Invalid input for number of buttons");
-            showAlert(Alert.AlertType.ERROR, "Invalid number of buttons.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_NUMBER_BUTTONS));
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate Game.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
+    /**
+     * If image has been drawn then we have to keep it saved, otherwise don't save it.
+     * When the image is saved (snapshot) the quality decreases.
+     */
     private void keepImage() {
-        if(drawed) {
+        if (drawn) {
             SnapshotParameters snapshotParameters = new SnapshotParameters();
             WritableImage snapshot = imageStack.snapshot(snapshotParameters, null);
             images.set(selectedImage, snapshot);
             clearCanvas();
-            drawed = false;
+            drawn = false;
         }
     }
 
+    /**
+     * Change image shown to next image (iterate over all the images - round)
+     */
     @FXML
-    private void imageLeft() throws IOException {
+    private void imageLeft() {
         keepImage();
         selectedImage = (selectedImage - 1) % images.size();
         if (selectedImage < 0) {
@@ -230,6 +255,9 @@ public class NewGameController extends AbstractCreationController implements Ini
         imageView.setImage(images.get(selectedImage));
     }
 
+    /**
+     * Change image shown to previous image (iterate - round)
+     */
     @FXML
     private void imageRight() {
         keepImage();
@@ -237,25 +265,49 @@ public class NewGameController extends AbstractCreationController implements Ini
         imageView.setImage(images.get(selectedImage));
     }
 
+    /**
+     * Save image (png) to disk.
+     *
+     * @param image image to save
+     * @param index index of the image -> front-back-lat
+     * @return saved image file
+     */
     private File saveImage(Image image, int index) {
-        String pathToSave = "/Users/alberto/Desktop/";    // TODO change to application directory
-        String fileName = nameInput.getText() + index + ".png";
+        String fileName = nameInput.getText() + index + PNG;
 
-        File outputFile = new File(pathToSave + fileName);
+        File outputFile = new File(PATH_TO_SAVE + fileName);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         try {
             ImageIO.write(bImage, "png", outputFile);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error saving image to disk... " + e.getMessage());
+            showAlert(Alert.AlertType.WARNING, language.get(Lang.CANNOT_SAVE_IMAGE));
         }
 
         return outputFile;
     }
 
+    /**
+     * Clean all drawings from the current image, reset to default
+     */
     @FXML
     private void clearCanvas() {
-        // TODO change to reload image
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        switch (selectedImage) {
+            case 0:
+                imageView.setImage(new Image(FRONT_IMAGE));
+                break;
+            case 1:
+                imageView.setImage(new Image(BACK_IMAGE));
+                break;
+            case 2:
+                imageView.setImage(new Image(LAT_IMAGE));
+                break;
+            default:
+                imageView.setImage(new Image(DEFAULT_IMAGE));
+                break;
+        }
     }
 
     @Override
@@ -269,6 +321,9 @@ public class NewGameController extends AbstractCreationController implements Ini
         observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
         numButtonsLabel.setText(language.get(Lang.NUMBUTTONSLABEL));
         numButtonsInput.setPromptText(language.get(Lang.NUMBUTTONSPROMPT));
+        defaultFormulasLabel.setText(language.get(Lang.DEFAULTFORMULASLABEL));
+        defaultPositionsLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
+        cleanButton.setText(language.get(Lang.CLEAN_BUTTON));
     }
 
 }

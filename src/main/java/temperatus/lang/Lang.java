@@ -49,6 +49,8 @@ public class Lang {
     public static final String NEWGAME = "newGame";
     public static final String NUMBUTTONSPROMPT = "numButtonsPrompt";
     public static final String NUMBUTTONSLABEL = "numButtonsLabel";
+    public static final String DEFAULTFORMULASLABEL = "defaultFormulas";
+    public static final String CLEAN_BUTTON = "cleanButton";
 
     // New Formula
     public static final String NEWFORMULA = "newFormula";
@@ -167,6 +169,7 @@ public class Lang {
 
     public static final String UNKNOWN_ERROR = "unknownError";
     public static final String DUPLICATE_ENTRY = "duplicateEntry";
+    public static final String INVALID_INPUT_NUMBER = "invalidInputNumber";
     public static final String INVALID_NAME = "invalidName";
     public static final String INVALID_FORMULA = "invalidFormula";
     public static final String INVALID_DATE = "invalidDate";
@@ -179,6 +182,12 @@ public class Lang {
     public static final String MUST_SELECT_POSITION = "mustSelectPosition";
     public static final String MUST_SELECT_POSITION_FOR_ALL = "mustSelectPositionForAll";
     public static final String MUST_SELECT_ALL_ROW = "mustSelectAllRow";
+
+    public static final String INVALID_NAME_FORMULA = "invalidNameFormula";
+    public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";
+    public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";
+
+    public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";
 
 
 

@@ -224,6 +224,8 @@ public class RecordConfigController extends AbstractCreationController implement
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() != ButtonType.OK) {
                         listViewFormulas.getCheckModel().clearCheck(formula);
+                        listViewFormulas.refresh();
+                        break;
                     }
                 }
             }
@@ -285,9 +287,8 @@ public class RecordConfigController extends AbstractCreationController implement
                 int actualMeasurement = 0;
                 for (ValidatedData validatedData : data) {
                     for (Measurement measurement : validatedData.getMeasurements()) {
-                        updateProgress(actualMeasurement++, totalMeasurements);
-
                         if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
+                            updateProgress(actualMeasurement++, totalMeasurements);
                             measurementService.save(measurement);
                         }
                     }

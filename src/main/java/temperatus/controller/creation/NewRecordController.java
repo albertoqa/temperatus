@@ -872,9 +872,7 @@ public class NewRecordController extends AbstractCreationController implements I
     public void reload(Object object) {
         if (object instanceof Position) {
             Position newPosition = (Position) object;
-            for (int i = 0; i < game.getNumButtons(); i++) {
-                ((ComboBox<Position>) positionBox.getChildren().get(i)).getItems().add(newPosition);
-            }
+            positions.add(newPosition);
         }
     }
 

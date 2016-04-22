@@ -1,7 +1,5 @@
 package temperatus.controller.creation;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,6 +21,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * View to create and save a new subject
+ * <p>
  * Created by alberto on 27/1/16.
  */
 @Controller
@@ -44,13 +44,13 @@ public class NewSubjectController extends AbstractCreationController implements 
     @FXML private TextArea observationsInput;
     @FXML private TextField ageInput;
     @FXML private TextField weightInput;
-    @FXML private TextField sizeInput;
+    @FXML private TextField heightInput;
 
     @FXML private AnchorPane personDataPane; // this pane will be hidden if subject is not a person
 
     @Autowired SubjectService subjectService;
 
-    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(NewSubjectController.class.getName());
 
     private final ToggleGroup person = new ToggleGroup();
     private final ToggleGroup gender = new ToggleGroup();
@@ -71,73 +71,68 @@ public class NewSubjectController extends AbstractCreationController implements 
         isMale.setSelected(true);   // default select male
 
         // show or hide the pane depending on if subject is a person or not
-        person.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            public void changed(ObservableValue<? extends Toggle> ov,
-                                Toggle old_toggle, Toggle new_toggle) {
-                if (person.getSelectedToggle() == isPerson) {
-                    logger.debug("Showing person pane");
-                    Animation.fadeInTransition(personDataPane);
-                } else {
-                    logger.debug("Hiding person pane");
-                    Animation.fadeOutTransition(personDataPane);
-                }
+        person.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+            if (person.getSelectedToggle() == isPerson) {
+                logger.debug("Showing person pane");
+                Animation.fadeInTransition(personDataPane);
+            } else {
+                logger.debug("Hiding person pane");
+                Animation.fadeOutTransition(personDataPane);
             }
         });
 
         translate();
     }
 
+    /**
+     * When editing a subject, pre-load its data
+     *
+     * @param subject subject to update/edit
+     */
     public void setSubjectForUpdate(Subject subject) {
         this.subject = subject;
         saveButton.setText(language.get(Lang.UPDATE));
         nameInput.setText(subject.getName());
         observationsInput.setText(subject.getObservations());
 
-        if(subject.isIsPerson()) {
+        if (subject.isIsPerson()) {
             person.selectToggle(isPerson);
+            ageInput.setText(String.valueOf(subject.getAge()));
+            weightInput.setText(String.valueOf(subject.getWeight()));
+            heightInput.setText(String.valueOf(subject.getHeight()));
 
-            if(subject.getSex()) {
+            if (subject.getSex()) {
                 gender.selectToggle(isMale);
             } else {
                 gender.selectToggle(isFemale);
             }
-
-            ageInput.setText(String.valueOf(subject.getAge()));
-            weightInput.setText(String.valueOf(subject.getWeight()));
-            sizeInput.setText(String.valueOf(subject.getHeight()));
-
         } else {
             person.selectToggle(isObject);
         }
-
     }
 
+    /**
+     * Save or update the subject to database
+     */
     @Override
     @FXML
     void save() {
-
-        String name;
-        String observations;
-
         try {
             logger.info("Saving subject...");
 
-            name = nameInput.getText();
-            observations = observationsInput.getText();
-
-            if(subject == null) {
+            if (subject == null) {
                 subject = new Subject();
             }
 
-            subject.setName(name);
-            subject.setObservations(observations);
+            subject.setName(nameInput.getText());
+            subject.setObservations(observationsInput.getText());
 
             // if subject is not a person only set the name and observations
             if (person.getSelectedToggle() == isPerson) {
                 subject.setIsPerson(true);
                 subject.setAge(Integer.valueOf(ageInput.getText()));
                 subject.setWeight(Double.valueOf(weightInput.getText()));
-                subject.setHeight(Double.valueOf(sizeInput.getText()));
+                subject.setHeight(Double.valueOf(heightInput.getText()));
                 if (gender.getSelectedToggle() == isMale) {
                     subject.setSex(true);   // true = male
                 } else {
@@ -158,16 +153,16 @@ public class NewSubjectController extends AbstractCreationController implements 
 
         } catch (NumberFormatException ex) {
             logger.warn("Invalid input number (age, weight or size)");
-            showAlert(Alert.AlertType.ERROR, "Invalid input number");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_INPUT_NUMBER));
         } catch (ControlledTemperatusException ex) {
             logger.warn("Exception: " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
@@ -185,7 +180,7 @@ public class NewSubjectController extends AbstractCreationController implements 
         weightLabel.setText(language.get(Lang.WEIGHTLABEL));
         weightInput.setPromptText(language.get(Lang.WEIGHTPROMPT));
         sizeLabel.setText(language.get(Lang.SIZELABEL));
-        sizeInput.setPromptText(language.get(Lang.SIZEPROMPT));
+        heightInput.setPromptText(language.get(Lang.SIZEPROMPT));
         isPerson.setText(language.get(Lang.ISPERSON));
         isObject.setText(language.get(Lang.ISOBJECT));
         isMale.setText(language.get(Lang.ISMALE));

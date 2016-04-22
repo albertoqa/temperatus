@@ -26,11 +26,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
+ * View to create and save/update a position
+ * <p>
  * Created by alberto on 27/1/16.
  */
 @Controller
@@ -47,10 +48,12 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
+
     private Position position;
 
-    static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(NewPositionController.class.getName());
 
+    private static final String DEFAULT_IMAGE = "/images/noimage.jpg";  // Set the default image to show -> no image picture
     private String imagePath;
 
     @Override
@@ -58,43 +61,54 @@ public class NewPositionController extends AbstractCreationController implements
         position = null;
         translate();
 
-        // Set the default image to show -> no image picture
-        imagePath = "/images/noimage.jpg";
-        Image image = new Image(imagePath);
+        Image image = new Image(DEFAULT_IMAGE); // show default image
         imageView.setImage(image);
+        imagePath = DEFAULT_IMAGE;
     }
 
+    /**
+     * When editing a position, pre-load its data
+     *
+     * @param position position to update/edit
+     */
     public void setPositionForUpdate(Position position) {
         saveButton.setText(language.get(Lang.UPDATE));
         this.position = position;
         nameInput.setText(position.getPlace());
         imagePath = position.getPicture();
-        // TODO show image
+
+        try {
+            imageView.setImage(new Image(imagePath));
+        } catch (Exception ex) {
+            logger.error("Cannot find image for position...");
+            imageView.setImage(new Image(DEFAULT_IMAGE));
+        }
     }
 
+    /**
+     * Save or update a position to database
+     */
     @Override
     @FXML
     void save() {
-
-        String name;
-        boolean isUsed = false;
-
         try {
             logger.info("Saving position...");
 
-            name = nameInput.getText();
+            String name = nameInput.getText();
+            boolean isUsed = false;     // check if this position has been used in any formula saved to the database
 
-            if(!isValidName(name)) {
-                throw new ControlledTemperatusException("Name cannot contain any of the following symbols: + - * / ( )");
-            } else if(position != null && isUsedInAFormula(position.getPlace())) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This position is used in some Formula, if you edit it the formula will stop working. Do you want to continue?");
+            if (!isValidName(name)) {
+                throw new ControlledTemperatusException(language.get(Lang.INVALID_NAME_FORMULA));
+            } else if (position != null && isUsedInAFormula(position.getPlace())) {
+                // warn user of position used in a formula... formula will be useless if delete position
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.REMOVE_FORMULA_CONFIRMATION));
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.CANCEL) {
+                if (result.isPresent() && result.get() == ButtonType.CANCEL) {
                     isUsed = true;
                 }
             }
 
-            if(!isUsed) {
+            if (!isUsed) {  // not used or user doesn't care so delete it
                 if (position == null) {
                     position = new Position();
                 }
@@ -117,37 +131,44 @@ public class NewPositionController extends AbstractCreationController implements
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, "Duplicate entry");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
+    /**
+     * Check if this position was used in any formula...
+     *
+     * @param place position to look for
+     * @return is used in a formula?
+     */
     private boolean isUsedInAFormula(String place) {
         boolean isUsed = false;
-        List<Formula> formulas = formulaService.getAll();
-
-        for(Formula formula: formulas) {
-            if(formula.getOperation().contains(place)) {
+        for (Formula formula : formulaService.getAll()) {   // search in all formulas of the database
+            if (formula.getOperation().contains(place)) {
                 isUsed = true;
                 break;
             }
         }
-
         return isUsed;
     }
 
+    /**
+     * Check if actual name is valid.. cannot contain operators used in formulas
+     *
+     * @param name name to check
+     * @return is name valid?
+     */
     private boolean isValidName(String name) {
-        boolean isValid = true;
-
-        if(name.contains("+") || name.contains("-") || name.contains("*") || name.contains("/") || name.contains("(") || name.contains(")")) {
-            isValid = false;
-        }
-
-        return isValid;
+        return !(name.contains("+") || name.contains("-") || name.contains("*") || name.contains("/") || name.contains("(") || name.contains(")"));
     }
 
+    /**
+     * Open a fileChooser to allow the user to select a image from the computer
+     * Only allow images in jpg and png.
+     */
     @FXML
     private void selectImage() {
         FileChooser fileChooser = new FileChooser();
@@ -160,7 +181,7 @@ public class NewPositionController extends AbstractCreationController implements
         //Show open file dialog
         File file = fileChooser.showOpenDialog(null);
 
-        if(file != null) {
+        if (file != null) {
             try {
                 BufferedImage bufferedImage = ImageIO.read(file);
                 Image image = SwingFXUtils.toFXImage(bufferedImage, null);

@@ -50,7 +50,7 @@
                   </Label>
                   <TextField fx:id="ageInput" layoutX="114.0" layoutY="77.0" promptText="Age" styleClass="form" />
                   <TextField fx:id="weightInput" layoutX="115.0" layoutY="120.0" promptText="Weight" styleClass="form" />
-                  <TextField fx:id="sizeInput" layoutX="411.0" layoutY="78.0" promptText="Height" styleClass="form" />
+                  <TextField fx:id="heightInput" layoutX="411.0" layoutY="78.0" promptText="Height" styleClass="form" />
                </children>
             </AnchorPane>
          </children></AnchorPane>
