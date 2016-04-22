@@ -29,7 +29,7 @@ public class IButtonDataAnalysis {
      * then the generated list will contain: M1[11º], M2[7.5º]
      *
      * @param measurementList complete list of measurements
-     * @param periodInput          generate a measurement withe the average temperature of each <<period>> measurements
+     * @param periodInput     generate a measurement withe the average temperature of each <<period>> measurements
      * @return the list of generated measurements
      */
     public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int periodInput) {
@@ -133,6 +133,58 @@ public class IButtonDataAnalysis {
         return measurements;
     }
 
+    /**
+     * Return the average value of the list of measurements
+     *
+     * @param measurements list of measurements to calculate its average
+     * @return average temperature of the list
+     */
+    public static Double getAverage(final List<Measurement> measurements) {
+        logger.debug("Calculating average temperature");
+
+        Double sum = 0.0;
+        if (!measurements.isEmpty()) {
+            for (Measurement measurement : measurements) {
+                sum += measurement.getData();
+            }
+            return sum / measurements.size();
+        }
+        return sum;
+    }
+
+    /**
+     * Return the maximum temperature registered in the list of measurements
+     * @param measurements list to analyze
+     * @return maximum temperature
+     */
+    public static Double getMaxTemperature(final List<Measurement> measurements) {
+        double maxTemp = Double.MIN_VALUE;
+        if (!measurements.isEmpty()) {
+            for (Measurement measurement : measurements) {
+                if(measurement.getData() > maxTemp) {
+                    maxTemp = measurement.getData();
+                }
+            }
+        }
+        return maxTemp;
+    }
+
+    /**
+     * Return the minimum temperature registered in the list of measurements
+     * @param measurements list to analyze
+     * @return minimum temperature
+     */
+    public static Double getMinTemperature(final List<Measurement> measurements) {
+        double maxTemp = Double.MAX_VALUE;
+        if (!measurements.isEmpty()) {
+            for (Measurement measurement : measurements) {
+                if(measurement.getData() < maxTemp) {
+                    maxTemp = measurement.getData();
+                }
+            }
+        }
+        return maxTemp;
+    }
 }
 
 

@@ -91,6 +91,8 @@ public class Lang {
     public static final String IMPORTPLUS = "importPlus";
     public static final String KEEPDATA = "keepData";
     public static final String SAVEDDATA = "savedData";
+    public static final String DATASAVEDTITLE = "dataSavedTitle";
+    public static final String DATASAVEDTEXT = "dataSavedText";
 
     // New Position
     public static final String NEWPOSITION = "newPosition";
@@ -130,6 +132,7 @@ public class Lang {
     public static final String OK = "ok";
     public static final String APPLY = "apply";
     public static final String CONFIRMATION = "confirmation";
+    public static final String CONFIRMATION_LOSE_PROGRESS = "confirmationLoseProgress";
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
@@ -138,17 +141,24 @@ public class Lang {
     public static final String FILE_NOT_FOUND = "fileNotFound";
     public static final String PARSE_ERROR = "parseError";
     public static final String READING_ERROR = "readingError";
+    public static final String READING_DEVICE_ERROR = "readingDeviceError";
+    public static final String DEVICE_NOT_FOUND_ERROR = "deviceNotFound";
+    public static final String PROCESSING_ERROR = "processingError";
 
     public static final String UNKNOWN_ERROR = "unknownError";
     public static final String DUPLICATE_ENTRY = "duplicateEntry";
     public static final String INVALID_NAME = "invalidName";
     public static final String INVALID_FORMULA = "invalidFormula";
     public static final String INVALID_DATE = "invalidDate";
+    public static final String DIFFERENT_RATES = "differentRates";
 
     public static final String MUST_SELECT_PROJECT = "mustSelectProject";
     public static final String MUST_SELECT_GAME = "mustSelectGame";
     public static final String MUST_SELECT_SUBJECT = "mustSelectSubject";
     public static final String MUST_SELECT_AUTHOR = "mustSelectAuthor";
+    public static final String MUST_SELECT_POSITION = "mustSelectPosition";
+    public static final String MUST_SELECT_POSITION_FOR_ALL = "mustSelectPositionForAll";
+    public static final String MUST_SELECT_ALL_ROW = "mustSelectAllRow";
 
 
 

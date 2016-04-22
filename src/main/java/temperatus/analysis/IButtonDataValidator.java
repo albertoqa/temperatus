@@ -29,7 +29,7 @@ public class IButtonDataValidator {
         logger.debug("Generating list of outliers using a range of: [+-" + RANGE + "]");
 
         List<Measurement> outliers = new ArrayList<>();
-        Double average = getAverage(measurements);
+        Double average = IButtonDataAnalysis.getAverage(measurements);
         Double maxValue = average + RANGE;
         Double minValue = average - RANGE;
 
@@ -42,23 +42,5 @@ public class IButtonDataValidator {
         return outliers;
     }
 
-    /**
-     * Return the average value of the list of measurements
-     *
-     * @param measurements list of measurements to calculate its average
-     * @return average temperature of the list
-     */
-    private static Double getAverage(final List<Measurement> measurements) {
-        logger.debug("Calculating average temperature");
-
-        Double sum = 0.0;
-        if (!measurements.isEmpty()) {
-            for (Measurement measurement : measurements) {
-                sum += measurement.getData();
-            }
-            return sum / measurements.size();
-        }
-        return sum;
-    }
 
 }

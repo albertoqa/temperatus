@@ -2,6 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,9 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
     @FXML private Label totalMeasurements;
     @FXML private Label position;
 
-    List<Measurement> measurements;
+    @FXML private Button completeInfoButton;
+
+    private List<Measurement> measurements;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -12,7 +12,7 @@
       <Label fx:id="endDateLabel" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="59.0" prefWidth="153.0" styleClass="label-paneinfo" text="End Date:" />
       <Label fx:id="totalMeasurementsLabel" alignment="CENTER_RIGHT" layoutX="444.0" layoutY="87.0" prefHeight="16.0" prefWidth="175.0" styleClass="label-paneinfo" text="Number of Measurements:" />
       <Label fx:id="positionLabel" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="116.0" prefWidth="153.0" styleClass="label-paneinfo" text="Position:" />
-      <Button onAction="#completeInfo" layoutX="650.0" layoutY="173.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" styleClass="pbtn" text="Complete Info" />
+      <Button fx:id="completeInfoButton" onAction="#completeInfo" layoutX="650.0" layoutY="173.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" styleClass="pbtn" text="Complete Info" />
       <Label fx:id="model" layoutX="148.0" layoutY="28.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
       <Label fx:id="alias" layoutX="148.0" layoutY="85.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
       <Label fx:id="serial" layoutX="148.0" layoutY="57.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
