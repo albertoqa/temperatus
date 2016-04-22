@@ -56,6 +56,7 @@ public class MissionInfoController implements Initializable, AbstractController 
 
     }
 
+
     public void setData(int missionId) {
         this.mission = missionService.getById(missionId);
         project = mission.getProject();

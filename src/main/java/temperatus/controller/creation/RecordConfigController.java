@@ -2,6 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,13 +19,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.FormulaUtil;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.controller.archived.MissionInfoController;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Mission;
+import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.MeasurementService;
 import temperatus.model.service.MissionService;
@@ -35,6 +39,7 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Configuration of the experiments: range of time, formulas and wrong data.
@@ -88,7 +93,7 @@ public class RecordConfigController extends AbstractCreationController implement
     @Autowired FormulaService formulaService;
     @Autowired MissionService missionService;
 
-    private static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(RecordConfigController.class.getName());
 
     private List<ValidatedData> data;   // Complete data
     private GeneralData generalData;    // General data of the experiment
@@ -201,20 +206,46 @@ public class RecordConfigController extends AbstractCreationController implement
     }
 
     /**
-     * Load all formulas from DB
+     * Load all formulas from DB but allow to check only formulas that can be applied to this mission/game
      * Pre-select default formulas for this game
      */
     private void loadFormulas() {
-        // TODO only show the formulas that can be applied to this mission/game
         listViewFormulas.setItems(FXCollections.observableArrayList(formulaService.getAll()));
         for (Formula formula : mission.getGame().getFormulas()) {
             listViewFormulas.getCheckModel().check(formula);
         }
+
+        listViewFormulas.getCheckModel().getCheckedItems().addListener((ListChangeListener<? super Formula>) c -> {
+            c.next();
+
+            for (Formula formula : c.getAddedSubList()) {
+                if (!isFormulaApplicableToThisMission(formula)) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.NOT_APPLICABLE_FORMULA));
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() != ButtonType.OK) {
+                        listViewFormulas.getCheckModel().clearCheck(formula);
+                    }
+                }
+            }
+        });
     }
 
+    /**
+     * Check if the formula can be applied to the current mission/game
+     *
+     * @param formula formula to check
+     * @return is valid to apply this formula to this mission?
+     */
+    private boolean isFormulaApplicableToThisMission(Formula formula) {
+        List<Position> positions = data.stream().map(ValidatedData::getPosition).collect(Collectors.toList());
+        return FormulaUtil.isValidFormula(formula.getOperation(), positions);
+    }
+
+    /**
+     * Go back to the previous screen
+     */
     @FXML
     private void back() {
-        // TODO should i remove it?
         VistaNavigator.popViewFromStack();
     }
 
@@ -236,17 +267,21 @@ public class RecordConfigController extends AbstractCreationController implement
                     startDate = Constants.dateTimeFormat.parse(initTime.getText());
                     endDate = Constants.dateTimeFormat.parse(endTime.getText());
                 } catch (ParseException e) {
-                    // TODO exception y break + show warn
+                    logger.error("Incorrect dates...");
+                    throw new InterruptedException();
                 }
 
                 // Calculate total number of measurements to update the progress indicator
-                // TODO calculate attending to the range selected!
                 int totalMeasurements = 0;
                 for (ValidatedData validatedData : data) {
-                    totalMeasurements += validatedData.getMeasurements().size();
+                    for(Measurement measurement: validatedData.getMeasurements()) {
+                        if(measurement.getDate().before(endDate) && measurement.getDate().after(startDate)) {
+                            totalMeasurements++;
+                        }
+                    }
                 }
 
-                // Save measurements + check if is in the range
+                // Save measurements + check if is in the range - [the save is the slowest part]
                 int actualMeasurement = 0;
                 for (ValidatedData validatedData : data) {
                     for (Measurement measurement : validatedData.getMeasurements()) {
@@ -263,14 +298,12 @@ public class RecordConfigController extends AbstractCreationController implement
 
                 mission.setFormulas(selectedFormulas);
                 try {
-                    missionService.saveOrUpdate(mission);
+                    missionService.saveOrUpdate(mission);   // update mission saving the selected formulas
                 } catch (ControlledTemperatusException e) {
-                    e.printStackTrace();
-                    // TODO
+                    logger.error("Error updating formulas of mission...");
                 }
 
                 updateProgress(10, 10);
-
                 return null;
             }
         };
@@ -294,11 +327,27 @@ public class RecordConfigController extends AbstractCreationController implement
 
         Thread thread = new Thread(saveMeasurementsAndFormulasForMissionTask);
         thread.start();
+
+        logger.info("Saving measurements to database...");
     }
 
     @Override
     public void translate() {
-
+        generalTab.setText(language.get(Lang.GENERAL_TAB));
+        addFormulaButton.setText(language.get(Lang.ADD_FORMULA_BUTTON));
+        backButton.setText(language.get(Lang.BACK_BUTTON));
+        timeRangeWarning.setText(language.get(Lang.TIME_RANGE_WARNING));
+        titleLabel.setText(language.get(Lang.RECORD_CONFIG_TITLE));
+        formulasLabel.setText(language.get(Lang.FORMULAS));
+        rangeOfTimeLabel.setText(language.get(Lang.RANGE_OF_TIME));
+        modelL.setText(language.get(Lang.MODELLABEL));
+        rateL.setText(language.get(Lang.RATELABEL));
+        startDateL.setText(language.get(Lang.START_DATE));
+        endDateL.setText(language.get(Lang.END_DATE));
+        avgMeasurementsL.setText(language.get(Lang.AVG_MEASUREMENTS));
+        maxTempL.setText(language.get(Lang.MAX_TEMP));
+        minTempL.setText(language.get(Lang.MIN_TEMP));
+        avgTempL.setText(language.get(Lang.AVG_TEMP));
     }
 
 }

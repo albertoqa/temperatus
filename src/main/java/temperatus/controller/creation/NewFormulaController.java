@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.FormulaUtil;
-import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
@@ -184,48 +183,13 @@ public class NewFormulaController extends AbstractCreationController implements 
     }
 
     /**
-     * Check if the actual formula is valid
-     *
-     * @return is the formula valid?
-     */
-    private boolean isValidFormula() {
-
-        String op = operation.getValue();   // current formula
-        String[] elements = op.split(FormulaUtil.FORMULA_REGEX);    // split formula in all its elements
-
-        // replace all operands (positions) for 1
-        for (int i = 0; i < elements.length; i++) {
-            if (!FormulaUtil.isOperator(elements[i])) {
-                for (Position position : positionsSelector.getItems()) {
-                    if (elements[i].equals(position.getPlace())) {
-                        elements[i] = "1";
-                        break;
-                    }
-                }
-            }
-        }
-
-        // reconstruct the formula from its elements (with all the operands (positions) replaced by 1s
-        String toEval = FormulaUtil.generateFormula(elements);
-
-        // try to perform the operation
-        try {
-            Calculator.eval(toEval);
-            return true;
-        } catch (Exception ex) {
-            logger.warn("Invalid formula: " + ex.getMessage());
-            return false;
-        }
-    }
-
-    /**
      * Save or update a formula to the db
      */
     @Override
     @FXML
     protected void save() {
 
-        if (!isValidFormula()) {
+        if (!FormulaUtil.isValidFormula(operation.getValue(), positionsSelector.getItems())) {
             showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_FORMULA));
         } else {
             try {

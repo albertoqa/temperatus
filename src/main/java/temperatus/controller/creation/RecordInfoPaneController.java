@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.archived.ButtonDataController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
+ * Show information about a device's measurements in a tab of the recordConfigController
+ * <p>
  * Created by alberto on 7/2/16.
  */
 @Controller
@@ -47,9 +50,12 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        translate();
     }
 
+    /**
+     * Set the data to show on this pane
+     */
     public void setData(String model, String serial, String alias, String sampleRate, String startTime, String endTime, String totalMeasurements, String position, List<Measurement> measurements) {
         this.model.setText(model);
         this.serial.setText(serial);
@@ -62,14 +68,25 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
         this.measurements = measurements;
     }
 
+    /**
+     * Load and show the complete set of measurements in a modal window
+     */
     @FXML
     private void completeInfo() {
-        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, "");
+        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, language.get(Lang.COMPLETE_INFO));
         buttonDataController.setData(measurements);
     }
 
     @Override
     public void translate() {
-
+        modelLabel.setText(language.get(Lang.MODELLABEL));
+        serialLabel.setText(language.get(Lang.SERIALLABEL));
+        aliasLabel.setText(language.get(Lang.ALIASLABEL));
+        sampleRateLabel.setText(language.get(Lang.RATELABEL));
+        startDateLabel.setText(language.get(Lang.START_DATE));
+        endDateLabel.setText(language.get(Lang.END_DATE));
+        totalMeasurementsLabel.setText(language.get(Lang.NUMBER_OF_MEASUREMENTS));
+        positionLabel.setText(language.get(Lang.POSITIONLABEL));
+        completeInfoButton.setText(language.get(Lang.COMPLETE_INFO));
     }
 }

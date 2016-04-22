@@ -93,6 +93,26 @@ public class Lang {
     public static final String SAVEDDATA = "savedData";
     public static final String DATASAVEDTITLE = "dataSavedTitle";
     public static final String DATASAVEDTEXT = "dataSavedText";
+    public static final String NOT_APPLICABLE_FORMULA = "notApplicableFormula";
+
+    // Record config
+    public static final String GENERAL_TAB = "generalTab";
+    public static final String ADD_FORMULA_BUTTON = "addFormulaButton";
+    public static final String BACK_BUTTON = "backButton";
+    public static final String TIME_RANGE_WARNING = "timeRangeWarning";
+    public static final String RECORD_CONFIG_TITLE = "recordConfigTitle";
+    public static final String FORMULAS = "formulas";
+    public static final String RANGE_OF_TIME = "rangeOfTime";
+    public static final String RATELABEL = "rateLabel";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
+    public static final String AVG_MEASUREMENTS = "avgMeasurements";
+    public static final String MAX_TEMP = "maxTemp";
+    public static final String MIN_TEMP = "minTemp";
+    public static final String AVG_TEMP = "avgTemp";
+    public static final String POSITIONLABEL = "position";
+    public static final String NUMBER_OF_MEASUREMENTS = "numberOfMeasurements";
+    public static final String COMPLETE_INFO = "completeInfo";
 
     // New Position
     public static final String NEWPOSITION = "newPosition";
