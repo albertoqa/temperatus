@@ -279,6 +279,43 @@
   -fx-text-fill: white;
 }
 
+/* kpbt is for keep button progress indicator state */
+
+.kpbtn {
+    -fx-padding: 5 22 5 22;
+    -fx-border-style: none;
+    -fx-border-color : grey grey grey grey;
+    -fx-border-width:0.8;
+/*    -fx-background-color: #16b7bd; */
+/*    -fx-background-color: #299bb4; */
+    -fx-background-color: #f3f3f3;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+
+}
+
+.kpbtn:pressed, .ibtn:default:hover:pressed {
+  -fx-background-color: #f3f3f3;
+  -fx-text-fill: black;
+}
+
+.kpbtn:selected {
+  -fx-background-color: #f3f3f3;
+  -fx-text-fill: black;
+}
+
+.kpbtn:selected:focused {
+  -fx-background-color: #f3f3f3;
+  -fx-text-fill: black;
+}
+
+
 
 /*###########   Delete buttons (dbtn)     ############*/
 
