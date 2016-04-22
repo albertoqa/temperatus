@@ -108,6 +108,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 200.0;     // Preferred width for combo-box
     private static final Double BOX_PREF_WIDTH = 250.0;     // Preferred width for box
+    private static final Double BUTTON_PREF_WIDTH = 127.0;     // Preferred width for keep data button
 
     private static final String STYLESHEET = "/styles/temperatus.css";
 
@@ -289,6 +290,7 @@ public class NewRecordController extends AbstractCreationController implements I
         keepButton.setMinHeight(PREF_HEIGHT);
         keepButton.setMaxHeight(PREF_HEIGHT);
         keepButton.setPrefHeight(PREF_HEIGHT);
+        keepButton.setPrefWidth(BUTTON_PREF_WIDTH);
         keepButton.setUserData(index);  // required to know in which row is located
         keepButton.getStyleClass().add("kbtn");
         keepButton.setDisable(true);    // by default disabled, enable only if device selected in combo-box
@@ -327,12 +329,24 @@ public class NewRecordController extends AbstractCreationController implements I
 
                     deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());
                     ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
-                    clickedButton.setGraphic(new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS));
+
+                    ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+                    progressIndicator.setMaxSize(25, 25);
+
+                    clickedButton.setText("");
+                    clickedButton.getStyleClass().clear();
+                    clickedButton.getStyleClass().add("kpbtn");
+                    clickedButton.setGraphic(progressIndicator);
 
                     Futures.addCallback(future, new FutureCallback<File>() {
                         public void onSuccess(File result) {
                             Platform.runLater(() -> {
+
                                 clickedButton.setGraphic(null);
+                                clickedButton.setText(language.get(Lang.SAVEDDATA));
+                                clickedButton.getStyleClass().clear();
+                                clickedButton.getStyleClass().add("kbtn");
+
                                 sourceChoice.setFile(result);
                                 filesToSave[index] = result;
                                 // Alert user that iButton can be removed

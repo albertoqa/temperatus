@@ -90,6 +90,7 @@ public class Lang {
     public static final String INDEX = "index";
     public static final String IMPORTPLUS = "importPlus";
     public static final String KEEPDATA = "keepData";
+    public static final String SAVEDDATA = "savedData";
 
     // New Position
     public static final String NEWPOSITION = "newPosition";
