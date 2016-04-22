@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
+import temperatus.util.Constants;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -54,6 +55,8 @@ public class DeviceReadTask extends DeviceTask {
     private static final int CHANNEL_O = 0;
     private static final int CHANNEL_1 = 1;
     private static final int FIRST_SAMPLE = 0;
+
+    private String fileName;
 
     private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
 
@@ -169,7 +172,9 @@ public class DeviceReadTask extends DeviceTask {
 
             ///////////////////////////////////////////////
 
-            String fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis();
+            if(fileName == null) {
+                fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".csv";
+            }
             logger.info("Filename: " + fileName);
 
             FileWriter fileWriter = null;
@@ -186,12 +191,13 @@ public class DeviceReadTask extends DeviceTask {
                     csvFilePrinter.printRecord(information);
                 }
 
+                csvFilePrinter.println();
                 csvFilePrinter.printRecord(FILE_HEADER);
 
                 if (measurements != null) {
                     for (Measurement measurement : measurements) {
                         List<String> m = new ArrayList<>();
-                        m.add(measurement.getDate().toString());
+                        m.add(Constants.dateTimeFormat.format(measurement.getDate()));
                         m.add(String.valueOf(Unit.C));
                         m.add(String.valueOf(measurement.getData()));
                         csvFilePrinter.printRecord(m);
@@ -220,7 +226,11 @@ public class DeviceReadTask extends DeviceTask {
             releaseAdapter();
         }
 
-        return null;
+        return new File(fileName);
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }

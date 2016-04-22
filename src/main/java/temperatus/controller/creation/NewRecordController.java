@@ -328,13 +328,14 @@ public class NewRecordController extends AbstractCreationController implements I
 
                 if(device != null) {
 
+                    deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());
                     ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
 
                     Futures.addCallback(future, new FutureCallback<File>() {
                         public void onSuccess(File result) {
                             Platform.runLater(() -> {
                                 sourceChoice.setFile(result);
-
+                                filesToSave[index] = result;
                                 // Alert user that iButton can be removed
                                 Notifications.create().title("Data Saved").text("You can safely remove iButton now").show();
 

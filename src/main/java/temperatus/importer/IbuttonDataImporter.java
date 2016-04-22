@@ -22,13 +22,13 @@ import java.util.List;
 
 /**
  * Created by alberto on 6/2/16.
- * <p>
+ * <p/>
  * Ready to parse CSV files with the following format:
- * <p>
+ * <p/>
  * Lines 1 - 18 iButton information
  * Line 20 Headers
  * Line 21 - ... Data: DateTime, Unit Of Measurement, [Measurement, Decimal]
- * <p>
+ * <p/>
  * A sample file can be found in resources/samples/1.csv
  */
 public class IbuttonDataImporter extends AbstractImporter {
@@ -103,10 +103,18 @@ public class IbuttonDataImporter extends AbstractImporter {
 
                 double measurementData = 0.0;
                 if (unit.equals(Constants.UNIT_C)) {
-                    measurementData = getData(record.get(VALUE_HEADER), record.get(3));
+                    if (record.size() == 4) {
+                        measurementData = getData(record.get(VALUE_HEADER), record.get(3));
+                    } else {
+                        measurementData = Double.parseDouble(record.get(VALUE_HEADER));
+                    }
                 } else if (unit.equals(Constants.UNIT_F)) {
                     // All data saved to db must be in celsius
-                    measurementData = fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
+                    if (record.size() == 4) {
+                        measurementData = fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
+                    } else {
+                        measurementData = fahrenheitToCelsius(Double.parseDouble(record.get(VALUE_HEADER)));
+                    }
                 }
 
                 Measurement measurement = new Measurement(measurementDate, measurementData, u); // recordId must be set before save to db
