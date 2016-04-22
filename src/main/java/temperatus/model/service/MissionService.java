@@ -18,6 +18,6 @@ public interface MissionService {
 
     List<Mission> getAll();
 
-    void saveOrUpdate(Mission mission);
+    void saveOrUpdate(Mission mission) throws ControlledTemperatusException;
 
 }

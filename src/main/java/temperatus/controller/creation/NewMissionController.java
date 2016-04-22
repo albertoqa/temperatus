@@ -1,7 +1,6 @@
 package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -26,7 +25,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * We can open this view by two different ways:
@@ -42,6 +40,7 @@ import java.util.stream.Collectors;
 public class NewMissionController extends AbstractCreationController implements Initializable {
 
     @FXML private StackPane stackPane;
+
     @FXML private Label title;
     @FXML private Label projectLabel;
     @FXML private Label nameLabel;
@@ -70,7 +69,7 @@ public class NewMissionController extends AbstractCreationController implements 
     @Autowired SubjectService subjectService;
     @Autowired AuthorService authorService;
 
-    static Logger logger = LoggerFactory.getLogger(NewMissionController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(NewMissionController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -83,29 +82,15 @@ public class NewMissionController extends AbstractCreationController implements 
          * Works for: New Project, New Author, New Game and New Subject
          */
         VistaNavigator.setController(this);
-        logger.info("VistaNavigator -> AbstractController set to NewMissionController");
+        logger.debug("VistaNavigator -> AbstractController set to NewMissionController");
 
         dateInput.setValue(LocalDate.now());    // Default date: today
 
-        // * Load all projects from database and allow the user to choose them
-        ObservableList<Project> projects = FXCollections.observableArrayList();
-        projects.addAll(projectService.getAll().stream().collect(Collectors.toList()));
-        projectBox.setItems(projects);
-
-        // * Load all authors from database and allow the user to choose them
-        ObservableList<Author> authors = FXCollections.observableArrayList();
-        authors.addAll(authorService.getAll().stream().collect(Collectors.toList()));
-        authorBox.setItems(authors);
-
-        // * Load all games from database and allow the user to choose them
-        ObservableList<Game> games = FXCollections.observableArrayList();
-        games.addAll(gameService.getAll().stream().collect(Collectors.toList()));
-        gameBox.setItems(games);
-
-        // * Load all subjects from database and allow the user to choose them
-        ObservableList<Subject> subjects = FXCollections.observableArrayList();
-        subjects.addAll(subjectService.getAll().stream().collect(Collectors.toList()));
-        subjectBox.setItems(subjects);
+        // * Load all projects, authors, games and subjects from database and allow the user to choose them
+        projectBox.setItems(FXCollections.observableArrayList(projectService.getAll()));
+        authorBox.setItems(FXCollections.observableArrayList(authorService.getAll()));
+        gameBox.setItems(FXCollections.observableArrayList(gameService.getAll()));
+        subjectBox.setItems(FXCollections.observableArrayList(subjectService.getAll()));
 
         new AutoCompleteComboBoxListener<>(projectBox);
         new AutoCompleteComboBoxListener<>(authorBox);
@@ -124,34 +109,30 @@ public class NewMissionController extends AbstractCreationController implements 
         projectBox.getSelectionModel().select(project);
     }
 
+    /**
+     * Save or update a mission to db
+     */
     @FXML
     void save() {
-
-        String name;
-        Author author;
-        String observations;
-        Date startDate;
-        Project project;
-        Game game;
-        Subject subject;
-
         try {
             logger.info("Saving mission...");
 
-            name = nameInput.getText();
-            author = authorBox.getSelectionModel().getSelectedItem();
-            observations = observationsInput.getText();
-            startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            project = projectBox.getSelectionModel().getSelectedItem();
-            game = gameBox.getSelectionModel().getSelectedItem();
-            subject = subjectBox.getSelectionModel().getSelectedItem();
+            String name = nameInput.getText();
+            Author author = authorBox.getSelectionModel().getSelectedItem();
+            String observations = observationsInput.getText();
+            Date startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Project project = projectBox.getSelectionModel().getSelectedItem();
+            Game game = gameBox.getSelectionModel().getSelectedItem();
+            Subject subject = subjectBox.getSelectionModel().getSelectedItem();
 
             if (project == null) {
-                throw new ControlledTemperatusException("A project must be selected.");
+                throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_PROJECT));
             } else if (game == null) {
-                throw new ControlledTemperatusException("A game must be selected");
+                throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_GAME));
             } else if (subject == null) {
-                throw new ControlledTemperatusException("A subject must be selected");
+                throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_SUBJECT));
+            } else if(author == null) {
+                throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_AUTHOR));
             }
 
             Mission mission = new Mission(author, game, project, subject, name, startDate, observations);
@@ -165,24 +146,27 @@ public class NewMissionController extends AbstractCreationController implements 
 
         } catch (IllegalArgumentException ex) {
             logger.warn("Invalid input date: " + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Invalid input date.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_DATE));
         } catch (ControlledTemperatusException ex) {
             logger.warn("Exception while saving project: " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            showAlert(Alert.AlertType.ERROR, ex.getMessage());
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Unknown error.");
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 
+    /**
+     * Cancel mission creation and go to Archive view
+     */
     @FXML
     private void cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             VistaNavigator.loadVista(Constants.ARCHIVED);
             VistaNavigator.baseController.selectMenuButton(Constants.ARCHIVED);
             VistaNavigator.baseController.setActualBaseView(Constants.ARCHIVED);
@@ -222,10 +206,10 @@ public class NewMissionController extends AbstractCreationController implements 
     }
 
     /**
-     * While in this view, we can add a new {project - game - subject} without close the view
-     * If we add one new object we want to add it to its corresponding choicebox and select it.
+     * While in this view, we can add a new {projects - authors - games - subjects} without close the view
+     * If we add one new object we want to add it to its corresponding combo-box and select it.
      * <p>
-     * Depending on the type of object passed as a parameter we will add it to a different choicebox.
+     * Depending on the type of object passed as a parameter we will add it to a different combo-box.
      *
      * @param object - new object to be added and selected
      */

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.controller.archived.MissionInfoController;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Mission;
@@ -225,7 +226,12 @@ public class RecordConfigController extends AbstractCreationController implement
                 selectedFormulas.addAll(listViewFormulas.getCheckModel().getCheckedItems());
 
                 mission.setFormulas(selectedFormulas);
-                missionService.saveOrUpdate(mission);
+                try {
+                    missionService.saveOrUpdate(mission);
+                } catch (ControlledTemperatusException e) {
+                    e.printStackTrace();
+                    // TODO
+                }
 
                 updateProgress(10, 10);
 

@@ -82,6 +82,15 @@ public class Lang {
     public static final String NOSELECTION = "noSelection";
     public static final String NEWSUBJECT = "newSubject";
 
+    // New Record
+    public static final String NEWRECORD = "newRecord";
+    public static final String RECORDTITLE = "recordTitle";
+    public static final String POSITIONCOLUMN = "positionColumn";
+    public static final String DATASOURCECOLUMN = "dataSourceColumn";
+    public static final String INDEX = "index";
+    public static final String IMPORTPLUS = "importPlus";
+    public static final String KEEPDATA = "keepData";
+
     // New Position
     public static final String NEWPOSITION = "newPosition";
     public static final String IMAGELABEL = "imageLabel";
@@ -133,5 +142,13 @@ public class Lang {
     public static final String DUPLICATE_ENTRY = "duplicateEntry";
     public static final String INVALID_NAME = "invalidName";
     public static final String INVALID_FORMULA = "invalidFormula";
+    public static final String INVALID_DATE = "invalidDate";
+
+    public static final String MUST_SELECT_PROJECT = "mustSelectProject";
+    public static final String MUST_SELECT_GAME = "mustSelectGame";
+    public static final String MUST_SELECT_SUBJECT = "mustSelectSubject";
+    public static final String MUST_SELECT_AUTHOR = "mustSelectAuthor";
+
+
 
 }

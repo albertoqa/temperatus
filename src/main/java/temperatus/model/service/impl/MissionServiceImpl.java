@@ -27,17 +27,6 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void save(Mission mission) throws ControlledTemperatusException {
-
-        if(mission.getName().length() < 1 || mission.getName().length() > 100) {
-            throw new ControlledTemperatusException("Invalid name length");
-        } else if(mission.getAuthor().getName().length() < 1 || mission.getAuthor().getName().length() > 30) {
-            throw new ControlledTemperatusException("Invalid author length");
-        } else if(mission.getGame() == null || mission.getProject() == null || mission.getSubject() == null) {
-            throw new ControlledTemperatusException("Project, Game and Subject cannot be null");
-        } else if(mission.getDateIni() == null){
-            throw new ControlledTemperatusException("Date cannot be null");
-        }
-
         missionDao.save(mission);
     }
 
@@ -52,7 +41,18 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void saveOrUpdate(Mission mission) {
+    public void saveOrUpdate(Mission mission) throws ControlledTemperatusException{
+
+        if(mission.getName().length() < 1 || mission.getName().length() > 100) {
+            throw new ControlledTemperatusException("Invalid name length");
+        } else if(mission.getGame() == null || mission.getAuthor() == null || mission.getProject() == null || mission.getSubject() == null) {
+            throw new ControlledTemperatusException("Project, Game and Subject cannot be null");
+        } else if(mission.getDateIni() == null){
+            throw new ControlledTemperatusException("Date cannot be null");
+        }
+
+        // TODO translate and check
+
         missionDao.saveOrUpdate(mission);
     }
 
