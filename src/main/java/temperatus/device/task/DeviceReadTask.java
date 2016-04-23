@@ -34,22 +34,28 @@ public class DeviceReadTask extends DeviceTask {
     private static final String NEW_LINE_SEPARATOR = "\n";                          //Delimiter used in CSV file
     private static final Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
 
+    private static final String[] INFO_TO_WRITE = {"1-Wire/iButton Part Number: ", "1-Wire/iButton Registration Number: ",
+            "Mission in Progress?  ", "SUTA Mission?  ", "Waiting for Temperature Alarm?  ", "Sample Rate:  ",
+            "Mission Start Time:  ", "Mission Sample Count:  ", "Roll Over Enabled?  ", "First Sample Timestamp:  ",
+            "Total Mission Samples:  ", "Total Device Samples:  ", "Temperature Logging:  ", "Temperature High Alarm:  ",
+            "Temperature Low Alarm:  "};
+
     /* indices for feature labels */
-    private static final int IS_ACTIVE = 0;
-    private static final int MISSION_SUTA = 1;
-    private static final int MISSION_WFTA = 2;
-    private static final int SAMPLE_RATE = 3;
-    private static final int MISSION_START = 4;
-    private static final int MISSION_SAMPLES = 5;
-    private static final int ROLL_OVER = 6;
-    private static final int FIRST_SAMPLE_TIMESTAMP = 7;
-    private static final int TOTAL_SAMPLES = 8;
-    private static final int DEVICE_SAMPLES = 9;
-    private static final int TEMP_LOGGING = 10;
-    private static final int TEMP_HIGH_ALARM = 11;
-    private static final int TEMP_LOW_ALARM = 12;
-    private static final int PART_NUMBER = 13;
-    private static final int SERIAL = 14;
+    private static final int PART_NUMBER = 0;
+    private static final int SERIAL = 1;
+    private static final int IS_ACTIVE = 2;
+    private static final int MISSION_SUTA = 3;
+    private static final int MISSION_WFTA = 4;
+    private static final int SAMPLE_RATE = 5;
+    private static final int MISSION_START = 6;
+    private static final int MISSION_SAMPLES = 7;
+    private static final int ROLL_OVER = 8;
+    private static final int FIRST_SAMPLE_TIMESTAMP = 9;
+    private static final int TOTAL_SAMPLES = 10;
+    private static final int DEVICE_SAMPLES = 11;
+    private static final int TEMP_LOGGING = 12;
+    private static final int TEMP_HIGH_ALARM = 13;
+    private static final int TEMP_LOW_ALARM = 14;
     private static final int TOTAL_FEATURES = 15;
 
     private static final int CHANNEL_O = 0;
@@ -172,7 +178,7 @@ public class DeviceReadTask extends DeviceTask {
 
             ///////////////////////////////////////////////
 
-            if(fileName == null) {
+            if (fileName == null) {
                 fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".csv";
             }
             logger.info("Filename: " + fileName);
@@ -187,8 +193,8 @@ public class DeviceReadTask extends DeviceTask {
                 fileWriter = new FileWriter(fileName);
                 csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
 
-                for (String information : info) {
-                    csvFilePrinter.printRecord(information);
+                for(int i = 0; i < TOTAL_FEATURES; i++) {
+                    csvFilePrinter.printRecord(INFO_TO_WRITE[i] + info[i]);
                 }
 
                 csvFilePrinter.println();
