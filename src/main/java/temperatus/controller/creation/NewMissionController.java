@@ -17,11 +17,11 @@ import temperatus.model.pojo.*;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
 import temperatus.util.Constants;
+import temperatus.util.DateUtils;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -69,11 +69,13 @@ public class NewMissionController extends AbstractCreationController implements 
     @Autowired SubjectService subjectService;
     @Autowired AuthorService authorService;
 
+    private Mission mission;
+
     private static Logger logger = LoggerFactory.getLogger(NewMissionController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        mission = null;
         /**
          * Set actual controller to reload if necessary
          * For example: if the user create a new project while in this page
@@ -101,6 +103,24 @@ public class NewMissionController extends AbstractCreationController implements 
     }
 
     /**
+     * When editing a mission, pre-load its data
+     *
+     * @param mission mission to update/edit
+     */
+    public void setMissionForUpdate(Mission mission) {
+        title.setText(language.get(Lang.UPDATE_MISSION_TITLE)); // change title to Upate
+        saveButton.setText(language.get(Lang.UPDATE));  // change save button text to update
+        this.mission = mission;
+        projectBox.getSelectionModel().select(mission.getProject());
+        authorBox.getSelectionModel().select(mission.getAuthor());
+        gameBox.getSelectionModel().select(mission.getGame());
+        subjectBox.getSelectionModel().select(mission.getSubject());
+        nameInput.setText(mission.getName());
+        observationsInput.setText(mission.getObservations());
+        dateInput.setValue(DateUtils.asLocalDate(mission.getDateIni()));
+    }
+
+    /**
      * If project was previously selected to add a mission to it -> load it and pre-select it
      *
      * @param project - project to load
@@ -120,7 +140,7 @@ public class NewMissionController extends AbstractCreationController implements 
             String name = nameInput.getText();
             Author author = authorBox.getSelectionModel().getSelectedItem();
             String observations = observationsInput.getText();
-            Date startDate = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date startDate = DateUtils.asUtilDate(dateInput.getValue());
             Project project = projectBox.getSelectionModel().getSelectedItem();
             Game game = gameBox.getSelectionModel().getSelectedItem();
             Subject subject = subjectBox.getSelectionModel().getSelectedItem();
@@ -135,12 +155,25 @@ public class NewMissionController extends AbstractCreationController implements 
                 throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_AUTHOR));
             }
 
-            Mission mission = new Mission(author, game, project, subject, name, startDate, observations);
+            boolean isUpdate = true;
+            if(mission == null) {
+                isUpdate = false;
+                mission = new Mission();
+            }
+
+            mission.setAuthor(author);
+            mission.setGame(game);
+            mission.setProject(project);
+            mission.setSubject(subject);
+            mission.setName(name);
+            mission.setDateIni(startDate);
+            mission.setObservations(observations);
+
             missionService.saveOrUpdate(mission);
 
             // Continue to new Record View -> preselect this mission
             NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
-            newRecordController.loadData(mission);
+            newRecordController.loadData(mission, isUpdate);
 
             logger.info("Saved: " + mission);
 

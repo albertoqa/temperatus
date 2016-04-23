@@ -13,12 +13,11 @@ import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
+import temperatus.util.DateUtils;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -65,7 +64,7 @@ public class NewProjectController extends AbstractCreationController implements 
         this.project = project;
         nameInput.setText(project.getName());
         observationsInput.setText(project.getObservations());
-        dateInput.setValue(asLocalDate(project.getDateIni()));
+        dateInput.setValue(DateUtils.asLocalDate(project.getDateIni()));
         isNew = false;
     }
 
@@ -83,7 +82,7 @@ public class NewProjectController extends AbstractCreationController implements 
                 project = new Project();
             }
 
-            Date startDate = asUtilDate(dateInput.getValue());
+            Date startDate = DateUtils.asUtilDate(dateInput.getValue());
 
             project.setName(nameInput.getText());
             project.setObservations(observationsInput.getText());
@@ -123,29 +122,4 @@ public class NewProjectController extends AbstractCreationController implements 
         cancelButton.setText(language.get(Lang.CANCEL));
     }
 
-    /**
-     * Generate a LocalDate object from a Date
-     *
-     * @param date date to generate
-     * @return LocalDate
-     */
-    private static LocalDate asLocalDate(Date date) {
-        if (date == null)
-            return null;
-
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-
-    /**
-     * Generate a Date from a LocalDate object
-     *
-     * @param date LocalDate to generate
-     * @return Date
-     */
-    private static Date asUtilDate(LocalDate date) {
-        if (date == null)
-            return null;
-
-        return Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
 }

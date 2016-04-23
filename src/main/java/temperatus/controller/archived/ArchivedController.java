@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
-import temperatus.controller.creation.NewRecordController;
 import temperatus.lang.Lang;
 import temperatus.listener.DatabaseThreadFactory;
 import temperatus.model.pojo.Mission;
@@ -326,11 +326,11 @@ public class ArchivedController implements Initializable, AbstractController {
     }
 
     @FXML
-    private void addDataToMission() {   // TODO remember to remove if not needed
+    private void editMission() {
         Mission mission = getSelectedElement().getElement();
-        NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
-        if (newRecordController != null) {
-            newRecordController.loadData(mission);
+        NewMissionController newMissionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
+        if (newMissionController != null) {
+            newMissionController.setMissionForUpdate(mission);
         }
     }
 

@@ -73,6 +73,7 @@ public class Lang {
 
     // New Mission
     public static final String NEWMISSIONTITLE = "newMissionTitle";
+    public static final String UPDATE_MISSION_TITLE = "updateMissionTitle";
     public static final String PROJECTLABEL = "projectLabel";
     public static final String AUTHORLABEL = "authorLabel";
     public static final String GAMELABEL = "gameLabel";
@@ -87,6 +88,7 @@ public class Lang {
     // New Record
     public static final String NEWRECORD = "newRecord";
     public static final String RECORDTITLE = "recordTitle";
+    public static final String UPDATE_NEW_RECORD_TITLE = "updateNewRecordTitle";
     public static final String POSITIONCOLUMN = "positionColumn";
     public static final String DATASOURCECOLUMN = "dataSourceColumn";
     public static final String INDEX = "index";
@@ -96,6 +98,8 @@ public class Lang {
     public static final String DATASAVEDTITLE = "dataSavedTitle";
     public static final String DATASAVEDTEXT = "dataSavedText";
     public static final String NOT_APPLICABLE_FORMULA = "notApplicableFormula";
+    public static final String CONFIRMATION_DELETE_RECORD = "confirmationDeleteRecord";
+    public static final String DELETEDATA = "deleteData";
 
     // Record config
     public static final String GENERAL_TAB = "generalTab";

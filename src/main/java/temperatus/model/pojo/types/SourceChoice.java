@@ -1,6 +1,7 @@
 package temperatus.model.pojo.types;
 
 import temperatus.model.pojo.Ibutton;
+import temperatus.model.pojo.Record;
 
 import java.io.File;
 
@@ -15,6 +16,7 @@ public class SourceChoice {
 
     private File file;          // csv file
     private Ibutton ibutton;    // connected device
+    private Record record;  // if it is an update only show the name
 
     public SourceChoice(Ibutton ibutton) {
         this.ibutton = ibutton;
@@ -22,6 +24,10 @@ public class SourceChoice {
 
     public SourceChoice(File file) {
         this.file = file;
+    }
+
+    public SourceChoice(Record record) {
+        this.record = record;
     }
 
     public File getFile() {
@@ -38,6 +44,14 @@ public class SourceChoice {
 
     public void setIbutton(Ibutton ibutton) {
         this.ibutton = ibutton;
+    }
+
+    public Record getRecord() {
+        return record;
+    }
+
+    public void setRecord(Record record) {
+        this.record = record;
     }
 
     /**
@@ -77,7 +91,7 @@ public class SourceChoice {
             }
             return ibutton.getSerial();
         } else if (file == null) {
-            return "Import from file";
+            return record.getIbutton().getAlias() != null ? record.getIbutton().getAlias() : record.getIbutton().getSerial();
         } else {
             return file.getName();
         }

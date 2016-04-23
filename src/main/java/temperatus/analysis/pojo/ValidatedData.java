@@ -26,6 +26,9 @@ public class ValidatedData {
     private String sampleRate;  // sample rate of measure
     private Date startDate; // start date of the experiment
     private Date finishDate;    // end date of the experiment
+    private boolean isUpdate = true;   // already saved data?
+
+    public ValidatedData() {}
 
     public ValidatedData(AbstractImporter importedData) {
         if (importedData != null) {
@@ -36,6 +39,7 @@ public class ValidatedData {
             this.sampleRate = importedData.getSampleRate();
             this.startDate = importedData.getStartDate();
             this.finishDate = importedData.getFinishDate();
+            this.isUpdate = false;
         }
     }
 
@@ -117,5 +121,13 @@ public class ValidatedData {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public boolean isUpdate() {
+        return isUpdate;
+    }
+
+    public void setUpdate(boolean update) {
+        isUpdate = update;
     }
 }

@@ -142,7 +142,7 @@ public class NewRecordController extends AbstractCreationController implements I
      *
      * @param mission mission to load
      */
-    public void loadData(Mission mission) {
+    void loadData(Mission mission, boolean isUpdate) {
 
         this.mission = mission;
         game = mission.getGame();   // Get game assigned to this mission
@@ -207,6 +207,35 @@ public class NewRecordController extends AbstractCreationController implements I
                 }
             }
         });
+
+        // if this is an update, select the previously saved elements
+        if (isUpdate) {
+            getUpdateReady();
+        }
+    }
+
+    /**
+     *
+     */
+    private void getUpdateReady() {
+        logger.info("Setting records and data for update...");
+
+        List<Record> records = new ArrayList<>(mission.getRecords());
+        for (int i = 0; i < mission.getGame().getNumButtons() && i < records.size(); i++) {
+            ((ComboBox<Position>) positionBox.getChildren().get(i)).getSelectionModel().select(records.get(i).getPosition());
+
+            SourceChoice sourceChoice = new SourceChoice(records.get(i));
+            ((ComboBox<SourceChoice>) sourceBox.getChildren().get(i)).getItems().add(sourceChoice);
+            ((ComboBox<SourceChoice>) sourceBox.getChildren().get(i)).getSelectionModel().select(sourceChoice);
+
+            positionBox.getChildren().get(i).setDisable(true);
+            sourceBox.getChildren().get(i).setDisable(true);
+            addSourceBox.getChildren().get(i).setDisable(true);
+
+            setButtonStyleRemove((ToggleButton) keepDataBox.getChildren().get(i));
+            saveButton.setText(language.get(Lang.UPDATE));
+            titleLabel.setText(language.get(Lang.UPDATE_NEW_RECORD_TITLE));
+        }
     }
 
     /**
@@ -252,7 +281,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * @param srcBox combo-box of sources
      */
     private void addNewRow(int index, ComboBox<Position> posBox, ComboBox<SourceChoice> srcBox) {
-        Label id = new Label(String.valueOf(index));
+        Label id = new Label(String.valueOf(index + 1));
         id.setPrefHeight(PREF_HEIGHT);
         id.setMaxHeight(PREF_HEIGHT);
         id.setMinHeight(PREF_HEIGHT);
@@ -368,6 +397,24 @@ public class NewRecordController extends AbstractCreationController implements I
                         }
                     });
 
+                } else if (sourceChoice.getRecord() != null) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION_DELETE_RECORD);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && ButtonType.OK == result.get()) {
+                        mission.getRecords().remove(sourceChoice.getRecord());
+                        recordService.delete(sourceChoice.getRecord());
+                        ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().clearSelection();
+                        ((ComboBox) sourceBox.getChildren().get(index)).getItems().remove(sourceChoice);
+                        positionBox.getChildren().get(index).setDisable(false);
+                        sourceBox.getChildren().get(index).setDisable(false);
+                        addSourceBox.getChildren().get(index).setDisable(false);
+                        setButtonStyleNormal(clickedButton);
+                        clickedButton.setDisable(true);
+                        clickedButton.setText(language.get(Lang.KEEPDATA));
+                        clickedButton.setSelected(false);
+                    } else {
+                        setButtonStyleRemove(clickedButton);
+                    }
                 } else {
                     logger.warn("Error looking for device... is possible that device is no longer connected?");
                     showAlert(Alert.AlertType.ERROR, language.get(Lang.DEVICE_NOT_FOUND_ERROR));
@@ -381,6 +428,19 @@ public class NewRecordController extends AbstractCreationController implements I
             event.consume();
         };
         return myHandler;
+    }
+
+    /**
+     * Set button style to delete row info
+     * @param button button to modify
+     */
+    private void setButtonStyleRemove(ToggleButton button) {
+        button.setGraphic(null);
+        button.setText(language.get(Lang.DELETEDATA));
+        button.getStyleClass().clear();
+        button.getStyleClass().add("kdbtn");
+        button.setDisable(false);
+        button.setSelected(false);
     }
 
     /**
@@ -404,11 +464,11 @@ public class NewRecordController extends AbstractCreationController implements I
     private void setButtonStyleWithProgressIndicator(ToggleButton button) {
         ProgressIndicator progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
         progressIndicator.setMaxSize(PSIZE, PSIZE);
+        button.setGraphic(progressIndicator);
 
         button.setText("");
         button.getStyleClass().clear();
         button.getStyleClass().add("kpbtn");
-        button.setGraphic(progressIndicator);
         button.setDisable(true);
     }
 
@@ -592,6 +652,25 @@ public class NewRecordController extends AbstractCreationController implements I
         return validatedData;
     }
 
+    private ValidatedData generateValidatedDataForAlreadySavedRecord(int index) {
+        Record record = getSourceChoiceForIndex(index).getRecord();
+        ValidatedData validatedData = new ValidatedData();
+        validatedData.setIbutton(record.getIbutton());
+        validatedData.setDeviceModel(record.getIbutton().getModel());
+        validatedData.setDeviceSerial(record.getIbutton().getSerial());
+        List<Measurement> measurements = new ArrayList<>(record.getMeasurements());
+        Collections.sort(measurements, (a, b) -> a.getDate().compareTo(b.getDate()));    // sort list by date
+
+        validatedData.setMeasurements(measurements);
+        validatedData.setFinishDate(measurements.get(measurements.size() - 1).getDate());
+        validatedData.setPosition(record.getPosition());
+        validatedData.setSampleRate("");
+        validatedData.setStartDate(measurements.get(0).getDate());
+        validatedData.setUpdate(true);
+
+        return validatedData;
+    }
+
 
     /**
      * Analyze the data, get the general information, save to database and load configureMissionScreen
@@ -602,7 +681,7 @@ public class NewRecordController extends AbstractCreationController implements I
         // check if at least one row has all the required info completed
         boolean atLeastOneComplete = false;
         for (int i = 0; i < game.getNumButtons(); i++) {
-            if (getPositionForIndex(i) != null && getSourceChoiceForIndex(i) != null && getSourceChoiceForIndex(i).getFile() != null) {
+            if (getPositionForIndex(i) != null && getSourceChoiceForIndex(i) != null && (getSourceChoiceForIndex(i).getFile() != null || getSourceChoiceForIndex(i).getRecord() != null)) {
                 atLeastOneComplete = true;
                 break;
             }
@@ -623,16 +702,19 @@ public class NewRecordController extends AbstractCreationController implements I
                     for (int index = 0; index < game.getNumButtons(); index++) {
                         updateProgress(index, game.getNumButtons() - 1);
 
-                        // Import data
-                        AbstractImporter importedData = importIbuttonData(index);
+                        if (getSourceChoiceForIndex(index) != null && getSourceChoiceForIndex(index).getRecord() != null) {    // already imported data
+                            validatedDataList.add(generateValidatedDataForAlreadySavedRecord(index));
+                        } else {
+                            // Import data
+                            AbstractImporter importedData = importIbuttonData(index);
 
-                        if (importedData != null) {
-                            // Validate data
-                            ValidatedData validatedData = null;
-                            validatedData = validateData(index, importedData);
+                            if (importedData != null) {
+                                // Validate data
+                                ValidatedData validatedData = validateData(index, importedData);
 
-                            // Save data
-                            validatedDataList.add(validatedData);
+                                // Save data
+                                validatedDataList.add(validatedData);
+                            }
                         }
                     }
 
@@ -647,23 +729,25 @@ public class NewRecordController extends AbstractCreationController implements I
                     generalData.setMeasurementsPerButton(getMeasurementsPerButton(validatedDataList));
 
                     // save Records to database
-                    Set<Record> records = new HashSet<>();
+                    //Set<Record> records = new HashSet<>();
                     for (ValidatedData validatedData : validatedDataList) {
-                        Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
-                        recordService.save(record);
+                        if (!validatedData.isUpdate()) {
+                            Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
+                            recordService.save(record);
 
-                        // iterate over all measurements and set its records to be able to save them later (also with the possibleErrors)
-                        for (int i = 0; i < validatedData.getMeasurements().size(); i++) {
-                            validatedData.getMeasurements().get(i).setRecord(record);
+                            // iterate over all measurements and set its records to be able to save them later (also with the possibleErrors)
+                            for (int i = 0; i < validatedData.getMeasurements().size(); i++) {
+                                validatedData.getMeasurements().get(i).setRecord(record);
+                            }
+
+                            for (int i = 0; i < validatedData.getPossibleErrors().size(); i++) {
+                                validatedData.getPossibleErrors().get(i).setRecord(record);
+                            }
+
+                            mission.getRecords().add(record);
                         }
-
-                        for (int i = 0; i < validatedData.getPossibleErrors().size(); i++) {
-                            validatedData.getPossibleErrors().get(i).setRecord(record);
-                        }
-
-                        records.add(record);
                     }
-                    mission.setRecords(records);
+                    //mission.setRecords(records);
 
                     updateProgress(10, 10);
 
@@ -714,7 +798,7 @@ public class NewRecordController extends AbstractCreationController implements I
             String rate = data.get(0).getSampleRate();
 
             for (ValidatedData validatedData : data) {
-                if (!rate.equals(validatedData.getSampleRate())) {
+                if (!rate.equals("") && !rate.equals(validatedData.getSampleRate())) {
                     showWarn = true;
                 }
             }
