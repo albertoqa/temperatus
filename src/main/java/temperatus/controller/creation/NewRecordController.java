@@ -52,6 +52,9 @@ import java.util.*;
  * Add data to the recently created mission. Data can be added from a device or import it from a file.
  * Is not required to add the data to all the positions but at least one must be set.
  * <p>
+ * It is also possible to edit the data from a previously saved mission. Then the "Keep Data" button
+ * becomes a "Delete Data" button allowing the user to delete the data of a row...
+ * <p>
  * There will be a "row" for each position fo the game. Each row has: id, position, inputSource
  * If input source is a device, user is required tu use the button "Keep Data" to save the information.
  * <p>
@@ -106,6 +109,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private ObservableList<Position> positions;                       // All positions saved to the db
 
     private File[] filesToSave;                         // Files where temp data is temporary stored
+    private boolean isUpdate;
 
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 200.0;     // Preferred width for combo-box
@@ -123,6 +127,7 @@ public class NewRecordController extends AbstractCreationController implements I
         translate();
 
         keepSameColumnWidth();
+        isUpdate = false;
     }
 
     /**
@@ -215,18 +220,21 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     /**
-     *
+     * Prepare the rows where the mission already has data in
+     * Select the positions and sourceChoices already saved and set all to disable
+     * Keep button becomes Delete button
      */
     private void getUpdateReady() {
         logger.info("Setting records and data for update...");
+        isUpdate = true;
 
         List<Record> records = new ArrayList<>(mission.getRecords());
         for (int i = 0; i < mission.getGame().getNumButtons() && i < records.size(); i++) {
-            ((ComboBox<Position>) positionBox.getChildren().get(i)).getSelectionModel().select(records.get(i).getPosition());
+            getPositionComboBoxForIndex(i).getSelectionModel().select(records.get(i).getPosition());
 
             SourceChoice sourceChoice = new SourceChoice(records.get(i));
-            ((ComboBox<SourceChoice>) sourceBox.getChildren().get(i)).getItems().add(sourceChoice);
-            ((ComboBox<SourceChoice>) sourceBox.getChildren().get(i)).getSelectionModel().select(sourceChoice);
+            getSourceChoiceComboBoxForIndex(i).getItems().add(sourceChoice);
+            getSourceChoiceComboBoxForIndex(i).getSelectionModel().select(sourceChoice);
 
             positionBox.getChildren().get(i).setDisable(true);
             sourceBox.getChildren().get(i).setDisable(true);
@@ -239,6 +247,27 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     /**
+     * Returns the ComboBox of positions of the given row
+     *
+     * @param index row to look for
+     * @return comboBox of positions
+     */
+    private ComboBox<Position> getPositionComboBoxForIndex(int index) {
+        return (ComboBox<Position>) positionBox.getChildren().get(index);
+    }
+
+    /**
+     * Returns the ComboBox of sourceChoice of the given row
+     *
+     * @param index row to look for
+     * @return comboBox of sourceChoice
+     */
+    private ComboBox<SourceChoice> getSourceChoiceComboBoxForIndex(int index) {
+        return (ComboBox<SourceChoice>) sourceBox.getChildren().get(index);
+    }
+
+
+    /**
      * Get row index for a given selected position
      *
      * @param position position to look for
@@ -246,7 +275,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private int getRowForPosition(Position position) {
         for (int index = 0; index < positionBox.getChildren().size(); index++) {
-            if (((ComboBox<Position>) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem().equals(position)) {
+            if (getPositionComboBoxForIndex(index).getSelectionModel().getSelectedItem().equals(position)) {
                 return index;
             }
         }
@@ -260,7 +289,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * @return position at index
      */
     private Position getPositionForIndex(int index) {
-        return (Position) ((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+        return getPositionComboBoxForIndex(index).getSelectionModel().getSelectedItem();
     }
 
     /**
@@ -270,7 +299,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * @return source at index
      */
     private SourceChoice getSourceChoiceForIndex(int index) {
-        return (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+        return getSourceChoiceComboBoxForIndex(index).getSelectionModel().getSelectedItem();
     }
 
     /**
@@ -355,7 +384,7 @@ public class NewRecordController extends AbstractCreationController implements I
             ToggleButton clickedButton = (ToggleButton) event.getSource();  // button pressed
             Integer index = (Integer) clickedButton.getUserData();          // index (row) of the button
 
-            if (((ComboBox) positionBox.getChildren().get(index)).getSelectionModel().getSelectedItem() == null) {
+            if (getPositionComboBoxForIndex(index).getSelectionModel().getSelectedItem() == null) {
                 logger.warn("A position must be selected");
                 showAlert(Alert.AlertType.ERROR, language.get(Lang.MUST_SELECT_POSITION));
                 clickedButton.setSelected(false);
@@ -366,7 +395,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 addSourceBox.getChildren().get(index).setDisable(true);
 
                 // sourceChoice corresponding to the selected row
-                SourceChoice sourceChoice = (SourceChoice) ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().getSelectedItem();
+                SourceChoice sourceChoice = getSourceChoiceComboBoxForIndex(index).getSelectionModel().getSelectedItem();
                 Device device = getDeviceFromIbutton(sourceChoice.getIbutton());    // get its corresponding device
 
                 if (device != null) {
@@ -398,22 +427,26 @@ public class NewRecordController extends AbstractCreationController implements I
                     });
 
                 } else if (sourceChoice.getRecord() != null) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION_DELETE_RECORD);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_DELETE_RECORD));
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && ButtonType.OK == result.get()) {
+
+                        // delete record from database
                         mission.getRecords().remove(sourceChoice.getRecord());
                         recordService.delete(sourceChoice.getRecord());
-                        ((ComboBox) sourceBox.getChildren().get(index)).getSelectionModel().clearSelection();
-                        ((ComboBox) sourceBox.getChildren().get(index)).getItems().remove(sourceChoice);
-                        positionBox.getChildren().get(index).setDisable(false);
-                        sourceBox.getChildren().get(index).setDisable(false);
-                        addSourceBox.getChildren().get(index).setDisable(false);
+
+                        getSourceChoiceComboBoxForIndex(index).getSelectionModel().clearSelection();
+                        getSourceChoiceComboBoxForIndex(index).getItems().remove(sourceChoice);
+
+                        enableRow(index);
                         setButtonStyleNormal(clickedButton);
-                        clickedButton.setDisable(true);
+
                         clickedButton.setText(language.get(Lang.KEEPDATA));
                         clickedButton.setSelected(false);
+                        clickedButton.setDisable(true);
+
                     } else {
-                        setButtonStyleRemove(clickedButton);
+                        setButtonStyleRemove(clickedButton);    // keep same state
                     }
                 } else {
                     logger.warn("Error looking for device... is possible that device is no longer connected?");
@@ -421,9 +454,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 }
             } else {    // allow user to change all data from the row again
                 clickedButton.setText(language.get(Lang.KEEPDATA));
-                positionBox.getChildren().get(index).setDisable(false);
-                sourceBox.getChildren().get(index).setDisable(false);
-                addSourceBox.getChildren().get(index).setDisable(false);
+                enableRow(index);
             }
             event.consume();
         };
@@ -431,7 +462,19 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     /**
+     * Set elements of a row to enabled state
+     *
+     * @param index row index
+     */
+    private void enableRow(int index) {
+        positionBox.getChildren().get(index).setDisable(false);
+        sourceBox.getChildren().get(index).setDisable(false);
+        addSourceBox.getChildren().get(index).setDisable(false);
+    }
+
+    /**
      * Set button style to delete row info
+     *
      * @param button button to modify
      */
     private void setButtonStyleRemove(ToggleButton button) {
@@ -505,9 +548,9 @@ public class NewRecordController extends AbstractCreationController implements I
                 if (sourceBox.getChildren().get(index) instanceof ComboBox) {
                     // check if already added this same file to the combo-box
                     if (!((ComboBox) sourceBox.getChildren().get(index)).getItems().contains(sourceChoice)) {
-                        ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getItems().add(sourceChoice);
+                        getSourceChoiceComboBoxForIndex(index).getItems().add(sourceChoice);
                     }
-                    ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice); // select it
+                    getSourceChoiceComboBoxForIndex(index).getSelectionModel().select(sourceChoice); // select it
 
                     filesToSave[index] = file;
                 }
@@ -550,7 +593,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
         SourceChoice sourceChoice = new SourceChoice(ibutton);
         for (int i = 0; i < game.getNumButtons(); i++) {
-            ((ComboBox<SourceChoice>) sourceBox.getChildren().get(i)).getItems().add(sourceChoice);
+            getSourceChoiceComboBoxForIndex(i).getItems().add(sourceChoice);
         }
 
         Position defaultPositionForIbutton = ibutton.getPosition();
@@ -559,7 +602,7 @@ public class NewRecordController extends AbstractCreationController implements I
             // Set that ibutton to that position
             if (defaultPositions.contains(defaultPositionForIbutton)) {
                 int index = getRowForPosition(defaultPositionForIbutton);
-                ((ComboBox<SourceChoice>) sourceBox.getChildren().get(index)).getSelectionModel().select(sourceChoice);
+                getSourceChoiceComboBoxForIndex(index).getSelectionModel().select(sourceChoice);
             }
         }
     }
@@ -577,14 +620,14 @@ public class NewRecordController extends AbstractCreationController implements I
                 remove = true;
             }
             // if "keep data" is selected and iButton source is not the same as this ibutton remove
-            else if (!serial.equals(((SourceChoice) ((ComboBox) sourceBox.getChildren().get(i)).getSelectionModel().getSelectedItem()).getIbutton().getSerial())) {
+            else if (!serial.equals(getSourceChoiceComboBoxForIndex(i).getSelectionModel().getSelectedItem().getIbutton().getSerial())) {
                 remove = true;
             }
 
             if (remove) {
-                for (SourceChoice sourceChoice : (ObservableList<SourceChoice>) ((ComboBox) sourceBox.getChildren().get(i)).getItems()) {
+                for (SourceChoice sourceChoice : getSourceChoiceComboBoxForIndex(i).getItems()) {
                     if (sourceChoice.isSameiButton(serial)) {
-                        ((ComboBox) sourceBox.getChildren().get(i)).getItems().remove(sourceChoice);
+                        getSourceChoiceComboBoxForIndex(i).getItems().remove(sourceChoice);
                         break;
                     }
                 }
@@ -747,7 +790,6 @@ public class NewRecordController extends AbstractCreationController implements I
                             mission.getRecords().add(record);
                         }
                     }
-                    //mission.setRecords(records);
 
                     updateProgress(10, 10);
 
@@ -940,7 +982,9 @@ public class NewRecordController extends AbstractCreationController implements I
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION_LOSE_PROGRESS);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
-            missionService.delete(mission);
+            if (!isUpdate) {
+                missionService.delete(mission);
+            }
             VistaNavigator.loadVista(Constants.ARCHIVED);
             VistaNavigator.baseController.selectMenuButton(Constants.ARCHIVED);
             VistaNavigator.baseController.setActualBaseView(Constants.ARCHIVED);

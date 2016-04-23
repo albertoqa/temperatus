@@ -286,7 +286,7 @@ public class RecordConfigController extends AbstractCreationController implement
                 // Save measurements + check if is in the range - [the save is the slowest part]
                 int actualMeasurement = 0;
                 for (ValidatedData validatedData : data) {
-                    if(!validatedData.isUpdate()) {
+                    if(!validatedData.isUpdate()) { // only save if it is not an update
                         for (Measurement measurement : validatedData.getMeasurements()) {
                             if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
                                 updateProgress(actualMeasurement++, totalMeasurements);
