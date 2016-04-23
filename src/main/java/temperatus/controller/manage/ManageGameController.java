@@ -64,6 +64,7 @@ public class ManageGameController implements Initializable, AbstractController {
 
     @Autowired GameService gameService;
 
+    private static final String COMMA = ", ";
     private static Logger logger = LoggerFactory.getLogger(ManageGameController.class.getName());
 
     @Override
@@ -89,10 +90,10 @@ public class ManageGameController implements Initializable, AbstractController {
                 formulasInfo.setText("");
                 positionsInfo.setText("");
                 for (Formula formula : game.getFormulas()) {
-                    formulasInfo.setText(formulasInfo.getText() + formula.getName() + ", ");
+                    formulasInfo.setText(formulasInfo.getText() + formula.getName() + COMMA);
                 }
                 for (Position position : game.getPositions()) {
-                    positionsInfo.setText(positionsInfo.getText() + position.getPlace() + ", ");
+                    positionsInfo.setText(positionsInfo.getText() + position.getPlace() + COMMA);
                 }
             }
         });

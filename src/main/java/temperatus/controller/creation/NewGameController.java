@@ -89,8 +89,12 @@ public class NewGameController extends AbstractCreationController implements Ini
     private static final String PNG = ".png";
     private static final String FRONT_IMAGE = "/images/frontBody.png";
     private static final String BACK_IMAGE = "/images/backBody.png";
-    private static final String LAT_IMAGE = "/images/backBody.png";
+    private static final String LAT_IMAGE = "/images/lateralBody.png";
     private static final String DEFAULT_IMAGE = "/images/noimage.jpg";
+
+    private static final String BACK = "back";
+    private static final String FRONT = "front";
+    private static final String LAT = "lateral";
 
     private static final String PATH_TO_SAVE = "/Users/alberto/Desktop/";    // TODO change to application directory
 
@@ -157,10 +161,13 @@ public class NewGameController extends AbstractCreationController implements Ini
         for (temperatus.model.pojo.Image image : imagesPaths) {
             try {
                 Image im = new Image(FILE + image.getPath());
-                images.add(im);
+                if(!im.errorProperty().getValue()) {
+                    images.add(im);
+                } else {
+                    images.add(new Image(DEFAULT_IMAGE));
+                }
             } catch (Exception ex) {
                 logger.error("Image file not found... " + ex.getMessage());
-                images.add(new Image(DEFAULT_IMAGE));
             }
         }
 
@@ -273,7 +280,21 @@ public class NewGameController extends AbstractCreationController implements Ini
      * @return saved image file
      */
     private File saveImage(Image image, int index) {
-        String fileName = nameInput.getText() + index + PNG;
+        String fileName = nameInput.getText() + "$" + PNG;
+
+        switch (index) {
+            case 0:
+                fileName = fileName.replace("$", FRONT);
+                break;
+            case 1:
+                fileName = fileName.replace("$", BACK);
+                break;
+            case 2:
+                fileName = fileName.replace("$", LAT);
+                break;
+            default:
+                break;
+        }
 
         File outputFile = new File(PATH_TO_SAVE + fileName);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
