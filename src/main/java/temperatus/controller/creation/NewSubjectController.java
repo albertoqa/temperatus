@@ -3,6 +3,7 @@ package temperatus.controller.creation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
+import temperatus.util.TextValidation;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -50,6 +52,9 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @Autowired SubjectService subjectService;
 
+    private static final int MAX_DIGITS_FOR_SIZE = 8;
+    private static final int MAX_DIGITS_FOR_AGE = 3;
+
     private static Logger logger = LoggerFactory.getLogger(NewSubjectController.class.getName());
 
     private final ToggleGroup person = new ToggleGroup();
@@ -80,6 +85,10 @@ public class NewSubjectController extends AbstractCreationController implements 
                 Animation.fadeOutTransition(personDataPane);
             }
         });
+
+        weightInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_SIZE));
+        heightInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_SIZE));
+        ageInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_AGE));
 
         translate();
     }

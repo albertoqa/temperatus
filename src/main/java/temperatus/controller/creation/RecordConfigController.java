@@ -248,6 +248,8 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void back() {
+        // TODO si voy para atras los records que ya se habian guardado tengo que borrarlos!!! si no... se guardan varias veces...
+        // TODO pero cuidado!! si estoy en un edit de una mission, los records no quiero borrarlos...
         VistaNavigator.popViewFromStack();
     }
 
@@ -332,6 +334,25 @@ public class RecordConfigController extends AbstractCreationController implement
         thread.start();
 
         logger.info("Saving measurements to database...");
+    }
+
+    /**
+     * Create a new formula
+     */
+    @FXML
+    private void addFormula() {
+        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
+    }
+
+    /**
+     * If a new formula is created, reload it
+     * @param object object to reload
+     */
+    @Override
+    public void reload(Object object) {
+        if(object instanceof Formula) {
+            listViewFormulas.getItems().add((Formula) object);
+        }
     }
 
     @Override

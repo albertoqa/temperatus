@@ -4,6 +4,7 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import temperatus.model.pojo.types.Unit;
+import temperatus.util.Constants;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -102,7 +103,7 @@ public class Measurement implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getDateProperty() {
-        return new SimpleStringProperty(date.toString());
+        return new SimpleStringProperty(Constants.dateTimeFormat.format(date));
     }
 
     @Transient

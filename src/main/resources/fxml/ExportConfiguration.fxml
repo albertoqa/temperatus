@@ -15,12 +15,12 @@
             <CheckListView fx:id="formulaCheckListView" layoutX="334.0" layoutY="111.0" prefHeight="287.0" prefWidth="260.0" AnchorPane.rightAnchor="27.0" />
             <AnchorPane layoutX="37.0" layoutY="86.0" prefHeight="25.0" prefWidth="260.0" style="-fx-background-color: #475b6c;" AnchorPane.leftAnchor="27.0">
                <children>
-                  <Label alignment="CENTER" layoutX="16.0" layoutY="4.0" prefHeight="17.0" prefWidth="229.0" text="Positions" textFill="WHITE" />
+                  <Label fx:id="positionsLabel" alignment="CENTER" layoutX="16.0" layoutY="4.0" prefHeight="17.0" prefWidth="229.0" text="Positions" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="325.0" layoutY="86.0" prefHeight="25.0" prefWidth="260.0" style="-fx-background-color: #475b6c;">
                <children>
-                  <Label alignment="CENTER" layoutX="16.0" layoutY="4.0" prefHeight="17.0" prefWidth="229.0" text="Formulas" textFill="WHITE" />
+                  <Label fx:id="formulasLabel" alignment="CENTER" layoutX="16.0" layoutY="4.0" prefHeight="17.0" prefWidth="229.0" text="Formulas" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children></AnchorPane>

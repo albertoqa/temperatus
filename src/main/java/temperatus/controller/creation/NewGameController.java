@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.CheckListView;
@@ -29,6 +30,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
+import temperatus.util.TextValidation;
 import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
@@ -96,6 +98,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     private static final String FRONT = "front";
     private static final String LAT = "lateral";
 
+    private static final int MAX_DIGITS_FOR_NUM_BUTTONS = 3;
+
     private static final String PATH_TO_SAVE = "/Users/alberto/Desktop/";    // TODO change to application directory
 
     private static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
@@ -117,6 +121,8 @@ public class NewGameController extends AbstractCreationController implements Ini
         positionsSelector.getSourceItems().addAll(positionService.getAll());
         formulasList.getItems().addAll(formulaService.getAll());
         drawNumber.setText("0");
+
+        numButtonsInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_NUM_BUTTONS));
 
         translate();
     }
@@ -161,7 +167,7 @@ public class NewGameController extends AbstractCreationController implements Ini
         for (temperatus.model.pojo.Image image : imagesPaths) {
             try {
                 Image im = new Image(FILE + image.getPath());
-                if(!im.errorProperty().getValue()) {
+                if (!im.errorProperty().getValue()) {
                     images.add(im);
                 } else {
                     images.add(new Image(DEFAULT_IMAGE));

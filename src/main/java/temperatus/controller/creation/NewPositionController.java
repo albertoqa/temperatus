@@ -99,7 +99,7 @@ public class NewPositionController extends AbstractCreationController implements
 
             if (!isValidName(name)) {
                 throw new ControlledTemperatusException(language.get(Lang.INVALID_NAME_FORMULA));
-            } else if (position != null && isUsedInAFormula(position.getPlace())) {
+            } else if (position != null && !position.getPlace().isEmpty() && isUsedInAFormula(position.getPlace())) {
                 // warn user of position used in a formula... formula will be useless if delete position
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.REMOVE_FORMULA_CONFIRMATION));
                 Optional<ButtonType> result = alert.showAndWait();

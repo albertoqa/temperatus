@@ -34,6 +34,9 @@ public class Lang {
     public static final String SUBJECT_COLUMN = "subjectColumn";
     public static final String EXPORTCONFIG = "exportConfig";
     public static final String NAME_COLUMN = "nameColumn";
+    public static final String UNIT_COLUMN = "unitColumn";
+    public static final String VALUE_COLUMN = "valueColumn";
+    public static final String BUTTON_DATA = "buttonData";
 
     // New project
     public static final String NEWPROJECT = "newProject";
@@ -198,6 +201,8 @@ public class Lang {
     public static final String SAVE = "save";
     public static final String UPDATE = "update";
     public static final String CANCEL = "cancel";
+    public static final String PERIOD = "period";
+    public static final String EXPORT = "export";
     public static final String CONTINUE = "continue";
     public static final String OK = "ok";
     public static final String APPLY = "apply";

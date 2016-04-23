@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="609.0" prefWidth="800.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
+<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="609.0" prefWidth="800.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -16,7 +16,7 @@
             <Label fx:id="subjectLabel" layoutX="74.0" layoutY="330.0" styleClass="label-paneinfo" text="Subject" AnchorPane.leftAnchor="70.0" />
             <TextField fx:id="nameInput" layoutX="70.0" layoutY="110.0" prefHeight="29.0" prefWidth="469.0" promptText="Mission Name" styleClass="form" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
             <ComboBox fx:id="projectBox" layoutX="70.0" layoutY="170.0" prefHeight="29.0" prefWidth="503.0" promptText="Project name" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
-            <DatePicker fx:id="dateInput" layoutX="67.0" layoutY="230.0" prefHeight="29.0" prefWidth="230.0" AnchorPane.leftAnchor="70.0" />
+            <DatePicker fx:id="dateInput" editable="false" layoutX="67.0" layoutY="230.0" prefHeight="29.0" prefWidth="230.0" AnchorPane.leftAnchor="70.0" />
             <ComboBox fx:id="authorBox" layoutX="323.0" layoutY="230.0" prefHeight="29.0" prefWidth="230.0" promptText="Author name" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="230.0" />
             <ComboBox fx:id="gameBox" layoutX="65.0" layoutY="290.0" prefHeight="29.0" prefWidth="150.0" promptText="Game title" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />
             <ComboBox fx:id="subjectBox" layoutX="65.0" layoutY="350.0" prefHeight="29.0" prefWidth="150.0" promptText="Subject name" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="230.0" />

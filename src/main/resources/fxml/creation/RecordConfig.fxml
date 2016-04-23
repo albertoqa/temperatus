@@ -21,10 +21,10 @@
                                     <Label fx:id="rateL" alignment="CENTER_RIGHT" layoutY="59.0" prefHeight="16.0" prefWidth="126.0" styleClass="label-paneinfo" text="Rate:" />
                                     <Label fx:id="startDateL" alignment="CENTER_RIGHT" layoutY="87.0" prefHeight="16.0" prefWidth="126.0" styleClass="label-paneinfo" text="Start Date:" />
                                     <Label fx:id="endDateL" alignment="CENTER_RIGHT" layoutY="116.0" prefHeight="16.0" prefWidth="126.0" styleClass="label-paneinfo" text="End Date:" />
-                                    <Label fx:id="avgMeasurementsL" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="30.0" prefWidth="153.0" styleClass="label-paneinfo" text="Average Measurements:" />
-                                    <Label fx:id="maxTempL" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="59.0" prefHeight="16.0" prefWidth="153.0" styleClass="label-paneinfo" text="Max Temperature:" />
-                                    <Label fx:id="minTempL" alignment="CENTER_RIGHT" layoutX="507.0" layoutY="87.0" styleClass="label-paneinfo" text="Min Temperature:" />
-                                    <Label fx:id="avgTempL" alignment="CENTER_RIGHT" layoutX="478.0" layoutY="116.0" styleClass="label-paneinfo" text="Average Temperature:" />
+                                    <Label fx:id="avgMeasurementsL" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="30.0" prefHeight="16.0" prefWidth="220.0" styleClass="label-paneinfo" text="Average Measurements:" AnchorPane.rightAnchor="171.0" />
+                                    <Label fx:id="maxTempL" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="59.0" prefWidth="220.0" styleClass="label-paneinfo" text="Max Temperature:" AnchorPane.rightAnchor="171.0" />
+                                    <Label fx:id="minTempL" alignment="CENTER_RIGHT" layoutX="507.0" layoutY="87.0" prefWidth="220.0" styleClass="label-paneinfo" text="Min Temperature:" AnchorPane.rightAnchor="171.0" />
+                                    <Label fx:id="avgTempL" alignment="CENTER_RIGHT" layoutX="478.0" layoutY="116.0" prefWidth="220.0" styleClass="label-paneinfo" text="Average Temperature:" AnchorPane.rightAnchor="171.0" />
                                     <Label fx:id="modelLabel" layoutX="148.0" layoutY="28.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
                                     <Label fx:id="rateLabel" layoutX="148.0" layoutY="57.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
                                     <Label fx:id="startDateLabel" layoutX="148.0" layoutY="85.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
@@ -61,9 +61,9 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="addFormulaButton" layoutX="201.0" layoutY="350.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="pbtn" text="+" textFill="WHITE" AnchorPane.leftAnchor="201.0" AnchorPane.topAnchor="350.0">
+            <Button fx:id="addFormulaButton" layoutX="201.0" layoutY="350.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#addFormula" prefHeight="20.0" prefWidth="20.0" styleClass="pbtn" text="+" textFill="WHITE" AnchorPane.leftAnchor="201.0" AnchorPane.topAnchor="350.0">
                <font>
-                  <Font name="Lucida Grande" size="9.0" />
+                  <Font name="Lucida Grande" size="6.0" />
                </font>
             </Button>
             <AnchorPane layoutX="248.0" layoutY="374.0" prefHeight="231.0" prefWidth="452.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="375.0">
