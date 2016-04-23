@@ -14,6 +14,12 @@
   -fx-text-fill: #4c5e70;
 }
 
+.mainLabel {
+  -fx-font-family: "Avenir Medium";
+  -fx-font-size: 25px;
+  -fx-text-fill: #242c35;
+}
+
 /*******************************************************************************
  *                                                                             *
  * Menu                                                                    *

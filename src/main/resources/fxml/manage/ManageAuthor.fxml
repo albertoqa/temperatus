@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="737.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ManageAuthorController">
    <children>
       <TableView fx:id="table" layoutX="14.0" layoutY="51.0" prefHeight="260.0" prefWidth="683.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="51.0">
@@ -13,12 +14,17 @@
       </TableView>
       <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <Label layoutX="59.0" layoutY="42.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button onAction="#editAuthor" layoutX="396.0" layoutY="136.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button onAction="#deleteAuthor" layoutX="484.0" layoutY="144.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-         </children></AnchorPane>
-      <Button fx:id="newElementButton" onAction="#newAuthor" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Author" AnchorPane.rightAnchor="27.0" />
+            <Label fx:id="nameInfo" layoutX="59.0" layoutY="23.0" styleClass="mainLabel" text="ALBERTO QUESADA">
+               <font>
+                  <Font size="22.0" />
+               </font></Label>
+            <Label fx:id="projectsLabel" layoutX="59.0" layoutY="66.0" prefHeight="16.0" prefWidth="346.0" styleClass="label-paneinfo" text="This author has participated in the following projects:" textFill="WHITE" />
+            <Label fx:id="projectsInfo" alignment="TOP_LEFT" layoutX="123.0" layoutY="92.0" prefHeight="135.0" prefWidth="195.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
+            <Button fx:id="editAuthorButton" layoutX="396.0" layoutY="136.0" mnemonicParsing="false" onAction="#editAuthor" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button fx:id="deleteAuthorButton" layoutX="484.0" layoutY="144.0" mnemonicParsing="false" onAction="#deleteAuthor" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newAuthor" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Author" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>
 </AnchorPane>

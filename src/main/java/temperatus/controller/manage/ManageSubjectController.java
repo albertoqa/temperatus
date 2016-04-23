@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewSubjectController;
 import temperatus.lang.Lang;
+import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
@@ -23,10 +24,13 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
+ * Allow the user to search, edit, create and create subjects
+ * <p>
  * Created by alberto on 14/2/16.
  */
 @Controller
@@ -42,9 +46,17 @@ public class ManageSubjectController implements Initializable, AbstractControlle
     @FXML private Label ageLabel;
     @FXML private Label weightLabel;
     @FXML private Label heightLabel;
-    @FXML private Label numberOfMissions;
+    @FXML private Label numberOfMissionsLabel;
     @FXML private Label firstParticipationLabel;
-    @FXML private Label observations;
+    @FXML private Label observationsLabel;
+
+    @FXML private Label ageInfo;
+    @FXML private Label weightInfo;
+    @FXML private Label heightInfo;
+    @FXML private Label observationsInfo;
+
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
 
     private TableColumn<Subject, String> subjectType = new TableColumn<>();
     private TableColumn<Subject, String> name = new TableColumn<>();
@@ -57,31 +69,26 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     @Autowired SubjectService subjectService;
 
-    static Logger logger = LoggerFactory.getLogger(ManageSubjectController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(ManageSubjectController.class.getName());
+
+    private static final String MALE = "male";
+    private static final String FEMALE = "female";
+    private static final String SPACE = " ";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
 
-        subjects = FXCollections.observableArrayList();
-        addAllSubjects();
-
-        subjectType.setText("Type");
+        subjects = FXCollections.observableArrayList(subjectService.getAll());
         subjectType.setCellValueFactory(cellData -> cellData.getValue().getType());
-        name.setText("Name");
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
-        sex.setText("Sex");
         sex.setCellValueFactory(cellData -> cellData.getValue().getSexProperty());
-        age.setText("Age");
         age.setCellValueFactory(cellData -> cellData.getValue().getAgeProperty());
-        weight.setText("Weight");
         weight.setCellValueFactory(cellData -> cellData.getValue().getWeightProperty());
-        height.setText("Height");
         height.setCellValueFactory(cellData -> cellData.getValue().getHeightProperty());
 
         FilteredList<Subject> filteredData = new FilteredList<>(subjects, p -> true);
-
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(subject -> {
                 // If filter text is empty, display all subjects.
@@ -90,7 +97,6 @@ public class ManageSubjectController implements Initializable, AbstractControlle
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
-
                 if (subject.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (subject.isIsPerson()) {
@@ -101,11 +107,11 @@ public class ManageSubjectController implements Initializable, AbstractControlle
                     } else if (subject.getWeight() != null && subject.getWeight().toString().contains(lowerCaseFilter)) {
                         return true;
                     } else if (subject.getSex()) {
-                        if ("male".contains(lowerCaseFilter)) {
+                        if (MALE.contains(lowerCaseFilter)) {
                             return true;
                         }
                     } else {
-                        if ("female".contains(lowerCaseFilter)) {
+                        if (FEMALE.contains(lowerCaseFilter)) {
                             return true;
                         }
                     }
@@ -116,21 +122,27 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, subject) -> {
             Animation.fadeInTransition(infoPane);
-
-            if(subject != null) {
-                nameLabel.setText(subject.getName());
-                if(subject.isIsPerson()) {
-                    ageLabel.setText(subject.getAge().toString());
-                    weightLabel.setText(subject.getWeight().toString());
-                    heightLabel.setText(subject.getHeight().toString());
+            if (subject != null) {
+                nameLabel.setText(subject.getName().toUpperCase());
+                if (subject.isIsPerson()) {
+                    ageInfo.setText(subject.getAge().toString());
+                    weightInfo.setText(subject.getWeight().toString());
+                    heightInfo.setText(subject.getHeight().toString());
                 } else {
-                    ageLabel.setText("");
-                    weightLabel.setText("");
-                    heightLabel.setText("");
+                    ageInfo.setText(SPACE);
+                    weightInfo.setText(SPACE);
+                    heightInfo.setText(SPACE);
                 }
-                numberOfMissions.setText("Has participated in " + String.valueOf(subject.getMissions().size()) + " missions");
-                firstParticipationLabel.setText("His first participation date was on 12/12/12");
-                observations.setText(subject.getObservations());
+
+                numberOfMissionsLabel.setText(language.get(Lang.PARTICIPATE_IN) + SPACE + String.valueOf(subject.getMissions().size()) + SPACE + language.get(Lang.MISSIONS));
+                Date d = new Date();
+                for(Mission mission: subject.getMissions()) {
+                    if(mission.getDateIni().before(d)) {
+                        d = mission.getDateIni();
+                    }
+                }
+                firstParticipationLabel.setText(language.get(Lang.FIRST_PARTICIPATION) + SPACE + d.toString());
+                observationsInfo.setText(subject.getObservations());
             }
         });
 
@@ -142,46 +154,71 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         table.getSelectionModel().clearSelection();
     }
 
-    private void addAllSubjects() { //TODO
-        subjects.addAll(subjectService.getAll());
-    }
-
+    /**
+     * Open modal window to create a new subject
+     */
     @FXML
     private void newSubject() {
         VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
     }
 
+    /**
+     * Open a modal window to edit/update the selected user
+     */
     @FXML
     private void editSubject() {
         NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
         newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Delete selected user
+     */
     @FXML
     private void deleteSubject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             Subject subject = table.getSelectionModel().getSelectedItem();
             subjectService.delete(subject);
             subjects.remove(subject);
+            logger.info("Deleted subject... " + subject);
         }
     }
 
+    /**
+     * Reload any created or edited subject
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
-        if(object instanceof Subject) {
-            if(!subjects.contains((Subject) object)) {
+        if (object instanceof Subject) {
+            if (!subjects.contains(object)) {
                 subjects.add((Subject) object);
             }
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
+            table.getSelectionModel().clearSelection();
             table.getSelectionModel().select((Subject) object);
         }
     }
 
     @Override
     public void translate() {
+        subjectType.setText(language.get(Lang.TYPE_COLUMN));
+        name.setText(language.get(Lang.NAME_COLUMN));
+        sex.setText(language.get(Lang.SEX_COLUMN));
+        age.setText(language.get(Lang.AGE_COLUMN));
+        weight.setText(language.get(Lang.WEIGHT_COLUMN));
+        height.setText(language.get(Lang.HEIGHT_COLUMN));
 
+        ageLabel.setText(language.get(Lang.AGELABEL));
+        weightLabel.setText(language.get(Lang.WEIGHTLABEL));
+        heightLabel.setText(language.get(Lang.SIZELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        editButton.setText(language.get(Lang.EDIT));
+        deleteButton.setText(language.get(Lang.DELETE));
+        newElementButton.setText(language.get(Lang.NEWSUBJECT));
     }
 }

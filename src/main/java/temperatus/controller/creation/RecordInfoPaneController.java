@@ -82,7 +82,7 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
         modelLabel.setText(language.get(Lang.MODELLABEL));
         serialLabel.setText(language.get(Lang.SERIALLABEL));
         aliasLabel.setText(language.get(Lang.ALIASLABEL));
-        sampleRateLabel.setText(language.get(Lang.RATELABEL));
+        sampleRateLabel.setText(language.get(Lang.RATE_LABEL));
         startDateLabel.setText(language.get(Lang.START_DATE));
         endDateLabel.setText(language.get(Lang.END_DATE));
         totalMeasurementsLabel.setText(language.get(Lang.NUMBER_OF_MEASUREMENTS));

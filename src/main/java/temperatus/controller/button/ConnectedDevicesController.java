@@ -215,7 +215,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         Device device = connectedDevicesTable.getSelectionModel().getSelectedItem();
 
-        if (missionContainerSupported(device.getContainer())) {
+        if (device != null && missionContainerSupported(device.getContainer())) {
 
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);

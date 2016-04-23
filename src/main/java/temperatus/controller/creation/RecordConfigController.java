@@ -344,7 +344,7 @@ public class RecordConfigController extends AbstractCreationController implement
         formulasLabel.setText(language.get(Lang.FORMULAS));
         rangeOfTimeLabel.setText(language.get(Lang.RANGE_OF_TIME));
         modelL.setText(language.get(Lang.MODELLABEL));
-        rateL.setText(language.get(Lang.RATELABEL));
+        rateL.setText(language.get(Lang.RATE_LABEL));
         startDateL.setText(language.get(Lang.START_DATE));
         endDateL.setText(language.get(Lang.END_DATE));
         avgMeasurementsL.setText(language.get(Lang.AVG_MEASUREMENTS));

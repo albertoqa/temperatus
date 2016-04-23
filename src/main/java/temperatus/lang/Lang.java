@@ -33,6 +33,7 @@ public class Lang {
     public static final String DATE_COLUMN = "dateColumn";
     public static final String SUBJECT_COLUMN = "subjectColumn";
     public static final String EXPORTCONFIG = "exportConfig";
+    public static final String NAME_COLUMN = "nameColumn";
 
     // New project
     public static final String NEWPROJECT = "newProject";
@@ -44,6 +45,7 @@ public class Lang {
 
     // New author
     public static final String NEWAUTHOR = "newAuthor";
+    public static final String PARTICIPATE_IN_PROJECTS = "participateInProjects";
 
     // New Game
     public static final String NEWGAME = "newGame";
@@ -51,6 +53,13 @@ public class Lang {
     public static final String NUMBUTTONSLABEL = "numButtonsLabel";
     public static final String DEFAULTFORMULASLABEL = "defaultFormulas";
     public static final String CLEAN_BUTTON = "cleanButton";
+    public static final String TITLE = "title";
+    public static final String NUM_BUTTONS_COLUMN = "numButtonsColumn";
+    public static final String DEFAULT_POS_COLUMN = "defaultPosColumn";
+    public static final String DEFAULT_FORMULAS_COLUMN = "defaultFormulasColumn";
+    public static final String MODEL_COLUMN = "modelColumn";
+    public static final String ALIAS_COLUMN = "aliasColumn";
+    public static final String SERIAL_COLUMN = "serialColumn";
 
     // New Formula
     public static final String NEWFORMULA = "newFormula";
@@ -58,6 +67,8 @@ public class Lang {
     public static final String OPERATIONPROMPT = "operationPrompt";
     public static final String REFERENCELABEL = "referenceLabel";
     public static final String REFERENCEPROMPT = "referencePrompt";
+    public static final String REFERENCE_COLUMN = "referenceColumn";
+    public static final String OPERATION_COLUMN = "operationColumn";
 
     // New Subject
     public static final String AGELABEL = "ageLabel";
@@ -70,6 +81,15 @@ public class Lang {
     public static final String ISOBJECT = "isObject";
     public static final String ISMALE = "isMale";
     public static final String ISFEMALE = "isFemale";
+
+    public static final String TYPE_COLUMN = "typeColumn";
+    public static final String SEX_COLUMN = "sexColumn";
+    public static final String AGE_COLUMN = "ageColumn";
+    public static final String WEIGHT_COLUMN = "weightColumn";
+    public static final String HEIGHT_COLUMN = "heightColumn";
+    public static final String PARTICIPATE_IN = "participatedIn";
+    public static final String MISSIONS = "missions";
+    public static final String FIRST_PARTICIPATION = "firstParticipation";
 
     // New Mission
     public static final String NEWMISSIONTITLE = "newMissionTitle";
@@ -99,6 +119,7 @@ public class Lang {
     public static final String DATASAVEDTEXT = "dataSavedText";
     public static final String NOT_APPLICABLE_FORMULA = "notApplicableFormula";
     public static final String CONFIRMATION_DELETE_RECORD = "confirmationDeleteRecord";
+    public static final String CONFIRMATION_DELETE_POSITION = "confirmationDeletePosition";
     public static final String DELETEDATA = "deleteData";
 
     // Record config
@@ -109,7 +130,7 @@ public class Lang {
     public static final String RECORD_CONFIG_TITLE = "recordConfigTitle";
     public static final String FORMULAS = "formulas";
     public static final String RANGE_OF_TIME = "rangeOfTime";
-    public static final String RATELABEL = "rateLabel";
+    public static final String RATE_LABEL = "rateLabel";
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";
     public static final String AVG_MEASUREMENTS = "avgMeasurements";
@@ -119,6 +140,17 @@ public class Lang {
     public static final String POSITIONLABEL = "position";
     public static final String NUMBER_OF_MEASUREMENTS = "numberOfMeasurements";
     public static final String COMPLETE_INFO = "completeInfo";
+
+    // New Configuration
+    public static final String SET_ALARM_LABEL = "setAlarm";
+    public static final String IMMEDIATELY = "immediately";
+    public static final String ON_DATE = "onDate";
+    public static final String ON_ALARM = "onAlarm";
+    public static final String ON_DELAY = "onDelay";
+    public static final String SYNC_CHECK = "syncCheck";
+    public static final String ROLL_OVER_CHECK = "rollOverCheck";
+    public static final String SET_ALARM_CHECK = "setAlarmCheck";
+    public static final String RATE_PROMPT = "ratePrompt";
 
     // New Position
     public static final String NEWPOSITION = "newPosition";
@@ -141,6 +173,18 @@ public class Lang {
     public static final String RESTART_LABEL = "restartLab";
     public static final String RESTART = "restart";
 
+    public static final String NEW_CONFIGURATION = "newConfiguration";
+    public static final String SYNC_LABEL = "sync";
+    public static final String ROLL_OVER_LABEL = "rollOver";
+    public static final String SUTA_LABEL = "suta";
+    public static final String HIGH_ALARM_LABEL = "highAlarm";
+    public static final String LOW_ALARM_LABEL = "lowAlarm";
+    public static final String DELAY_LABEL = "delay";
+    public static final String RESOLUTION_LABEL = "resolution";
+    public static final String NOT_SET = "notSet";
+
+    public static final String NEW_CONFIG = "newConfig";
+
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
     public static final String IBUTTONDETECTED = "iBDetected";
@@ -159,6 +203,14 @@ public class Lang {
     public static final String APPLY = "apply";
     public static final String CONFIRMATION = "confirmation";
     public static final String CONFIRMATION_LOSE_PROGRESS = "confirmationLoseProgress";
+
+    public static final String DELETE = "delete";
+    public static final String EDIT = "edit";
+    public static final String YES = "yes";
+    public static final String NO = "no";
+
+    public static final String SECONDS = "seconds";
+    public static final String SEC = "sec";
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
@@ -192,6 +244,7 @@ public class Lang {
     public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";
 
     public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";
+    public static final String CANNOT_DELETE_DEFAULT_CONF = "cannotDeleteDefaultConf";
 
 
 

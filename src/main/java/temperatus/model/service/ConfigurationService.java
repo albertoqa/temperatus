@@ -18,5 +18,5 @@ public interface ConfigurationService {
 
     List<Configuration> getAll();
 
-    void saveOrUpdate(Configuration configuration);
+    void saveOrUpdate(Configuration configuration) throws ControlledTemperatusException;
 }

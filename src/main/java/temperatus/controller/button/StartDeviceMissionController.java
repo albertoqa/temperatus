@@ -7,7 +7,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import org.controlsfx.control.CheckListView;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -21,13 +23,9 @@ import temperatus.device.task.DeviceMissionStartTask;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
-import temperatus.model.service.ConfigurationService;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -37,39 +35,11 @@ import java.util.ResourceBundle;
  * Created by alberto on 19/4/16.
  */
 @Controller
-public class StartDeviceMissionController implements Initializable, AbstractController {
+public class StartDeviceMissionController extends AbstractStartDeviceMissionController implements Initializable, AbstractController {
 
     @FXML private CheckListView<Device> deviceCheckListView;        // list of connected devices
     @FXML private ComboBox<Configuration> configurationsCombobox;   // stored configurations
 
-    @FXML private Label nameLabel;
-    @FXML private Label rateLabel;
-    @FXML private Label resolutionLabel;
-    @FXML private Label startLabel;
-    @FXML private Label highLabel;
-    @FXML private Label lowLabel;
-    @FXML private Label alarmLabel;
-
-    @FXML private RadioButton immediatelyCheck;
-    @FXML private RadioButton onDateCheck;
-    @FXML private RadioButton onAlarmCheck;
-    @FXML private RadioButton delayCheck;
-
-    @FXML private CheckBox syncTime;
-    @FXML private CheckBox rollOver;
-    @FXML private CheckBox activateAlarmCheck;
-
-    @FXML private Spinner<Double> highAlarm;
-    @FXML private Spinner<Double> lowAlarm;
-    @FXML private Spinner<Integer> delayInput;
-    @FXML private Spinner<Integer> onAlarmDelayInput;
-
-    @FXML private TextField nameInput;
-    @FXML private TextField dateInput;
-    @FXML private TextField rateInput;
-    @FXML private TextArea observationsArea;
-
-    @FXML private ChoiceBox<String> resolutionBox;
     @FXML private Button configureButton;
     @FXML private Button helpButton;
 
@@ -77,16 +47,7 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
     @Autowired DeviceOperationsManager deviceOperationsManager;
     @Autowired DeviceConnectedList deviceConnectedList;
 
-    @Autowired ConfigurationService configurationService;
-
-    private ToggleGroup startGroup = new ToggleGroup();
-
     private static Logger logger = LoggerFactory.getLogger(StartDeviceMissionController.class.getName());
-
-    private static final String RESOLUTION_LOW = "0.5 (low)";
-    private static final String RESOLUTION_HIGH = "0.065 (high)";
-    private static final double RES_LOW = 0.5;
-    private static final double RES_HIGH = 0.065;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,46 +77,6 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
     }
 
     /**
-     * Depending on the type of start, the user will be required to input different values
-     */
-    private void addListenersToStartTypes() {
-        onDateCheck.selectedProperty().addListener((observable, oldValue, newValue) -> dateInput.setVisible(newValue));
-        onAlarmCheck.selectedProperty().addListener((observable, oldValue, newValue) -> onAlarmDelayInput.setVisible(newValue));
-        delayCheck.selectedProperty().addListener((observable, oldValue, newValue) -> delayInput.setVisible(newValue));
-    }
-
-    /**
-     * Generate a configuration object with the values obtained from the user input
-     *
-     * @return generated configuration object
-     */
-    private Configuration generateConfiguration() {
-        Configuration configuration = new Configuration();
-
-        configuration.setName(nameInput.getText());
-        configuration.setSyncTime(syncTime.isSelected());
-        configuration.setRollover(rollOver.isSelected());
-        configuration.setDelay(getStart());
-        configuration.setRate(Integer.valueOf(rateInput.getText()));
-        configuration.setSuta(onAlarmCheck.isSelected());
-
-        configuration.setChannelEnabledC1(true);
-        configuration.setChannelEnabledC2(false);
-        configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
-        if (activateAlarmCheck.isSelected()) {
-            configuration.setHighAlarmC1(highAlarm.getValue());
-            configuration.setLowAlarmC1(lowAlarm.getValue());
-            configuration.setEnableAlarmC1(true);
-        } else {
-            configuration.setEnableAlarmC1(false);
-        }
-
-        configuration.setObservations(observationsArea.getText());
-
-        return configuration;
-    }
-
-    /**
      * Save the current configuration to database
      */
     @FXML
@@ -163,7 +84,8 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         try {
             logger.info("Saving configuration...");
 
-            Configuration configuration = generateConfiguration();
+            Configuration configuration = new Configuration();
+            generateConfiguration(configuration);
             configurationService.saveOrUpdate(configuration);
 
             logger.info("Saved: " + configuration);
@@ -179,51 +101,6 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
         }
     }
 
-    /**
-     * Load configuration data on the view
-     *
-     * @param configuration to be loaded
-     */
-    private void loadConfiguration(Configuration configuration) {
-        nameInput.setText(configuration.getName());
-        rateInput.setText(String.valueOf(configuration.getRate()));
-        observationsArea.setText(configuration.getObservations());
-
-        if (configuration.isSyncTime()) {
-            syncTime.setSelected(true);
-        } else {
-            syncTime.setSelected(false);
-        }
-
-        if (configuration.isRollover()) {
-            rollOver.setSelected(true);
-        } else {
-            rollOver.setSelected(false);
-        }
-
-        if (configuration.isSuta()) {
-            onAlarmCheck.setSelected(true);
-        } else {
-            onAlarmCheck.setSelected(false);
-        }
-
-        delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-        onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-
-        if (configuration.getResolutionC1() == RES_LOW) {
-            resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
-        } else {
-            resolutionBox.getSelectionModel().select(RESOLUTION_HIGH);
-        }
-
-        if (configuration.getEnableAlarmC1()) {
-            activateAlarmCheck.setSelected(true);
-            highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
-            lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
-        } else {
-            activateAlarmCheck.setSelected(false);
-        }
-    }
 
     /**
      * Search for the default configuration and load it on screen
@@ -235,28 +112,6 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
                 break;
             }
         }
-    }
-
-    private int getStart() {
-        if (immediatelyCheck.isSelected()) {
-            return 0;
-        } else if (delayCheck.isSelected()) {
-            return Integer.valueOf(delayInput.getEditor().getText());
-        } else if (onDateCheck.isSelected()) {
-            return calculateDateDelay(dateInput.getText());
-        } else {
-            return onAlarmDelayInput.getValue();
-        }
-    }
-
-    private int calculateDateDelay(String d) {
-        try {
-            return (int) (Constants.dateTimeFormat.parse(d).getTime() - new Date().getTime()) / 1000;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return 0; //TODO
     }
 
     @Override
@@ -278,7 +133,8 @@ public class StartDeviceMissionController implements Initializable, AbstractCont
      */
     @FXML
     private void startMission() {
-        Configuration configuration = generateConfiguration();  // current configuration options
+        Configuration configuration = new Configuration();
+        generateConfiguration(configuration);  // current configuration options
         if (isConfigurationValid(configuration)) {
             for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
 

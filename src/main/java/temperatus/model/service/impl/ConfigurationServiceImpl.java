@@ -41,7 +41,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public void saveOrUpdate(Configuration configuration) {
+    public void saveOrUpdate(Configuration configuration) throws ControlledTemperatusException {
+
+        // TODO check constraints
+
         configurationDao.saveOrUpdate(configuration);
     }
 }

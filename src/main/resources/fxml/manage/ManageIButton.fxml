@@ -13,13 +13,17 @@
       </TableView>
       <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <Label layoutX="59.0" layoutY="42.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="72.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="104.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button onAction="#deleteIbutton" layoutX="432.0" layoutY="23.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-            <Button onAction="#editIbutton" layoutX="432.0" layoutY="166.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-         </children></AnchorPane>
+            <Label fx:id="nameLabel" layoutX="59.0" layoutY="23.0" styleClass="mainLabel" text="Label" textFill="WHITE" />
+            <Label fx:id="modelLabel" alignment="CENTER_RIGHT" layoutX="12.0" layoutY="66.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Model:" textFill="WHITE" />
+            <Label fx:id="aliasLabel" alignment="CENTER_RIGHT" layoutX="12.0" layoutY="101.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Alias:" textFill="WHITE" />
+            <Label fx:id="defPosLabel" alignment="CENTER_RIGHT" layoutX="12.0" layoutY="133.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Default Position:" textFill="WHITE" />
+            <Button fx:id="deleteButton" layoutX="432.0" layoutY="23.0" mnemonicParsing="false" onAction="#deleteIbutton" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="editButton" layoutX="432.0" layoutY="166.0" mnemonicParsing="false" onAction="#editIbutton" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Label fx:id="modelInfo" layoutX="163.0" layoutY="66.0" styleClass="label-paneinfo" text="DS1922" textFill="WHITE" />
+            <Label fx:id="aliasInfo" layoutX="163.0" layoutY="101.0" styleClass="label-paneinfo" text="HHH" textFill="WHITE" />
+            <Label fx:id="defPos" layoutX="162.0" layoutY="133.0" styleClass="label-paneinfo" text="Hombro" textFill="WHITE" />
+         </children>
+      </AnchorPane>
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
    </children>
 </AnchorPane>

@@ -13,11 +13,27 @@
       </TableView>
       <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <Label layoutX="59.0" layoutY="42.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE" />
-            <Label layoutX="59.0" layoutY="138.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" />
-            <Button layoutX="396.0" layoutY="136.0" mnemonicParsing="false" onAction="#editConfiguration" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-            <Button layoutX="484.0" layoutY="144.0" mnemonicParsing="false" onAction="#deleteConfiguration" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-         </children></AnchorPane>
+            <Label fx:id="nameLabel" layoutX="59.0" layoutY="23.0" styleClass="mainLabel" text="DEFAULT" textFill="WHITE" />
+            <Label fx:id="syncLabel" alignment="CENTER_RIGHT" layoutX="9.0" layoutY="66.0" prefHeight="16.0" prefWidth="280.0" styleClass="label-paneinfo" text="Synchronize time with system clock:" textFill="WHITE" />
+            <Button fx:id="editButton" layoutX="396.0" layoutY="136.0" mnemonicParsing="false" onAction="#editConfiguration" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button fx:id="deleteButton" layoutX="484.0" layoutY="144.0" mnemonicParsing="false" onAction="#deleteConfiguration" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Label fx:id="rateLabel" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="66.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Sample Rate:" textFill="WHITE" />
+            <Label fx:id="delayLabel" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="92.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Start Delay:" textFill="WHITE" />
+            <Label fx:id="rollOverLabel" alignment="CENTER_RIGHT" layoutX="9.0" layoutY="92.0" prefHeight="16.0" prefWidth="280.0" styleClass="label-paneinfo" text="RollOver Enabled:" textFill="WHITE" />
+            <Label fx:id="sutaLabel" alignment="CENTER_RIGHT" layoutX="9.0" layoutY="117.0" prefHeight="16.0" prefWidth="280.0" styleClass="label-paneinfo" text="SUTA Enabled:" textFill="WHITE" />
+            <Label fx:id="sync" layoutX="302.0" layoutY="67.0" styleClass="label-paneinfo" text="true" textFill="WHITE" />
+            <Label fx:id="rollOver" layoutX="302.0" layoutY="93.0" styleClass="label-paneinfo" text="true" textFill="WHITE" />
+            <Label fx:id="suta" layoutX="302.0" layoutY="118.0" styleClass="label-paneinfo" text="true" textFill="WHITE" />
+            <Label fx:id="rate" layoutX="510.0" layoutY="66.0" prefHeight="16.0" prefWidth="158.0" styleClass="label-paneinfo" text="60 seconds" textFill="WHITE" />
+            <Label fx:id="delay" layoutX="510.0" layoutY="92.0" prefHeight="16.0" prefWidth="158.0" styleClass="label-paneinfo" text="12 (seg)" textFill="WHITE" />
+            <Label fx:id="highAlarmLabel" alignment="CENTER" layoutX="43.0" layoutY="158.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="High Alarm" textFill="WHITE" underline="true" />
+            <Label fx:id="lowAlarmLabel" alignment="CENTER" layoutX="193.0" layoutY="158.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Low Alarm" textFill="WHITE" underline="true" />
+            <Label fx:id="highAlarm" alignment="CENTER" layoutX="43.0" layoutY="181.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="12ºC" textFill="WHITE" />
+            <Label fx:id="lowAlarm" alignment="CENTER" layoutX="193.0" layoutY="181.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="13ºC" textFill="WHITE" />
+            <Label fx:id="resolutionLabel" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="118.0" prefHeight="16.0" prefWidth="127.0" styleClass="label-paneinfo" text="Resolution:" textFill="WHITE" />
+            <Label fx:id="resolution" layoutX="510.0" layoutY="118.0" prefHeight="16.0" prefWidth="158.0" styleClass="label-paneinfo" text="0.065" textFill="WHITE" />
+         </children>
+      </AnchorPane>
       <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newConfiguration" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Config" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="569.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />
    </children>

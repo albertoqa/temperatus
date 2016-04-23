@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.slf4j.Logger;
@@ -22,13 +21,14 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
+ * Base controller for the manage view: it has a tab for each element of the database
+ * <p>
  * Created by alberto on 14/2/16.
  */
 @Controller
 @Scope("prototype")
 public class ManageController implements Initializable, AbstractController {
 
-    @FXML private Label manageLabel;
     @FXML private TabPane tabPane;
 
     private Tab subjectsTab = new Tab();
@@ -39,9 +39,9 @@ public class ManageController implements Initializable, AbstractController {
     private Tab iButtonsTab = new Tab();
     private Tab configurationsTab = new Tab();
 
-    static Logger logger = LoggerFactory.getLogger(ManageController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(ManageController.class.getName());
 
-    private HashMap<Tab, AbstractController> controllers = new HashMap<>();
+    private HashMap<Tab, AbstractController> controllers = new HashMap<>(); // store the controller of each tab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,6 +54,7 @@ public class ManageController implements Initializable, AbstractController {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 if (newValue.getContent() == null) {
+                    logger.debug("Selecting new tab... " + newValue.getText());
 
                     String fxml = "";
 
@@ -74,19 +75,21 @@ public class ManageController implements Initializable, AbstractController {
                     }
 
                     if (!fxml.equals("")) {
-                        Parent root = (Parent) VistaNavigator.loader.load(this.getClass().getResource(fxml));
+                        Parent root = VistaNavigator.loader.load(this.getClass().getResource(fxml));
                         AbstractController controller = VistaNavigator.loader.getController();
                         newValue.setContent(root);
                         controllers.put(newValue, controller);
                     }
                 } else {
-                    Parent root = (Parent) newValue.getContent();
+                    logger.debug("Setting controller for tab... " + newValue.getText());
+
+                    // set the controller of the tab so it can be reloaded (on new object creation or update) if needed
                     VistaNavigator.setController(controllers.get(newValue));
                 }
             }
         });
 
-        tabPane.getSelectionModel().selectFirst();
+        tabPane.getSelectionModel().selectFirst();  // select first tab
     }
 
     @Override

@@ -12,66 +12,62 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
-            <Label layoutX="59.0" layoutY="33.0" styleClass="label-paneinfo" text="Name:" textFill="WHITE">
+            <Label fx:id="ageLabel" alignment="CENTER_RIGHT" layoutX="59.0" layoutY="66.0" prefHeight="16.0" prefWidth="69.0" styleClass="label-paneinfo" text="Age:" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font></Label>
-            <Label layoutX="59.0" layoutY="81.0" styleClass="label-paneinfo" text="Age:" textFill="WHITE">
+            <Label fx:id="heightLabel" alignment="CENTER_RIGHT" layoutX="59.0" layoutY="94.0" prefHeight="16.0" prefWidth="69.0" styleClass="label-paneinfo" text="Height:" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font></Label>
-            <Label layoutX="59.0" layoutY="104.0" styleClass="label-paneinfo" text="Height:" textFill="WHITE">
+            <Label fx:id="weightLabel" alignment="CENTER_RIGHT" layoutX="59.0" layoutY="127.0" prefHeight="16.0" prefWidth="69.0" styleClass="label-paneinfo" text="Weight:" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font></Label>
-            <Label layoutX="58.0" layoutY="128.0" styleClass="label-paneinfo" text="Weight:" textFill="WHITE">
-               <font>
-                  <Font name="Avenir Light" size="15.0" />
-               </font></Label>
-            <Label fx:id="firstParticipationLabel" layoutX="243.0" layoutY="33.0" styleClass="label-paneinfo" text="His first participation was on 12/12/12" textFill="WHITE">
+            <Label fx:id="firstParticipationLabel" layoutX="257.0" layoutY="66.0" styleClass="label-paneinfo" text="His first participation was on 12/12/12" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="242.0" layoutY="81.0" styleClass="label-paneinfo" text="Observations:" textFill="WHITE">
+            <Label fx:id="observationsLabel" layoutX="257.0" layoutY="127.0" styleClass="label-paneinfo" text="Observations:" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="numberOfMissions" layoutX="242.0" layoutY="53.0" styleClass="label-paneinfo" text="Has participated in X missions" textFill="WHITE">
+            <Label fx:id="numberOfMissionsLabel" layoutX="257.0" layoutY="94.0" styleClass="label-paneinfo" text="Has participated in X missions" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="observations" layoutX="347.0" layoutY="79.0" styleClass="label-paneinfodata" text="obs" textFill="WHITE">
+            <Label fx:id="observationsInfo" alignment="TOP_LEFT" layoutX="365.0" layoutY="127.0" prefHeight="46.0" prefWidth="291.0" styleClass="label-paneinfo" text="obs" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="weightLabel" layoutX="129.0" layoutY="126.0" styleClass="label-paneinfodata" text="obs" textFill="WHITE">
+            <Label fx:id="weightInfo" layoutX="146.0" layoutY="127.0" styleClass="label-paneinfo" text="obs" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="heightLabel" layoutX="129.0" layoutY="102.0" styleClass="label-paneinfodata" text="obs" textFill="WHITE">
+            <Label fx:id="heightInfo" layoutX="146.0" layoutY="94.0" styleClass="label-paneinfo" text="obs" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="ageLabel" layoutX="129.0" layoutY="79.0" styleClass="label-paneinfodata" text="obs" textFill="WHITE">
+            <Label fx:id="ageInfo" layoutX="146.0" layoutY="66.0" styleClass="label-paneinfo" text="obs" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="nameLabel" layoutX="129.0" layoutY="31.0" styleClass="label-paneinfodata" text="obs" textFill="WHITE">
+            <Label fx:id="nameLabel" layoutX="59.0" layoutY="22.0" styleClass="mainLabel" text="SUJETO" textFill="WHITE">
                <font>
                   <Font name="Avenir Light" size="15.0" />
                </font>
             </Label>
-            <Button layoutX="527.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteSubject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-            <Button layoutX="382.0" layoutY="188.0" mnemonicParsing="false" onAction="#editSubject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button fx:id="deleteButton" layoutX="527.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteSubject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="editButton" layoutX="382.0" layoutY="188.0" mnemonicParsing="false" onAction="#editSubject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
          </children></AnchorPane>
       <Button fx:id="newElementButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newSubject" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="New Subject" AnchorPane.rightAnchor="27.0" />
       <TextField fx:id="filterInput" layoutX="14.0" layoutY="13.0" prefHeight="29.0" prefWidth="598.0" promptText="Filter..." styleClass="form" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="170.0" />

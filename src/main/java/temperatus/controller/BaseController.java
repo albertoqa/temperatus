@@ -72,7 +72,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
-    private static String actualBaseView = Constants.HOME;  // name of the current selected view
+    private String actualBaseView = Constants.HOME;  // name of the current selected view
 
     private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 

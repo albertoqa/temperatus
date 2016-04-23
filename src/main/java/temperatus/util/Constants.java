@@ -46,6 +46,7 @@ public class Constants {
     public static final String NEW_RECORD = "/fxml/creation/NewRecord.fxml";
     public static final String NEW_POSITION = "/fxml/creation/NewPosition.fxml";
     public static final String NEW_IBUTTON = "/fxml/device/NewIButton.fxml";
+    public static final String NEW_CONFIG = "/fxml/creation/NewConfiguration.fxml";
     public static final String RECORD_CONFIG = "/fxml/creation/RecordConfig.fxml";
     public static final String RECORD_INFO = "/fxml/creation/RecordInfo.fxml";
 

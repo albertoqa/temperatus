@@ -27,6 +27,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
+ * Allow the user to search, edit, delete and create formulas
+ *
  * Created by alberto on 15/2/16.
  */
 @Controller
@@ -36,7 +38,16 @@ public class ManageFormulaController implements Initializable, AbstractControlle
     @FXML private TableView<Formula> table;
     @FXML private TextField filterInput;
     @FXML private AnchorPane infoPane;
+
     @FXML private Button newElementButton;
+    @FXML private Button editFormula;
+    @FXML private Button deleteFormula;
+
+    @FXML private Label nameLabel;
+    @FXML private Label referenceLabel;
+    @FXML private Label operationLabel;
+    @FXML private Label operationInfo;
+    @FXML private Label referenceInfo;
 
     private TableColumn<Formula, String> name = new TableColumn<>();
     private TableColumn<Formula, String> reference = new TableColumn<>();
@@ -46,25 +57,19 @@ public class ManageFormulaController implements Initializable, AbstractControlle
 
     @Autowired FormulaService formulaService;
 
-    static Logger logger = LoggerFactory.getLogger(ManageFormulaController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(ManageFormulaController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
 
-        formulas = FXCollections.observableArrayList();
-        addAllFormulas();
-
-        name.setText("Name");
+        formulas = FXCollections.observableArrayList(formulaService.getAll());
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
-        reference.setText("Reference");
         reference.setCellValueFactory(cellData -> cellData.getValue().getReferenceProperty());
-        operation.setText("Operation");
         operation.setCellValueFactory(cellData -> cellData.getValue().getOperationProperty());
 
         FilteredList<Formula> filteredData = new FilteredList<>(formulas, p -> true);
-
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(formula -> {
                 // If filter text is empty, display all authors.
@@ -73,12 +78,11 @@ public class ManageFormulaController implements Initializable, AbstractControlle
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
-
                 if (formula.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(formula.getReference().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (formula.getReference().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(formula.getOperation().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (formula.getOperation().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false; // Does not match.
@@ -87,11 +91,11 @@ public class ManageFormulaController implements Initializable, AbstractControlle
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, formula) -> {
             Animation.fadeInTransition(infoPane);
-
-            if(formula != null) {
-                // TODO
+            if (formula != null) {
+                nameLabel.setText(formula.getName().toUpperCase());
+                referenceInfo.setText(formula.getReference());
+                operationInfo.setText(formula.getOperation());
             }
-
         });
 
         SortedList<Formula> sortedData = new SortedList<>(filteredData);
@@ -102,47 +106,67 @@ public class ManageFormulaController implements Initializable, AbstractControlle
         table.getSelectionModel().clearSelection();
     }
 
-    private void addAllFormulas() {
-        formulas.addAll(formulaService.getAll());
-    }
-
+    /**
+     * Show new formula controller with the pre-loaded data
+     */
     @FXML
     private void editFormula() {
         NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
         newFormulaController.setFormulaForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Show the modal new formula screen
+     */
     @FXML
     private void newFormula() {
         VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
     }
 
+    /**
+     * Delete the selected formula from the database and the table
+     */
     @FXML
     private void deleteFormula() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             Formula formula = table.getSelectionModel().getSelectedItem();
             formulaService.delete(formula);
             formulas.remove(formula);
+            logger.info("Deleted formula... " + formula);
         }
     }
 
+    /**
+     * Reload a new/edited formula
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
-        if(object instanceof Formula) {
-            if(!formulas.contains((Formula) object)) {
+        logger.info("Reloading formula?... ");
+
+        if (object instanceof Formula) {
+            if (!formulas.contains(object)) {
                 formulas.add((Formula) object);
             }
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
+            table.getSelectionModel().clearSelection();
             table.getSelectionModel().select((Formula) object);
         }
     }
 
     @Override
     public void translate() {
-
+        name.setText(language.get(Lang.NAME_COLUMN));
+        reference.setText(language.get(Lang.REFERENCE_COLUMN));
+        operation.setText(language.get(Lang.OPERATION_COLUMN));
+        editFormula.setText(language.get(Lang.EDIT));
+        newElementButton.setText(language.get(Lang.NEWFORMULA));
+        deleteFormula.setText(language.get(Lang.DELETE));
+        referenceLabel.setText(language.get(Lang.REFERENCELABEL));
+        operationLabel.setText(language.get(Lang.OPERATIONLABEL));
     }
-
 }

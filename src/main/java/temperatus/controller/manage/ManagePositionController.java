@@ -29,6 +29,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
+ * Allow the user to search, edit, create and delete positions
+ * <p>
  * Created by alberto on 15/2/16.
  */
 @Controller
@@ -39,8 +41,10 @@ public class ManagePositionController implements Initializable, AbstractControll
     @FXML private TextField filterInput;
     @FXML private AnchorPane infoPane;
     @FXML private Button newElementButton;
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
 
-    @FXML private Label positionName;
+    @FXML private Label nameLabel;
     @FXML private ImageView imageView;
 
     private TableColumn<Position, String> place = new TableColumn<>();
@@ -49,46 +53,30 @@ public class ManagePositionController implements Initializable, AbstractControll
 
     @Autowired PositionService positionService;
 
-    static Logger logger = LoggerFactory.getLogger(ManagePositionController.class.getName());
+    private static final String DEFAULT_IMAGE = "/images/noimage.jpg";  // Set the default image to show -> no image picture
+    private static Logger logger = LoggerFactory.getLogger(ManagePositionController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
 
-        positions = FXCollections.observableArrayList();
-        addAllPositions();
-
-        place.setText("Name");
+        positions = FXCollections.observableArrayList(positionService.getAll());
         place.setCellValueFactory(cellData -> cellData.getValue().getPlaceProperty());
 
         FilteredList<Position> filteredData = new FilteredList<>(positions, p -> true);
-
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(position -> {
-                // If filter text is empty, display all authors.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (position.getPlace().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false; // Does not match.
-            });
+            filteredData.setPredicate(position -> newValue == null || newValue.isEmpty() || position.getPlace().toLowerCase().contains(newValue.toLowerCase()));
         });
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, position) -> {
             Animation.fadeInTransition(infoPane);
-
-            if(position != null) {
-                positionName.setText(position.getPlace());
+            if (position != null) {
+                nameLabel.setText(position.getPlace());
                 try {
                     imageView.setImage(new Image(position.getPicture()));
                 } catch (Exception ex) {
-                    // TODO show no image
+                    imageView.setImage(new Image(DEFAULT_IMAGE));
                 }
             }
         });
@@ -101,47 +89,61 @@ public class ManagePositionController implements Initializable, AbstractControll
         table.getSelectionModel().clearSelection();
     }
 
-    private void addAllPositions() {
-        positions.addAll(positionService.getAll());
-    }
-
+    /**
+     * Edit selected position
+     */
     @FXML
     private void editPosition() {
         NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
         newPositionController.setPositionForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Create a new position - show newPosition screen
+     */
     @FXML
     private void newPosition() {
         VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
     }
 
+    /**
+     * Delete selected position. Warn the user that some formulas may stop working.
+     */
     @FXML
     private void deletePosition() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure? If a Formula uses this position it will stop working.");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_DELETE_POSITION));
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             Position position = table.getSelectionModel().getSelectedItem();
             positionService.delete(position);
             positions.remove(position);
+            logger.info("Deleted position... " + position);
         }
     }
 
+    /**
+     * Reload edited/created position
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
-        if(object instanceof Position) {
-            if(!positions.contains((Position) object)) {
+        if (object instanceof Position) {
+            if (!positions.contains(object)) {
                 positions.add((Position) object);
             }
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
+            table.getSelectionModel().clearSelection();
             table.getSelectionModel().select((Position) object);
         }
     }
 
     @Override
     public void translate() {
-
+        place.setText(language.get(Lang.NAME_COLUMN));
+        editButton.setText(language.get(Lang.EDIT));
+        deleteButton.setText(language.get(Lang.DELETE));
+        newElementButton.setText(language.get(Lang.NEWPOSITION));
     }
 
 }

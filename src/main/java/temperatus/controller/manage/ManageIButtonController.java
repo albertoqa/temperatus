@@ -27,6 +27,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
+ * Allow the user to search, edit and delete iButtons
+ * <p>
  * Created by alberto on 15/2/16.
  */
 @Controller
@@ -36,7 +38,17 @@ public class ManageIButtonController implements Initializable, AbstractControlle
     @FXML private TableView<Ibutton> table;
     @FXML private TextField filterInput;
     @FXML private AnchorPane infoPane;
-    @FXML private Button newElementButton;
+
+    @FXML private Label nameLabel;
+    @FXML private Label modelLabel;
+    @FXML private Label aliasLabel;
+    @FXML private Label defPosLabel;
+    @FXML private Label modelInfo;
+    @FXML private Label aliasInfo;
+    @FXML private Label defPos;
+
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
 
     private TableColumn<Ibutton, String> model = new TableColumn<>();
     private TableColumn<Ibutton, String> serial = new TableColumn<>();
@@ -47,27 +59,20 @@ public class ManageIButtonController implements Initializable, AbstractControlle
 
     @Autowired IbuttonService ibuttonService;
 
-    static Logger logger = LoggerFactory.getLogger(ManageIButtonController.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(ManageIButtonController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
 
-        ibuttons = FXCollections.observableArrayList();
-        addAlliButtons();
-
-        model.setText("Model");
+        ibuttons = FXCollections.observableArrayList(ibuttonService.getAll());
         model.setCellValueFactory(cellData -> cellData.getValue().getModelProperty());
-        serial.setText("Serial");
         serial.setCellValueFactory(cellData -> cellData.getValue().getSerialProperty());
-        alias.setText("Alias");
         alias.setCellValueFactory(cellData -> cellData.getValue().getAliasProperty());
-        defaultPosition.setText("Default Position");
         defaultPosition.setCellValueFactory(cellData -> cellData.getValue().getPositionProperty());
 
         FilteredList<Ibutton> filteredData = new FilteredList<>(ibuttons, p -> true);
-
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(ibutton -> {
                 // If filter text is empty, display all authors.
@@ -76,26 +81,26 @@ public class ManageIButtonController implements Initializable, AbstractControlle
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
-
                 if (ibutton.getModel().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(ibutton.getAlias().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (ibutton.getAlias().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(ibutton.getSerial().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (ibutton.getSerial().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(ibutton.getPosition().getPlace().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (ibutton.getPosition().getPlace().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
-
                 return false; // Does not match.
             });
         });
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, ibutton) -> {
             Animation.fadeInTransition(infoPane);
-
-            if(ibutton != null) {
-
+            if (ibutton != null) {
+                nameLabel.setText(ibutton.getSerial().toUpperCase());
+                defPos.setText(ibutton.getPosition() != null ? ibutton.getPosition().getPlace() : language.get(Lang.NOT_SET));
+                modelInfo.setText(ibutton.getModel());
+                aliasInfo.setText(ibutton.getAlias());
             }
         });
 
@@ -107,42 +112,59 @@ public class ManageIButtonController implements Initializable, AbstractControlle
         table.getSelectionModel().clearSelection();
     }
 
-    private void addAlliButtons() {
-        ibuttons.addAll(ibuttonService.getAll());
-    }
-
+    /**
+     * Edit the selected iButton - only alias and default position
+     */
     @FXML
     private void editIbutton() {
         NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
         newIButtonController.setIbuttonForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Delete the selected button
+     */
     @FXML
     private void deleteIbutton() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             Ibutton ibutton = table.getSelectionModel().getSelectedItem();
             ibuttonService.delete(ibutton);
             ibuttons.remove(ibutton);
+            logger.info("Deleted ibutton... " + ibutton);
         }
     }
 
+    /**
+     * Reload a edited iButton
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
-        if(object instanceof Ibutton) {
-            if(!ibuttons.contains((Ibutton) object)) {
+        if (object instanceof Ibutton) {
+            if (!ibuttons.contains(object)) {
                 ibuttons.add((Ibutton) object);
             }
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
+            table.getSelectionModel().clearSelection();
             table.getSelectionModel().select((Ibutton) object);
         }
     }
 
     @Override
     public void translate() {
-
+        model.setText(language.get(Lang.MODEL_COLUMN));
+        serial.setText(language.get(Lang.SERIAL_COLUMN));
+        alias.setText(language.get(Lang.ALIAS_COLUMN));
+        defaultPosition.setText(language.get(Lang.DEFAULT_POS_COLUMN));
+        defPos.setText(language.get(Lang.DEFAULTPOSLABEL));
+        modelInfo.setText(language.get(Lang.MODELLABEL));
+        aliasInfo.setText(language.get(Lang.ALIASLABEL));
+        editButton.setText(language.get(Lang.EDIT));
+        deleteButton.setText(language.get(Lang.DELETE));
     }
 
 }
