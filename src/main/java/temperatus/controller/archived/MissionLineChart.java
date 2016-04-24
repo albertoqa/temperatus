@@ -70,35 +70,30 @@ public class MissionLineChart implements Initializable, AbstractController {
         lineChart.setAnimated(false);
         dateAxis.setLabel("Time of measurement");
         temperatureAxis.setLabel("Temperature in ºC");
-        //lineChart.setCreateSymbols(false);
 
-        positionsList.getCheckModel().getCheckedItems().addListener(new ListChangeListener<Record>() {
-            public void onChanged(ListChangeListener.Change<? extends Record> c) {
-                c.next();
-                if (c.wasAdded()) {
-                    addSerieForRecord(c.getAddedSubList().get(0), spinner.getValue());
-                } else if (c.wasRemoved()) {
-                    for (XYChart.Series<Date, Number> serie : series) {
-                        if (serie.getName().contains(c.getRemoved().get(0).getPosition().getPlace())) {
-                            series.remove(serie);
-                            break;
-                        }
+        positionsList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Record>) c -> {
+            c.next();
+            if (c.wasAdded()) {
+                addSerieForRecord(c.getAddedSubList().get(0), spinner.getValue());
+            } else if (c.wasRemoved()) {
+                for (XYChart.Series<Date, Number> serie : series) {
+                    if (serie.getName().contains(c.getRemoved().get(0).getPosition().getPlace())) {
+                        series.remove(serie);
+                        break;
                     }
                 }
             }
         });
 
-        formulasList.getCheckModel().getCheckedItems().addListener(new ListChangeListener<Formula>() {
-            public void onChanged(ListChangeListener.Change<? extends Formula> c) {
-                c.next();
-                if (c.wasAdded()) {
-                    addSerieForFormula(c.getAddedSubList().get(0), spinner.getValue());
-                } else if (c.wasRemoved()) {
-                    for (XYChart.Series<Date, Number> serie : series) {
-                        if (serie.getName().contains(c.getRemoved().get(0).getName())) {
-                            series.remove(serie);
-                            break;
-                        }
+        formulasList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Formula>) c -> {
+            c.next();
+            if (c.wasAdded()) {
+                addSerieForFormula(c.getAddedSubList().get(0), spinner.getValue());
+            } else if (c.wasRemoved()) {
+                for (XYChart.Series<Date, Number> serie : series) {
+                    if (serie.getName().contains(c.getRemoved().get(0).getName())) {
+                        series.remove(serie);
+                        break;
                     }
                 }
             }
@@ -135,25 +130,21 @@ public class MissionLineChart implements Initializable, AbstractController {
     private XYChart.Series<Date, Number> createSerieForRecord(Record record, int period) {
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
 
-        XYChart.Series<Date, Number> serie = new XYChart.Series<Date, Number>();
+        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
-        measurements.stream().forEach((measurement) -> {
-            serie.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
-        });
+        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
         return serie;
     }
 
     private XYChart.Series<Date, Number> createSerieForFormula(Formula formula, int period) {
 
-        XYChart.Series<Date, Number> serie = new XYChart.Series<Date, Number>();
+        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(formula.getName());
 
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(dataMap.keySet()), formula, period);
 
-        measurements.stream().forEach((measurement) -> {
-            serie.getData().add(new XYChart.Data<Date, Number>(measurement.getDate(), measurement.getData()));
-        });
+        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
         for(Measurement measurement: measurements) {
             if (measurement.getData() == Double.NaN) {
