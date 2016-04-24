@@ -196,13 +196,19 @@ public class DeviceReadTask extends DeviceTask {
         DeviceMissionData deviceMissionData = new DeviceMissionData();
 
         deviceMissionData.setMeasurements(new ArrayList<>(Arrays.asList(measurements)));
-        deviceMissionData.setFirstSampleTime(info[FIRST_SAMPLE_TIMESTAMP]);
+        deviceMissionData.setFirstSampleTime(df.format(info[FIRST_SAMPLE_TIMESTAMP]));
         deviceMissionData.setHighAlarm(info[TEMP_HIGH_ALARM]);
         deviceMissionData.setInProgress(info[IS_ACTIVE]);
         deviceMissionData.setIsSuta(info[MISSION_SUTA]);
         deviceMissionData.setLowAlarm(info[TEMP_LOW_ALARM]);
         deviceMissionData.setMissionSampleCount(info[MISSION_SAMPLES]);
-        deviceMissionData.setMissionStartTime(info[MISSION_START]);
+
+        if(!info[MISSION_START].contains("No samples yet")) {
+            deviceMissionData.setMissionStartTime(df.format(info[MISSION_START]));
+        } else {
+            deviceMissionData.setMissionStartTime("No samples yet");
+        }
+
         deviceMissionData.setResolution(info[TEMP_LOGGING]);
         deviceMissionData.setRollOverEnabled(info[ROLL_OVER]);
         deviceMissionData.setSampleRate(info[SAMPLE_RATE]);

@@ -43,6 +43,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @FXML private NumberAxis temperatureAxis;
 
     private ObservableList<Measurement> measurements;
+    private ObservableList<XYChart.Series<Date, Number>> series;
 
     private static Logger logger = LoggerFactory.getLogger(TemperatureLogController.class.getName());
 
@@ -51,19 +52,12 @@ public class TemperatureLogController implements Initializable, AbstractControll
         translate();
 
         measurements = FXCollections.observableArrayList();
-        ObservableList<XYChart.Series<Date, Number>> series = FXCollections.observableArrayList();
+        series = FXCollections.observableArrayList();
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
         dateAxis.setLabel("Time of measurement");
         temperatureAxis.setLabel("Temperature in ºC");
-
-        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-        serie.setName("name");
-        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
-
-        series.add(serie);
-        ChartToolTip.addToolTipOnHover(serie, lineChart);
     }
 
     /**
@@ -73,6 +67,14 @@ public class TemperatureLogController implements Initializable, AbstractControll
      */
     public void setData(List<Measurement> measurements) {
         this.measurements.addAll(measurements);
+
+        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
+        serie.setName("name");
+        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+
+        ChartToolTip.addToolTipOnHover(serie, lineChart);
+        series.add(serie);
+
         logger.debug("Setting data...");
     }
 
