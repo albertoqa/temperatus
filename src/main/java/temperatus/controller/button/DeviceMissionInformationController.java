@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -20,6 +21,7 @@ import temperatus.controller.AbstractController;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionDisableTask;
 import temperatus.device.task.DeviceReadTask;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.types.Device;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -35,6 +37,20 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
+
+    @FXML private Label missionInProgress;
+    @FXML private Label sutaMission;
+    @FXML private Label wfta;
+    @FXML private Label sampleRate;
+    @FXML private Label missionStartTime;
+    @FXML private Label rollOver;
+    @FXML private Label totalMissionSamples;
+    @FXML private Label totalDeviceSamples;
+    @FXML private Label resolution;
+    @FXML private Label highAlarm;
+    @FXML private Label lowAlarm;
+    @FXML private Label missionSampleCount;
+    @FXML private Label firstSampleTime;
 
     @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
     @Autowired DeviceReadTask deviceReadTask;   // read from device task
@@ -78,6 +94,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                     logger.info("Device read correctly");
                 });
             }
+
             public void onFailure(Throwable thrown) {
                 stopProgressIndicator();
                 loadMissionData(false);
@@ -88,13 +105,24 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     /**
      * Show the mission data on the screen
+     *
      * @param success was the operation of read data success?
      */
     private void loadMissionData(boolean success) {
-        if(success) {
-
-
-
+        if (success) {
+            missionInProgress.setText(deviceMissionData.getInProgress());
+            sutaMission.setText(deviceMissionData.getIsSuta());
+            wfta.setText(deviceMissionData.getWaitingForTempAlarm());
+            sampleRate.setText(deviceMissionData.getSampleRate());
+            missionStartTime.setText(deviceMissionData.getMissionStartTime());
+            rollOver.setText(deviceMissionData.getRollOverEnabled());
+            totalMissionSamples.setText(deviceMissionData.getTotalMissionSamples());
+            totalDeviceSamples.setText(deviceMissionData.getTotalDeviceSamples());
+            resolution.setText(deviceMissionData.getResolution());
+            highAlarm.setText(deviceMissionData.getHighAlarm());
+            lowAlarm.setText(deviceMissionData.getLowAlarm());
+            missionSampleCount.setText(deviceMissionData.getMissionSampleCount());
+            firstSampleTime.setText(deviceMissionData.getFirstSampleTime());
         } else {
             // TODO show error
         }
@@ -105,8 +133,9 @@ public class DeviceMissionInformationController implements Initializable, Abstra
      */
     @FXML
     private void showTemperatureData() {
-        if(deviceMissionData.getMeasurements() != null) {
-            // TODO
+        if (deviceMissionData.getMeasurements() != null) {
+            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, language.get(language.get(Lang.TEMPERATURE_LOG)));
+            temperatureLogController.setData(deviceMissionData.getMeasurements());
         }
     }
 
@@ -135,7 +164,8 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                     Platform.runLater(() -> {
                         stopProgressIndicator();
                         // TODO set to false the mission running label
-                        logger.info("Device configured correctly");});
+                        logger.info("Device configured correctly");
+                    });
                 }
 
                 public void onFailure(Throwable thrown) {

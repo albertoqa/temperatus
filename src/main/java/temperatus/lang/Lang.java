@@ -143,6 +143,7 @@ public class Lang {
     public static final String POSITIONLABEL = "position";
     public static final String NUMBER_OF_MEASUREMENTS = "numberOfMeasurements";
     public static final String COMPLETE_INFO = "completeInfo";
+    public static final String TEMPERATURE_LOG = "temperatureLog";
 
     // New Configuration
     public static final String SET_ALARM_LABEL = "setAlarm";

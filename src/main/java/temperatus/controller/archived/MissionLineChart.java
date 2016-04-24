@@ -12,7 +12,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckListView;
@@ -24,6 +23,7 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.utils.DateAxis;
+import temperatus.util.ChartToolTip;
 import temperatus.util.IntegerSpinner;
 
 import javax.imageio.ImageIO;
@@ -111,13 +111,13 @@ public class MissionLineChart implements Initializable, AbstractController {
     private void addSerieForFormula(Formula formula, int period) {
         XYChart.Series<Date, Number> serie = createSerieForFormula(formula, period);
         series.add(serie);
-        addToolTipOnHover(serie);
+        ChartToolTip.addToolTipOnHover(serie, lineChart);
     }
 
     private void addSerieForRecord(Record record, int period) {
         XYChart.Series<Date, Number> serie = createSerieForRecord(record, period);
         series.add(serie);
-        addToolTipOnHover(serie);
+        ChartToolTip.addToolTipOnHover(serie, lineChart);
     }
 
     private void reloadSelectedSeriesForPeriod(int period) {
@@ -173,26 +173,6 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         positionsList.getCheckModel().checkAll();
         reloadSelectedSeriesForPeriod(1);   // TODO check this solution...
-    }
-
-    /**
-     * Browsing through the Data and applying ToolTip
-     * as well as the class on hover
-     */
-    private void addToolTipOnHover(XYChart.Series<Date, Number> serie) {
-        if (lineChart.getCreateSymbols()) {
-            for (XYChart.Data<Date, Number> d : serie.getData()) {
-                Tooltip.install(d.getNode(), new Tooltip(
-                        d.getXValue().toString() + "\n" +
-                                "Temperature : " + d.getYValue()));
-
-                //Adding class on hover
-                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
-
-                //Removing class on exit
-                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
-            }
-        }
     }
 
     @FXML

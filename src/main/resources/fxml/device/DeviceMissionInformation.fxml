@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.DeviceMissionInformationController">
@@ -28,31 +27,31 @@
                </rowConstraints>
                <children>
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Mission in progress:  " />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" />
+                  <Label fx:id="missionInProgress" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="SUTA mission:  " GridPane.rowIndex="1" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="sutaMission" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="167.0" styleClass="label-paneinfo" text="Waiting for temp alarm:  " GridPane.rowIndex="2" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="wfta" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Sample Rate:  " GridPane.rowIndex="3" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Every 12 seconds." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="sampleRate" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Every 12 seconds." GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Mission Start Time:  " GridPane.rowIndex="4" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12/12/2016 12:08:08" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="missionStartTime" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12/12/2016 12:08:08" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="166.0" styleClass="label-paneinfo" text="Mission Sample Count:  " GridPane.columnIndex="2" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="RollOver Enabled:  " GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="First Sample Time:  " GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="171.0" styleClass="label-paneinfo" text="Total Mission Samples:  " GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="182.0" styleClass="label-paneinfo" text="Total Device Samples:  " GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="234" GridPane.columnIndex="3" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12/12/2016 12:08:08" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="6368" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="65748392" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Label fx:id="missionSampleCount" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="234" GridPane.columnIndex="3" />
+                  <Label fx:id="rollOver" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Label fx:id="firstSampleTime" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12/12/2016 12:08:08" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label fx:id="totalMissionSamples" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="6368" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Label fx:id="totalDeviceSamples" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="65748392" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="High Alarm:  " GridPane.rowIndex="5" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Low Alarm:  " GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12ºC" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="10ºC" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <Label fx:id="highAlarm" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="12ºC" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="lowAlarm" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="10ºC" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="Resolution:  " GridPane.rowIndex="6" />
-                  <Label prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="0.065" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label fx:id="resolution" prefHeight="17.0" prefWidth="147.0" styleClass="label-paneinfo" text="0.065" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </children>

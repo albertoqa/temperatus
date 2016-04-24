@@ -33,6 +33,7 @@ public class Constants {
     public static final String ARCHIVED = "/fxml/Archived.fxml";
     public static final String MISSION_INFO = "/fxml/MissionInfo.fxml";
     public static final String BUTTON_DATA = "/fxml/ButtonData.fxml";
+    public static final String TEMPERATURE_LOG = "/fxml/device/TemperatureLog.fxml";
     public static final String MISSION_LINE_CHART = "/fxml/MissionLineChart.fxml";
     public static final String EXPORT_CONFIG = "/fxml/ExportConfiguration.fxml";
     public static final String CONFIG_DEVICE = "/fxml/device/StartDeviceMission.fxml";
