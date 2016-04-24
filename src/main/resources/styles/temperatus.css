@@ -835,6 +835,24 @@
      -fx-highlight-text-fill: white;
   }
 
+  .formBig {
+     -fx-background-radius: 3;
+     -fx-background-color: white;
+     -fx-border-color: #3a474d;
+     -fx-border-width: 0.8;
+     -fx-border-radius: 3;
+     -fx-background-insets: 0;
+
+     -fx-prompt-text-fill: #818181;
+
+     -fx-font-family: "Avenir Medium";
+     -fx-font-size: 14px;
+     -fx-text-fill: black;
+
+     -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+     -fx-highlight-text-fill: white;
+  }
+
   /*******************************************************************************
    *                                                                             *
    * ComboBox                                                                    *

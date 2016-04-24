@@ -3,9 +3,6 @@ package temperatus.controller.button;
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -21,9 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
-import temperatus.controller.creation.RecordConfigController;
-import temperatus.device.DeviceOperationsManager;
-import temperatus.device.task.DeviceMissionDisableTask;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
 import temperatus.model.pojo.Ibutton;
@@ -45,10 +39,6 @@ import java.util.ResourceBundle;
 @Controller
 public class ConnectedDevicesController implements Initializable, AbstractController, DeviceDetectorListener {
 
-    @FXML private Button newMissionButton;
-    @FXML private Button configureButton;
-    @FXML private Button disableMissionButton;
-
     @FXML private Label headerLabel;
     @FXML private Label searchingLabel;
 
@@ -64,9 +54,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     private TableColumn<Device, String> positionColumn = new TableColumn<>();
 
     private ObservableList<Device> devicesConnected = FXCollections.observableArrayList();
-
-    @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
-    @Autowired DeviceOperationsManager deviceOperationsManager;
 
     @Autowired IbuttonService ibuttonService;
 
@@ -125,6 +112,10 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         if (device.getContainer() != null && temperatureContainerSupported(device.getContainer())) {
             infoTabPane.getTabs().add(currentTemperatureTab(device));
         }
+
+        if(device.getContainer() != null && missionContainerSupported(device.getContainer())) {
+            infoTabPane.getTabs().add(deviceMissionTab(device));
+        }
     }
 
     private Tab generalTab(Device device) {
@@ -132,12 +123,32 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         return new Tab();
     }
 
+    private Tab deviceMissionTab(Device device) {
+        Tab missionInfoTab = new Tab();
+        StackPane stackPane = new StackPane();
+
+        // Load a new pane for the tab
+        Node missionInfoPane = VistaNavigator.loader.load(ConnectedDevicesController.class.getResource(Constants.DEVICE_MISSION_INFO));
+        DeviceMissionInformationController deviceMissionInformationController = VistaNavigator.loader.getController();
+        deviceMissionInformationController.setDevice(device);
+
+        stackPane.getChildren().setAll(missionInfoPane);
+        missionInfoTab.setContent(stackPane);
+        missionInfoTab.setText("Mission Info");
+
+        missionInfoTab.setOnSelectionChanged(t -> {
+
+        });
+
+        return missionInfoTab;
+    }
+
     private Tab currentTemperatureTab(Device device) {
         Tab realTimeTempTab = new Tab();
         StackPane stackPane = new StackPane();
 
         // Load a new pane for the tab
-        Node realTimeTempPane = VistaNavigator.loader.load(RecordConfigController.class.getResource(Constants.REAL_TIME_TEMP));
+        Node realTimeTempPane = VistaNavigator.loader.load(ConnectedDevicesController.class.getResource(Constants.REAL_TIME_TEMP));
         RealTimeTemperatureController realTimeTemperatureController = VistaNavigator.loader.getController();
         realTimeTemperatureController.setDevice(device);
 
@@ -154,23 +165,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         });
 
         return realTimeTempTab;
-    }
-
-    /**
-     * Create a new mission (database mission)
-     */
-    @FXML
-    private void newMission() {
-        VistaNavigator.loadVista(Constants.NEW_MISSION);
-        VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
-    }
-
-    /**
-     * Open the view to configure a new mission on the device
-     */
-    @FXML
-    private void configureIbutton() {
-        VistaNavigator.loadVista(Constants.CONFIG_DEVICE);
     }
 
     @Override
@@ -225,33 +219,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         }
     }
 
-
-    @FXML
-    private void stopDeviceMission() {
-
-        Device device = connectedDevicesTable.getSelectionModel().getSelectedItem();
-
-        if (device != null && missionContainerSupported(device.getContainer())) {
-
-            deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
-            ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
-
-            // TODO show progress???
-
-            Futures.addCallback(future, new FutureCallback<Boolean>() {
-                public void onSuccess(Boolean result) {
-                    Platform.runLater(() -> {
-                        logger.info("Device configured correctly");
-                    });
-                }
-
-                public void onFailure(Throwable thrown) {
-                    logger.error("Error starting mission on device - Future error");
-                }
-            });
-        }
-    }
-
     @Override
     public void departure(DeviceDetector event) {
         String serial = event.getSerial();
@@ -274,7 +241,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         }
     }
-
 
     /**
      * Checks if this container supports the temperature view.

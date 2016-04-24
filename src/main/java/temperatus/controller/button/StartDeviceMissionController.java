@@ -77,6 +77,15 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     }
 
     /**
+     * Pre-select a device to configure
+     *
+     * @param device device to configure
+     */
+    void selectDevice(Device device) {
+        deviceCheckListView.getCheckModel().check(device);
+    }
+
+    /**
      * Save the current configuration to database
      */
     @FXML

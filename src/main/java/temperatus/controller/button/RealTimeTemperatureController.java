@@ -57,10 +57,17 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
     private static final int period = 10;   // period of read device
     private ToggleGroup unitGroup = new ToggleGroup();
 
+    private boolean newTemperature = true;     // only send a read task once the previous task has finished
+
+    private static final String MISSION_ACTIVE = "Cant force temperature read during a mission";
+
     private static Logger logger = LoggerFactory.getLogger(RealTimeTemperatureController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        translate();
+        newTemperature = true;
+
         unitGroup.getToggles().addAll(unitC, unitF);
         unitGroup.selectToggle(unitC);
 
@@ -82,22 +89,33 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
      */
     private void createTimeLineWithPeriod() {
         readEvery = new Timeline(new KeyFrame(Duration.seconds(period), event -> {
-            if (!(VistaNavigator.getController() instanceof ConnectedDevicesController)) {
-                readEvery.stop();
-                serie.getData().clear();
+            if (newTemperature) {
+                if (!(VistaNavigator.getController() instanceof ConnectedDevicesController)) {
+                    readEvery.stop();
+                    serie.getData().clear();
+                }
+
+                logger.info("Submit real time temperature read task");
+                newTemperature = false;
+                ListenableFuture future = deviceOperationsManager.submitTask(deviceRealTimeTempTask);
+                Futures.addCallback(future, new FutureCallback<Double>() {
+                    public void onSuccess(Double result) {
+                        Platform.runLater(() -> addNewTemperature(result));
+                    }
+
+                    public void onFailure(Throwable thrown) {
+                        if (thrown.getMessage().contains(MISSION_ACTIVE)) {
+                            currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_MISSION_ACTIVE));
+                        } else {
+                            currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR));
+                        }
+                        newTemperature = true;
+                        logger.error("Error fetching temperature - Future error");
+                    }
+                });
             }
-
-            ListenableFuture future = deviceOperationsManager.submitTask(deviceRealTimeTempTask);
-            Futures.addCallback(future, new FutureCallback<Double>() {
-                public void onSuccess(Double result) {
-                    Platform.runLater(() -> addNewTemperature(result));
-                }
-
-                public void onFailure(Throwable thrown) {
-                    logger.error("Error fetching temperature - Future error");
-                }
-            });
         }));
+
         readEvery.setCycleCount(Timeline.INDEFINITE);   // don't stop the task
     }
 
@@ -107,6 +125,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
      * @param temp temperature just read
      */
     private void addNewTemperature(double temp) {
+        newTemperature = true;
         double temperature = temp;
 
         if (unitGroup.getSelectedToggle().equals(unitF)) {
@@ -135,8 +154,8 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
 
     @Override
     public void translate() {
-        serie.setName("Real-time Temperature");
-
+        currentTemp.setText(language.get(Lang.READING));
+        serie.setName(language.get(Lang.REAL_TIME_TEMP));
     }
 
 }
