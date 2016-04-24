@@ -217,6 +217,9 @@ public class Lang {
     public static final String SECONDS = "seconds";
     public static final String SEC = "sec";
 
+    public static final String FAHRENHEIT = "fahrenheit";
+    public static final String CELSIUS = "celsius";
+
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
 

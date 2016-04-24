@@ -37,6 +37,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Show all the devices connected to the computer and their information. Depending on
+ * the type of device the information shown will be direfert.
+ * <p>
  * Created by alberto on 23/1/16.
  */
 @Controller
@@ -44,16 +47,21 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     @FXML private Button newMissionButton;
     @FXML private Button configureButton;
+    @FXML private Button disableMissionButton;
+
+    @FXML private Label headerLabel;
+    @FXML private Label searchingLabel;
 
     @FXML private TabPane infoTabPane;
     @FXML private TableView<Device> connectedDevicesTable;
 
+    @FXML private ProgressIndicator progressIndicator;
     @FXML private HBox searchingIndicator;
 
-    private TableColumn<Device, String> modelColumn = new TableColumn<>("  Model");
-    private TableColumn<Device, String> serialColumn = new TableColumn<>("  Serial");
-    private TableColumn<Device, String> aliasColumn = new TableColumn<>("  Alias");
-    private TableColumn<Device, String> positionColumn = new TableColumn<>("  Default Position");
+    private TableColumn<Device, String> modelColumn = new TableColumn<>();
+    private TableColumn<Device, String> serialColumn = new TableColumn<>();
+    private TableColumn<Device, String> aliasColumn = new TableColumn<>();
+    private TableColumn<Device, String> positionColumn = new TableColumn<>();
 
     private ObservableList<Device> devicesConnected = FXCollections.observableArrayList();
 
@@ -78,15 +86,14 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
         connectedDevicesTable.setPlaceholder(new Label(""));    // no placeholder
 
-        connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            infoTabPane.getSelectionModel().clearSelection();
-            if (newSelection != null) {
-                loadInfo(newSelection);
+        connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, device) -> {
+            infoTabPane.getSelectionModel().clearSelection();   // stop RealTime task if was selected
+            if (device != null) {
+                loadInfo(device);
             }
         });
 
         connectedDevicesTable.getSelectionModel().clearSelection();
-
         devicesConnected.addListener((ListChangeListener<Device>) c -> {
             updateIndicator();
         });
@@ -94,6 +101,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         updateIndicator();
     }
 
+    /**
+     * If there is no device connected, show the progressIndicator to let the user know that the application is searching
+     */
     private void updateIndicator() {
         if (devicesConnected.size() == 0) {
             searchingIndicator.setVisible(true);
@@ -102,8 +112,12 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         }
     }
 
+    /**
+     * Check the type of device selected and the container that implements. Load the tabs that correspond to this device.
+     * @param device device to show info of
+     */
     private void loadInfo(Device device) {
-        infoTabPane.getTabs().clear();
+        infoTabPane.getTabs().clear();      // clear previous selection -> stop all tasks
         Animation.fadeInTransition(infoTabPane);
 
         infoTabPane.getTabs().add(generalTab(device));
@@ -142,20 +156,21 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         return realTimeTempTab;
     }
 
+    /**
+     * Create a new mission (database mission)
+     */
     @FXML
     private void newMission() {
         VistaNavigator.loadVista(Constants.NEW_MISSION);
         VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
     }
 
+    /**
+     * Open the view to configure a new mission on the device
+     */
     @FXML
     private void configureIbutton() {
         VistaNavigator.loadVista(Constants.CONFIG_DEVICE);
-    }
-
-    @Override
-    public void translate() {
-
     }
 
     @Override
@@ -209,6 +224,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             }
         }
     }
+
 
     @FXML
     private void stopDeviceMission() {
@@ -278,8 +294,16 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      * @return 'true' if this viewer supports the provided
      * container.
      */
-    public boolean missionContainerSupported(OneWireContainer owc) {
+    private boolean missionContainerSupported(OneWireContainer owc) {
         return (owc instanceof MissionContainer);
+    }
+
+    @Override
+    public void translate() {
+        modelColumn.setText("  Model");
+        serialColumn.setText("  Serial");
+        aliasColumn.setText("  Alias");
+        positionColumn.setText("  Default Position");
     }
 
 }
