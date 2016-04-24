@@ -18,7 +18,6 @@ import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.utils.DateAxis;
-import temperatus.util.ChartToolTip;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -69,10 +68,9 @@ public class TemperatureLogController implements Initializable, AbstractControll
         this.measurements.addAll(measurements);
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-        serie.setName("name");
         measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
-        ChartToolTip.addToolTipOnHover(serie, lineChart);
+        //ChartToolTip.addToolTipOnHover(serie, lineChart);
         series.add(serie);
 
         logger.debug("Setting data...");
