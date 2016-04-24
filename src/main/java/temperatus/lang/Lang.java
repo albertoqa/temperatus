@@ -64,6 +64,9 @@ public class Lang {
     public static final String ALIAS_COLUMN = "aliasColumn";
     public static final String SERIAL_COLUMN = "serialColumn";
 
+    public static final String SEARCHING = "searching";
+    public static final String CONNECTED_DEVICES = "connectedDevices";
+
     // New Formula
     public static final String NEWFORMULA = "newFormula";
     public static final String OPERATIONLABEL = "operationLabel";
@@ -200,6 +203,7 @@ public class Lang {
 
     public static final String READING = "reading";
     public static final String REAL_TIME_TEMP = "realTimeTemp";
+    public static final String MISSION_INFO = "missionInfo";
 
     public static final String MISSION_CONFIGURED = "missionConfigured";
 
@@ -213,6 +217,7 @@ public class Lang {
     public static final String OK = "ok";
     public static final String APPLY = "apply";
     public static final String CONFIGURE = "configure";
+    public static final String FALSE = "false";
     public static final String HELP = "help";
     public static final String CONFIRMATION = "confirmation";
     public static final String CONFIRMATION_LOSE_PROGRESS = "confirmationLoseProgress";
@@ -267,6 +272,7 @@ public class Lang {
     public static final String CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR = "cannotReadTemperatureUnknownError";
 
     public static final String ERROR_STARTING_MISSION = "errorStartingMission";
+    public static final String ERROR_STOPPING_MISSION = "errorStoppingMission";
 
 
 

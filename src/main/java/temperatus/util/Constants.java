@@ -54,6 +54,7 @@ public class Constants {
     public static final String CONNECTED = "/fxml/ConnectedDevices.fxml";
     public static final String REAL_TIME_TEMP = "/fxml/device/RealTimeTemp.fxml";
     public static final String DEVICE_MISSION_INFO = "/fxml/device/DeviceMissionInformation.fxml";
+    public static final String DEVICE_GENERAL_INFO = "/fxml/device/DeviceGeneralInfo.fxml";
 
     public static final String MANAGE = "/fxml/Manage.fxml";
     public static final String MANAGE_SUBJECT = "/fxml/manage/ManageSubject.fxml";

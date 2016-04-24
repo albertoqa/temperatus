@@ -83,7 +83,6 @@ public class BaseController implements Initializable, AbstractController, Device
         deviceOperationsManager.init(); // start executors (and device scan task)
 
         deviceDetectorSource.addEventListener(this);
-        deviceDetectorSource.addEventListener(connectedDevicesController);
         deviceDetectorSource.addEventListener(deviceConnectedList);
 
         translate();    // Translate menu buttons

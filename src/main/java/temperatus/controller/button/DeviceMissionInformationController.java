@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
@@ -30,6 +32,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Show information related to the mission configured in the selected device
+ * Allow to start a new mission and disable a currently running mission
+ * <p>
  * Created by alberto on 24/4/16.
  */
 @Controller
@@ -52,6 +57,24 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML private Label missionSampleCount;
     @FXML private Label firstSampleTime;
 
+    @FXML private Label missionInProgressLabel;
+    @FXML private Label sutaMissionLabel;
+    @FXML private Label wftaLabel;
+    @FXML private Label sampleRateLabel;
+    @FXML private Label missionStartTimeLabel;
+    @FXML private Label rollOverLabel;
+    @FXML private Label totalMissionSamplesLabel;
+    @FXML private Label totalDeviceSamplesLabel;
+    @FXML private Label resolutionLabel;
+    @FXML private Label highAlarmLabel;
+    @FXML private Label lowAlarmLabel;
+    @FXML private Label missionSampleCountLabel;
+    @FXML private Label firstSampleTimeLabel;
+
+    @FXML private Button disableMissionButton;
+    @FXML private Button startMissionButton;
+    @FXML private Button temperatureLogButton;
+
     @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
     @Autowired DeviceReadTask deviceReadTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
@@ -64,7 +87,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         translate();
-
+        device = null;
     }
 
     /**
@@ -98,9 +121,8 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             public void onFailure(Throwable thrown) {
                 Platform.runLater(() -> {
                     stopProgressIndicator();
-                    // TODO show error
                     loadMissionData(false);
-                    logger.error("Error reading mission info from device - Future error");
+                    logger.error("Error reading mission info from device - Future error:  " + thrown.getMessage());
                 });
             }
         });
@@ -127,7 +149,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             missionSampleCount.setText(deviceMissionData.getMissionSampleCount());
             firstSampleTime.setText(deviceMissionData.getFirstSampleTime());
         } else {
-            // TODO show error
+            showAlert(Alert.AlertType.ERROR, language.get(Lang.READING_DEVICE_ERROR));
         }
     }
 
@@ -166,7 +188,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                 public void onSuccess(Boolean result) {
                     Platform.runLater(() -> {
                         stopProgressIndicator();
-                        // TODO set to false the mission running label
+                        missionInProgress.setText(language.get(Lang.FALSE));
                         logger.info("Device configured correctly");
                     });
                 }
@@ -174,7 +196,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                 public void onFailure(Throwable thrown) {
                     Platform.runLater(() -> {
                         stopProgressIndicator();
-                        // TODO show error
+                        showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_STOPPING_MISSION));
                         logger.error("Error starting mission on device - Future error");
                     });
                 }
@@ -202,6 +224,24 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     @Override
     public void translate() {
+        /*TODO
+            @FXML private Label missionInProgressLabel;
+    @FXML private Label sutaMissionLabel;
+    @FXML private Label wftaLabel;
+    @FXML private Label sampleRateLabel;
+    @FXML private Label missionStartTimeLabel;
+    @FXML private Label rollOverLabel;
+    @FXML private Label totalMissionSamplesLabel;
+    @FXML private Label totalDeviceSamplesLabel;
+    @FXML private Label resolutionLabel;
+    @FXML private Label highAlarmLabel;
+    @FXML private Label lowAlarmLabel;
+    @FXML private Label missionSampleCountLabel;
+    @FXML private Label firstSampleTimeLabel;
 
+    @FXML private Button disableMissionButton;
+    @FXML private Button startMissionButton;
+    @FXML private Button temperatureLogButton;
+         */
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.model.pojo.types.Device;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,10 +36,27 @@ public class DeviceGeneralInfoController implements Initializable, AbstractContr
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        translate();
     }
 
-    public void setInfo(String serial, String model, String altNames, String desc, String pos, String alias) {
+    /**
+     * Set device to show its info
+     * @param device device selected
+     */
+    void setDevice(Device device) {
+        setInfo(device.getSerial(), device.getModel(), device.getContainer().getAlternateNames(), device.getContainer().getDescription(), device.getDefaultPosition(), device.getAlias());
+    }
+
+    /**
+     * Load device info on the view
+     * @param serial device's serial
+     * @param model device's model
+     * @param altNames device's alternate names
+     * @param desc device's description
+     * @param pos device's default position (if any)
+     * @param alias device's alias (if any)
+     */
+    private void setInfo(String serial, String model, String altNames, String desc, String pos, String alias) {
         this.serial.setText(serial);
         this.model.setText(model);
         this.alternateNames.setText(altNames);
@@ -47,9 +65,16 @@ public class DeviceGeneralInfoController implements Initializable, AbstractContr
         this.alias.setText(alias);
     }
 
-
     @Override
     public void translate() {
 
+        /* TODO
+            @FXML private Label serialLabel;
+    @FXML private Label modelLabel;
+    @FXML private Label alternateNamesLabel;
+    @FXML private Label descriptionLabel;
+    @FXML private Label defaultPosLabel;
+    @FXML private Label aliasLabel;
+         */
     }
 }

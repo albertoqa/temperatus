@@ -23,6 +23,7 @@
                         <Font name="Avenir Light" size="35.0" />
                      </font>
                   </Label>
+                  <Button fx:id="configureButton" onAction="#configureIbutton" layoutX="683.0" layoutY="22.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Configure" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <HBox fx:id="searchingIndicator" alignment="CENTER" layoutX="295.0" layoutY="154.0" prefHeight="100.0" prefWidth="191.0" spacing="30.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="296.0">

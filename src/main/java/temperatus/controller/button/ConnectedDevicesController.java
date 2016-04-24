@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceConnectedList;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
@@ -44,6 +45,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @FXML private ProgressIndicator progressIndicator;
     @FXML private HBox searchingIndicator;
 
+    @FXML private Button configureButton;
+
     private TableColumn<Device, String> modelColumn = new TableColumn<>();
     private TableColumn<Device, String> serialColumn = new TableColumn<>();
     private TableColumn<Device, String> aliasColumn = new TableColumn<>();
@@ -52,6 +55,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @Autowired IbuttonService ibuttonService;
     @Autowired DeviceConnectedList deviceConnectedList;
 
+    private static final String EMPTY = "";
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
 
     @Override
@@ -66,7 +70,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(deviceConnectedList.getDevices());
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
-        connectedDevicesTable.setPlaceholder(new Label(""));    // no placeholder
+        connectedDevicesTable.setPlaceholder(new Label(EMPTY));    // no placeholder
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, device) -> {
             infoTabPane.getSelectionModel().clearSelection();   // stop RealTime task if was selected
@@ -78,7 +82,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         connectedDevicesTable.getSelectionModel().clearSelection();
         deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) c -> {
             updateIndicator();
-
         });
 
         updateIndicator();
@@ -90,9 +93,12 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     private void updateIndicator() {
         if (deviceConnectedList.getDevices().size() == 0) {
             searchingIndicator.setVisible(true);
+            configureButton.setDisable(true);
         } else {
             searchingIndicator.setVisible(false);
+            configureButton.setDisable(false);
         }
+        logger.debug("No devices... showing search indicator");
     }
 
     /**
@@ -104,22 +110,55 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         infoTabPane.getTabs().clear();      // clear previous selection -> stop all tasks
         Animation.fadeInTransition(infoTabPane);
 
-        infoTabPane.getTabs().add(generalTab(device));
+        infoTabPane.getTabs().add(generalTab(device));  // every device has a general tab
 
+        // if device can read temperature show this view
         if (device.getContainer() != null && temperatureContainerSupported(device.getContainer())) {
             infoTabPane.getTabs().add(currentTemperatureTab(device));
         }
 
+        // if device can configure missions show this view
         if (device.getContainer() != null && missionContainerSupported(device.getContainer())) {
             infoTabPane.getTabs().add(deviceMissionTab(device));
         }
     }
 
-    private Tab generalTab(Device device) {
-
-        return new Tab();
+    /**
+     * Open the view to configure a new mission on the device
+     */
+    @FXML
+    private void configureIbutton() {
+        VistaNavigator.loadVista(Constants.CONFIG_DEVICE);
     }
 
+    /**
+     * Load the general information of the device
+     *
+     * @param device device to show
+     * @return tab with the general information
+     */
+    private Tab generalTab(Device device) {
+        Tab generalTab = new Tab();
+        StackPane stackPane = new StackPane();
+
+        // Load a new pane for the tab
+        Node generalInfoPane = VistaNavigator.loader.load(ConnectedDevicesController.class.getResource(Constants.DEVICE_GENERAL_INFO));
+        DeviceGeneralInfoController deviceGeneralInfoController = VistaNavigator.loader.getController();
+        deviceGeneralInfoController.setDevice(device);
+
+        stackPane.getChildren().setAll(generalInfoPane);
+        generalTab.setContent(stackPane);
+        generalTab.setText(language.get(Lang.GENERAL_TAB));
+
+        return generalTab;
+    }
+
+    /**
+     * Load a tab to check the missions of the device
+     *
+     * @param device device to read from
+     * @return tab with the mission information
+     */
     private Tab deviceMissionTab(Device device) {
         Tab missionInfoTab = new Tab();
         StackPane stackPane = new StackPane();
@@ -131,15 +170,17 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         stackPane.getChildren().setAll(missionInfoPane);
         missionInfoTab.setContent(stackPane);
-        missionInfoTab.setText("Mission Info");
-
-        missionInfoTab.setOnSelectionChanged(t -> {
-
-        });
+        missionInfoTab.setText(language.get(Lang.MISSION_INFO));
 
         return missionInfoTab;
     }
 
+    /**
+     * Load a tab to check the temperature in real time from the device selected
+     *
+     * @param device device to read from
+     * @return tab with the temperature information
+     */
     private Tab currentTemperatureTab(Device device) {
         Tab realTimeTempTab = new Tab();
         StackPane stackPane = new StackPane();
@@ -151,8 +192,11 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         stackPane.getChildren().setAll(realTimeTempPane);
         realTimeTempTab.setContent(stackPane);
-        realTimeTempTab.setText("Real Time Temperature");
+        realTimeTempTab.setText(language.get(Lang.REAL_TIME_TEMP));
 
+        /**
+         * Stop the task of read temperature if tab is not selected and start it when selected
+         */
         realTimeTempTab.setOnSelectionChanged(t -> {
             if (realTimeTempTab.isSelected()) {
                 realTimeTemperatureController.startReading();
@@ -187,6 +231,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      * container.
      */
     private boolean temperatureContainerSupported(OneWireContainer owc) {
+        logger.debug("Checking if temperatureContainer supported");
         return (owc instanceof TemperatureContainer);
     }
 
@@ -198,15 +243,19 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      * container.
      */
     private boolean missionContainerSupported(OneWireContainer owc) {
+        logger.debug("Checking if missionContainer supported");
         return (owc instanceof MissionContainer);
     }
 
     @Override
     public void translate() {
-        modelColumn.setText("  Model");
-        serialColumn.setText("  Serial");
-        aliasColumn.setText("  Alias");
-        positionColumn.setText("  Default Position");
+        modelColumn.setText(language.get(Lang.MODEL_COLUMN));
+        serialColumn.setText(language.get(Lang.SERIAL_COLUMN));
+        aliasColumn.setText(language.get(Lang.ALIAS_COLUMN));
+        positionColumn.setText(language.get(Lang.DEFAULT_POS_COLUMN));
+        searchingLabel.setText(language.get(Lang.SEARCHING));
+        headerLabel.setText(language.get(Lang.CONNECTED_DEVICES));
+        configureButton.setText(language.get(Lang.CONFIGURE));
     }
 
 }
