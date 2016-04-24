@@ -3,10 +3,7 @@ package temperatus.controller.button;
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,8 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
-import temperatus.listener.DeviceDetector;
-import temperatus.listener.DeviceDetectorListener;
+import temperatus.device.DeviceConnectedList;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
@@ -37,7 +33,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 23/1/16.
  */
 @Controller
-public class ConnectedDevicesController implements Initializable, AbstractController, DeviceDetectorListener {
+public class ConnectedDevicesController implements Initializable, AbstractController {
 
     @FXML private Label headerLabel;
     @FXML private Label searchingLabel;
@@ -53,9 +49,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     private TableColumn<Device, String> aliasColumn = new TableColumn<>();
     private TableColumn<Device, String> positionColumn = new TableColumn<>();
 
-    private ObservableList<Device> devicesConnected = FXCollections.observableArrayList();
-
     @Autowired IbuttonService ibuttonService;
+    @Autowired DeviceConnectedList deviceConnectedList;
 
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
 
@@ -69,7 +64,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         aliasColumn.setCellValueFactory(cellData -> cellData.getValue().aliasProperty());
         positionColumn.setCellValueFactory(cellData -> cellData.getValue().defaultPositionProperty());
 
-        connectedDevicesTable.setItems(devicesConnected);
+        connectedDevicesTable.setItems(deviceConnectedList.getDevices());
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
         connectedDevicesTable.setPlaceholder(new Label(""));    // no placeholder
 
@@ -81,8 +76,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         });
 
         connectedDevicesTable.getSelectionModel().clearSelection();
-        devicesConnected.addListener((ListChangeListener<Device>) c -> {
+        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) c -> {
             updateIndicator();
+
         });
 
         updateIndicator();
@@ -92,7 +88,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      * If there is no device connected, show the progressIndicator to let the user know that the application is searching
      */
     private void updateIndicator() {
-        if (devicesConnected.size() == 0) {
+        if (deviceConnectedList.getDevices().size() == 0) {
             searchingIndicator.setVisible(true);
         } else {
             searchingIndicator.setVisible(false);
@@ -101,6 +97,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     /**
      * Check the type of device selected and the container that implements. Load the tabs that correspond to this device.
+     *
      * @param device device to show info of
      */
     private void loadInfo(Device device) {
@@ -113,7 +110,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             infoTabPane.getTabs().add(currentTemperatureTab(device));
         }
 
-        if(device.getContainer() != null && missionContainerSupported(device.getContainer())) {
+        if (device.getContainer() != null && missionContainerSupported(device.getContainer())) {
             infoTabPane.getTabs().add(deviceMissionTab(device));
         }
     }
@@ -168,68 +165,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     }
 
     @Override
-    public void arrival(DeviceDetector event) {
-        OneWireContainer container = event.getContainer();
-        String adapterName = event.getAdapterName();
-        String adapterPort = event.getAdapterPort();
-
-        String model = container.getName();
-        String serial = container.getAddressAsString();
-        String alternateNames = container.getAlternateNames();
-
-        Device device = new Device();
-        device.setContainer(container);
-        device.setModel(model);
-        device.setSerial(serial);
-        device.setAdapterName(adapterName);
-        device.setAdapterPort(adapterPort);
-
-        Platform.runLater(() -> {
-            addDeviceToTable(device);
-        });
-    }
-
-    private void addDeviceToTable(Device device) {
-
-        Ibutton ibutton = ibuttonService.getBySerial(device.getSerial());
-
-        if (ibutton != null) {
-            device.setAlias(ibutton.getAlias());
-
-            if (ibutton.getPosition() != null) {
-                device.setDefaultPosition(ibutton.getPosition().getPlace());
-            }
-        }
-
-        devicesConnected.add(device);
-    }
-
-    private void removeDeviceFromTable(String serial) {
-        for (Device device : devicesConnected) {
-            if (serial.equals(device.getSerial())) {
-                devicesConnected.remove(device);
-                try {
-                    connectedDevicesTable.getSelectionModel().clearSelection();
-                    Animation.fadeOutTransition(infoTabPane);
-                } catch (Exception e) {
-                    logger.warn("Exception thrown while removing device from table: " + e.getMessage());
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void departure(DeviceDetector event) {
-        String serial = event.getSerial();
-
-        Platform.runLater(() -> removeDeviceFromTable(serial));
-    }
-
-    @Override
     public void reload(Object object) {
         if (object instanceof Ibutton) {
-            for (Device device : devicesConnected) {
+            for (Device device : deviceConnectedList.getDevices()) {
                 if (device.getSerial().equals(((Ibutton) object).getSerial())) {
                     device.setAlias(((Ibutton) object).getAlias());
 
@@ -238,7 +176,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                     }
                 }
             }
-
         }
     }
 
