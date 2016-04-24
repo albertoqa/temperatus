@@ -96,9 +96,12 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             }
 
             public void onFailure(Throwable thrown) {
-                stopProgressIndicator();
-                loadMissionData(false);
-                logger.error("Error reading mission info from device - Future error");
+                Platform.runLater(() -> {
+                    stopProgressIndicator();
+                    // TODO show error
+                    loadMissionData(false);
+                    logger.error("Error reading mission info from device - Future error");
+                });
             }
         });
     }
@@ -169,9 +172,11 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                 }
 
                 public void onFailure(Throwable thrown) {
-                    stopProgressIndicator();
-                    // TODO show error
-                    logger.error("Error starting mission on device - Future error");
+                    Platform.runLater(() -> {
+                        stopProgressIndicator();
+                        // TODO show error
+                        logger.error("Error starting mission on device - Future error");
+                    });
                 }
             });
         }
