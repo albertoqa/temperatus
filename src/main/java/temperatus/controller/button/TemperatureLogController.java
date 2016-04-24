@@ -79,7 +79,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
-        //ChartToolTip.addToolTipOnHover(serie, lineChart);
+        //ChartToolTip.addToolTipOnHover(serie, lineChart); // TODO why is not workin?
         series.add(serie);
 
         logger.debug("Setting data...");

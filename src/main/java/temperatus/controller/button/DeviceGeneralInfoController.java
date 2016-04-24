@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Show the general info of the device... all devices implement this view
+ * <p>
  * Created by alberto on 13/2/16.
  */
 @Controller
