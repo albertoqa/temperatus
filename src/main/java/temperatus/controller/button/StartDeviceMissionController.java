@@ -7,10 +7,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.CheckListView;
+import org.controlsfx.control.Notifications;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,8 @@ import temperatus.controller.AbstractController;
 import temperatus.device.DeviceConnectedList;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionStartTask;
+import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
@@ -42,11 +47,18 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
     @FXML private Button configureButton;
     @FXML private Button helpButton;
+    @FXML private Button saveButton;
+
+    @FXML private StackPane stackPane;
+    @FXML private AnchorPane anchorPane;
+
+    @FXML private TextArea infoArea;
 
     @Autowired DeviceMissionStartTask deviceMissionStartTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
     @Autowired DeviceConnectedList deviceConnectedList;
 
+    private static final String DEFAULT = "Default";
     private static Logger logger = LoggerFactory.getLogger(StartDeviceMissionController.class.getName());
 
     @Override
@@ -54,17 +66,12 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         VistaNavigator.setController(this);
         translate();
 
-        startGroup.getToggles().addAll(immediatelyCheck, onDateCheck, onAlarmCheck, delayCheck);
-        immediatelyCheck.setSelected(true);
-        addListenersToStartTypes();
-
-        resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
-        resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
+        initializeViewElements();
 
         deviceCheckListView.setItems(deviceConnectedList.getDevices());
         configurationsCombobox.setItems(FXCollections.observableArrayList(configurationService.getAll()));
 
-        loadDefaultConfiguration();
+        loadDefaultConfiguration();     // load the default configuration
 
         new AutoCompleteComboBoxListener<>(configurationsCombobox);
 
@@ -99,6 +106,9 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
             logger.info("Saved: " + configuration);
 
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Error in the configuration... " + ex.getMessage());
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
             Alert alert = new Alert(Alert.AlertType.ERROR, "Duplicate entry");
@@ -110,29 +120,15 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         }
     }
 
-
     /**
      * Search for the default configuration and load it on screen
      */
     private void loadDefaultConfiguration() {
         for (Configuration configuration : configurationsCombobox.getItems()) {
-            if ("Default".equals(configuration.getName())) {
+            if (DEFAULT.equals(configuration.getName())) {
                 loadConfiguration(configuration);
                 break;
             }
-        }
-    }
-
-    @Override
-    public void translate() {
-
-    }
-
-    @Override
-    public void reload(Object object) {
-        if (object instanceof Configuration) {
-            configurationsCombobox.getItems().add((Configuration) object);
-            configurationsCombobox.getSelectionModel().select((Configuration) object);
         }
     }
 
@@ -143,34 +139,69 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @FXML
     private void startMission() {
         Configuration configuration = new Configuration();
-        generateConfiguration(configuration);  // current configuration options
-        if (isConfigurationValid(configuration)) {
+        try {
+            generateConfiguration(configuration);  // current configuration options
             for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
 
-                deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(),false);  // device connection data
+                deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
                 deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
                 ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
-
-                // TODO show progress???
+                startProgressIndicator();
 
                 Futures.addCallback(future, new FutureCallback<Boolean>() {
                     public void onSuccess(Boolean result) {
                         Platform.runLater(() -> {
                             logger.info("Device configured correctly");
+                            Notifications.create().title(language.get(Lang.MISSION_CONFIGURED)).text(language.get(Lang.SERIAL_COLUMN) + device.getSerial()).show();
+                            stopProgressIndicator();
                         });
                     }
 
                     public void onFailure(Throwable thrown) {
                         logger.error("Error starting mission on device - Future error");
+                        showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_STARTING_MISSION) + device.getSerial());
+                        stopProgressIndicator();
                     }
                 });
             }
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Error in the configuration... " + ex.getMessage());
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         }
     }
 
-    // TODO
-    private boolean isConfigurationValid(Configuration configuration) {
-        return true;
+    /**
+     * Start the progress indicator and blur the pane
+     */
+    private void startProgressIndicator() {
+        anchorPane.setDisable(true);    // blur pane
+        VBox box = new VBox(new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS)); // add a progress indicator to the view
+        box.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(box);
+    }
+
+    /**
+     * End the progress indicator and activate the anchor pane
+     */
+    private void stopProgressIndicator() {
+        stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        anchorPane.setDisable(false);
+    }
+
+    @Override
+    public void reload(Object object) {
+        if (object instanceof Configuration) {
+            configurationsCombobox.getItems().add((Configuration) object);
+            configurationsCombobox.getSelectionModel().select((Configuration) object);
+        }
+    }
+
+    @Override
+    public void translate() {
+        translateCommon();
+        configureButton.setText(language.get(Lang.CONFIGURE));
+        saveButton.setText(language.get(Lang.SAVE));
+        helpButton.setText(language.get(Lang.HELP));
     }
 
 }

@@ -201,6 +201,8 @@ public class Lang {
     public static final String READING = "reading";
     public static final String REAL_TIME_TEMP = "realTimeTemp";
 
+    public static final String MISSION_CONFIGURED = "missionConfigured";
+
     // Common
     public static final String SAVE = "save";
     public static final String UPDATE = "update";
@@ -210,6 +212,8 @@ public class Lang {
     public static final String CONTINUE = "continue";
     public static final String OK = "ok";
     public static final String APPLY = "apply";
+    public static final String CONFIGURE = "configure";
+    public static final String HELP = "help";
     public static final String CONFIRMATION = "confirmation";
     public static final String CONFIRMATION_LOSE_PROGRESS = "confirmationLoseProgress";
 
@@ -254,12 +258,15 @@ public class Lang {
     public static final String INVALID_NAME_FORMULA = "invalidNameFormula";
     public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";
     public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";
+    public static final String ERROR_PARSE_DATE = "errorParseDate";
 
     public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";
     public static final String CANNOT_DELETE_DEFAULT_CONF = "cannotDeleteDefaultConf";
 
     public static final String CANNOT_READ_TEMPERATURE_MISSION_ACTIVE = "cannotReadTemperatureMissionActive";
     public static final String CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR = "cannotReadTemperatureUnknownError";
+
+    public static final String ERROR_STARTING_MISSION = "errorStartingMission";
 
 
 

@@ -122,7 +122,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
     /**
      * Add the new read temperature to the graph and to the textField
      *
-     * @param temp temperature just read
+     * @param temp temperature just read from the device
      */
     private void addNewTemperature(double temp) {
         newTemperature = true;

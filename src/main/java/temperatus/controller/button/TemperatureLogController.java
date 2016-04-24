@@ -10,20 +10,26 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.exporter.MissionExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
+import temperatus.model.pojo.Position;
+import temperatus.model.pojo.Record;
 import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Modal window showing a graphic with the data of a selected device
@@ -36,6 +42,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @FXML private StackPane stackPane;
     @FXML private Label headerLabel;
     @FXML private Button backButton;
+    @FXML private Button exportButton;
 
     @FXML private LineChart<Date, Number> lineChart;
     @FXML private DateAxis dateAxis;
@@ -43,6 +50,8 @@ public class TemperatureLogController implements Initializable, AbstractControll
 
     private ObservableList<Measurement> measurements;
     private ObservableList<XYChart.Series<Date, Number>> series;
+    private String serial;
+    private String defaultPosition;
 
     private static Logger logger = LoggerFactory.getLogger(TemperatureLogController.class.getName());
 
@@ -55,8 +64,6 @@ public class TemperatureLogController implements Initializable, AbstractControll
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
-        dateAxis.setLabel("Time of measurement");
-        temperatureAxis.setLabel("Temperature in ºC");
     }
 
     /**
@@ -64,8 +71,10 @@ public class TemperatureLogController implements Initializable, AbstractControll
      *
      * @param measurements list of measurements to show
      */
-    public void setData(List<Measurement> measurements) {
+    public void setData(List<Measurement> measurements, String serial, String defaultPosition) {
         this.measurements.addAll(measurements);
+        this.serial = serial;
+        this.defaultPosition = defaultPosition;
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
@@ -74,6 +83,49 @@ public class TemperatureLogController implements Initializable, AbstractControll
         series.add(serie);
 
         logger.debug("Setting data...");
+    }
+
+    /**
+     * Show a fileChooser and export this mission to the chosen file
+     *
+     * @throws IOException
+     */
+    @FXML
+    private void export() throws IOException {
+        logger.info("Exporting device data...");
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
+
+        File file = fileChooser.showSaveDialog(null);   //Show save file dialog
+
+        if (file != null) {
+            // create a new mission exporter and set the data to export
+            MissionExporter missionExporter = new MissionExporter();
+
+            Record record = new Record();
+            Set<Measurement> measurementSet = new HashSet<>(measurements);
+            record.setMeasurements(measurementSet);
+
+            if (defaultPosition != null && !defaultPosition.isEmpty()) {
+                record.setPosition(new Position(defaultPosition));
+            } else {
+                record.setPosition(new Position(serial));
+            }
+
+            List<Record> records = new ArrayList<>();
+            records.add(record);
+
+            // period = 1, no formulas and no all records needed
+            missionExporter.setData(1, serial, records, new ArrayList<>(), null);
+
+            Workbook workBook = missionExporter.export();
+
+            FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
+            workBook.write(fileOut);
+            fileOut.close();
+        }
+        back();      // close the window
     }
 
     /**
@@ -86,7 +138,10 @@ public class TemperatureLogController implements Initializable, AbstractControll
 
     @Override
     public void translate() {
+        dateAxis.setLabel("Time of measurement");
+        temperatureAxis.setLabel("Temperature in ºC");
         headerLabel.setText(language.get(Lang.TEMPERATURE_LOG));
         backButton.setText(language.get(Lang.BACK_BUTTON));
+        exportButton.setText(language.get(Lang.EXPORT));
     }
 }

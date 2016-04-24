@@ -25,7 +25,7 @@
                <image>
                   <Image url="@../../../images/noimage.jpg" />
                </image></ImageView>
-            <AnchorPane layoutX="32.0" layoutY="463.0" prefHeight="200.0" prefWidth="717.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+            <AnchorPane layoutX="32.0" layoutY="463.0" prefHeight="200.0" prefWidth="717.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="466.0">
                <children>
                   <Label fx:id="nameLabel" layoutX="32.0" layoutY="26.0" styleClass="mainLabel" text="GAME 12 BOTONES" textFill="WHITE" />
                   <Label fx:id="numberOfButtonsLabel" alignment="CENTER_RIGHT" layoutX="66.0" layoutY="71.0" prefHeight="16.0" prefWidth="166.0" styleClass="label-paneinfo" text="Number of buttons:" textFill="WHITE" />

@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" collapsible="false" animated="false" prefHeight="494.0" prefWidth="810.0" stylesheets="@../../styles/titlePane.css" text="untitled" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.NewConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" prefHeight="494.0" prefWidth="810.0" stylesheets="@../../styles/titlePane.css" text="untitled" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.NewConfigurationController">
    <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
@@ -23,8 +23,8 @@
                   <RadioButton fx:id="onAlarmCheck" layoutX="130.0" layoutY="289.0" mnemonicParsing="false" prefWidth="130.0" text="On Alarm" AnchorPane.leftAnchor="130.0" />
                   <RadioButton fx:id="onDateCheck" layoutX="130.0" layoutY="256.0" mnemonicParsing="false" prefWidth="130.0" text="On Date" AnchorPane.leftAnchor="130.0" />
                   <Label fx:id="alarmLabel" alignment="CENTER_RIGHT" layoutX="570.0" layoutY="197.0" styleClass="label-paneinfo" text="Alarm:" />
-                  <Spinner fx:id="highAlarm" layoutX="505.0" layoutY="225.0" />
-                  <Spinner fx:id="lowAlarm" layoutX="506.0" layoutY="269.0" />
+                  <Spinner fx:id="highAlarm" disable="true" editable="true" layoutX="505.0" layoutY="225.0" />
+                  <Spinner fx:id="lowAlarm" disable="true" editable="true" layoutX="506.0" layoutY="269.0" />
                   <Label fx:id="highLabel" alignment="CENTER_RIGHT" layoutX="685.0" layoutY="231.0" text="High" />
                   <Label fx:id="lowLabel" alignment="CENTER_RIGHT" layoutX="686.0" layoutY="275.0" text="Low" />
                   <TextField fx:id="dateInput" layoutX="276.0" layoutY="253.0" styleClass="form" text="18/12/2016 10:00:00" visible="false" />

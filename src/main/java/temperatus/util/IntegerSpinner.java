@@ -37,15 +37,15 @@ public class IntegerSpinner {
 
                 } catch (NumberFormatException ex) {
                     logger.warn("Error parsing spinner value");
-                    c.setText("1");
+                    c.setText("0");
                 }
             }
             return c;
         };
 
-        TextFormatter<Integer> periodFormatter = new TextFormatter<Integer>(new IntegerStringConverter(), 1, filter);
+        TextFormatter<Integer> periodFormatter = new TextFormatter<>(new IntegerStringConverter(), 0, filter);
 
-        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10000, 1));   // between 1-1000 and first value 1
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0));   // between 0-1000 and first value 0
         spinner.setEditable(true);
         spinner.getEditor().setTextFormatter(periodFormatter);
     }

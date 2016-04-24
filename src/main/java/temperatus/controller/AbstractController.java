@@ -1,5 +1,6 @@
 package temperatus.controller;
 
+import javafx.scene.control.Alert;
 import temperatus.lang.Language;
 
 /**
@@ -25,4 +26,14 @@ public interface AbstractController {
      */
     void translate();
 
+    /**
+     * Show a new alert to the user
+     *
+     * @param alertType type of alert
+     * @param message   message to show
+     */
+    default void showAlert(Alert.AlertType alertType, String message) {
+        Alert alert = new Alert(alertType, message);
+        alert.show();
+    }
 }

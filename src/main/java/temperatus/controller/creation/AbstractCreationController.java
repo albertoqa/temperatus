@@ -1,7 +1,6 @@
 package temperatus.controller.creation;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import temperatus.controller.AbstractController;
@@ -25,11 +24,6 @@ public abstract class AbstractCreationController implements AbstractController {
     private void cancel() {
         VistaNavigator.closeModal(titledPane);
         VistaNavigator.baseController.selectBase();
-    }
-
-    protected void showAlert(Alert.AlertType alertType, String message) {
-        Alert alert = new Alert(alertType, message);
-        alert.show();
     }
 
 }

@@ -41,12 +41,7 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
         configuration = null;
         translate();
 
-        startGroup.getToggles().addAll(immediatelyCheck, onDateCheck, onAlarmCheck, delayCheck);
-        immediatelyCheck.setSelected(true);
-        addListenersToStartTypes();
-
-        resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
-        resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
+        initializeViewElements();
     }
 
     /**
@@ -84,8 +79,8 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
             logger.info("Saved: " + configuration);
 
         } catch (ControlledTemperatusException ex) {
-            logger.warn("Invalid name? --- " + ex.getMessage());
-            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_NAME));
+            logger.warn("Error in the configuration... " + ex.getMessage());
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
             showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
@@ -104,44 +99,12 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
         VistaNavigator.baseController.selectBase();
     }
 
-    /**
-     * Show a new alert to the user
-     *
-     * @param alertType type of alert
-     * @param message   message to show
-     */
-    private void showAlert(Alert.AlertType alertType, String message) {
-        Alert alert = new Alert(alertType, message);
-        alert.show();
-    }
-
     @Override
     public void translate() {
+        translateCommon();
+
         titledPane.setText(language.get(Lang.NEW_CONFIG));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
-
-        rateLabel.setText(language.get(Lang.RATE_LABEL));
-        resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
-        startLabel.setText(language.get(Lang.STARTDATELABEL));
-        highLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
-        lowLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
-        alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL));
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
-
-        immediatelyCheck.setText(language.get(Lang.IMMEDIATELY));
-        onDateCheck.setText(language.get(Lang.ON_DATE));
-        onAlarmCheck.setText(language.get(Lang.ON_ALARM));
-        delayCheck.setText(language.get(Lang.ON_DELAY));
-
-        syncTime.setText(language.get(Lang.SYNC_CHECK));
-        rollOver.setText(language.get(Lang.ROLL_OVER_CHECK));
-        activateAlarmCheck.setText(language.get(Lang.SET_ALARM_CHECK));
-
-        rateInput.setPromptText(language.get(Lang.RATE_PROMPT));
-        observationsArea.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
     }
 }

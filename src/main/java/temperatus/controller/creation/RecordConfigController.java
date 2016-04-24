@@ -295,6 +295,13 @@ public class RecordConfigController extends AbstractCreationController implement
                                 measurementService.save(measurement);
                             }
                         }
+                    } else {
+                        for (Measurement measurement : validatedData.getMeasurements()) {
+                            if (measurement.getDate().before(startDate) && measurement.getDate().after(endDate)) {
+                                updateProgress(actualMeasurement++, totalMeasurements);
+                                measurementService.delete(measurement); // TODO is this working??
+                            }
+                        }
                     }
                 }
 
