@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
@@ -19,6 +20,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -64,16 +66,26 @@ public class DeviceReadTask extends DeviceTask {
 
     private String fileName;
 
+    // mission features
+    private String[] info = new String[TOTAL_FEATURES];
+
+    // get the temperature log
+    private Measurement[] measurements = null;
+
     private static Logger logger = LoggerFactory.getLogger(DeviceReadTask.class.getName());
 
     @Override
-    public File call() throws Exception {
+    public Object call() throws Exception {
         try {
             logger.info("Reading device...");
             deviceSemaphore.acquire();
             logger.debug("Read Semaphore acquired!");
 
-            return readDataAndSaveToFile();
+            if(saveToFile) {
+                return readDataAndSaveToFile();
+            } else {
+                return readDataAsObject();
+            }
 
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
@@ -83,14 +95,11 @@ public class DeviceReadTask extends DeviceTask {
         }
     }
 
-    private File readDataAndSaveToFile() {
+    private void readData() {
         try {
             setUpAdapter();
 
             MissionContainer mContainer = (MissionContainer) container;
-
-            // mission features
-            String[] info = new String[TOTAL_FEATURES];
 
             logger.info("Starting the device's information reading...");
 
@@ -163,8 +172,6 @@ public class DeviceReadTask extends DeviceTask {
 
             logger.info("Reading mission measurements...");
 
-            // get the temperature log
-            Measurement[] measurements = null;
             if (mContainer.getMissionChannelEnable(CHANNEL_O)) {
                 measurements = new Measurement[mContainer.getMissionSampleCount(CHANNEL_O)];
 
@@ -176,60 +183,72 @@ public class DeviceReadTask extends DeviceTask {
             info[PART_NUMBER] = ((OneWireContainer41) mContainer).getName();
             info[SERIAL] = ((OneWireContainer41) mContainer).getAddressAsString();
 
-            ///////////////////////////////////////////////
-
-            if (fileName == null) {
-                fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".csv";
-            }
-            logger.info("Filename: " + fileName);
-
-            FileWriter fileWriter = null;
-            CSVPrinter csvFilePrinter = null;
-            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
-
-            try {
-                logger.info("Writing csv");
-
-                fileWriter = new FileWriter(fileName);
-                csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
-
-                for(int i = 0; i < TOTAL_FEATURES; i++) {
-                    csvFilePrinter.printRecord(INFO_TO_WRITE[i] + info[i]);
-                }
-
-                csvFilePrinter.println();
-                csvFilePrinter.printRecord(FILE_HEADER);
-
-                if (measurements != null) {
-                    for (Measurement measurement : measurements) {
-                        List<String> m = new ArrayList<>();
-                        m.add(Constants.dateTimeFormat.format(measurement.getDate()));
-                        m.add(String.valueOf(Unit.C));
-                        m.add(String.valueOf(measurement.getData()));
-                        csvFilePrinter.printRecord(m);
-                    }
-                }
-
-            } catch (Exception e) {
-                logger.error("Error in CsvFileWriter: " + e.getMessage());
-            } finally {
-                try {
-                    if (fileWriter != null) {
-                        fileWriter.flush();
-                        fileWriter.close();
-                    }
-                    if (csvFilePrinter != null) {
-                        csvFilePrinter.close();
-                    }
-                } catch (IOException e) {
-                    logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
-                }
-            }
         } catch (Exception e) {
             logger.error("Cannot start mission: " + e.getMessage());
-            return null;
         } finally {
             releaseAdapter();
+        }
+    }
+
+    private DeviceMissionData readDataAsObject() {
+        readData();
+
+        DeviceMissionData deviceMissionData = new DeviceMissionData();
+        deviceMissionData.setMeasurements(new ArrayList<>(Arrays.asList(measurements)));
+
+        // TODO
+        return deviceMissionData;
+    }
+
+    private File readDataAndSaveToFile() {
+        readData();
+
+        if (fileName == null) {
+            fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".csv";
+        }
+        logger.info("Filename: " + fileName);
+
+        FileWriter fileWriter = null;
+        CSVPrinter csvFilePrinter = null;
+        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
+
+        try {
+            logger.info("Writing csv");
+
+            fileWriter = new FileWriter(fileName);
+            csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
+
+            for (int i = 0; i < TOTAL_FEATURES; i++) {
+                csvFilePrinter.printRecord(INFO_TO_WRITE[i] + info[i]);
+            }
+
+            csvFilePrinter.println();
+            csvFilePrinter.printRecord(FILE_HEADER);
+
+            if (measurements != null) {
+                for (Measurement measurement : measurements) {
+                    List<String> m = new ArrayList<>();
+                    m.add(Constants.dateTimeFormat.format(measurement.getDate()));
+                    m.add(String.valueOf(Unit.C));
+                    m.add(String.valueOf(measurement.getData()));
+                    csvFilePrinter.printRecord(m);
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error("Error in CsvFileWriter: " + e.getMessage());
+        } finally {
+            try {
+                if (fileWriter != null) {
+                    fileWriter.flush();
+                    fileWriter.close();
+                }
+                if (csvFilePrinter != null) {
+                    csvFilePrinter.close();
+                }
+            } catch (IOException e) {
+                logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
+            }
         }
 
         return new File(fileName);

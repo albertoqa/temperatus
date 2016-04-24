@@ -147,7 +147,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         if (isConfigurationValid(configuration)) {
             for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
 
-                deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
+                deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(),false);  // device connection data
                 deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
                 ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
 

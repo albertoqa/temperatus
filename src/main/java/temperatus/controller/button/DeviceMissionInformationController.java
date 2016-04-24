@@ -15,9 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionDisableTask;
+import temperatus.device.task.DeviceReadTask;
 import temperatus.model.pojo.types.Device;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -35,10 +37,13 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML private AnchorPane anchorPane;
 
     @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
+    @Autowired DeviceReadTask deviceReadTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Device device;
     private static Logger logger = LoggerFactory.getLogger(DeviceMissionInformationController.class.getName());
+
+    private DeviceMissionData deviceMissionData;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,8 +58,46 @@ public class DeviceMissionInformationController implements Initializable, Abstra
      */
     void setDevice(Device device) {
         this.device = device;
-        // TODO show progress indicator
-        // TODO read task
+        readMissionInfo();
+    }
+
+    /**
+     * Read the information of the mission from the device and load it in the view
+     */
+    private void readMissionInfo() {
+        startProgressIndicator();
+        deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
+        ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
+
+        Futures.addCallback(future, new FutureCallback<Object>() {
+            public void onSuccess(Object result) {
+                Platform.runLater(() -> {
+                    stopProgressIndicator();
+                    deviceMissionData = (DeviceMissionData) result;
+                    loadMissionData(true);
+                    logger.info("Device read correctly");
+                });
+            }
+            public void onFailure(Throwable thrown) {
+                stopProgressIndicator();
+                loadMissionData(false);
+                logger.error("Error reading mission info from device - Future error");
+            }
+        });
+    }
+
+    /**
+     * Show the mission data on the screen
+     * @param success was the operation of read data success?
+     */
+    private void loadMissionData(boolean success) {
+        if(success) {
+
+
+
+        } else {
+            // TODO show error
+        }
     }
 
     /**
@@ -62,7 +105,9 @@ public class DeviceMissionInformationController implements Initializable, Abstra
      */
     @FXML
     private void showTemperatureData() {
-
+        if(deviceMissionData.getMeasurements() != null) {
+            // TODO
+        }
     }
 
     /**
@@ -82,14 +127,14 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     private void stopDeviceMission() {
         if (device != null) {
             startProgressIndicator();
-
-            deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());  // device connection data
+            deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 public void onSuccess(Boolean result) {
                     Platform.runLater(() -> {
                         stopProgressIndicator();
+                        // TODO set to false the mission running label
                         logger.info("Device configured correctly");});
                 }
 

@@ -69,6 +69,7 @@ public abstract class DeviceTask implements Callable {
     private DSPortAdapter adapter = null;
     private String adapterName = null;
     private String adapterPort = null;
+    boolean saveToFile = false;
 
     /**
      * Set up the adapter and container, select the port and start adapter's exclusivity
@@ -117,11 +118,13 @@ public abstract class DeviceTask implements Callable {
      * @param container   device's container
      * @param adapterName adapter where the device is connected name
      * @param adapterPort port where the adapter is connected
+     * @param saveToFile  save information to a file
      */
-    public void setDeviceData(OneWireContainer container, String adapterName, String adapterPort) {
+    public void setDeviceData(OneWireContainer container, String adapterName, String adapterPort, boolean saveToFile) {
         this.container = container;
         this.adapterPort = adapterPort;
         this.adapterName = adapterName;
+        this.saveToFile = saveToFile;
     }
 
 }

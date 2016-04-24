@@ -399,16 +399,16 @@ public class NewRecordController extends AbstractCreationController implements I
                 Device device = getDeviceFromIbutton(sourceChoice.getIbutton());    // get its corresponding device
 
                 if (device != null) {
-                    deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());
+                    deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), true);
                     ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
                     setButtonStyleWithProgressIndicator(clickedButton);     // show infinite progress indicator
 
-                    Futures.addCallback(future, new FutureCallback<File>() {
-                        public void onSuccess(File result) {
+                    Futures.addCallback(future, new FutureCallback<Object>() {
+                        public void onSuccess(Object result) {
                             Platform.runLater(() -> {
                                 setButtonStyleNormal(clickedButton);    // set style back to normal
-                                sourceChoice.setFile(result);           // set created file to the sourceChoice
-                                filesToSave[index] = result;            // save created file
+                                sourceChoice.setFile((File) result);           // set created file to the sourceChoice
+                                filesToSave[index] = (File) result;            // save created file
 
                                 // Alert user that iButton can be removed
                                 Notifications.create().title(language.get(Lang.DATASAVEDTITLE)).text(language.get(Lang.DATASAVEDTEXT)).show();

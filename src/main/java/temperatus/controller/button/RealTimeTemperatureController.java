@@ -81,7 +81,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
      * @param device device to read from
      */
     void setDevice(Device device) {
-        deviceRealTimeTempTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort());
+        deviceRealTimeTempTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);
     }
 
     /**
