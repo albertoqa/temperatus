@@ -22,8 +22,7 @@ public class DeviceConnectedList implements DeviceDetectorListener {
 
     @Autowired IbuttonService ibuttonService;
 
-    private DeviceConnectedList() { // private constructor, class cannot be instantiated
-    }
+    private DeviceConnectedList() {} // private constructor, class cannot be instantiated
 
     private ObservableList<Device> devices = FXCollections.observableArrayList();   // list of devices connected to the computer
 

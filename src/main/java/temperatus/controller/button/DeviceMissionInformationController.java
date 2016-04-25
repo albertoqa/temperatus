@@ -159,7 +159,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML
     private void showTemperatureData() {
         if (deviceMissionData.getMeasurements() != null) {
-            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, language.get(language.get(Lang.TEMPERATURE_LOG)));
+            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, language.get(Lang.TEMPERATURE_LOG));
             temperatureLogController.setData(deviceMissionData.getMeasurements(), device.getSerial(), device.getDefaultPosition());
         }
     }
@@ -189,7 +189,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
                     Platform.runLater(() -> {
                         stopProgressIndicator();
                         missionInProgress.setText(language.get(Lang.FALSE));
-                        logger.info("Device configured correctly");
+                        logger.info("Device's mission stopped correctly");
                     });
                 }
 
@@ -218,7 +218,9 @@ public class DeviceMissionInformationController implements Initializable, Abstra
      * End the progress indicator and activate the anchor pane
      */
     private void stopProgressIndicator() {
-        stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        if(stackPane.getChildren().size() > 1) {
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        }
         anchorPane.setDisable(false);
     }
 

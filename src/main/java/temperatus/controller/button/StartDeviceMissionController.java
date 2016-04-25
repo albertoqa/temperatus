@@ -184,7 +184,9 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
      * End the progress indicator and activate the anchor pane
      */
     private void stopProgressIndicator() {
-        stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        if(stackPane.getChildren().size() > 1) {
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        }
         anchorPane.setDisable(false);
     }
 

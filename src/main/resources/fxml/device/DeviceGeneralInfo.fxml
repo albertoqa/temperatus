@@ -10,11 +10,11 @@
       <Label fx:id="descriptionLabel" layoutX="98.0" layoutY="201.0" styleClass="label-paneinfo" text="Description" />
       <Label fx:id="aliasLabel" layoutX="134.0" layoutY="132.0" styleClass="label-paneinfo" text="Alias" />
       <Label fx:id="defaultPosLabel" layoutX="71.0" layoutY="168.0" styleClass="label-paneinfo" text="Default Position" />
-      <Label fx:id="serial" layoutX="208.0" layoutY="30.0" styleClass="label-paneinfo" text="Label" />
-      <Label fx:id="model" layoutX="208.0" layoutY="63.0" styleClass="label-paneinfo" text="Label" />
-      <Label fx:id="alternateNames" layoutX="208.0" layoutY="100.0" styleClass="label-paneinfo" text="Label" />
-      <Label fx:id="description" layoutX="208.0" layoutY="132.0" styleClass="label-paneinfo" text="Label" />
-      <Label fx:id="alias" layoutX="208.0" layoutY="201.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="serial" layoutX="208.0" layoutY="100.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="model" layoutX="208.0" layoutY="30.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="alternateNames" layoutX="208.0" layoutY="63.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="description" alignment="TOP_LEFT" layoutX="208.0" layoutY="201.0" prefHeight="77.0" prefWidth="493.0" styleClass="label-paneinfo" text="Label" wrapText="true" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="23.0" />
+      <Label fx:id="alias" layoutX="208.0" layoutY="132.0" styleClass="label-paneinfo" text="Label" />
       <Label fx:id="defaultPos" layoutX="208.0" layoutY="168.0" styleClass="label-paneinfo" text="Label" />
    </children>
 </AnchorPane>
