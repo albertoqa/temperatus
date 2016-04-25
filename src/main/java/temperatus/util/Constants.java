@@ -11,6 +11,8 @@ import java.util.prefs.Preferences;
  */
 public class Constants {
 
+    private Constants() {}
+
     public static final String VERSION = "1.0";
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

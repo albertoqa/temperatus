@@ -11,6 +11,8 @@ package temperatus.lang;
  */
 public class Lang {
 
+    private Lang() {}
+
     // Base controller
     public static final String RIGHTS = "rights";
     public static final String SUBTITLE = "subtitle";

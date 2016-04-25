@@ -92,13 +92,13 @@ public class BaseController implements Initializable, AbstractController, Device
         setImages();    // Set icon images
 
         // A toggleButton must be selected always, this prevent to deselect a button
-        menuGroup.selectedToggleProperty().addListener((ov, toggle, new_toggle) -> {
-            if (new_toggle == null) {
+        menuGroup.selectedToggleProperty().addListener((ov, toggle, newToggle) -> {
+            if (newToggle == null) {
                 toggle.setSelected(true);
             }
         });
 
-        VistaNavigator.parentNode = this.parentPane;    // used to disable its elements when a modal window is opened
+        VistaNavigator.setParentNode(this.parentPane);    // used to disable its elements when a modal window is opened
     }
 
     /***********************************
@@ -247,11 +247,10 @@ public class BaseController implements Initializable, AbstractController, Device
             case Constants.ABOUT:
                 menuGroup.selectToggle(about);
                 break;
-            case Constants.NEW_MISSION: {
+            case Constants.NEW_MISSION:
                 menuGroup.selectToggle(nMission);
                 accordionPane.setExpanded(true);
                 break;
-            }
             default:
                 break;
         }

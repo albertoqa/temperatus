@@ -13,9 +13,11 @@ import temperatus.controller.BaseController;
 
 /**
  * Utility class for controlling navigation between vistas.
- *
  */
 public class VistaNavigator {
+
+    private VistaNavigator() {
+    }
 
     private static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
 
@@ -31,7 +33,7 @@ public class VistaNavigator {
      * Used to reload some part of the view if needed
      */
 
-    public static AbstractController controller;
+    private static AbstractController controller;
 
     public static AbstractController getController() {
         return controller;
@@ -54,12 +56,11 @@ public class VistaNavigator {
     public static <T> T loadVista(String fxml) {
         logger.info("Loading fxml: " + fxml);
 
-        if (baseController.getVistaHolder().getChildren().size() > 0) {
-            //avoid to set the same controller twice -- remember to set the id of all fxml set in the baseView
-            if (baseController.getVistaHolder().getChildren().get(baseController.getVistaHolder().getChildren().size() - 1).getId().equals(fxml)) {
-                return null;
-            }
+        //avoid to set the same controller twice -- remember to set the id of all fxml set in the baseView
+        if (baseController.getVistaHolder().getChildren().size() > 0 && baseController.getVistaHolder().getChildren().get(baseController.getVistaHolder().getChildren().size() - 1).getId().equals(fxml)) {
+            return null;
         }
+
         Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
         baseController.setView(node);
         return loader.getController();
@@ -79,7 +80,11 @@ public class VistaNavigator {
     ////////////////////////////////////////////////////////////////////////////
     /*  Modal Views Utils  */
 
-    public static Node parentNode;  // Used to disable when a modal window is opened
+    private static Node parentNode;  // Used to disable when a modal window is opened
+
+    public static void setParentNode(Node parentNode) {
+        VistaNavigator.parentNode = parentNode;
+    }
 
     private static Scene createModalScene(Parent root) {
         Scene scene = new Scene(root);
@@ -104,7 +109,7 @@ public class VistaNavigator {
         Scene scene = createModalScene(root);
         Stage stage = createModalStage(scene, title);
         Animation.fadeOutIn(null, root);
-        if(parentNode != null) {
+        if (parentNode != null) {
             parentNode.setDisable(true);
         }
         stage.show();
