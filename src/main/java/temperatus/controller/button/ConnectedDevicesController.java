@@ -208,6 +208,11 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         return realTimeTempTab;
     }
 
+    /**
+     * If new device registered to database, reload its alias and default position to show
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
         if (object instanceof Ibutton) {

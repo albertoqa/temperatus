@@ -2,19 +2,19 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.DeviceGeneralInfoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="724.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.DeviceGeneralInfoController">
    <children>
-      <Label fx:id="serialLabel" layoutX="64.0" layoutY="116.0" text="Serial" />
-      <Label fx:id="modelLabel" layoutX="62.0" layoutY="30.0" text="Model" />
-      <Label fx:id="alternateNamesLabel" layoutX="62.0" layoutY="71.0" text="Alternate Names" />
-      <Label fx:id="descriptionLabel" layoutX="64.0" layoutY="202.0" text="Description" />
-      <Label fx:id="aliasLabel" layoutX="62.0" layoutY="163.0" text="Alias" />
-      <Label fx:id="defaultPosLabel" layoutX="64.0" layoutY="249.0" text="Default Position" />
-      <Label fx:id="serial" layoutX="208.0" layoutY="30.0" text="Label" />
-      <Label fx:id="model" layoutX="208.0" layoutY="71.0" text="Label" />
-      <Label fx:id="alternateNames" layoutX="208.0" layoutY="116.0" text="Label" />
-      <Label fx:id="description" layoutX="208.0" layoutY="163.0" text="Label" />
-      <Label fx:id="alias" layoutX="208.0" layoutY="202.0" text="Label" />
-      <Label fx:id="defaultPos" layoutX="208.0" layoutY="249.0" text="Label" />
+      <Label fx:id="serialLabel" layoutX="130.0" layoutY="100.0" styleClass="label-paneinfo" text="Serial" />
+      <Label fx:id="modelLabel" layoutX="128.0" layoutY="30.0" styleClass="label-paneinfo" text="Model" />
+      <Label fx:id="alternateNamesLabel" layoutX="62.0" layoutY="63.0" styleClass="label-paneinfo" text="Alternate Names" />
+      <Label fx:id="descriptionLabel" layoutX="98.0" layoutY="201.0" styleClass="label-paneinfo" text="Description" />
+      <Label fx:id="aliasLabel" layoutX="134.0" layoutY="132.0" styleClass="label-paneinfo" text="Alias" />
+      <Label fx:id="defaultPosLabel" layoutX="71.0" layoutY="168.0" styleClass="label-paneinfo" text="Default Position" />
+      <Label fx:id="serial" layoutX="208.0" layoutY="30.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="model" layoutX="208.0" layoutY="63.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="alternateNames" layoutX="208.0" layoutY="100.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="description" layoutX="208.0" layoutY="132.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="alias" layoutX="208.0" layoutY="201.0" styleClass="label-paneinfo" text="Label" />
+      <Label fx:id="defaultPos" layoutX="208.0" layoutY="168.0" styleClass="label-paneinfo" text="Label" />
    </children>
 </AnchorPane>
