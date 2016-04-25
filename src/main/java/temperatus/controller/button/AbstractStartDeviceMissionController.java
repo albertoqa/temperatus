@@ -9,7 +9,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
-import temperatus.util.IntegerSpinner;
+import temperatus.util.SpinnerFactory;
 import temperatus.util.TextValidation;
 
 import java.text.ParseException;
@@ -77,8 +77,8 @@ public abstract class AbstractStartDeviceMissionController {
         onAlarmCheck.selectedProperty().addListener((observable, oldValue, newValue) -> onAlarmDelayInput.setVisible(newValue));
         delayCheck.selectedProperty().addListener((observable, oldValue, newValue) -> delayInput.setVisible(newValue));
 
-        IntegerSpinner.setSpinner(delayInput);
-        IntegerSpinner.setSpinner(onAlarmDelayInput);
+        SpinnerFactory.setIntegerSpinner(delayInput);
+        SpinnerFactory.setIntegerSpinner(onAlarmDelayInput);
 
         activateAlarmCheck.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -92,10 +92,14 @@ public abstract class AbstractStartDeviceMissionController {
             }
         });
 
+        SpinnerFactory.setDoubleSpinner(highAlarm);
+        SpinnerFactory.setDoubleSpinner(lowAlarm);
+
         rateInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_NUMBER_FOR_RATE_INPUT));
 
         resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
         resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
+        dateInput.setText(Constants.dateTimeFormat.format(new Date()));
     }
 
     /**
@@ -139,6 +143,7 @@ public abstract class AbstractStartDeviceMissionController {
 
         delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
         onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
+        dateInput.setText(Constants.dateTimeFormat.format(new Date()));
 
         if (configuration.getResolutionC1() == RES_LOW) {
             resolutionBox.getSelectionModel().select(RESOLUTION_LOW);

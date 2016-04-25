@@ -20,7 +20,7 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
-import temperatus.util.IntegerSpinner;
+import temperatus.util.SpinnerFactory;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
@@ -61,7 +61,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         translate();
 
         mission = null;
-        IntegerSpinner.setSpinner(periodSpinner);
+        SpinnerFactory.setIntegerSpinner(periodSpinner);
     }
 
     /**

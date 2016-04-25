@@ -24,7 +24,7 @@ import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.ChartToolTip;
-import temperatus.util.IntegerSpinner;
+import temperatus.util.SpinnerFactory;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -64,7 +64,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         positionsList.setItems(records);
         formulasList.setItems(formulas);
 
-        IntegerSpinner.setSpinner(spinner);
+        SpinnerFactory.setIntegerSpinner(spinner);
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
