@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.DeviceGeneralInfoController">
+<?import javafx.scene.layout.*?>
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.DeviceGeneralInfoController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="724.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css">
          <children>
@@ -17,7 +15,7 @@
             <Label fx:id="serial" layoutX="208.0" layoutY="100.0" styleClass="label-paneinfo" text="Label" />
             <Label fx:id="model" layoutX="208.0" layoutY="30.0" styleClass="label-paneinfo" text="Label" />
             <Label fx:id="alternateNames" layoutX="208.0" layoutY="63.0" styleClass="label-paneinfo" text="Label" />
-            <Label fx:id="description" alignment="TOP_LEFT" layoutX="208.0" layoutY="201.0" prefHeight="77.0" prefWidth="493.0" styleClass="label-paneinfo" text="Label" wrapText="true" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="23.0" />
+            <Label fx:id="description" alignment="TOP_LEFT" layoutX="208.0" layoutY="201.0" prefHeight="168.0" prefWidth="526.0" styleClass="label-paneinfo" text="Label" wrapText="true" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="201.0" />
             <Label fx:id="alias" layoutX="208.0" layoutY="132.0" styleClass="label-paneinfo" text="Label" />
             <Label fx:id="defaultPos" layoutX="208.0" layoutY="168.0" styleClass="label-paneinfo" text="Label" />
          </children>

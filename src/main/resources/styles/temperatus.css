@@ -424,7 +424,7 @@
 
    -fx-prompt-text-fill: #818181;
 
-   -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+   -fx-highlight-fill: #008287;
    -fx-highlight-text-fill: white;
 }
 
@@ -451,7 +451,7 @@
 .text-field > .right-button > .right-button-graphic {
    -fx-shape            : "M221.738,305.873l6.135,6.16l-2.875,2.863l-6.135-6.159l-6.263,6.237l-2.864-2.875l6.263-6.238l-6.177-6.202l2.875-2.863l6.177,6.201l6.244-6.22l2.864,2.876L221.738,305.873z";
 
-   -fx-padding: 0.5em 0.5em; /* TODO: put the real number here 18 18 */
+   -fx-padding: 0.5em 0.5em;
    -fx-background-color: black;
 }
 
@@ -831,7 +831,7 @@
      -fx-font-size: 12px;
      -fx-text-fill: black;
 
-     -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+     -fx-highlight-fill: #008287;
      -fx-highlight-text-fill: white;
   }
 
@@ -849,7 +849,7 @@
      -fx-font-size: 14px;
      -fx-text-fill: black;
 
-     -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+     -fx-highlight-fill: #008287;
      -fx-highlight-text-fill: white;
   }
 

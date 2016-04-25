@@ -7,6 +7,8 @@ import javafx.scene.control.Tooltip;
 import java.util.Date;
 
 /**
+ * Show information about on hover in graphics
+ * <p>
  * Created by alberto on 24/4/16.
  */
 public class ChartToolTip {

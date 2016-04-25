@@ -89,6 +89,10 @@ public class DeviceDetectorTask implements Runnable {
                             }
                         }
                         adapter.endExclusive();
+                    } else {
+                        // Adapter disconnected, check if any registered device was registered with this adapter
+                        serialsDetected.remove(adapter.getAddressAsString());
+                        deviceDetectorSource.departureEvent(adapter.getAddressAsString());
                     }
                     adapter.freePort();
 

@@ -120,6 +120,6 @@ public class Device {
 
     @Override
     public String toString() {
-        return alias + " | " + serial;
+        return getAlias() + " | " + getSerial();
     }
 }

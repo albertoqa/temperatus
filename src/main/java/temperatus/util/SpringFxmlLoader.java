@@ -12,7 +12,7 @@ import java.net.URL;
  * <p>
  * Created by alberto on 17/1/16.
  */
-public class SpringFxmlLoader {
+class SpringFxmlLoader {
 
     private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringApplicationConfig.class);
 
@@ -33,8 +33,8 @@ public class SpringFxmlLoader {
     /**
      * Get the controller of the last loaded view
      *
-     * @param <T>
-     * @return
+     * @param <T> type of controller
+     * @return last loaded view's controller
      */
     public <T> T getController() {
         return (T) controller;

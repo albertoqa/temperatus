@@ -65,7 +65,7 @@
     -fx-font-size: 12px;
     -fx-text-fill: black;
 
-    -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+    -fx-highlight-fill: #008287;
     -fx-highlight-text-fill: white;
  }
 

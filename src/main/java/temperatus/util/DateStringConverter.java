@@ -26,9 +26,6 @@ public class DateStringConverter extends StringConverter<Number> {
     /**
      * If slider     -> show Date Time
      * If TextInput  -> show Time
-     *
-     * @param number
-     * @return
      */
     @Override
     public String toString(Number number) {
@@ -41,9 +38,8 @@ public class DateStringConverter extends StringConverter<Number> {
 
     @Override
     public Number fromString(String s) {
-        Date date = null;
         try {
-            date = Constants.dateTimeFormat.parse(s);
+            Date date = Constants.dateTimeFormat.parse(s);
             return date.getTime();
         } catch (ParseException e) {
             logger.warn("Cannot parse String to Date");

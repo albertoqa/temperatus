@@ -624,7 +624,7 @@ and open the template in the editor.
 
     -fx-prompt-text-fill: #818181;
 
-    -fx-highlight-fill: #008287; /* TODO: this probably is the "active" color" */
+    -fx-highlight-fill: #008287;
     -fx-highlight-text-fill: white;
 }
 
@@ -651,7 +651,7 @@ and open the template in the editor.
 .text-field > .right-button > .right-button-graphic {
     -fx-shape            : "M221.738,305.873l6.135,6.16l-2.875,2.863l-6.135-6.159l-6.263,6.237l-2.864-2.875l6.263-6.238l-6.177-6.202l2.875-2.863l6.177,6.201l6.244-6.22l2.864,2.876L221.738,305.873z";
 
-    -fx-padding: 0.5em 0.5em; /* TODO: put the real number here 18 18 */
+    -fx-padding: 0.5em 0.5em;
     -fx-background-color: black;
 }
 
@@ -706,7 +706,6 @@ and open the template in the editor.
     -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
     -fx-padding: 0.333333em 0em 0.333333em 0em; /* 4 1 4 1 */
 
-    /* TODO: the border color below is not being respected - it appears as gray instead of black*/
     -fx-border-color: #212121;
     -fx-border-style: solid;
 }
@@ -718,7 +717,6 @@ and open the template in the editor.
     -fx-border-width: 0.5px;
 }
 
-/* TODO: try to scope the menu-item style to the contextmenu */
 .menu-item {
     -fx-background-color: transparent;
     -fx-padding: 0.666666em 0.999999em 0.4999995em 0.999999em;   /*6 12 6 12 */

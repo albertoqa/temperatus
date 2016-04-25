@@ -52,7 +52,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
 
-    @FXML private TextArea infoArea;
+    @FXML private Label infoArea;
 
     @Autowired DeviceMissionStartTask deviceMissionStartTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
@@ -81,6 +81,15 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
                 loadConfiguration(configurationsCombobox.getItems().get(newValue.intValue()));
             }
         });
+
+        infoArea.setText("");
+    }
+
+    /**
+     * Update information about how much measurement can the device register with the current configuration
+     */
+    private void updateInformation() {
+        // TODO
     }
 
     /**
