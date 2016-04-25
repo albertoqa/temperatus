@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import temperatus.model.pojo.Configuration;
 
 /**
+ * Start a mission on the device with the passed configuration
+ * <p>
  * Created by alberto on 19/4/16.
  */
 @Component
@@ -56,7 +58,7 @@ public class DeviceMissionStartTask extends DeviceTask {
             // check if necessary to activate any alarm
             boolean anyAlarmsEnabled = false;
 
-            if(configuration.getEnableAlarmC1() != null && configuration.getHighAlarmC1() != null && configuration.getLowAlarmC1() != null) {
+            if (configuration.getEnableAlarmC1() != null && configuration.getHighAlarmC1() != null && configuration.getLowAlarmC1() != null) {
                 if (configuration.getEnableAlarmC1()) {
                     anyAlarmsEnabled = true;
                     missionContainer.setMissionAlarm(0, MissionContainer.ALARM_HIGH, configuration.getHighAlarmC1());
@@ -68,7 +70,7 @@ public class DeviceMissionStartTask extends DeviceTask {
                 missionContainer.setMissionResolution(0, configuration.getResolutionC1());
             }
 
-            if(configuration.getEnableAlarmC2() != null && configuration.getHighAlarmC2() != null && configuration.getLowAlarmC2() != null) {
+            if (configuration.getEnableAlarmC2() != null && configuration.getHighAlarmC2() != null && configuration.getLowAlarmC2() != null) {
                 if (configuration.getEnableAlarmC2()) {
                     anyAlarmsEnabled = true;
                     missionContainer.setMissionAlarm(1, MissionContainer.ALARM_HIGH, configuration.getHighAlarmC2());
@@ -94,6 +96,11 @@ public class DeviceMissionStartTask extends DeviceTask {
         }
     }
 
+    /**
+     * Set the configuration to use to configure the device
+     *
+     * @param configuration configuration to use
+     */
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }

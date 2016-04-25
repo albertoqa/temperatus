@@ -59,9 +59,9 @@ public abstract class AbstractStartDeviceMissionController {
     private ToggleGroup startGroup = new ToggleGroup();
 
     private static final String RESOLUTION_LOW = "0.5 (low)";
-    private static final String RESOLUTION_HIGH = "0.065 (high)";
+    private static final String RESOLUTION_HIGH = "0.0625 (high)";
     private static final double RES_LOW = 0.5;
-    private static final double RES_HIGH = 0.065;
+    private static final double RES_HIGH = 0.0625;
 
     private static final int MAX_NUMBER_FOR_RATE_INPUT = 20;
     private static final String EMPTY = "";
