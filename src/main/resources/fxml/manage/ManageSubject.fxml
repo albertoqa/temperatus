@@ -12,7 +12,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+      <AnchorPane fx:id="infoPane" layoutX="14.0" layoutY="311.0" opacity="0.0" prefHeight="234.0" prefWidth="737.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
          <children>
             <Label fx:id="ageLabel" alignment="CENTER_RIGHT" layoutX="59.0" layoutY="66.0" prefHeight="16.0" prefWidth="69.0" styleClass="label-paneinfo" text="Age:" textFill="WHITE">
                <font>

@@ -9,70 +9,65 @@
          <children>
             <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="76.0" prefHeight="435.0" prefWidth="739.0" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="76.0" />
             <Button fx:id="newProjectButton" layoutX="504.0" layoutY="29.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="27.0" />
-            <AnchorPane fx:id="projectInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
+            <AnchorPane fx:id="projectInfoPane" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
-                  <Label fx:id="projectNameLabel" layoutX="105.0" layoutY="29.0" styleClass="label-paneinfo" text="Project:" textFill="WHITE">
+                  <Label fx:id="projectName" layoutX="59.0" layoutY="22.0" styleClass="mainLabel" text="PROYECTO" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectName" layoutX="198.0" layoutY="29.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
+                  <Label fx:id="projectStartDateLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="68.0" prefWidth="150.0" styleClass="label-paneinfo" text="Start Date:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectStartDateLabel" layoutX="86.0" layoutY="76.0" styleClass="label-paneinfo" text="Start Date:" textFill="WHITE">
+                  <Label fx:id="projectDate" layoutX="170.0" layoutY="68.0" styleClass="label-paneinfo" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectDate" layoutX="198.0" layoutY="76.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
+                  <Label fx:id="projectNumberOfMissionsLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="98.0" prefWidth="150.0" styleClass="label-paneinfo" text="Number of missions:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectNumberOfMissionsLabel" layoutX="27.0" layoutY="120.0" styleClass="label-paneinfo" text="Number of missions:" textFill="WHITE">
+                  <Label fx:id="projectNumberOfMissions" layoutX="170.0" layoutY="98.0" styleClass="label-paneinfo" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectNumberOfMissions" layoutX="198.0" layoutY="120.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
+                  <Label fx:id="projectObservationsLabel" layoutX="330.0" layoutY="68.0" styleClass="label-paneinfo" text="Observations" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectObservationsLabel" layoutX="327.0" layoutY="30.0" styleClass="label-paneinfo" text="Observations" textFill="WHITE">
+                  <Label fx:id="projectObservations" alignment="TOP_LEFT" layoutX="423.0" layoutY="68.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="430.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="68.0">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectObservations" layoutX="423.0" layoutY="29.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
+                  <Label fx:id="projectAuthorsLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="120.0" prefWidth="150.0" styleClass="label-paneinfo" text="Authors involved:" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectAuthorsLabel" layoutX="45.0" layoutY="161.0" styleClass="label-paneinfo" text="Authors involved:" textFill="WHITE">
+                  <Label fx:id="projectAuthors" layoutX="170.0" layoutY="120.0" styleClass="label-paneinfo" text="Label" textFill="WHITE">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectAuthors" layoutX="198.0" layoutY="161.0" styleClass="label-paneinfodata" text="Label" textFill="WHITE">
-                     <font>
-                        <Font name="Avenir Light" size="11.0" />
-                     </font></Label>
-                  <Button fx:id="editProjectButton" layoutY="162.0" mnemonicParsing="false" onAction="#editProject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="0.0" />
-                  <Button fx:id="deleteProjectButton" layoutY="196.0" mnemonicParsing="false" onAction="#deleteProject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="editProjectButton" layoutY="162.0" mnemonicParsing="false" onAction="#editProject" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="162.0" />
+                  <Button fx:id="deleteProjectButton" layoutY="196.0" mnemonicParsing="false" onAction="#deleteProject" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="missionInfoPane" disable="true" layoutX="27.0" layoutY="482.0" minHeight="-Infinity" opacity="0.0" prefHeight="234.0" prefWidth="739.0" style="-fx-background-color: #eceff4;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0">
                <children>
                   <Button fx:id="deleteMissionButton" layoutX="612.0" layoutY="196.0" mnemonicParsing="false" onAction="#deleteMission" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Delete" AnchorPane.rightAnchor="27.0" />
                   <Button fx:id="missionInfoButton" layoutX="342.0" layoutY="196.0" mnemonicParsing="false" onAction="#missionInfo" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Complete info" AnchorPane.rightAnchor="297.0" />
-                  <Label fx:id="missionNameLabel" layoutX="60.0" layoutY="24.0" styleClass="label-paneinfo" text="Mission:" />
-                  <Label fx:id="missionName" layoutX="130.0" layoutY="24.0" styleClass="label-paneinfodata" text="Mission de prueba" />
-                  <Label fx:id="missionAuthorLabel" layoutX="60.0" layoutY="68.0" styleClass="label-paneinfo" text="Author:" />
-                  <Label fx:id="missionAuthor" layoutX="130.0" layoutY="68.0" styleClass="label-paneinfodata" text="Alberto Quesada" />
-                  <Label fx:id="missionDateLabel" layoutX="60.0" layoutY="88.0" styleClass="label-paneinfo" text="Date:" />
-                  <Label fx:id="missionDate" layoutX="130.0" layoutY="88.0" styleClass="label-paneinfodata" text="12/12/2012" />
-                  <Label fx:id="missionProjectLabel" layoutX="58.0" layoutY="128.0" styleClass="label-paneinfo" text="Project:" />
-                  <Label fx:id="missionGameLabel" layoutX="58.0" layoutY="152.0" styleClass="label-paneinfo" text="Game:" />
-                  <Label fx:id="missionSubjectLabel" layoutX="60.0" layoutY="188.0" styleClass="label-paneinfo" text="Subject:" />
-                  <Label fx:id="missionProject" layoutX="130.0" layoutY="128.0" styleClass="label-paneinfodata" text="Projecto 1" />
-                  <Label fx:id="missionGame" layoutX="130.0" layoutY="152.0" styleClass="label-paneinfodata" text="Juego de 12 botones" />
-                  <Label fx:id="missionSubject" layoutX="130.0" layoutY="188.0" styleClass="label-paneinfodata" text="Isabel Calatrava" />
-                  <Label fx:id="missionObservationsLabel" layoutX="293.0" layoutY="68.0" styleClass="label-paneinfo" text="Observations:" />
-                  <Label fx:id="missionObservations" alignment="TOP_LEFT" layoutX="398.0" layoutY="68.0" prefHeight="103.0" prefWidth="334.0" styleClass="label-paneinfodata" text="El sujeto de este experimento ha empezado a tiritar en el segundo 15 tra entrar a la cámara de frio. \n No se sabe con certeza si ha sido por una razón o por otra razón." wrapText="true" AnchorPane.bottomAnchor="63.0" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="7.0" />
+                  <Label fx:id="missionName" layoutX="59.0" layoutY="22.0" styleClass="mainLabel" text="Mission de prueba" />
+                  <Label fx:id="missionAuthorLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="68.0" prefWidth="100.0" styleClass="label-paneinfo" text="Author:" />
+                  <Label fx:id="missionAuthor" layoutX="120.0" layoutY="68.0" styleClass="label-paneinfo" text="Alberto Quesada" />
+                  <Label fx:id="missionDateLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="88.0" prefHeight="16.0" prefWidth="100.0" styleClass="label-paneinfo" text="Date:" />
+                  <Label fx:id="missionDate" layoutX="120.0" layoutY="88.0" styleClass="label-paneinfo" text="12/12/2012" />
+                  <Label fx:id="missionProjectLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="128.0" prefWidth="100.0" styleClass="label-paneinfo" text="Project:" />
+                  <Label fx:id="missionGameLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="152.0" prefWidth="100.0" styleClass="label-paneinfo" text="Game:" />
+                  <Label fx:id="missionSubjectLabel" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="188.0" prefWidth="100.0" styleClass="label-paneinfo" text="Subject:" />
+                  <Label fx:id="missionProject" layoutX="120.0" layoutY="128.0" styleClass="label-paneinfo" text="Projecto 1" />
+                  <Label fx:id="missionGame" layoutX="120.0" layoutY="152.0" styleClass="label-paneinfo" text="Juego de 12 botones" />
+                  <Label fx:id="missionSubject" layoutX="120.0" layoutY="188.0" styleClass="label-paneinfo" text="Isabel Calatrava" />
+                  <Label fx:id="missionObservationsLabel" layoutX="285.0" layoutY="68.0" styleClass="label-paneinfo" text="Observations:" />
+                  <Label fx:id="missionObservations" alignment="TOP_LEFT" layoutX="378.0" layoutY="68.0" prefHeight="103.0" prefWidth="334.0" styleClass="label-paneinfo" text="El sujeto de este experimento ha empezado a tiritar en el segundo 15 tra entrar a la cámara de frio. \n No se sabe con certeza si ha sido por una razón o por otra razón." wrapText="true" AnchorPane.bottomAnchor="63.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="27.0" />
                   <Button fx:id="editMissionButton" layoutX="473.0" layoutY="196.0" mnemonicParsing="false" onAction="#editMission" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Edit" AnchorPane.rightAnchor="162.0" />
                </children>
             </AnchorPane>

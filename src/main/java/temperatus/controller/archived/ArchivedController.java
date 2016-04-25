@@ -48,7 +48,6 @@ public class ArchivedController implements Initializable, AbstractController {
     // Project Information Pane
     @FXML private AnchorPane projectInfoPane;
 
-    @FXML private Label projectNameLabel;
     @FXML private Label projectStartDateLabel;
     @FXML private Label projectNumberOfMissionsLabel;
     @FXML private Label projectObservationsLabel;
@@ -67,7 +66,6 @@ public class ArchivedController implements Initializable, AbstractController {
     // Mission Information Pane labels
     @FXML private AnchorPane missionInfoPane;
 
-    @FXML private Label missionNameLabel;
     @FXML private Label missionDateLabel;
     @FXML private Label missionObservationsLabel;
     @FXML private Label missionGameLabel;
@@ -234,7 +232,15 @@ public class ArchivedController implements Initializable, AbstractController {
         projectDate.setText(project.getDateIni().toString());
         projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
         projectObservations.setText(project.getObservations());
-        projectAuthors.setText(""); // TODO
+
+        String authors = "";
+        for(Mission mission: project.getMissions()) {
+            if(!authors.contains(mission.getAuthor().getName())) {
+                authors = authors + mission.getAuthor().getName() + ", ";
+            }
+        }
+
+        projectAuthors.setText(authors);
     }
 
     /**

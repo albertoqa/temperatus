@@ -11,8 +11,6 @@ package temperatus.lang;
  */
 public class Lang {
 
-    private Lang() {}
-
     // Base controller
     public static final String RIGHTS = "rights";
     public static final String SUBTITLE = "subtitle";
@@ -277,5 +275,7 @@ public class Lang {
     public static final String ERROR_STOPPING_MISSION = "errorStoppingMission";
 
 
+    private Lang() {
+    }
 
 }

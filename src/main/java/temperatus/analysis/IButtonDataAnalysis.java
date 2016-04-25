@@ -21,6 +21,9 @@ public class IButtonDataAnalysis {
 
     private static Logger logger = LoggerFactory.getLogger(IButtonDataAnalysis.class.getName());
 
+    private IButtonDataAnalysis() {
+    }
+
     /**
      * Generate a list of measurements from a given list and period
      * each generated measurement is the average of X adjacent measurements
@@ -59,7 +62,9 @@ public class IButtonDataAnalysis {
                 measurementToExport.setData(0);
                 measurementToExport.setDate(measurement.getDate()); // the date will be the date of the first measurement of the group
             }
-            measurementToExport.setData(measurementToExport.getData() + measurement.getData());
+            if (measurementToExport != null) {
+                measurementToExport.setData(measurementToExport.getData() + measurement.getData());
+            }
             index++;
         }
 
@@ -125,7 +130,7 @@ public class IButtonDataAnalysis {
                 double result = Calculator.eval(FormulaUtil.generateFormula(operations.get(i)));
                 measurements.get(i).setData(result);
             } catch (Exception ex) {
-                logger.warn("Cannot perform operation: " + FormulaUtil.generateFormula(operations.get(i)));
+                logger.warn("Cannot perform operation: " + FormulaUtil.generateFormula(operations.get(i)) + " " + ex.getMessage());
                 measurements.get(i).setData(Double.NaN);
             }
         }
@@ -154,6 +159,7 @@ public class IButtonDataAnalysis {
 
     /**
      * Return the maximum temperature registered in the list of measurements
+     *
      * @param measurements list to analyze
      * @return maximum temperature
      */
@@ -161,7 +167,7 @@ public class IButtonDataAnalysis {
         double maxTemp = Double.MIN_VALUE;
         if (!measurements.isEmpty()) {
             for (Measurement measurement : measurements) {
-                if(measurement.getData() > maxTemp) {
+                if (measurement.getData() > maxTemp) {
                     maxTemp = measurement.getData();
                 }
             }
@@ -171,6 +177,7 @@ public class IButtonDataAnalysis {
 
     /**
      * Return the minimum temperature registered in the list of measurements
+     *
      * @param measurements list to analyze
      * @return minimum temperature
      */
@@ -178,7 +185,7 @@ public class IButtonDataAnalysis {
         double maxTemp = Double.MAX_VALUE;
         if (!measurements.isEmpty()) {
             for (Measurement measurement : measurements) {
-                if(measurement.getData() < maxTemp) {
+                if (measurement.getData() < maxTemp) {
                     maxTemp = measurement.getData();
                 }
             }

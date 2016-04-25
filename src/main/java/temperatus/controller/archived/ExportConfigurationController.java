@@ -62,6 +62,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
 
         mission = null;
         SpinnerFactory.setIntegerSpinner(periodSpinner);
+        periodSpinner.getEditor().setText("1");
     }
 
     /**

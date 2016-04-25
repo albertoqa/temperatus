@@ -6,12 +6,10 @@ import java.util.prefs.Preferences;
 
 /**
  * General constants
- *
+ * <p>
  * Created by alberto on 17/1/16.
  */
 public class Constants {
-
-    private Constants() {}
 
     public static final String VERSION = "1.0";
 
@@ -105,5 +103,9 @@ public class Constants {
 
     public static final String LANG_EN = "English";
     public static final String LANG_SP = "Spanish";
+
+
+    private Constants() {
+    }
 
 }
