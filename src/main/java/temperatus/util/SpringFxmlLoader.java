@@ -12,7 +12,7 @@ import java.net.URL;
  * <p>
  * Created by alberto on 17/1/16.
  */
-class SpringFxmlLoader {
+public class SpringFxmlLoader {
 
     private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringApplicationConfig.class);
 
