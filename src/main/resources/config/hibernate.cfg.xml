@@ -4,8 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:h2:file:C:\Users\alberto\Desktop/temperatus/h2/database</property>
+        <!--<property name="connection.url">jdbc:h2:file:C:\Users\alberto\Desktop/temperatus/h2/database</property>-->
         <!--<property name="connection.url">jdbc:h2:file:/Users/alberto/Desktop/temperatus/h2/database</property>-->
+        <property name="connection.url">jdbc:h2:file:../database</property>
         <property name="connection.driver_class">org.h2.Driver</property>
         <property name="hibernate.connection.password">temperatus2015</property>
         <property name="hibernate.connection.username">aquesada</property>

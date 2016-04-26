@@ -14,8 +14,9 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:file:../database"/>
         <!--<property name="url" value="jdbc:h2:file:/Users/alberto/Desktop/temperatus/h2/database"/>-->
-        <property name="url" value="jdbc:h2:file:C:\Users\alberto\Desktop/temperatus/h2/database"/>
+        <!--<property name="url" value="jdbc:h2:file:C:\Users\alberto\Desktop/temperatus/h2/database"/>-->
         <property name="username" value="aquesada"/>
         <property name="password" value="temperatus2015"/>
     </bean>
