@@ -73,7 +73,7 @@ public class ActivationController implements Initializable {
     @FXML
     private void buy() throws MalformedURLException, URISyntaxException {
         logger.info("Redirecting to buy web-page... YUUUHUU");
-        URL url = new URL("http://www.google.com");
+        URL url = new URL("http://albertoqa.github.io/temperatusWeb/");
         openWebPage(url.toURI());
     }
 
