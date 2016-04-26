@@ -101,7 +101,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     private static final int MAX_DIGITS_FOR_NUM_BUTTONS = 3;
 
 //    private static final String PATH_TO_SAVE = "/Users/alberto/Desktop/";    // TODO change to application directory
-    private static final String PATH_TO_SAVE = System.getProperty("user.home") + "/Desktop/";    // TODO change to application directory
+//    private static final String PATH_TO_SAVE = System.getProperty("user.home") + "/Desktop/";    // TODO change to application directory
+    private static final String PATH_TO_SAVE = "./images/";    // TODO change to application directory
 
     private static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
