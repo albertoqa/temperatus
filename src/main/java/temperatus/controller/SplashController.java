@@ -2,8 +2,6 @@ package temperatus.controller;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -30,13 +28,11 @@ import java.util.ResourceBundle;
 @Scope("prototype")
 public class SplashController implements Initializable, AbstractController {
 
-    @FXML private Label subtitle;
     @FXML private Label rights;
     @FXML private Label version;
     @FXML private ProgressBar progress;
 
     private Stage stage = new Stage();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,7 +45,6 @@ public class SplashController implements Initializable, AbstractController {
         thread.setDaemon(true);
         thread.start();
     }
-
 
     /**
      * Imitate a long and expensive task + load home screen
@@ -71,8 +66,8 @@ public class SplashController implements Initializable, AbstractController {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
-                        Thread.sleep(1);    // TODO
-                        //Thread.sleep(100);
+                        //Thread.sleep(1);    // TODO
+                        Thread.sleep(100);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
                             updateMessage("Cancelled");
@@ -86,12 +81,7 @@ public class SplashController implements Initializable, AbstractController {
         };
 
         // When the task finishes show the home window
-        task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
-                showHome();
-            }
-        });
+        task.setOnSucceeded(t -> showHome());
 
         return task;
     }
@@ -104,6 +94,7 @@ public class SplashController implements Initializable, AbstractController {
         Stage currentStage = (Stage) rights.getScene().getWindow();
         currentStage.close();
         stage.show();
+        Constants.prefs.putBoolean(Constants.ACTIVATED, false); // FIXME remove this line
     }
 
 
@@ -123,7 +114,6 @@ public class SplashController implements Initializable, AbstractController {
     @Override
     public void translate() {
         rights.setText(language.get(Lang.RIGHTS));
-        subtitle.setText(language.get(Lang.SUBTITLE));
         version.setText(Constants.VERSION);
     }
 }

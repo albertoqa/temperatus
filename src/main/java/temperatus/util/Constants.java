@@ -24,6 +24,7 @@ public class Constants {
     //* Convenience constants for fxml layouts
 
     public static final String SPLASH = "/fxml/Welcome.fxml";
+    public static final String ACTIVATION = "/fxml/Activation.fxml";
 
     public static final String BASE = "/fxml/Base.fxml";
     public static final String HOME = "/fxml/Home.fxml";
@@ -84,6 +85,8 @@ public class Constants {
     // * User preferences
 
     public static final Preferences prefs = Preferences.userRoot().node("temperatus");
+
+    public static final String ACTIVATED = "activated";
 
     public static final String FIRST_TIME = "isFirstTime";
 
