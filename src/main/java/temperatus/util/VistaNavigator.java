@@ -23,8 +23,8 @@ public class VistaNavigator {
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
-    public static final double MIN_HEIGHT = 800.0;  // TODO calculate min size for all screens
-    public static final double MIN_WIDTH = 1200.0;
+    public static final double MIN_HEIGHT = 680.0;
+    public static final double MIN_WIDTH = 1000.0;
 
     ////////////////////////////////////////////////////////////////////////////
     /**

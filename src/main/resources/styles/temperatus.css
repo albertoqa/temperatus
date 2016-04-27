@@ -25,6 +25,10 @@
   -fx-text-fill: #242c35;
 }
 
+.topMenu {
+  -fx-background-color: #cdcdcd;
+}
+
 /*******************************************************************************
  *                                                                             *
  * Menu                                                                    *
@@ -37,7 +41,7 @@
 }
 
 .leftbtn {
-    -fx-padding: 15 0 15 0;
+    -fx-padding: 10 0 10 0;
     -fx-border-style: none;
     -fx-background-radius: 0;
     -fx-border-color : #3a474d;
@@ -68,7 +72,7 @@
 
 
 .leftbtn1 {
-    -fx-padding: 15 0 15 0;
+    -fx-padding: 10 0 10 0;
     -fx-border-style: none;
     -fx-background-radius: 0;
     -fx-border-color : #3a474d;

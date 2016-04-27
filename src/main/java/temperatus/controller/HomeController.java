@@ -27,7 +27,7 @@ public class HomeController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
 
         logger.info("Starting devices scan task");
-        deviceOperationsManager.init(); // start executors (and device scan task)
+        //deviceOperationsManager.init(); // start executors (and device scan task)
     }
 
     /**

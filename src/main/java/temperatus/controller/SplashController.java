@@ -88,7 +88,6 @@ public class SplashController implements Initializable, AbstractController {
         Stage currentStage = (Stage) rights.getScene().getWindow();
         currentStage.close();
         stage.show();
-        Constants.prefs.putBoolean(Constants.ACTIVATED, false); // FIXME remove this line
     }
 
     /**
@@ -106,5 +105,6 @@ public class SplashController implements Initializable, AbstractController {
     public void translate() {
         rights.setText(language.get(Lang.RIGHTS));
         version.setText(Constants.VERSION);
+        webPage.setText(Constants.WEB);
     }
 }
