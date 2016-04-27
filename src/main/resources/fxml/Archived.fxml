@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<StackPane id="/fxml/Archived.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="792.0" styleClass="grayBack" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.ArchivedController">
+<StackPane id="/fxml/Archived.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.ArchivedController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="657.0" prefWidth="792.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <TreeTableView fx:id="treeTable" layoutX="27.0" layoutY="76.0" prefHeight="435.0" prefWidth="739.0" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="76.0" />
             <Button fx:id="newProjectButton" layoutX="504.0" layoutY="29.0" mnemonicParsing="false" onAction="#newProject" prefWidth="127.0" styleClass="cbtn" text="New Project" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="27.0" />
