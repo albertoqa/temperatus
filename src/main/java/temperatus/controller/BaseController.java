@@ -70,7 +70,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
-    private String actualBaseView = Constants.HOME;  // name of the current selected view
+    private String actualBaseView = Constants.HOME;  // name of the currently selected view
 
     private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
@@ -348,7 +348,7 @@ public class BaseController implements Initializable, AbstractController, Device
                 newIButtonController.setData(event.getSerial(), event.getContainer().getName());
             });
         } else {
-            Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
+            Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());
         }
     }
 

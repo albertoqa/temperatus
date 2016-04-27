@@ -50,7 +50,7 @@
     -fx-background-color: #2b3940;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: white;
     -fx-label-padding: 0 0 0 30;
@@ -81,7 +81,7 @@
     -fx-background-color: #2b3940;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: white;
     -fx-label-padding: 0 0 0 60;
@@ -122,7 +122,7 @@
 
  .label-bright {
      -fx-font-size: 11pt;
-     -fx-font-family: "Segoe UI Semibold";
+     -fx-font-family: "Avenir Light";
      -fx-text-fill: white;
      -fx-opacity: 1;
  }
@@ -153,7 +153,7 @@
     -fx-background-color: #40749b;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 11px;
     -fx-text-fill: white;
 
@@ -208,7 +208,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 14px;
     -fx-text-fill: black;
 
@@ -239,7 +239,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 11px;
     -fx-text-fill: black;
 
@@ -270,7 +270,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: black;
 
@@ -306,7 +306,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: black;
 
@@ -342,7 +342,7 @@
     -fx-background-color: #e67a67;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: black;
 
@@ -379,7 +379,7 @@
     -fx-background-color: #8b4440;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 12px;
     -fx-text-fill: white;
 }
@@ -504,7 +504,7 @@
     -fx-background-color: #2b3940;
     -fx-text-fill: white;
     -fx-cell-size: 3.2em; /* 24 */
-    -fx-font: 14px "Segoe UI Semibold";
+    -fx-font: 14px "Avenir Light";
     -fx-alignment: CENTER_LEFT;
     -fx-border-color:transparent;
 }
@@ -805,7 +805,7 @@
    -fx-label-padding: 0 0 0 30;
    -fx-padding: 15 0 15 30;
    -fx-graphic-text-gap: 15;
-   -fx-font-family: "Segoe UI Semibold";
+   -fx-font-family: "Avenir Light";
    -fx-font-size: 12px;
    -fx-text-fill: white;
 
