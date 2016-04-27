@@ -3,6 +3,11 @@
     Author     : Alberto Quesada
 */
 
+.root {
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
+}
+
 
 .grayBack {
   -fx-background-color: #f3f3f3;
@@ -145,7 +150,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-text-fill: white;
 
     -fx-background-radius: 3;
@@ -1058,4 +1063,13 @@
 
 .check-box:selected .mark {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+}
+
+.progress-bar .bar {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-accent,95%), derive(-fx-accent,10%)),
+        #3999cf; /* this line is the background color of the bar */
+    -fx-background-insets: 0, 1, 2;
+    -fx-padding: 0.416667em; /* 5 */
 }

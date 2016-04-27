@@ -22,31 +22,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        boolean isFirstTime = Constants.prefs.getBoolean(Constants.FIRST_TIME, true);
-        logger.info("Is this the first time?: " + isFirstTime);
-
-        // Start a wizard asking for default prefs to the user
-        /*if (isFirstTime) {
-            Constants.prefs.putBoolean(Constants.FIRST_TIME, false);
-
-            FirstStartController firstStartController = new FirstStartController();
-            firstStartController.startWizard();
-        }*/
-
         Pane pane;
 
         boolean isActivated = Constants.prefs.getBoolean(Constants.ACTIVATED, false);
-        if(!isActivated) {
+        logger.info("Is the software already activated?  " + isActivated);
+        if (!isActivated) {
             // load the activation window
             pane = FXMLLoader.load(getClass().getResource(Constants.ACTIVATION));
         } else {
             // load the Splash screen
             pane = VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH));
+            primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders
         }
 
         Scene scene = new Scene(pane);
-        primaryStage.initStyle(StageStyle.UNDECORATED); // remove borders
         primaryStage.setScene(scene);
         primaryStage.show();
     }

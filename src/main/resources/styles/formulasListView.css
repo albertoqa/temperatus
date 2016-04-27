@@ -4,6 +4,10 @@
 *                                                                             *
 ******************************************************************************/
 
+.root {
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
+}
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: white;
@@ -24,13 +28,11 @@
     -fx-text-fill: black;
 }
 
-.list-view{
+.list-view {
     -fx-background-color: #ffffff;
     -fx-border-insets: 0;
     -fx-background-insets: 0;
 }
-
-//////////////////////////
 
 .check-box .box {
     -fx-background-color: white;

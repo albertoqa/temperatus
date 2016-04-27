@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
 import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceConnectedList;
-import temperatus.device.DeviceOperationsManager;
 import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -67,7 +66,6 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
-    @Autowired DeviceOperationsManager deviceOperationsManager;
     @Autowired DeviceConnectedList deviceConnectedList;
 
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
@@ -79,8 +77,6 @@ public class BaseController implements Initializable, AbstractController, Device
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing base controller");
-
-        deviceOperationsManager.init(); // start executors (and device scan task)
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(deviceConnectedList);

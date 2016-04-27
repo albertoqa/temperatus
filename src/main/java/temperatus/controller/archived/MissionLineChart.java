@@ -33,6 +33,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
+ * Mission information show in a graph
+ * <p>
  * Created by alberto on 6/4/16.
  */
 @Controller
@@ -118,11 +120,11 @@ public class MissionLineChart implements Initializable, AbstractController {
     private void reloadSelectedSeriesForPeriod(int period) {
         series.clear();
 
-        for(Record record: positionsList.getCheckModel().getCheckedItems()) {
+        for (Record record : positionsList.getCheckModel().getCheckedItems()) {
             addSerieForRecord(record, period);
         }
 
-        for(Formula formula: formulasList.getCheckModel().getCheckedItems()) {
+        for (Formula formula : formulasList.getCheckModel().getCheckedItems()) {
             addSerieForFormula(formula, period);
         }
     }
@@ -132,7 +134,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
-        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+        measurements.stream().forEach(measurement -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
         return serie;
     }
@@ -144,9 +146,9 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(dataMap.keySet()), formula, period);
 
-        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+        measurements.stream().forEach(measurement -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
 
-        for(Measurement measurement: measurements) {
+        for (Measurement measurement : measurements) {
             if (measurement.getData() == Double.NaN) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Some formulas cannot be calculated due to an error in the operation. Please check that selected formulas are correct.");
                 alert.show();

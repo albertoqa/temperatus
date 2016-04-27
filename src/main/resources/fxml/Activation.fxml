@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="708.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ActivationController">
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="625.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ActivationController">
    <children>
-      <TextField fx:id="mailInput" layoutX="183.0" layoutY="227.0" prefHeight="27.0" prefWidth="419.0" styleClass="form" />
-      <TextArea fx:id="keyInput" layoutX="183.0" layoutY="276.0" prefHeight="81.0" prefWidth="419.0" styleClass="form" />
-      <Label fx:id="mailLabel" alignment="CENTER_RIGHT" layoutX="58.0" layoutY="232.0" prefHeight="17.0" prefWidth="100.0" styleClass="label-paneinfo" text="Mail:" />
-      <Label fx:id="keyLabel" alignment="CENTER_RIGHT" layoutX="58.0" layoutY="276.0" prefHeight="17.0" prefWidth="100.0" styleClass="label-paneinfo" text="Key:" />
-      <Button fx:id="activateButton" onAction="#activate" layoutX="581.0" layoutY="322.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Activate" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
-      <Button fx:id="trialButton" onAction="#trial" layoutX="389.0" layoutY="322.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Continue Trial" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
-      <Button fx:id="buyButton" onAction="#buy" layoutX="245.0" layoutY="322.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Buy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
-      <ImageView fx:id="temperatusImage" fitHeight="160.0" fitWidth="368.0" layoutX="170.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="mailInput" layoutX="88.0" layoutY="223.0" prefHeight="27.0" prefWidth="460.0" promptText="name@email.com" styleClass="form" />
+      <TextArea fx:id="keyInput" layoutX="88.0" layoutY="262.0" prefHeight="53.0" prefWidth="460.0" promptText="73f5b722c48dc80eb3d02424fae95d6c7ad2f85d" styleClass="form" />
+      <ImageView fx:id="temperatusImage" fitHeight="142.0" fitWidth="420.0" layoutX="108.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/temperatus.jpg" />
          </image>
       </ImageView>
+      <Label layoutX="244.0" layoutY="172.0" text="Welcome to Temperatus!">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutY="264.0" prefHeight="67.0" prefWidth="708.0" styleClass="grayBack" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="activateButton" disable="true" mnemonicParsing="false" onAction="#activate" prefWidth="127.0" styleClass="cbtn" text="Activate" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="trialButton" mnemonicParsing="false" onAction="#trial" prefWidth="127.0" styleClass="cbtn" text="Continue Trial" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefWidth="127.0" styleClass="cbtn" text=" Buy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="103.0" layoutY="191.0" text="To activate the full version, please introduce the email and key sent to you.">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font>
+      </Label>
+      <Separator layoutY="344.0" prefHeight="3.0" prefWidth="451.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

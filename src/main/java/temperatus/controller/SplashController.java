@@ -30,6 +30,7 @@ public class SplashController implements Initializable, AbstractController {
 
     @FXML private Label rights;
     @FXML private Label version;
+    @FXML private Label webPage;
     @FXML private ProgressBar progress;
 
     private Stage stage = new Stage();
@@ -49,24 +50,17 @@ public class SplashController implements Initializable, AbstractController {
     /**
      * Imitate a long and expensive task + load home screen
      *
-     * @return
+     * @return sleep task
      */
     private Task createSleepTask() {
         Task task = new Task<Void>() {
             @Override
             public Void call() {
-
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadHome();
-                    }
-                });
+                Platform.runLater(() -> loadHome());
 
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
-                        //Thread.sleep(1);    // TODO
                         Thread.sleep(100);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
@@ -82,21 +76,20 @@ public class SplashController implements Initializable, AbstractController {
 
         // When the task finishes show the home window
         task.setOnSucceeded(t -> showHome());
-
         return task;
     }
-
 
     /**
      * Close actual stage and open a new one with Home screen loaded
      */
     private void showHome() {
+        VistaNavigator.loadVista(Constants.HOME);
+
         Stage currentStage = (Stage) rights.getScene().getWindow();
         currentStage.close();
         stage.show();
         Constants.prefs.putBoolean(Constants.ACTIVATED, false); // FIXME remove this line
     }
-
 
     /**
      * Load and save the BaseController, create a new Stage which will be the main stage of the application
@@ -107,9 +100,7 @@ public class SplashController implements Initializable, AbstractController {
         stage.setMinHeight(VistaNavigator.MIN_HEIGHT);
         stage.setMinWidth(VistaNavigator.MIN_WIDTH);
         VistaNavigator.setBaseController(VistaNavigator.loader.getController());    // loader is set to BASE
-        VistaNavigator.loadVista(Constants.HOME);
     }
-
 
     @Override
     public void translate() {

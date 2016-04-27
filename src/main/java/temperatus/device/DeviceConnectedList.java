@@ -48,6 +48,19 @@ public class DeviceConnectedList implements DeviceDetectorListener {
     }
 
     /**
+     * Search for the same device serial on the list and set its alias and defaultPosition
+     * @param serial device's serial
+     * @param alias alias to set
+     * @param position position name to set
+     */
+    public synchronized void replaceDevice(String serial, String alias, String position) {
+        devices.stream().filter(device -> device.getSerial().equals(serial)).forEach(device -> {
+            device.setAlias(alias);
+            device.setDefaultPosition(position);
+        });
+    }
+
+    /**
      * On device arrival, create a new Device object with its information and search for it on the database
      * if it already exists set its alias and default position also. Finally add it to the list of connected
      * devices.

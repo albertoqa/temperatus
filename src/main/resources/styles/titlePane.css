@@ -4,6 +4,10 @@
  *                                                                             *
  ******************************************************************************/
 
+ .root {
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+ }
 
 .titled-pane {
 -fx-text-fill: #FFFFFF;
