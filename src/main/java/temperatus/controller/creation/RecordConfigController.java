@@ -56,7 +56,6 @@ public class RecordConfigController extends AbstractCreationController implement
 
     @FXML private TabPane tabPane;
     @FXML private Tab generalTab;
-    @FXML private Button addFormulaButton;
     @FXML private Button backButton;
     @FXML private CheckListView<Formula> listViewFormulas;
 
@@ -148,8 +147,8 @@ public class RecordConfigController extends AbstractCreationController implement
             String serial = validatedData.getDeviceSerial();
             String alias = validatedData.getIbutton().getAlias();
             String sampleRate = validatedData.getSampleRate();
-            String startDate = validatedData.getStartDate().toString();
-            String endDate = validatedData.getFinishDate().toString();
+            String startDate = Constants.dateTimeFormat.format(validatedData.getStartDate());
+            String endDate = Constants.dateTimeFormat.format(validatedData.getFinishDate());
             String totalMeasurements = String.valueOf(validatedData.getMeasurements().size());
             String position = validatedData.getPosition().getPlace();
 
@@ -197,12 +196,12 @@ public class RecordConfigController extends AbstractCreationController implement
     private void loadGeneralData() {
         modelLabel.setText(generalData.getModels());
         rateLabel.setText(generalData.getRate());
-        startDateLabel.setText(generalData.getStartDate().toString());
-        endDateLabel.setText(generalData.getEndDate().toString());
+        startDateLabel.setText(Constants.dateTimeFormat.format(generalData.getStartDate()));
+        endDateLabel.setText(Constants.dateTimeFormat.format(generalData.getEndDate()));
         avgMeasurementsLabel.setText(String.valueOf(generalData.getMeasurementsPerButton()));
-        maxTempLabel.setText(String.valueOf(generalData.getMaxTemp()));
-        minTempLabel.setText(String.valueOf(generalData.getMinTemp()));
-        avgTempLabel.setText(String.valueOf(generalData.getAvgTemp()));
+        maxTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMaxTemp())));
+        minTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMinTemp())));
+        avgTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getAvgTemp())));
     }
 
     /**
@@ -365,7 +364,6 @@ public class RecordConfigController extends AbstractCreationController implement
     @Override
     public void translate() {
         generalTab.setText(language.get(Lang.GENERAL_TAB));
-        addFormulaButton.setText(language.get(Lang.ADD_FORMULA_BUTTON));
         backButton.setText(language.get(Lang.BACK_BUTTON));
         timeRangeWarning.setText(language.get(Lang.TIME_RANGE_WARNING));
         titleLabel.setText(language.get(Lang.RECORD_CONFIG_TITLE));

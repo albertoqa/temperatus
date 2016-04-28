@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.button.ConnectedDevicesController;
 import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceConnectedList;
-import temperatus.device.DeviceOperationsManager;
 import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -67,20 +66,17 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
-    @Autowired DeviceOperationsManager deviceOperationsManager;
     @Autowired DeviceConnectedList deviceConnectedList;
 
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
-    private String actualBaseView = Constants.HOME;  // name of the current selected view
+    private String actualBaseView = Constants.HOME;  // name of the currently selected view
 
     private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing base controller");
-
-        deviceOperationsManager.init(); // start executors (and device scan task)
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(deviceConnectedList);
@@ -352,7 +348,7 @@ public class BaseController implements Initializable, AbstractController, Device
                 newIButtonController.setData(event.getSerial(), event.getContainer().getName());
             });
         } else {
-            Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial: " + ibutton.getSerial()).show());
+            Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());
         }
     }
 

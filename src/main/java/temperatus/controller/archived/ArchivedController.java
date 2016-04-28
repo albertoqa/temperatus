@@ -160,7 +160,7 @@ public class ArchivedController implements Initializable, AbstractController {
     private FilterableTreeItem<TreeElement> getTreeProjects() {
 
         // root element holds all projects but it is not shown in the tree
-        FilterableTreeItem<TreeElement> root = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
+        FilterableTreeItem<TreeElement> rootNode = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
 
         // Get all projects on a different thread than the JavaFX UI thread to remain responsive
         Task<List<Project>> getAllProjectsTask = new Task<List<Project>>() {
@@ -171,15 +171,13 @@ public class ArchivedController implements Initializable, AbstractController {
         };
 
         // on task completion add all projects to the tree and get all missions for each project
-        getAllProjectsTask.setOnSucceeded(e -> {
-            getTreeMissions(getAllProjectsTask.getValue(), root);
-        });
+        getAllProjectsTask.setOnSucceeded(e -> getTreeMissions(getAllProjectsTask.getValue(), rootNode));
 
         // run the task using a thread from the thread pool
         logger.info("Submiting task to retrieve all projects");
         databaseExecutor.submit(getAllProjectsTask);
 
-        return root;
+        return rootNode;
     }
 
     /**
@@ -229,7 +227,7 @@ public class ArchivedController implements Initializable, AbstractController {
         missionInfoPane.setDisable(true);
 
         projectName.setText(project.getName());
-        projectDate.setText(project.getDateIni().toString());
+        projectDate.setText(Constants.dateFormat.format(project.getDateIni()));
         projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
         projectObservations.setText(project.getObservations());
 
@@ -238,6 +236,9 @@ public class ArchivedController implements Initializable, AbstractController {
             if(!authors.contains(mission.getAuthor().getName())) {
                 authors = authors + mission.getAuthor().getName() + ", ";
             }
+        }
+        if(!authors.equals("")) {   // remove last comma
+            authors = authors.substring(0, authors.length() - 2);
         }
 
         projectAuthors.setText(authors);
@@ -256,7 +257,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         missionName.setText(mission.getName());
         missionAuthor.setText(mission.getAuthor().getName());
-        missionDate.setText(mission.getDateIni().toString());
+        missionDate.setText(Constants.dateFormat.format(mission.getDateIni()));
         missionGame.setText(mission.getGame().getTitle());
         missionProject.setText(mission.getProject().getName());
         missionSubject.setText(mission.getSubject().getName());
@@ -306,7 +307,7 @@ public class ArchivedController implements Initializable, AbstractController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
-            ((Project) treeTable.getSelectionModel().getSelectedItem().getParent().getValue().getElement()).getMissions().remove((Mission) getSelectedElement().getElement());
+            ((Project) treeTable.getSelectionModel().getSelectedItem().getParent().getValue().getElement()).getMissions().remove(getSelectedElement().getElement());
             missionService.delete(getSelectedElement().getElement());
             FilterableTreeItem<TreeItem<TreeElement>> treeItem = (FilterableTreeItem) treeTable.getSelectionModel().getSelectedItem();
             ((FilterableTreeItem<TreeItem<TreeElement>>) treeItem.getParent()).getInternalChildren().remove(treeItem);

@@ -274,6 +274,9 @@ public class Lang {
     public static final String ERROR_STARTING_MISSION = "errorStartingMission";
     public static final String ERROR_STOPPING_MISSION = "errorStoppingMission";
 
+    public static final String ERROR_VALIDATING_CREDENTIALS = "errorValidatingCredentials";
+    public static final String ERROR_INVALID_CREDENTIALS = "errorInvalidCredentials";
+
 
     private Lang() {
     }

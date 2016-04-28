@@ -23,8 +23,8 @@ public class VistaNavigator {
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
-    public static final double MIN_HEIGHT = 800.0;  // TODO calculate min size for all screens
-    public static final double MIN_WIDTH = 1200.0;
+    public static final double MIN_HEIGHT = 680.0;
+    public static final double MIN_WIDTH = 1000.0;
 
     ////////////////////////////////////////////////////////////////////////////
     /**
@@ -61,13 +61,13 @@ public class VistaNavigator {
             return null;
         }
 
-        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
+        Node node = loader.load(VistaNavigator.class.getResource(fxml));
         baseController.setView(node);
         return loader.getController();
     }
 
     public static <T> T pushViewToStack(String fxml) {
-        Node node = (Node) loader.load(VistaNavigator.class.getResource(fxml));
+        Node node = loader.load(VistaNavigator.class.getResource(fxml));
         baseController.pushViewToStack(node);
         return loader.getController();
     }
@@ -112,12 +112,22 @@ public class VistaNavigator {
         if (parentNode != null) {
             parentNode.setDisable(true);
         }
+
+        stage.setOnCloseRequest(event -> {
+            logger.info("Closing stage");
+            onCloseModalAction();
+        });
+
         stage.show();
         return loader.getController();
     }
 
     public static void closeModal(Node n) {
         Animation.fadeInOutClose(n);
+        onCloseModalAction();
+    }
+
+    private static void onCloseModalAction() {
         parentNode.setDisable(false);
         baseController.selectBase();
     }

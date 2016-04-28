@@ -4,6 +4,10 @@
  *                                                                             *
  ******************************************************************************/
 
+.root {
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+ }
 
 .titled-pane {
 -fx-text-fill: #FFFFFF;
@@ -28,10 +32,10 @@
   -fx-border-style: none;
   -fx-border-insets: 0;
   -fx-label-padding: 0 0 0 30;
-  -fx-padding: 12 0 12 30;
+  -fx-padding: 5 0 5 30;
   -fx-graphic-text-gap: 15;
-  -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 12px;
+  -fx-font-family: "Avenir Heavy";
+  -fx-font-size: 13px;
   -fx-text-fill: white;
 
 }
@@ -62,7 +66,7 @@
     -fx-prompt-text-fill: #818181;
 
     -fx-font-family: "Avenir Medium";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-text-fill: black;
 
     -fx-highlight-fill: #008287;
@@ -81,8 +85,8 @@
      -fx-background-color: #40749b;
      -fx-background-insets: 0;
      -fx-border-insets: 0;
-     -fx-font-family: "Segoe UI Semibold";
-     -fx-font-size: 12px;
+     -fx-font-family: "Avenir Book";
+     -fx-font-size: 11px;
      -fx-text-fill: white;
 
      -fx-background-radius: 3;
@@ -136,7 +140,7 @@
      -fx-background-color: #f3f3f3;
      -fx-background-insets: 0;
      -fx-border-insets: 0;
-     -fx-font-family: "Segoe UI Semibold";
+     -fx-font-family: "Avenir Book";
      -fx-font-size: 14px;
      -fx-text-fill: black;
 
@@ -163,7 +167,7 @@
  }
 
  .check-box .text {
-   -fx-font-size: 10pt;
+   -fx-font-size: 11px;
    -fx-font-family: "Avenir Medium";
    -fx-text-fill: black;
  }
@@ -200,7 +204,87 @@
  }
 
  .label-paneinfo {
-     -fx-font-size: 10pt;
+     -fx-font-size: 11px;
      -fx-font-family: "Avenir Medium";
      -fx-text-fill: black;
+ }
+
+ .label-paneinfocolumn {
+     -fx-font-size: 11px;
+     -fx-font-family: "Avenir Medium";
+     -fx-text-fill: white;
+ }
+
+ /*******************************************************************************
+ *                                                                             *
+ * ListView                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+
+ .list-cell:filled:selected:focused, .list-cell:filled:selected {
+     -fx-background-color: #fefefe;
+     -fx-text-fill: black;
+ }
+
+ .list-cell {
+   -fx-background: white;
+   -fx-background-color: white;
+   -fx-text-fill: black;
+   -fx-font-family: "Avenir Medium";
+   -fx-font-size: 11px;
+   -fx-border-color:transparent;
+   -fx-border-width: 0 1 0 1;
+ }
+
+ .list-cell:filled:hover {
+     -fx-background-color: white;
+     -fx-text-fill: black;
+ }
+
+ .list-view {
+     -fx-background-color: #ffffff;
+     -fx-border-width: 1;
+     -fx-background-insets: 0;
+     -fx-border-color:black;
+     -fx-border-width: 0.5 0.5 0.5 0.5;
+ }
+
+ /*###########   Import button (ibtn)     ############*/
+
+ .sbtn {
+     -fx-padding: 2 10 2 10;
+     -fx-border-style: none;
+     -fx-border-color : grey grey grey grey;
+     -fx-border-width:0.8;
+ /*    -fx-background-color: #16b7bd; */
+ /*    -fx-background-color: #299bb4; */
+     -fx-background-color: #f3f3f3;
+     -fx-background-insets: 0;
+     -fx-border-insets: 0;
+     -fx-font-family: "Avenir Book";
+     -fx-font-size: 11px;
+     -fx-text-fill: black;
+
+     -fx-background-radius: 3;
+     -fx-border-radius: 3;
+
+ }
+
+ .sbtn:hover{
+     -fx-background-color: #cdcdcd;
+ }
+
+ .sbtn:pressed, .ibtn:default:hover:pressed
+ {
+   -fx-background-color: #b4b4b4;
+   -fx-text-fill: white;
+ }
+
+ .radio-button {
+   -fx-font-size: 11px;
+   -fx-font-family: "Avenir Medium";
+   -fx-text-fill: black;
+   -fx-focus-color: gray;
+   -fx-faint-focus-color: transparent;
  }

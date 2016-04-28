@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.CheckListView?>
 <?import temperatus.model.pojo.utils.DateAxis?>
-<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="823.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.MissionLineChart">
+<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="750.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.MissionLineChart">
    <children>
       <LineChart fx:id="lineChart" layoutX="9.0" layoutY="31.0" prefHeight="420.0" prefWidth="568.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="15.0">
         <xAxis>
@@ -20,7 +20,7 @@
       </LineChart>
       <CheckListView fx:id="positionsList" layoutX="595.0" layoutY="57.0" prefHeight="170.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
       <CheckListView fx:id="formulasList" layoutX="595.0" layoutY="236.0" prefHeight="170.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="730.0" layoutY="16.0" mnemonicParsing="false" onAction="#saveAsPng" styleClass="ibtn" text="Save Graphic" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="16.0" />
+      <Button layoutX="730.0" layoutY="16.0" mnemonicParsing="false" onAction="#saveAsPng" prefHeight="29.0" prefWidth="130.0" styleClass="sbtn" text="Save Graphic" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="16.0" />
       <Spinner fx:id="spinner" layoutX="595.0" layoutY="16.0" prefHeight="29.0" prefWidth="72.0" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="16.0" />
    </children>
 </AnchorPane>

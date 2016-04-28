@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="/fxml/ConnectedDevices.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="782.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.ConnectedDevicesController">
+<StackPane id="/fxml/ConnectedDevices.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.ConnectedDevicesController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="536.0" prefWidth="782.0" styleClass="grayBack">
          <children>
@@ -23,13 +23,13 @@
                         <Font name="Avenir Light" size="35.0" />
                      </font>
                   </Label>
-                  <Button fx:id="configureButton" onAction="#configureIbutton" layoutX="683.0" layoutY="22.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Configure" AnchorPane.rightAnchor="27.0" />
+                  <Button fx:id="configureButton" layoutX="683.0" layoutY="22.0" mnemonicParsing="false" onAction="#configureIbutton" prefWidth="127.0" styleClass="cbtn" text="Configure" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
-            <HBox fx:id="searchingIndicator" alignment="CENTER" layoutX="295.0" layoutY="154.0" prefHeight="100.0" prefWidth="191.0" spacing="30.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="296.0">
+            <HBox fx:id="searchingIndicator" alignment="CENTER" layoutX="295.0" layoutY="154.0" prefHeight="100.0" prefWidth="191.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="296.0">
                <children>
                   <Label fx:id="searchingLabel" prefHeight="100.0" prefWidth="95.0" styleClass="label-paneinfo" text="Searching..." />
-                  <ProgressIndicator fx:id="progressIndicator" prefHeight="70.0" prefWidth="70.0" />
+                  <ProgressIndicator fx:id="progressIndicator" prefHeight="73.0" prefWidth="47.0" />
                </children>
             </HBox>
          </children>

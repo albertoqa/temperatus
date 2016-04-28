@@ -3,6 +3,11 @@
     Author     : Alberto Quesada
 */
 
+.root {
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
+}
+
 
 .grayBack {
   -fx-background-color: #f3f3f3;
@@ -17,7 +22,11 @@
 .mainLabel {
   -fx-font-family: "Avenir Medium";
   -fx-font-size: 25px;
-  -fx-text-fill: #242c35;
+  -fx-text-fill: #4c5e70;
+}
+
+.topMenu {
+  -fx-background-color: #cdcdcd;
 }
 
 /*******************************************************************************
@@ -32,7 +41,7 @@
 }
 
 .leftbtn {
-    -fx-padding: 15 0 15 0;
+    -fx-padding: 10 0 10 0;
     -fx-border-style: none;
     -fx-background-radius: 0;
     -fx-border-color : #3a474d;
@@ -41,8 +50,8 @@
     -fx-background-color: #2b3940;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: white;
     -fx-label-padding: 0 0 0 30;
     -fx-graphic-text-gap: 15;
@@ -63,7 +72,7 @@
 
 
 .leftbtn1 {
-    -fx-padding: 15 0 15 0;
+    -fx-padding: 10 0 10 0;
     -fx-border-style: none;
     -fx-background-radius: 0;
     -fx-border-color : #3a474d;
@@ -72,8 +81,8 @@
     -fx-background-color: #2b3940;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: white;
     -fx-label-padding: 0 0 0 60;
     -fx-graphic-text-gap: 15;
@@ -100,9 +109,15 @@
  ******************************************************************************/
 
  .label-paneinfo {
-     -fx-font-size: 10pt;
+     -fx-font-size: 11px;
      -fx-font-family: "Avenir Medium";
      -fx-text-fill: black;
+ }
+
+ .label-paneinfocolumn {
+     -fx-font-size: 11px;
+     -fx-font-family: "Avenir Medium";
+     -fx-text-fill: white;
  }
 
  .label-paneinfodata {
@@ -113,7 +128,7 @@
 
  .label-bright {
      -fx-font-size: 11pt;
-     -fx-font-family: "Segoe UI Semibold";
+     -fx-font-family: "Avenir Light";
      -fx-text-fill: white;
      -fx-opacity: 1;
  }
@@ -144,8 +159,8 @@
     -fx-background-color: #40749b;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Book";
+    -fx-font-size: 11px;
     -fx-text-fill: white;
 
     -fx-background-radius: 3;
@@ -199,7 +214,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 14px;
     -fx-text-fill: black;
 
@@ -230,7 +245,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Avenir Light";
     -fx-font-size: 11px;
     -fx-text-fill: black;
 
@@ -261,8 +276,8 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: black;
 
     -fx-background-radius: 3;
@@ -297,8 +312,8 @@
     -fx-background-color: #f3f3f3;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: black;
 
     -fx-background-radius: 3;
@@ -333,8 +348,8 @@
     -fx-background-color: #e67a67;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: black;
 
     -fx-background-radius: 3;
@@ -370,8 +385,8 @@
     -fx-background-color: #8b4440;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 12px;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
     -fx-text-fill: white;
 }
 
@@ -495,7 +510,7 @@
     -fx-background-color: #2b3940;
     -fx-text-fill: white;
     -fx-cell-size: 3.2em; /* 24 */
-    -fx-font: 14px "Segoe UI Semibold";
+    -fx-font: 14px "Avenir Light";
     -fx-alignment: CENTER_LEFT;
     -fx-border-color:transparent;
 }
@@ -521,7 +536,7 @@
      -fx-padding: 0.5em 0.5em 0.1em 0.3em;
      -fx-border-color: transparent transparent transparent transparent;
      -fx-font-family: "Avenir Medium";
-     -fx-font-size: 12px;
+     -fx-font-size: 11px;
      -fx-text-fill: black;
      -fx-alignment: CENTER_LEFT;
      -fx-border-insets: 0;
@@ -583,6 +598,8 @@
 
  .tree-table-view .column-header .label{
      -fx-text-fill: #FFFFFF;
+     -fx-font-family: "Avenir Medium";
+     -fx-font-size: 11px;
      -fx-alignment: CENTER_LEFT;
  }
 
@@ -590,7 +607,7 @@
      -fx-background-color: #2b3940;
      /*2b3940
      -fx-background-color: #8493a8;*/
-     -fx-size: 30;
+     -fx-size: 22;
      -fx-border-color: -fx-box-border;
      -fx-border-insets: -1 0 0 -1;
      -fx-padding: 0 5 0 10;
@@ -659,7 +676,7 @@
  .tab .tab-label {
      -fx-alignment: CENTER;
      -fx-text-fill: #ffffff;
-     -fx-font-size: 12px;
+     -fx-font-size: 11px;
      -fx-font-weight: normal;
  }
 
@@ -796,8 +813,8 @@
    -fx-label-padding: 0 0 0 30;
    -fx-padding: 15 0 15 30;
    -fx-graphic-text-gap: 15;
-   -fx-font-family: "Segoe UI Semibold";
-   -fx-font-size: 12px;
+   -fx-font-family: "Avenir Light";
+   -fx-font-size: 11px;
    -fx-text-fill: white;
 
  }
@@ -828,7 +845,7 @@
      -fx-prompt-text-fill: #818181;
 
      -fx-font-family: "Avenir Medium";
-     -fx-font-size: 12px;
+     -fx-font-size: 11px;
      -fx-text-fill: black;
 
      -fx-highlight-fill: #008287;
@@ -870,7 +887,7 @@
     -fx-prompt-text-fill: #818181;
 
     -fx-font-family: "Avenir Medium";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-text-fill: black;
 
     -fx-highlight-fill: #008287;
@@ -900,20 +917,20 @@
     -fx-background-color: white;
     -fx-text-fill: black;
     -fx-font-family: "Avenir Medium";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
   }
 
   .combo-box-popup .list-view {
       -fx-background-color: #FFFFFF;
       -fx-font-family: "Avenir Medium";
-      -fx-font-size: 12px;
+      -fx-font-size: 11px;
   }
 
   .combo-box-popup .list-view .list-cell {
       -fx-padding: 4 0 4 5;
       -fx-background-color: #FFFFFF;
       -fx-font-family: "Avenir Medium";
-      -fx-font-size: 12px;
+      -fx-font-size: 11px;
       -fx-text-fill: black;
   }
 
@@ -943,7 +960,7 @@
     -fx-padding: 0.5em 0.5em 0.1em 0.3em;
     -fx-border-color: transparent transparent transparent transparent;
     -fx-font-family: "Avenir Medium";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-text-fill: black;
     -fx-alignment: CENTER_LEFT;
     -fx-border-insets: 0;
@@ -985,15 +1002,17 @@
 }
 
 .table-view .column-header .label{
-    -fx-text-fill: #FFFFFF;
-    -fx-alignment: CENTER_LEFT;
+  -fx-text-fill: #FFFFFF;
+  -fx-font-family: "Avenir Medium";
+  -fx-font-size: 11px;
+  -fx-alignment: CENTER_LEFT;
 }
 
 .table-view .column-header, .table-view .filler {
     -fx-background-color: #2b3940;
     /*2b3940
     -fx-background-color: #8493a8;*/
-    -fx-size: 30;
+    -fx-size: 22;
     -fx-border-color: -fx-box-border;
     -fx-border-insets: -1 0 0 -1;
     -fx-padding: 0 5 0 10;
@@ -1058,4 +1077,64 @@
 
 .check-box:selected .mark {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+}
+
+.progress-bar .bar {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-accent,95%), derive(-fx-accent,10%)),
+        #3999cf; /* this line is the background color of the bar */
+    -fx-background-insets: 0, 1, 2;
+    -fx-padding: 0.416667em; /* 5 */
+}
+
+.radio-button {
+  -fx-font-size: 11px;
+  -fx-font-family: "Avenir Medium";
+  -fx-text-fill: black;
+  -fx-focus-color: black;
+  -fx-faint-focus-color: black;
+}
+
+.range-slider .range-bar {
+    -fx-background-color: #3999cf;
+}
+
+/*###########   Import button (ibtn)     ############*/
+
+.sbtn {
+    -fx-padding: 2 10 2 10;
+    -fx-border-style: none;
+    -fx-border-color : grey grey grey grey;
+    -fx-border-width:0.8;
+/*    -fx-background-color: #16b7bd; */
+/*    -fx-background-color: #299bb4; */
+    -fx-background-color: #f3f3f3;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Avenir Book";
+    -fx-font-size: 11px;
+    -fx-text-fill: black;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+
+}
+
+.sbtn:hover{
+    -fx-background-color: #cdcdcd;
+}
+
+.sbtn:pressed, .ibtn:default:hover:pressed
+{
+  -fx-background-color: #b4b4b4;
+  -fx-text-fill: white;
+}
+
+.radio-button {
+  -fx-font-size: 11px;
+  -fx-font-family: "Avenir Medium";
+  -fx-text-fill: black;
+  -fx-focus-color: gray;
+  -fx-faint-focus-color: transparent;
 }

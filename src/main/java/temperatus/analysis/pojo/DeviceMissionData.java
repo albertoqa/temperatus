@@ -23,7 +23,7 @@ public class DeviceMissionData {
     private String totalDeviceSamples;
     private String highAlarm;
     private String lowAlarm;
-    private String Resolution;
+    private String resolution;
     private List<Measurement> measurements;
 
     public String getInProgress() {
@@ -123,11 +123,11 @@ public class DeviceMissionData {
     }
 
     public String getResolution() {
-        return Resolution;
+        return resolution;
     }
 
     public void setResolution(String resolution) {
-        Resolution = resolution;
+        this.resolution = resolution;
     }
 
     public List<Measurement> getMeasurements() {

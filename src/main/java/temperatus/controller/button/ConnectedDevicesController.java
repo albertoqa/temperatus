@@ -80,9 +80,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         });
 
         connectedDevicesTable.getSelectionModel().clearSelection();
-        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) c -> {
-            updateIndicator();
-        });
+        deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) c -> updateIndicator());
 
         updateIndicator();
     }
@@ -237,7 +235,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      */
     private boolean temperatureContainerSupported(OneWireContainer owc) {
         logger.debug("Checking if temperatureContainer supported");
-        return (owc instanceof TemperatureContainer);
+        return owc instanceof TemperatureContainer;
     }
 
     /**
@@ -249,7 +247,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      */
     private boolean missionContainerSupported(OneWireContainer owc) {
         logger.debug("Checking if missionContainer supported");
-        return (owc instanceof MissionContainer);
+        return owc instanceof MissionContainer;
     }
 
     @Override

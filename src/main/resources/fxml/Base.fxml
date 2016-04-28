@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.BaseController">
+<BorderPane fx:id="parentPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="680.0" prefWidth="1000.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.BaseController">
    <left>
-      <AnchorPane prefHeight="776.0" prefWidth="190.0" style="-fx-background-color: #1c292f;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="776.0" prefWidth="180.0" style="-fx-background-color: #1c292f;" BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="45.0" layoutY="114.0" prefHeight="200.0" prefWidth="100.0" styleClass="leftMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                <children>
@@ -13,15 +14,19 @@
                   <ToggleButton fx:id="archive" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goArchive" styleClass="leftbtn" text="Archive" />
                   <ToggleButton fx:id="devices" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goDevices" styleClass="leftbtn" text="Devices" />
                   <ToggleButton fx:id="manage" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goManage" styleClass="leftbtn" text="Manage" />
-                  <Accordion style="-fx-background-color: #2b3940;">
+                  <Accordion style="-fx-background-color: #2b3940;" VBox.vgrow="NEVER">
                     <panes>
-                      <TitledPane fx:id="accordionPane" prefHeight="690.0" prefWidth="190.0" style="-fx-background-color: #2b3940;" text="Create New">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="190.0" style="-fx-background-color: #2b3940;">
+                      <TitledPane fx:id="accordionPane" prefWidth="190.0" style="-fx-background-color: #2b3940;" text="Create New">
+                           <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="190.0" style="-fx-background-color: #2b3940;">
                                  <children>
                                     <VBox style="-fx-background-color: #2b3940;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
                                        <children>
-                                          <ToggleButton fx:id="nProject" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewProject" styleClass="leftbtn1" text="Project" />
+                                          <ToggleButton fx:id="nProject" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewProject" styleClass="leftbtn1" text="Project">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </ToggleButton>
                                           <ToggleButton fx:id="nMission" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewMission" styleClass="leftbtn1" text="Mission" />
                                           <ToggleButton fx:id="nGame" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewGame" styleClass="leftbtn1" text="Game" />
                                           <ToggleButton fx:id="nFormula" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goNewFormula" styleClass="leftbtn1" text="Formula" />
@@ -32,11 +37,11 @@
                                     </VBox>
                                  </children>
                               </AnchorPane>
-                        </content>
+                           </content>
                       </TitledPane>
                     </panes>
                   </Accordion>
-                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <Pane VBox.vgrow="SOMETIMES" />
                   <ToggleButton fx:id="configuration" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goConfig" styleClass="leftbtn" text="Configuration" />
                   <ToggleButton fx:id="about" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goAbout" styleClass="leftbtn" text="About" />
                </children>

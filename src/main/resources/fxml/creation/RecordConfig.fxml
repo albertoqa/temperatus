@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
 <?import org.controlsfx.control.RangeSlider?>
-<StackPane id="RecordConfig" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="909.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
+<StackPane id="RecordConfig" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
    <children>
       <AnchorPane fx:id="anchorPane" prefHeight="684.0" prefWidth="730.0">
          <children>
@@ -25,14 +25,14 @@
                                     <Label fx:id="maxTempL" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="59.0" prefWidth="220.0" styleClass="label-paneinfo" text="Max Temperature:" AnchorPane.rightAnchor="171.0" />
                                     <Label fx:id="minTempL" alignment="CENTER_RIGHT" layoutX="507.0" layoutY="87.0" prefWidth="220.0" styleClass="label-paneinfo" text="Min Temperature:" AnchorPane.rightAnchor="171.0" />
                                     <Label fx:id="avgTempL" alignment="CENTER_RIGHT" layoutX="478.0" layoutY="116.0" prefWidth="220.0" styleClass="label-paneinfo" text="Average Temperature:" AnchorPane.rightAnchor="171.0" />
-                                    <Label fx:id="modelLabel" layoutX="148.0" layoutY="28.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="rateLabel" layoutX="148.0" layoutY="57.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="startDateLabel" layoutX="148.0" layoutY="85.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="endDateLabel" layoutX="148.0" layoutY="114.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="avgMeasurementsLabel" layoutX="638.0" layoutY="28.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="maxTempLabel" layoutX="638.0" layoutY="57.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="minTempLabel" layoutX="638.0" layoutY="85.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfodata" text="Label" />
-                                    <Label fx:id="avgTempLabel" layoutX="638.0" layoutY="114.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfodata" text="Label" />
+                                    <Label fx:id="modelLabel" layoutX="148.0" layoutY="28.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="rateLabel" layoutX="148.0" layoutY="57.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="startDateLabel" layoutX="148.0" layoutY="85.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="endDateLabel" layoutX="148.0" layoutY="114.0" prefHeight="20.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="avgMeasurementsLabel" layoutX="638.0" layoutY="28.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="maxTempLabel" layoutX="638.0" layoutY="57.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="minTempLabel" layoutX="638.0" layoutY="85.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfo" text="Label" />
+                                    <Label fx:id="avgTempLabel" layoutX="638.0" layoutY="114.0" prefHeight="20.0" prefWidth="146.0" styleClass="label-paneinfo" text="Label" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -52,21 +52,16 @@
                   <Button fx:id="backButton" layoutX="636.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="26.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="26.0" layoutY="345.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="345.0">
+            <AnchorPane layoutX="26.0" layoutY="334.0" prefHeight="22.0" prefWidth="200.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="334.0">
                <children>
-                  <Label fx:id="formulasLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" text="Formulas" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <Label fx:id="formulasLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="3.0" styleClass="label-paneinfocolumn" text="Formulas" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font name="Avenir Light" size="15.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="addFormulaButton" layoutX="201.0" layoutY="350.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#addFormula" prefHeight="20.0" prefWidth="20.0" styleClass="pbtn" text="+" textFill="WHITE" AnchorPane.leftAnchor="201.0" AnchorPane.topAnchor="350.0">
-               <font>
-                  <Font name="Lucida Grande" size="6.0" />
-               </font>
-            </Button>
-            <AnchorPane layoutX="248.0" layoutY="374.0" prefHeight="231.0" prefWidth="452.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="375.0">
+            <AnchorPane layoutX="252.0" layoutY="356.0" prefHeight="230.0" prefWidth="542.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="355.0">
                <children>
                   <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="115.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" />
                   <Label fx:id="timeRangeWarning" layoutX="17.0" layoutY="182.0" styleClass="label-paneinfo" text="* The time not used will be permanently deleted." AnchorPane.leftAnchor="17.0" />
@@ -76,16 +71,16 @@
                   <Label fx:id="endTimeLabel" layoutX="458.0" layoutY="23.0" styleClass="label-paneinfo" text="End Date:" AnchorPane.rightAnchor="111.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="248.0" layoutY="345.0" prefHeight="30.0" prefWidth="452.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="345.0">
+            <AnchorPane layoutX="252.0" layoutY="334.0" prefHeight="22.0" prefWidth="452.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="334.0">
                <children>
-                  <Label fx:id="rangeOfTimeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" text="Range of Time" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <Label fx:id="rangeOfTimeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="3.0" styleClass="label-paneinfocolumn" text="Range of Time" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font name="Avenir Light" size="15.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <CheckListView fx:id="listViewFormulas" layoutX="2.0" layoutY="312.0" prefWidth="200.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="375.0" />
+            <CheckListView fx:id="listViewFormulas" layoutX="2.0" layoutY="355.0" prefHeight="230.0" prefWidth="200.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="355.0" />
          </children>
       </AnchorPane>
    </children>

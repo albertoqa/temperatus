@@ -118,14 +118,14 @@ public class DeviceReadTask extends DeviceTask {
 
             int sample_count = mContainer.getMissionSampleCount(CHANNEL_O) | mContainer.getMissionSampleCount(CHANNEL_1);
             if (sample_count > 0) {
-                info[MISSION_START] = new Date(mContainer.getMissionTimeStamp(CHANNEL_O)).toString();
+                info[MISSION_START] = Constants.dateTimeFormat.format(new Date(mContainer.getMissionTimeStamp(CHANNEL_O)));
             } else {
                 info[MISSION_START] = "No samples yet";
             }
 
             info[MISSION_SAMPLES] = nf.format(sample_count);
             info[ROLL_OVER] = mContainer.isMissionRolloverEnabled() + (mContainer.hasMissionRolloverOccurred() ? "(rolled over)" : "(no rollover)");
-            info[FIRST_SAMPLE_TIMESTAMP] = new Date(mContainer.getMissionSampleTimeStamp(CHANNEL_O, FIRST_SAMPLE) | mContainer.getMissionSampleTimeStamp(CHANNEL_1, FIRST_SAMPLE)).toString();
+            info[FIRST_SAMPLE_TIMESTAMP] = Constants.dateTimeFormat.format(new Date(mContainer.getMissionSampleTimeStamp(CHANNEL_O, FIRST_SAMPLE) | mContainer.getMissionSampleTimeStamp(CHANNEL_1, FIRST_SAMPLE)));
 
             info[TOTAL_SAMPLES] = String.valueOf(mContainer.getMissionSampleCountTotal(CHANNEL_O));
 

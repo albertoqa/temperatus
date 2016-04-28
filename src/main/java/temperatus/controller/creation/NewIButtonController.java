@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.device.DeviceConnectedList;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
@@ -45,6 +46,7 @@ public class NewIButtonController extends AbstractCreationController implements 
 
     @Autowired PositionService positionService;
     @Autowired IbuttonService ibuttonService;
+    @Autowired DeviceConnectedList deviceConnectedList;
 
     private Ibutton ibutton;
 
@@ -84,7 +86,7 @@ public class NewIButtonController extends AbstractCreationController implements 
                 ibutton = new Ibutton();
             }
 
-            ibutton.setAlias(alias.getText());
+            ibutton.setAlias(alias.getText().length() > 0 ? alias.getText() : " ");
             ibutton.setPosition(position.getSelectionModel().getSelectedItem());
             ibutton.setModel(model.getText());
             ibutton.setSerial(serial.getText());
@@ -96,6 +98,9 @@ public class NewIButtonController extends AbstractCreationController implements 
                 // Only necessary if base view needs to know about the new ibutton creation
                 VistaNavigator.getController().reload(ibutton);
             }
+
+            // TODO update connected devices table
+            deviceConnectedList.replaceDevice(ibutton.getSerial(), ibutton.getAlias(), ibutton.getPositionProperty().getValue());
 
             logger.info("Saved: " + ibutton);
 
@@ -124,7 +129,7 @@ public class NewIButtonController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWAUTHOR));
+        titledPane.setText(language.get(Lang.NEWBUTTONTITLE));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
         serialLabel.setText(language.get(Lang.SERIALLABEL));
