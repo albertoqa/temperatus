@@ -1,6 +1,8 @@
 package temperatus.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,31 +21,34 @@ import java.util.ResourceBundle;
 @Controller
 public class HomeController implements Initializable, AbstractController {
 
+    @FXML private Hyperlink linkToWeb;
+
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private static Logger logger = LoggerFactory.getLogger(HomeController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        askForUserDefaultPreferences();
 
         logger.info("Starting devices scan task");
         //deviceOperationsManager.init(); // start executors (and device scan task)
     }
 
     /**
-     *
+     * Check if first time application start. If so, ask for user default preferences.
      */
     private void askForUserDefaultPreferences() {
         boolean isFirstTime = Constants.prefs.getBoolean(Constants.FIRST_TIME, true);
-        logger.info("Is this the first time?: " + isFirstTime);
 
         // Start a wizard asking for default prefs to the user
-        /*if (isFirstTime) {
+        if (isFirstTime) {
+            logger.info("First time using the program!");
             Constants.prefs.putBoolean(Constants.FIRST_TIME, false);
 
-            FirstStartController firstStartController = new FirstStartController();
-            firstStartController.startWizard();
-        }*/
+
+
+        }
     }
 
     @Override
