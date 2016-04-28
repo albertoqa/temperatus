@@ -4,23 +4,23 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="602.0" stylesheets="@../../styles/titlePane.css" text="New Position" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewPositionController">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="486.0" stylesheets="@../../styles/titlePane.css" text="New Position" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewPositionController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label fx:id="nameLabel" layoutX="54.0" layoutY="46.0" text="Name:">
+            <Label fx:id="nameLabel" layoutX="54.0" layoutY="46.0" styleClass="label-paneinfo" text="Name:">
                <font>
                   <Font name="Avenir Light" size="14.0" />
                </font></Label>
-            <Label fx:id="imageLabel" layoutX="54.0" layoutY="94.0" text="Image:">
+            <Label fx:id="imageLabel" layoutX="54.0" layoutY="94.0" styleClass="label-paneinfo" text="Image:">
                <font>
                   <Font name="Avenir Light" size="14.0" />
                </font></Label>
-            <TextField fx:id="nameInput" layoutX="180.0" layoutY="41.0" prefHeight="29.0" prefWidth="433.0" styleClass="form" AnchorPane.rightAnchor="37.0" />
+            <TextField fx:id="nameInput" layoutX="180.0" layoutY="41.0" prefHeight="29.0" prefWidth="327.0" styleClass="form" AnchorPane.rightAnchor="27.0" />
             <Button fx:id="saveButton" layoutX="341.0" layoutY="308.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="170.0" />
             <Button fx:id="cancelButton" layoutX="468.0" layoutY="317.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="27.0" />
-            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="241.0" layoutX="293.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="selectImageButton" layoutX="120.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectImage" styleClass="ibtn" text="Select" />
+            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="241.0" layoutX="187.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="selectImageButton" layoutX="120.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectImage" styleClass="sbtn" text="Select" />
          </children></AnchorPane>
   </content>
 </TitledPane>

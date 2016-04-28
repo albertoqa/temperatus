@@ -2,18 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/titlePane.css" text="New iButton" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewIButtonController">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="520.0" stylesheets="@../../styles/titlePane.css" text="New iButton" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewIButtonController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="598.0">
          <children>
-            <Label fx:id="serialLabel" layoutX="97.0" layoutY="73.0" text="Serial:" />
-            <Label fx:id="modelLabel" layoutX="95.0" layoutY="117.0" text="Model:" />
-            <Label fx:id="aliasLabel" layoutX="104.0" layoutY="163.0" text="Alias:" />
-            <Label fx:id="defaultPosLabel" layoutX="37.0" layoutY="211.0" text="Default Position:" />
-            <Label fx:id="serial" layoutX="181.0" layoutY="73.0" text="Label" />
-            <Label fx:id="model" layoutX="181.0" layoutY="117.0" text="Label" />
-            <TextField fx:id="alias" layoutX="179.0" layoutY="159.0" prefHeight="25.0" prefWidth="380.0" styleClass="form" AnchorPane.rightAnchor="27.0" />
-            <ComboBox fx:id="position" layoutX="179.0" layoutY="206.0" prefHeight="27.0" prefWidth="380.0" AnchorPane.rightAnchor="27.0" />
+            <Label fx:id="serialLabel" layoutX="96.0" layoutY="27.0" styleClass="label-paneinfo" text="Serial:" />
+            <Label fx:id="modelLabel" layoutX="93.0" layoutY="54.0" styleClass="label-paneinfo" text="Model:" />
+            <Label fx:id="aliasLabel" layoutX="100.0" layoutY="80.0" styleClass="label-paneinfo" text="Alias:" />
+            <Label fx:id="defaultPosLabel" layoutX="42.0" layoutY="114.0" styleClass="label-paneinfo" text="Default Position:" />
+            <Label fx:id="serial" layoutX="175.0" layoutY="27.0" styleClass="label-paneinfo" text="Label" />
+            <Label fx:id="model" layoutX="175.0" layoutY="54.0" styleClass="label-paneinfo" text="Label" />
+            <TextField fx:id="alias" layoutX="175.0" layoutY="75.0" prefHeight="25.0" prefWidth="250.0" styleClass="form" />
+            <ComboBox fx:id="position" layoutX="175.0" layoutY="108.0" prefHeight="27.0" prefWidth="250.0" stylesheets="@../../styles/temperatus.css" />
             <Button fx:id="saveButton" layoutX="395.0" layoutY="300.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
             <Button fx:id="cancelButton" layoutX="468.0" layoutY="300.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
          </children></AnchorPane>

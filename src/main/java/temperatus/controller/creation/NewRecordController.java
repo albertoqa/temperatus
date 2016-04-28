@@ -112,8 +112,8 @@ public class NewRecordController extends AbstractCreationController implements I
     private boolean isUpdate;
 
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
-    private static final Double PREF_WIDTH = 200.0;     // Preferred width for combo-box
-    private static final Double BOX_PREF_WIDTH = 250.0;     // Preferred width for box
+    private static final Double PREF_WIDTH = 180.0;     // Preferred width for combo-box
+    private static final Double BOX_PREF_WIDTH = 230.0;     // Preferred width for box
     private static final Double BUTTON_PREF_WIDTH = 127.0;     // Preferred width for keep data button
     private static final Double PSIZE = 25.0;     // Preferred size for keep data button progress indicator
 

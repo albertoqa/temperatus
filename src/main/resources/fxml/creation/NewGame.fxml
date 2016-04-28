@@ -10,29 +10,29 @@
     <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="727.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <Label fx:id="nameLabel" layoutX="55.0" layoutY="33.0" text="Game name:" />
-                <Label fx:id="numButtonsLabel" layoutX="54.0" layoutY="70.0" text="Num Buttons" />
-                <Label fx:id="observationsLabel" layoutX="51.0" layoutY="106.0" text="Observations:" />
+                <Label fx:id="nameLabel" layoutX="55.0" layoutY="33.0" styleClass="label-paneinfo" text="Game name:" />
+                <Label fx:id="numButtonsLabel" layoutX="54.0" layoutY="70.0" styleClass="label-paneinfo" text="Num Buttons" />
+                <Label fx:id="observationsLabel" layoutX="51.0" layoutY="106.0" styleClass="label-paneinfo" text="Observations:" />
                 <TextField fx:id="nameInput" layoutX="180.0" layoutY="26.0" prefHeight="30.0" prefWidth="500.0" styleClass="form" />
                 <TextField fx:id="numButtonsInput" layoutX="180.0" layoutY="67.0" prefHeight="30.0" prefWidth="500.0" styleClass="form" />
                 <TextArea fx:id="observationsInput" layoutX="180.0" layoutY="108.0" prefHeight="103.0" prefWidth="500.0" styleClass="form" />
                 <Button fx:id="saveButton" layoutX="493.0" layoutY="529.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="170.0" />
                 <Button fx:id="cancelButton" layoutX="642.0" layoutY="529.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="27.0" />
-            <AnchorPane layoutX="23.0" layoutY="270.0" prefHeight="238.0" prefWidth="661.0" style="-fx-background-color: #f3f3f3;">
+            <AnchorPane layoutX="23.0" layoutY="266.0" prefHeight="238.0" prefWidth="661.0" style="-fx-background-color: #f3f3f3;">
                <children>
-                  <ListSelectionView fx:id="positionsSelector" prefHeight="237.0" prefWidth="401.0" />
+                  <ListSelectionView fx:id="positionsSelector" prefHeight="237.0" prefWidth="401.0" styleClass="label-paneinfo" />
                   <CheckListView fx:id="formulasList" layoutX="416.0" layoutY="37.0" prefHeight="180.0" prefWidth="230.0" />
                   <Separator layoutX="401.0" layoutY="37.0" orientation="VERTICAL" prefHeight="180.0" prefWidth="4.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="23.0" layoutY="245.0" prefHeight="25.0" prefWidth="405.0" style="-fx-background-color: #475b6c;">
+            <AnchorPane layoutX="23.0" layoutY="245.0" prefHeight="22.0" prefWidth="405.0" style="-fx-background-color: #475b6c;">
                <children>
-                  <Label fx:id="defaultPositionsLabel" alignment="CENTER" layoutX="6.0" layoutY="5.0" prefHeight="17.0" prefWidth="395.0" text="Default Positions" textFill="WHITE" />
+                  <Label fx:id="defaultPositionsLabel" alignment="CENTER" layoutX="5.0" layoutY="3.0" prefHeight="17.0" prefWidth="395.0" styleClass="label-paneinfocolumn" text="Default Positions" textFill="WHITE" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="428.0" layoutY="245.0" prefHeight="25.0" prefWidth="256.0" style="-fx-background-color: #475b6c;">
+            <AnchorPane layoutX="428.0" layoutY="245.0" prefHeight="22.0" prefWidth="256.0" style="-fx-background-color: #475b6c;">
                <children>
-                  <Label fx:id="defaultFormulasLabel" alignment="CENTER" layoutX="1.0" layoutY="5.0" prefHeight="17.0" prefWidth="250.0" text="Default Formulas" textFill="WHITE" />
+                  <Label fx:id="defaultFormulasLabel" alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="17.0" prefWidth="250.0" styleClass="label-paneinfocolumn" text="Default Formulas" textFill="WHITE" />
                </children>
             </AnchorPane>
             <StackPane fx:id="imageStack" layoutX="703.0" layoutY="41.4" prefHeight="475.0" prefWidth="271.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="40.0">
@@ -41,9 +41,9 @@
                   <Canvas fx:id="canvas" height="455.0" width="271.0" />
                </children>
             </StackPane>
-            <Button fx:id="rightButton" layoutX="928.0" layoutY="473.0" mnemonicParsing="false" onAction="#imageRight" styleClass="ibtn" text="&gt;" AnchorPane.rightAnchor="30.0" />
-            <Button fx:id="leftButton" layoutX="714.0" layoutY="472.0" mnemonicParsing="false" onAction="#imageLeft" styleClass="ibtn" text="&lt;" />
-            <Button fx:id="cleanButton" layoutX="914.0" layoutY="28.0" mnemonicParsing="false" onAction="#clearCanvas" styleClass="ibtn" text="Clear" />
+            <Button fx:id="rightButton" layoutX="928.0" layoutY="472.0" mnemonicParsing="false" onAction="#imageRight" styleClass="sbtn" text="&gt;" AnchorPane.rightAnchor="30.0" />
+            <Button fx:id="leftButton" layoutX="714.0" layoutY="472.0" mnemonicParsing="false" onAction="#imageLeft" styleClass="sbtn" text="&lt;" />
+            <Button fx:id="cleanButton" layoutX="914.0" layoutY="28.0" mnemonicParsing="false" onAction="#clearCanvas" styleClass="sbtn" text="Clear" />
             <TextField fx:id="drawNumber" layoutX="726.0" layoutY="28.0" prefHeight="27.0" prefWidth="43.0" promptText="num" styleClass="form" />
             </children>
         </AnchorPane>

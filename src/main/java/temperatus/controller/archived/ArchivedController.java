@@ -227,7 +227,7 @@ public class ArchivedController implements Initializable, AbstractController {
         missionInfoPane.setDisable(true);
 
         projectName.setText(project.getName());
-        projectDate.setText(project.getDateIni().toString());
+        projectDate.setText(Constants.dateFormat.format(project.getDateIni()));
         projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
         projectObservations.setText(project.getObservations());
 
@@ -236,6 +236,9 @@ public class ArchivedController implements Initializable, AbstractController {
             if(!authors.contains(mission.getAuthor().getName())) {
                 authors = authors + mission.getAuthor().getName() + ", ";
             }
+        }
+        if(!authors.equals("")) {   // remove last comma
+            authors = authors.substring(0, authors.length() - 2);
         }
 
         projectAuthors.setText(authors);
@@ -254,7 +257,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         missionName.setText(mission.getName());
         missionAuthor.setText(mission.getAuthor().getName());
-        missionDate.setText(mission.getDateIni().toString());
+        missionDate.setText(Constants.dateFormat.format(mission.getDateIni()));
         missionGame.setText(mission.getGame().getTitle());
         missionProject.setText(mission.getProject().getName());
         missionSubject.setText(mission.getSubject().getName());

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="622.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="622.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
          <bottom>
@@ -32,11 +32,11 @@
                <children>
                   <Label fx:id="languageLabel" layoutX="43.0" layoutY="44.0" styleClass="label-paneinfo" text="Language:" />
                   <ChoiceBox fx:id="languageChoice" layoutX="141.0" layoutY="39.0" prefWidth="150.0" styleClass="form" />
-                  <Label fx:id="unitLabel" layoutX="76.0" layoutY="87.0" styleClass="label-paneinfo" text="Unit:" />
-                  <RadioButton fx:id="cRadio" layoutX="157.0" layoutY="87.0" mnemonicParsing="false" text="C" />
-                  <RadioButton fx:id="fRadio" layoutX="216.0" layoutY="87.0" mnemonicParsing="false" text="F" />
-                  <CheckBox fx:id="autoSync" layoutX="45.0" layoutY="169.0" mnemonicParsing="false" text="Auto-sync iButton time with system time." />
-                  <CheckBox fx:id="writeAsIndexBox" layoutX="45.0" layoutY="208.0" mnemonicParsing="false" text="Show index instead of Date/Time in graphics and exported data." />
+                  <Label fx:id="unitLabel" layoutX="424.0" layoutY="44.0" styleClass="label-paneinfo" text="Unit:" />
+                  <RadioButton fx:id="cRadio" layoutX="468.0" layoutY="44.0" mnemonicParsing="false" text="C" />
+                  <RadioButton fx:id="fRadio" layoutX="527.0" layoutY="44.0" mnemonicParsing="false" text="F" />
+                  <CheckBox fx:id="autoSync" layoutX="43.0" layoutY="95.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Auto-sync iButton time with system time." />
+                  <CheckBox fx:id="writeAsIndexBox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Show index instead of Date/Time in graphics and exported data." />
                   <Label fx:id="restartLabel" layoutX="297.0" layoutY="40.0" text="* restart needed">
                      <font>
                         <Font size="7.0" />

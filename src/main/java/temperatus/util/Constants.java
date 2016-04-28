@@ -1,6 +1,7 @@
 package temperatus.util;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.prefs.Preferences;
 
@@ -17,6 +18,7 @@ public class Constants {
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     public static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    public static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     public static final int DELAY = 0;    // DeviceDetectorTask delay in seconds
     public static final int PERIOD = 8;   // DeviceDetectorTask run period (s)

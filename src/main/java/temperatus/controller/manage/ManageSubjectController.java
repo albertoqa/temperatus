@@ -141,7 +141,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
                         d = mission.getDateIni();
                     }
                 }
-                firstParticipationLabel.setText(language.get(Lang.FIRST_PARTICIPATION) + SPACE + d.toString());
+                firstParticipationLabel.setText(language.get(Lang.FIRST_PARTICIPATION) + SPACE + Constants.dateFormat.format(d));
                 observationsInfo.setText(subject.getObservations());
             }
         });

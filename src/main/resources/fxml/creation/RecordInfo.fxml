@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="790.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordInfoPaneController">
+<?import javafx.scene.layout.*?>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="600.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordInfoPaneController">
    <children>
-      <Label fx:id="modelLabel" alignment="CENTER_RIGHT" layoutY="30.0" prefHeight="16.0" prefWidth="126.0" styleClass="label-paneinfo" text="iButton Model:" />
-      <Label fx:id="serialLabel" alignment="CENTER_RIGHT" layoutY="59.0" prefWidth="126.0" styleClass="label-paneinfo" text="Serial:" />
-      <Label fx:id="aliasLabel" alignment="CENTER_RIGHT" layoutY="87.0" prefWidth="126.0" styleClass="label-paneinfo" text="Alias:" />
-      <Label fx:id="sampleRateLabel" alignment="CENTER_RIGHT" layoutY="116.0" prefWidth="126.0" styleClass="label-paneinfo" text="Sample Rate:" />
-      <Label fx:id="startDateLabel" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="30.0" prefWidth="153.0" styleClass="label-paneinfo" text="Start Date:" />
-      <Label fx:id="endDateLabel" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="59.0" prefWidth="153.0" styleClass="label-paneinfo" text="End Date:" />
-      <Label fx:id="totalMeasurementsLabel" alignment="CENTER_RIGHT" layoutX="444.0" layoutY="87.0" prefHeight="16.0" prefWidth="175.0" styleClass="label-paneinfo" text="Number of Measurements:" />
-      <Label fx:id="positionLabel" alignment="CENTER_RIGHT" layoutX="466.0" layoutY="116.0" prefWidth="153.0" styleClass="label-paneinfo" text="Position:" />
-      <Button fx:id="completeInfoButton" onAction="#completeInfo" layoutX="650.0" layoutY="173.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" styleClass="pbtn" text="Complete Info" />
-      <Label fx:id="model" layoutX="148.0" layoutY="28.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="alias" layoutX="148.0" layoutY="85.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="serial" layoutX="148.0" layoutY="57.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="position" layoutX="638.0" layoutY="114.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="totalMeasurements" layoutX="638.0" layoutY="85.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="endDate" layoutX="638.0" layoutY="57.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="startDate" layoutX="638.0" layoutY="28.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
-      <Label fx:id="sampleRate" layoutX="148.0" layoutY="114.0" prefWidth="185.0" styleClass="label-paneinfodata" text="Label" />
+      <Label fx:id="modelLabel" alignment="CENTER_RIGHT" layoutY="30.0" prefHeight="16.0" prefWidth="126.0" styleClass="label-paneinfo" text="iButton Model:" AnchorPane.leftAnchor="0.0" />
+      <Label fx:id="serialLabel" alignment="CENTER_RIGHT" layoutX="-4.0" layoutY="87.0" prefWidth="126.0" styleClass="label-paneinfo" text="Serial:" AnchorPane.leftAnchor="-4.0" />
+      <Label fx:id="aliasLabel" alignment="CENTER_RIGHT" layoutX="-4.0" layoutY="116.0" prefWidth="126.0" styleClass="label-paneinfo" text="Alias:" AnchorPane.leftAnchor="-4.0" />
+      <Label fx:id="sampleRateLabel" alignment="CENTER_RIGHT" layoutY="59.0" prefWidth="126.0" styleClass="label-paneinfo" text="Sample Rate:" AnchorPane.leftAnchor="0.0" />
+      <Label fx:id="startDateLabel" alignment="CENTER_RIGHT" layoutX="297.0" layoutY="30.0" prefWidth="153.0" styleClass="label-paneinfo" text="Start Date:" AnchorPane.rightAnchor="171.0" />
+      <Label fx:id="endDateLabel" alignment="CENTER_RIGHT" layoutX="297.0" layoutY="59.0" prefWidth="153.0" styleClass="label-paneinfo" text="End Date:" AnchorPane.rightAnchor="171.0" />
+      <Label fx:id="totalMeasurementsLabel" alignment="CENTER_RIGHT" layoutX="275.0" layoutY="87.0" prefHeight="16.0" prefWidth="175.0" styleClass="label-paneinfo" text="Number of Measurements:" AnchorPane.rightAnchor="171.0" />
+      <Label fx:id="positionLabel" alignment="CENTER_RIGHT" layoutX="297.0" layoutY="116.0" prefWidth="153.0" styleClass="label-paneinfo" text="Position:" AnchorPane.rightAnchor="171.0" />
+      <Button fx:id="completeInfoButton" layoutX="650.0" layoutY="173.0" mnemonicParsing="false" onAction="#completeInfo" prefHeight="26.0" prefWidth="126.0" styleClass="pbtn" text="Complete Info" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+      <Label fx:id="model" layoutX="148.0" layoutY="30.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" AnchorPane.leftAnchor="148.0" />
+      <Label fx:id="alias" layoutX="144.0" layoutY="116.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" AnchorPane.leftAnchor="148.0" />
+      <Label fx:id="serial" layoutX="144.0" layoutY="87.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" AnchorPane.leftAnchor="148.0" />
+      <Label fx:id="position" layoutX="469.0" layoutY="116.0" prefWidth="100.0" styleClass="label-paneinfo" text="Label" AnchorPane.rightAnchor="31.0" />
+      <Label fx:id="totalMeasurements" layoutX="469.0" layoutY="87.0" prefWidth="100.0" styleClass="label-paneinfo" text="Label" AnchorPane.rightAnchor="31.0" />
+      <Label fx:id="endDate" layoutX="469.0" layoutY="59.0" prefHeight="16.0" prefWidth="248.0" styleClass="label-paneinfo" text="Label" AnchorPane.rightAnchor="-117.0" />
+      <Label fx:id="startDate" layoutX="469.0" layoutY="30.0" prefHeight="16.0" prefWidth="205.0" styleClass="label-paneinfo" text="Label" AnchorPane.rightAnchor="-74.0" />
+      <Label fx:id="sampleRate" layoutX="148.0" layoutY="59.0" prefWidth="185.0" styleClass="label-paneinfo" text="Label" AnchorPane.leftAnchor="148.0" />
    </children>
 </AnchorPane>

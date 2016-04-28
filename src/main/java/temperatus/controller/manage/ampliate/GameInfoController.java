@@ -34,6 +34,7 @@ public class GameInfoController implements Initializable, AbstractController {
     @FXML private ImageView imFront;
     @FXML private ImageView imLat;
     @FXML private ImageView imBack;
+    @FXML private ImageView imLat2;
 
     @FXML private Label headerTitle;
     @FXML private Label nameLabel;
@@ -48,7 +49,8 @@ public class GameInfoController implements Initializable, AbstractController {
 
     private static final String BACK = "back";
     private static final String FRONT = "front";
-    private static final String LAT = "lateral";
+    private static final String LAT_R = "lateral";
+    private static final String LAT_L = "lateralL";
 
     private static final String COMMA = ", ";
     private static final String FILE = "file:";
@@ -81,7 +83,7 @@ public class GameInfoController implements Initializable, AbstractController {
                 if (!im.errorProperty().getValue()) {
                     if (image.getPath().contains(FRONT)) {
                         imFront.setImage(im);
-                    } else if (image.getPath().contains(LAT)) {
+                    } else if (image.getPath().contains(LAT_R)) {
                         imLat.setImage(im);
                     } else {
                         imBack.setImage(im);

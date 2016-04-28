@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane fx:id="stackPane" id="NewRecord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="775.0" prefWidth="809.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
+<StackPane id="NewRecord" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
    <children>
       <AnchorPane fx:id="anchorPane" prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
          <children>
@@ -22,7 +22,7 @@
                               <VBox fx:id="idBox" alignment="TOP_CENTER" maxWidth="120.0" minWidth="70.0" prefHeight="561.0" prefWidth="70.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS" />
                               <VBox fx:id="positionBox" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
                                  <padding>
-                                    <Insets right="50.0" />
+                                    <Insets right="30.0" />
                                  </padding>
                               </VBox>
                               <VBox fx:id="sourceBox" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
@@ -30,8 +30,8 @@
                                     <Insets right="12.0" />
                                  </HBox.margin>
                               </VBox>
-                              <VBox fx:id="addSourceBox" alignment="TOP_CENTER" maxWidth="100.0" minWidth="40.0" prefHeight="441.0" prefWidth="60.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" />
-                              <VBox fx:id="addPositionBox" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="50.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" />
+                              <VBox fx:id="addSourceBox" alignment="TOP_CENTER" maxWidth="100.0" minWidth="40.0" prefHeight="441.0" prefWidth="80.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" />
+                              <VBox fx:id="addPositionBox" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="30.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" />
                               <VBox fx:id="keepDataBox" alignment="TOP_CENTER" maxWidth="150.0" minWidth="150.0" prefHeight="441.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
@@ -48,13 +48,13 @@
                   </Label>
                </children>
             </AnchorPane>
-            <HBox layoutX="27.0" layoutY="94.0" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="755.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="94.0">
+            <HBox layoutX="27.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="755.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="102.0">
                <children>
                   <VBox fx:id="idBoxTitle" alignment="CENTER" prefHeight="561.0" prefWidth="70.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="indexLabel" text="Index" textFill="WHITE">
                            <font>
-                              <Font name="Avenir Light" size="15.0" />
+                              <Font name="Avenir Light" size="13.0" />
                            </font>
                         </Label>
                      </children>
@@ -66,7 +66,7 @@
                      <children>
                         <Label fx:id="positionLabel" alignment="CENTER" text="Position" textFill="WHITE">
                            <font>
-                              <Font name="Avenir Light" size="15.0" />
+                              <Font name="Avenir Light" size="13.0" />
                            </font>
                         </Label>
                      </children>
@@ -78,7 +78,7 @@
                      <children>
                         <Label fx:id="dataSourceLabel" text="Data Source" textFill="WHITE">
                            <font>
-                              <Font name="Avenir Light" size="15.0" />
+                              <Font name="Avenir Light" size="13.0" />
                            </font>
                         </Label>
                      </children>

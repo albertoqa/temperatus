@@ -35,7 +35,7 @@
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectObservations" alignment="TOP_LEFT" layoutX="423.0" layoutY="68.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="430.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="68.0">
+                  <Label fx:id="projectObservations" alignment="TOP_LEFT" layoutX="423.0" layoutY="68.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="430.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="68.0">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
@@ -43,7 +43,7 @@
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>
-                  <Label fx:id="projectAuthors" layoutX="170.0" layoutY="120.0" styleClass="label-paneinfo" text="Label" textFill="WHITE">
+                  <Label fx:id="projectAuthors" alignment="TOP_LEFT" layoutX="170.0" layoutY="120.0" prefHeight="86.0" prefWidth="210.0" styleClass="label-paneinfo" text="Label" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Avenir Light" size="11.0" />
                      </font></Label>

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
-<StackPane id="/fxml/StartDeviceMission.fxml" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="811.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.StartDeviceMissionController">
+<StackPane id="/fxml/StartDeviceMission.fxml" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.StartDeviceMissionController">
    <children>
       <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="686.0" prefWidth="819.0" styleClass="grayBack">
          <children>
@@ -18,13 +18,13 @@
                   <Button fx:id="helpButton" layoutX="681.0" layoutY="22.0" mnemonicParsing="false" styleClass="ibtn" text="Help" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
-            <CheckListView fx:id="deviceCheckListView" layoutX="120.0" layoutY="579.0" prefHeight="125.0" prefWidth="290.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="32.0" AnchorPane.topAnchor="579.0" />
+            <CheckListView fx:id="deviceCheckListView" layoutX="120.0" layoutY="535.0" prefHeight="113.0" prefWidth="290.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="12.0" AnchorPane.topAnchor="535.0" />
             <ComboBox fx:id="configurationsCombobox" layoutX="113.0" layoutY="90.0" prefHeight="30.0" prefWidth="348.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="50.0" />
             <Label fx:id="nameLabel" alignment="CENTER_RIGHT" layoutX="58.0" layoutY="168.0" minWidth="80.0" prefWidth="80.0" styleClass="label-paneinfo" text="Name:" AnchorPane.leftAnchor="18.0" />
             <TextField fx:id="nameInput" layoutX="120.0" layoutY="161.0" prefHeight="30.0" prefWidth="290.0" promptText="Name..." styleClass="form" AnchorPane.leftAnchor="120.0" />
-            <CheckBox fx:id="syncTime" layoutX="504.0" layoutY="168.0" mnemonicParsing="false" prefWidth="270.0" text="Sync time" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
-            <CheckBox fx:id="rollOver" layoutX="504.0" layoutY="221.0" mnemonicParsing="false" prefWidth="270.0" text="Rollover" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
-            <TextArea fx:id="observationsArea" layoutX="120.0" layoutY="479.0" prefHeight="70.0" prefWidth="290.0" promptText="Observations" styleClass="form" />
+            <CheckBox fx:id="syncTime" layoutX="504.0" layoutY="168.0" mnemonicParsing="false" prefWidth="270.0" styleClass="label-paneinfo" text="Sync time" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
+            <CheckBox fx:id="rollOver" layoutX="504.0" layoutY="221.0" mnemonicParsing="false" prefWidth="270.0" styleClass="label-paneinfo" text="Rollover" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
+            <TextArea fx:id="observationsArea" layoutX="120.0" layoutY="457.0" prefHeight="52.0" prefWidth="290.0" promptText="Observations" styleClass="form" />
             <Label fx:id="rateLabel" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="221.0" minWidth="80.0" styleClass="label-paneinfo" text="Rate:" AnchorPane.leftAnchor="18.0" />
             <TextField fx:id="rateInput" layoutX="120.0" layoutY="214.0" prefHeight="30.0" prefWidth="290.0" promptText="Sample rate..." styleClass="form" AnchorPane.leftAnchor="120.0" />
             <ChoiceBox fx:id="resolutionBox" layoutX="120.0" layoutY="265.0" prefHeight="30.0" prefWidth="290.0" AnchorPane.leftAnchor="120.0" />
@@ -35,8 +35,8 @@
             <RadioButton fx:id="delayCheck" layoutX="120.0" layoutY="354.0" mnemonicParsing="false" prefWidth="130.0" text="Delay" AnchorPane.leftAnchor="120.0" />
             <RadioButton fx:id="onAlarmCheck" layoutX="120.0" layoutY="420.0" mnemonicParsing="false" prefWidth="130.0" text="On Alarm" AnchorPane.leftAnchor="120.0" />
             <RadioButton fx:id="onDateCheck" layoutX="120.0" layoutY="387.0" mnemonicParsing="false" prefWidth="130.0" text="On Date" AnchorPane.leftAnchor="120.0" />
-            <Separator layoutX="27.0" layoutY="562.0" prefHeight="0.0" prefWidth="701.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
-            <Button fx:id="configureButton" layoutX="545.0" layoutY="660.0" mnemonicParsing="false" onAction="#startMission" prefHeight="30.0" prefWidth="127.0" styleClass="cbtn" text="Configure" />
+            <Separator layoutX="27.0" layoutY="518.0" prefHeight="0.0" prefWidth="701.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="configureButton" layoutX="545.0" layoutY="616.0" mnemonicParsing="false" onAction="#startMission" prefHeight="30.0" prefWidth="127.0" styleClass="cbtn" text="Configure" />
             <Label fx:id="alarmLabel" alignment="CENTER_RIGHT" layoutX="560.0" layoutY="328.0" styleClass="label-paneinfo" text="Alarm:" AnchorPane.leftAnchor="560.0" />
             <Spinner fx:id="highAlarm" layoutX="495.0" layoutY="356.0" AnchorPane.leftAnchor="495.0" />
             <Spinner fx:id="lowAlarm" layoutX="496.0" layoutY="400.0" AnchorPane.leftAnchor="496.0" />
@@ -44,12 +44,12 @@
             <Label fx:id="lowLabel" alignment="CENTER_RIGHT" layoutX="676.0" layoutY="406.0" text="Low" AnchorPane.leftAnchor="675.0" />
             <TextField fx:id="dateInput" layoutX="266.0" layoutY="384.0" styleClass="form" text="18/12/2016 10:00:00" visible="false" />
             <Spinner fx:id="delayInput" layoutX="266.0" layoutY="349.0" prefHeight="29.0" prefWidth="156.0" visible="false" />
-            <Button fx:id="saveButton" layoutX="516.0" layoutY="501.0" mnemonicParsing="false" onAction="#saveConfiguration" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.leftAnchor="516.0" />
+            <Button fx:id="saveButton" layoutX="516.0" layoutY="479.0" mnemonicParsing="false" onAction="#saveConfiguration" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.leftAnchor="516.0" />
             <Spinner fx:id="onAlarmDelayInput" layoutX="266.0" layoutY="415.0" prefHeight="29.0" prefWidth="156.0" visible="false" />
-            <CheckBox fx:id="activateAlarmCheck" layoutX="505.0" layoutY="272.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="270.0" text="Activate alarm" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
+            <CheckBox fx:id="activateAlarmCheck" layoutX="505.0" layoutY="272.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="270.0" styleClass="label-paneinfo" text="Activate alarm" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
             <Label alignment="CENTER_RIGHT" layoutX="18.0" layoutY="99.0" prefHeight="16.0" prefWidth="80.0" styleClass="label-paneinfo" text="Preload:" AnchorPane.leftAnchor="18.0" />
-            <Label fx:id="observationsLabel" alignment="CENTER_RIGHT" layoutY="487.0" minWidth="80.0" prefHeight="16.0" prefWidth="98.0" styleClass="label-paneinfo" text="Observations:" AnchorPane.leftAnchor="0.0" />
-            <Label fx:id="infoArea" layoutX="441.0" layoutY="579.0" prefHeight="70.0" prefWidth="339.0" text="Label" />
+            <Label fx:id="observationsLabel" alignment="CENTER_RIGHT" layoutY="465.0" minWidth="80.0" prefHeight="16.0" prefWidth="98.0" styleClass="label-paneinfo" text="Observations:" AnchorPane.leftAnchor="0.0" />
+            <Label fx:id="infoArea" layoutX="441.0" layoutY="535.0" prefHeight="70.0" prefWidth="339.0" text="Label" />
          </children>
       </AnchorPane>
    </children>
