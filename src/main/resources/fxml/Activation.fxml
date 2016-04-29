@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="625.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ActivationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="625.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.activation.ActivationController">
    <children>
       <TextField fx:id="mailInput" layoutX="88.0" layoutY="223.0" prefHeight="27.0" prefWidth="460.0" promptText="name@email.com" styleClass="form" />
       <TextArea fx:id="keyInput" layoutX="88.0" layoutY="262.0" prefHeight="53.0" prefWidth="460.0" promptText="73f5b722c48dc80eb3d02424fae95d6c7ad2f85d" styleClass="form" />

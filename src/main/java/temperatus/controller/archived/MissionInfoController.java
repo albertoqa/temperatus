@@ -99,8 +99,13 @@ public class MissionInfoController implements Initializable, AbstractController 
 
     @FXML
     private void exportData() throws IOException {
-        ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, language.get(Lang.EXPORTCONFIG));
-        exportConfigurationController.setMission(mission);
+        // Only allow export if complete version of the application, trial version cannot export data
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, language.get(Lang.EXPORTCONFIG));
+            exportConfigurationController.setMission(mission);
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
+        }
     }
 
     @Override

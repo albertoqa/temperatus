@@ -103,41 +103,46 @@ public class TemperatureLogController implements Initializable, AbstractControll
     private void export() throws IOException {
         logger.info("Exporting device data...");
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
+        // Only allow export if complete version of the application, trial version cannot export data
+        if(Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
 
-        File file = fileChooser.showSaveDialog(null);   //Show save file dialog
+            File file = fileChooser.showSaveDialog(null);   //Show save file dialog
 
-        if (file != null) {
-            // create a new mission exporter and set the data to export
-            MissionExporter missionExporter = new MissionExporter();
+            if (file != null) {
+                // create a new mission exporter and set the data to export
+                MissionExporter missionExporter = new MissionExporter();
 
-            Record record = new Record();
-            Set<Measurement> measurementSet = new HashSet<>(measurements);
-            record.setMeasurements(measurementSet);
+                Record record = new Record();
+                Set<Measurement> measurementSet = new HashSet<>(measurements);
+                record.setMeasurements(measurementSet);
 
-            if (defaultPosition != null && !defaultPosition.isEmpty()) {
-                record.setPosition(new Position(defaultPosition));
-            } else {
-                record.setPosition(new Position(serial));
+                if (defaultPosition != null && !defaultPosition.isEmpty()) {
+                    record.setPosition(new Position(defaultPosition));
+                } else {
+                    record.setPosition(new Position(serial));
+                }
+
+                List<Record> records = new ArrayList<>();
+                records.add(record);
+
+                // Export the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+
+                // period = 1, no formulas and no all records needed
+                missionExporter.setData(1, serial, records, new ArrayList<>(), null, unit);
+
+                Workbook workBook = missionExporter.export();
+
+                FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
+                workBook.write(fileOut);
+                fileOut.close();
             }
-
-            List<Record> records = new ArrayList<>();
-            records.add(record);
-
-            // Export the data using the preferred unit
-            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
-
-            // period = 1, no formulas and no all records needed
-            missionExporter.setData(1, serial, records, new ArrayList<>(), null, unit);
-
-            Workbook workBook = missionExporter.export();
-
-            FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
-            workBook.write(fileOut);
-            fileOut.close();
+            back();      // close the window
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
         }
-        back();      // close the window
     }
 
     /**

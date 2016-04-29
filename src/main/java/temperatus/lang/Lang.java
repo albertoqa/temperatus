@@ -28,6 +28,8 @@ public class Lang {
     public static final String NPOSITION = "nPosition";
     public static final String NGAME = "nGame";
 
+    public static final String BUY_COMPLETE = "buyComplete";
+
     // Archived
     public static final String PROJECT_COLUMN = "projectColumn";
     public static final String DATE_COLUMN = "dateColumn";

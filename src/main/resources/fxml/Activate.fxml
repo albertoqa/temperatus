@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="625.0" style="-fx-background-color: #ffffff; -fx-border-width: 0.5; -fx-border-color: black;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.activation.BuyCompleteAlertController">
+   <children>
+      <TextField fx:id="mailInput" layoutX="89.0" layoutY="111.0" prefHeight="27.0" prefWidth="460.0" promptText="name@email.com" styleClass="form" />
+      <TextArea fx:id="keyInput" layoutX="89.0" layoutY="150.0" prefHeight="53.0" prefWidth="460.0" promptText="73f5b722c48dc80eb3d02424fae95d6c7ad2f85d" styleClass="form" />
+      <AnchorPane layoutY="264.0" prefHeight="67.0" prefWidth="708.0" styleClass="grayBack" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="activateButton" disable="true" mnemonicParsing="false" onAction="#activate" prefWidth="127.0" styleClass="cbtn" text="Activate" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="27.0" />
+            <Button fx:id="trialButton" mnemonicParsing="false" onAction="#trial" prefWidth="127.0" styleClass="cbtn" text="Continue Trial" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="170.0" />
+            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefWidth="127.0" styleClass="cbtn" text=" Buy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="104.0" layoutY="81.0" text="To activate the full version, please introduce the email and key sent to you.">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font>
+      </Label>
+      <Separator layoutY="344.0" prefHeight="3.0" prefWidth="451.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label layoutX="77.0" layoutY="14.0" prefHeight="67.0" prefWidth="483.0" text="You are using the trial version of the application. To be able to export data you have to activate the complete version." textFill="#4c5e70" wrapText="true">
+         <font>
+            <Font name="Avenir Black" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

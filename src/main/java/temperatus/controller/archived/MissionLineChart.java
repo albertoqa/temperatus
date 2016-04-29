@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
@@ -28,6 +29,7 @@ import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.ChartToolTip;
 import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
+import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -139,7 +141,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         serie.setName(record.getPosition().getPlace());
 
         // Show the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
         measurements.stream().forEach((measurement) -> {
             double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
@@ -157,7 +159,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(dataMap.keySet()), formula, period);
 
         // Show the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
         measurements.stream().forEach((measurement) -> {
             double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
@@ -186,25 +188,28 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML
     public void saveAsPng() {
+        // Only allow export if complete version of the application, trial version cannot export data
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            FileChooser fileChooser = new FileChooser();
 
-        FileChooser fileChooser = new FileChooser();
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG (*.png)", "*.png");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG (*.png)", "*.png");
-        fileChooser.getExtensionFilters().add(extFilter);
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(null);
 
-        //Show save file dialog
-        File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
 
-        if (file != null) {
-
-            WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
-
-            try {
-                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-            } catch (IOException e) {
-                // TODO: handle exception here
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                } catch (IOException e) {
+                    // TODO: handle exception here
+                }
             }
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
         }
     }
 
