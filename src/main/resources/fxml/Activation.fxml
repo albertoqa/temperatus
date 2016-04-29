@@ -14,7 +14,7 @@
             <Image url="@../images/temperatus.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="244.0" layoutY="172.0" text="Welcome to Temperatus!">
+      <Label fx:id="welcomeLabel" layoutX="244.0" layoutY="172.0" text="Welcome to Temperatus!">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font>
@@ -26,7 +26,7 @@
             <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefWidth="127.0" styleClass="cbtn" text=" Buy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="103.0" layoutY="191.0" text="To activate the full version, please introduce the email and key sent to you.">
+      <Label fx:id="activationInfoLabel" layoutX="103.0" layoutY="191.0" text="To activate the full version, please introduce the email and key sent to you.">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font>

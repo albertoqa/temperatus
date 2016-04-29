@@ -14,13 +14,13 @@
             <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefWidth="127.0" styleClass="cbtn" text=" Buy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="315.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="104.0" layoutY="81.0" text="To activate the full version, please introduce the email and key sent to you.">
+      <Label fx:id="activationInfoLabel" layoutX="104.0" layoutY="81.0" text="To activate the full version, please introduce the email and key sent to you.">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font>
       </Label>
       <Separator layoutY="344.0" prefHeight="3.0" prefWidth="451.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label layoutX="77.0" layoutY="14.0" prefHeight="67.0" prefWidth="483.0" text="You are using the trial version of the application. To be able to export data you have to activate the complete version." textFill="#4c5e70" wrapText="true">
+      <Label fx:id="activationWarnLabel" layoutX="77.0" layoutY="14.0" prefHeight="67.0" prefWidth="483.0" text="You are using the trial version of the application. To be able to export data you have to activate the complete version." textFill="#4c5e70" wrapText="true">
          <font>
             <Font name="Avenir Black" size="14.0" />
          </font>

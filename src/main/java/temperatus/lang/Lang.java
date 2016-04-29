@@ -11,6 +11,14 @@ package temperatus.lang;
  */
 public class Lang {
 
+    public static final String WELCOME_LABEL = "welcome";
+    public static final String ACTIVATE_BUTTON = "activateButton";
+    public static final String TRIAL_BUTTON = "trialButton";
+    public static final String BUY_BUTTON = "buyButton";
+
+    public static final String SUCCESS_LABEL = "successLabel";
+    public static final String FEATURES_LABEL = "featuresLabel";
+
     // Base controller
     public static final String RIGHTS = "rights";
     public static final String SUBTITLE = "subtitle";
@@ -278,6 +286,9 @@ public class Lang {
 
     public static final String ERROR_VALIDATING_CREDENTIALS = "errorValidatingCredentials";
     public static final String ERROR_INVALID_CREDENTIALS = "errorInvalidCredentials";
+
+    public static final String ACTIVATION_INFO_LABEL = "activationInfoLabel";
+    public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
 
 
     private Lang() {

@@ -1,14 +1,24 @@
 package temperatus.controller.activation;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.util.Constants;
+import temperatus.util.KeyValidator;
+import temperatus.util.VistaNavigator;
 
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -17,14 +27,18 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
+ * Common variables and methods for the activation windows
+ * <p>
  * Created by alberto on 29/4/16.
  */
 abstract class AbstractActivationController {
 
     @FXML AnchorPane anchorPane;
 
-    @FXML TextField mailInput;
-    @FXML TextArea keyInput;
+    @FXML private TextField mailInput;
+    @FXML private TextArea keyInput;
+
+    @FXML private Label activationInfoLabel;
 
     @FXML ImageView temperatusImage;
 
@@ -36,11 +50,14 @@ abstract class AbstractActivationController {
     private boolean isKeyEmpty = true;
 
     private static final String CHECKOUT_IMAGE = "/images/icon/checkout.png";
+    //private static final String TRIAL_IMAGE = "/images/icon/trial.png";
     private static final String PROJECT_WEB = "http://albertoqa.github.io/temperatusWeb/";
 
     private static Logger logger = LoggerFactory.getLogger(AbstractActivationController.class.getName());
 
     void init() {
+        translate();
+
         // Set image only to buy icon to make it more striking
         ImageView imageView = new ImageView(CHECKOUT_IMAGE);
         imageView.setFitHeight(Constants.ICON_SIZE);
@@ -97,6 +114,62 @@ abstract class AbstractActivationController {
                 logger.error("Error opening default browser... " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Check if input activation values are valid. If so, save a preference for the activation.
+     */
+    @FXML
+    private void activate() {
+        logger.info("Activating application...");
+        if (KeyValidator.validate(mailInput.getText(), keyInput.getText())) {
+            logger.info("Application activated!");
+            Constants.prefs.putBoolean(Constants.ACTIVATED, true);  // save activated state :D
+            showTanks();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_INVALID_CREDENTIALS));
+            alert.show();
+        }
+    }
+
+    /**
+     * Show thank screen
+     */
+    private void showTanks() {
+        Stage stage = new Stage();
+        Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.THANKS));
+        ThanksController thanksController = VistaNavigator.loader.getController();
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+
+        if (temperatusImage != null) {
+            Stage currentStage = (Stage) temperatusImage.getScene().getWindow();    // close current stage
+            currentStage.close();
+            thanksController.setLoadSplash(true);
+            stage.setOnCloseRequest(we -> startApplication() );
+        } else {
+            VistaNavigator.closeModal(anchorPane);
+            thanksController.setLoadSplash(false);
+        }
+
+        stage.show();
+    }
+
+    /**
+     * Close this stage and load the splash screen window
+     */
+    void startApplication() {
+        ((Stage) temperatusImage.getScene().getWindow()).close();    // close current stage
+        Stage stage = new Stage(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH))));
+        stage.show();
+    }
+
+    private void translate() {
+        activationInfoLabel.setText(Language.getInstance().get(Lang.ACTIVATION_INFO_LABEL));
+        activateButton.setText(Language.getInstance().get(Lang.ACTIVATE_BUTTON));
+        trialButton.setText(Language.getInstance().get(Lang.TRIAL_BUTTON));
+        buyButton.setText(Language.getInstance().get(Lang.BUY_BUTTON));
     }
 
 }
