@@ -1,5 +1,6 @@
 package temperatus.controller.archived;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,9 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -41,6 +44,7 @@ public class ButtonDataController implements Initializable, AbstractController {
     private TableColumn<Measurement, String> value = new TableColumn<>();
 
     private ObservableList<Measurement> measurements;
+    private SimpleStringProperty unitOfMeasurePreferred;
 
     private static Logger logger = LoggerFactory.getLogger(ButtonDataController.class.getName());
 
@@ -48,11 +52,18 @@ public class ButtonDataController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
+        unitOfMeasurePreferred = new SimpleStringProperty(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Constants.UNIT_C: Constants.UNIT_F);
+
         measurements = FXCollections.observableArrayList();
 
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
-        unit.setCellValueFactory(cellData -> cellData.getValue().getUnitProperty());
-        value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
+        unit.setCellValueFactory(cellData -> unitOfMeasurePreferred);
+
+        if(Constants.UNIT_C.equals(unitOfMeasurePreferred.getValue())) {
+            value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
+        } else {
+            value.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(Calculator.celsiusToFahrenheit(cellData.getValue().getData()))));
+        }
 
         tableView.getColumns().addAll(date, unit, value);
         tableView.setItems(measurements);

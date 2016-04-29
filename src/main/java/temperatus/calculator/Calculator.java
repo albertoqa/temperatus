@@ -108,7 +108,16 @@ public class Calculator {
      * @return temperature in celsius
      */
     public static Double fahrenheitToCelsius(Double fahrenheit) {
-        return (fahrenheit - 32) * (5 / 9);
+        return (fahrenheit - 32) * (5.0 / 9);
     }
 
+    /**
+     * Convert celsius to fahrenheit
+     *
+     * @param celsius temperature to convert in celsius
+     * @return temperature in fahrenheit
+     */
+    public static Double celsiusToFahrenheit(Double celsius) {
+        return (celsius * 1.8 + 32);
+    }
 }

@@ -4,9 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
@@ -117,8 +119,18 @@ public abstract class AbstractStartDeviceMissionController {
         configuration.setChannelEnabledC2(false);
         configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
         if (activateAlarmCheck.isSelected()) {
-            configuration.setHighAlarmC1(highAlarm.getValue());
-            configuration.setLowAlarmC1(lowAlarm.getValue());
+
+            // Show the data using the preferred unit
+            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+            if(Unit.C.equals(unit)) {
+                configuration.setHighAlarmC1(highAlarm.getValue());
+                configuration.setLowAlarmC1(lowAlarm.getValue());
+            } else {
+                configuration.setHighAlarmC1(Calculator.celsiusToFahrenheit(highAlarm.getValue()));
+                configuration.setLowAlarmC1(Calculator.celsiusToFahrenheit(lowAlarm.getValue()));
+            }
+
             configuration.setEnableAlarmC1(true);
         } else {
             configuration.setEnableAlarmC1(false);
@@ -154,8 +166,17 @@ public abstract class AbstractStartDeviceMissionController {
         if (configuration.getEnableAlarmC1()) {
             activateAlarmCheck.setSelected(true);
             try {
-                highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
-                lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
+                // Show the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+                if(Unit.C.equals(unit)) {
+                    highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
+                    lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
+                } else {
+                    highAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1())));
+                    lowAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1())));
+                }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -207,7 +228,7 @@ public abstract class AbstractStartDeviceMissionController {
         startLabel.setText(language.get(Lang.STARTDATELABEL));
         highLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
         lowLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
-        alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL));
+        alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL)); // TODO change depending on the preferred unit
         observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
 
         immediatelyCheck.setText(language.get(Lang.IMMEDIATELY));

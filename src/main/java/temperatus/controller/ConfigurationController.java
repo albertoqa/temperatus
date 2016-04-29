@@ -106,18 +106,10 @@ public class ConfigurationController implements Initializable, AbstractControlle
         }
 
         // Write index instead of dateTime preference
-        if (writeAsIndexBox.isSelected()) {
-            Constants.prefs.put(Constants.WRITE_AS_INDEX, "true");
-        } else {
-            Constants.prefs.put(Constants.WRITE_AS_INDEX, "false");
-        }
+        Constants.prefs.put(Constants.WRITE_AS_INDEX, String.valueOf(writeAsIndexBox.isSelected()));
 
         // Auto sync device with system time preference
-        if (autoSync.isSelected()) {
-            Constants.prefs.put(Constants.AUTO_SYNC, "true");
-        } else {
-            Constants.prefs.put(Constants.AUTO_SYNC, "false");
-        }
+        Constants.prefs.put(Constants.AUTO_SYNC, String.valueOf(autoSync.isSelected()));
 
         try {
             warnOfRestart();

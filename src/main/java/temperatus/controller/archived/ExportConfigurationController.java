@@ -20,6 +20,8 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.Unit;
+import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
 import temperatus.util.VistaNavigator;
 
@@ -61,8 +63,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         translate();
 
         mission = null;
-        SpinnerFactory.setIntegerSpinner(periodSpinner);
-        periodSpinner.getEditor().setText("1");
+        SpinnerFactory.setIntegerSpinner(periodSpinner, 1);
     }
 
     /**
@@ -120,9 +121,12 @@ public class ExportConfigurationController implements Initializable, AbstractCon
                 }
             }
 
+            // Export the data using the preferred unit
+            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
             // create a new mission exporter and set the data to export
             MissionExporter missionExporter = new MissionExporter();
-            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), mission.getRecords());
+            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), mission.getRecords(), unit);
 
             Workbook workBook = missionExporter.export();
 

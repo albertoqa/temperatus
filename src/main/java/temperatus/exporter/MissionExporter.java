@@ -9,10 +9,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
+import temperatus.calculator.Calculator;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class MissionExporter {
     private List<Record> records;       // Records (positions) selected by the user to export
     private Set<Record> allRecords;     // All the records of the mission - used to calculate values of formulas
     private List<Formula> formulas;     // Formulas selected to export
+    private Unit unit;                  // Unit to use in the export
 
     private boolean showWarn = false;   // Show alert if formula cannot be computed
 
@@ -66,7 +69,13 @@ public class MissionExporter {
             int col = 1;
             for (Measurement measurement : toExport) {
                 Cell data = dataRow.createCell(col);
-                data.setCellValue(measurement.getData());
+
+                if(unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+
                 col++;
             }
 
@@ -110,7 +119,13 @@ public class MissionExporter {
             int col = 1;
             for (Measurement measurement : measurements) {
                 Cell data = dataRow.createCell(col);
-                data.setCellValue(measurement.getData());
+
+                if(unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+
                 col++;
 
                 if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
@@ -140,11 +155,12 @@ public class MissionExporter {
      * @param formulas    formulas related to the mission and selected to export
      * @param allRecords  all records of the mission
      */
-    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, Set<Record> allRecords) {
+    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, Set<Record> allRecords, Unit unit) {
         this.period = period;
         this.missionName = missionName;
         this.records = records;
         this.formulas = formulas;
         this.allRecords = allRecords;
+        this.unit = unit;
     }
 }

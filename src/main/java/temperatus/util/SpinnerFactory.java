@@ -36,6 +36,18 @@ public class SpinnerFactory {
     }
 
     /**
+     * Set the spinner to a Integer spinner with range 0-10000 starting in the value passed as default
+     *
+     * @param spinner spinner to set to Integer
+     */
+    public static void setIntegerSpinner(Spinner<Integer> spinner, int defaultValue) {
+        TextFormatter<Integer> periodFormatter = new TextFormatter<>(new IntegerStringConverter(), defaultValue, getFilter(NumberFormat.getIntegerInstance()));
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, defaultValue));   // between 0-1000 and first value 0
+        spinner.setEditable(true);
+        spinner.getEditor().setTextFormatter(periodFormatter);
+    }
+
+    /**
      * Set the spinner to a Double spinner with range -10000 - 10000 starting in 0
      *
      * @param spinner spinner to set to Double

@@ -129,11 +129,11 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         double temperature = temp;
 
         if (unitGroup.getSelectedToggle().equals(unitF)) {
-            temperature = Calculator.fahrenheitToCelsius(temperature);
+            temperature = Calculator.celsiusToFahrenheit(temperature);
         }
 
         serie.getData().add(new XYChart.Data<>(new Date(), temperature));
-        currentTemp.setText(temperature + (unitGroup.getSelectedToggle().equals(unitF) ? language.get(Lang.FAHRENHEIT) : language.get(Lang.CELSIUS)));
+        currentTemp.setText(temperature + " " + (unitGroup.getSelectedToggle().equals(unitF) ? language.get(Lang.FAHRENHEIT) : language.get(Lang.CELSIUS)));
         logger.info("Temperature read: " + temperature);
     }
 

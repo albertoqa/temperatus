@@ -16,13 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.exporter.MissionExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
@@ -76,10 +79,16 @@ public class TemperatureLogController implements Initializable, AbstractControll
         this.serial = serial;
         this.defaultPosition = defaultPosition;
 
-        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-        measurements.stream().forEach((measurement) -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+        // Show the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
 
-        //ChartToolTip.addToolTipOnHover(serie, lineChart); // TODO why is not workin?
+        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
+        measurements.stream().forEach((measurement) -> {
+            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+        });
+
+        //ChartToolTip.addToolTipOnHover(serie, lineChart); // TODO why is not working?
         series.add(serie);
 
         logger.debug("Setting data...");
@@ -116,8 +125,11 @@ public class TemperatureLogController implements Initializable, AbstractControll
             List<Record> records = new ArrayList<>();
             records.add(record);
 
+            // Export the data using the preferred unit
+            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
             // period = 1, no formulas and no all records needed
-            missionExporter.setData(1, serial, records, new ArrayList<>(), null);
+            missionExporter.setData(1, serial, records, new ArrayList<>(), null, unit);
 
             Workbook workBook = missionExporter.export();
 
@@ -139,7 +151,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @Override
     public void translate() {
         dateAxis.setLabel("Time of measurement");
-        temperatureAxis.setLabel("Temperature in ºC");
+        temperatureAxis.setLabel("Temperature in ºC");  // TODO show label depending on the unit
         headerLabel.setText(language.get(Lang.TEMPERATURE_LOG));
         backButton.setText(language.get(Lang.BACK_BUTTON));
         exportButton.setText(language.get(Lang.EXPORT));

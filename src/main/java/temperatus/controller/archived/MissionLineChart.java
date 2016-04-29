@@ -18,12 +18,15 @@ import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataAnalysis;
+import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.ChartToolTip;
+import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
 
 import javax.imageio.ImageIO;
@@ -66,7 +69,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         positionsList.setItems(records);
         formulasList.setItems(formulas);
 
-        SpinnerFactory.setIntegerSpinner(spinner);
+        SpinnerFactory.setIntegerSpinner(spinner, 1);
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
@@ -134,7 +137,14 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
-        measurements.stream().forEach(measurement -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+
+        // Show the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+        measurements.stream().forEach((measurement) -> {
+            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+        });
 
         return serie;
     }
@@ -146,7 +156,13 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(dataMap.keySet()), formula, period);
 
-        measurements.stream().forEach(measurement -> serie.getData().add(new XYChart.Data<>(measurement.getDate(), measurement.getData())));
+        // Show the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+        measurements.stream().forEach((measurement) -> {
+            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+        });
 
         for (Measurement measurement : measurements) {
             if (measurement.getData() == Double.NaN) {

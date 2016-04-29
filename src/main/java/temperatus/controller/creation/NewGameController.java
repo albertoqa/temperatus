@@ -122,7 +122,7 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         positionsSelector.getSourceItems().addAll(positionService.getAll());
         formulasList.getItems().addAll(formulaService.getAll());
-        drawNumber.setText("0");
+        drawNumber.setText("1");
 
         numButtonsInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_NUM_BUTTONS));
 

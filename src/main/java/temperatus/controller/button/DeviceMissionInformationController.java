@@ -144,7 +144,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             totalMissionSamples.setText(deviceMissionData.getTotalMissionSamples());
             totalDeviceSamples.setText(deviceMissionData.getTotalDeviceSamples());
             resolution.setText(deviceMissionData.getResolution());
-            highAlarm.setText(deviceMissionData.getHighAlarm());
+            highAlarm.setText(deviceMissionData.getHighAlarm());    // TODO change depending on unit of measurement preferred
             lowAlarm.setText(deviceMissionData.getLowAlarm());
             missionSampleCount.setText(deviceMissionData.getMissionSampleCount());
             firstSampleTime.setText(deviceMissionData.getFirstSampleTime());

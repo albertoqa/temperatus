@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.FormulaUtil;
 import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
+import temperatus.calculator.Calculator;
 import temperatus.controller.archived.MissionInfoController;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
@@ -29,6 +30,7 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Position;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.MeasurementService;
 import temperatus.model.service.MissionService;
@@ -199,9 +201,19 @@ public class RecordConfigController extends AbstractCreationController implement
         startDateLabel.setText(Constants.dateTimeFormat.format(generalData.getStartDate()));
         endDateLabel.setText(Constants.dateTimeFormat.format(generalData.getEndDate()));
         avgMeasurementsLabel.setText(String.valueOf(generalData.getMeasurementsPerButton()));
-        maxTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMaxTemp())));
-        minTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMinTemp())));
-        avgTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getAvgTemp())));
+
+        // Export the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+        if(Constants.UNIT_C.equals(unit.name())) {
+            maxTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMaxTemp())));
+            minTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMinTemp())));
+            avgTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getAvgTemp())));
+        } else {
+            maxTempLabel.setText(String.valueOf(Constants.decimalFormat.format(Calculator.celsiusToFahrenheit(generalData.getMaxTemp()))));
+            minTempLabel.setText(String.valueOf(Constants.decimalFormat.format(Calculator.celsiusToFahrenheit(generalData.getMinTemp()))));
+            avgTempLabel.setText(String.valueOf(Constants.decimalFormat.format(Calculator.celsiusToFahrenheit(generalData.getAvgTemp()))));
+        }
     }
 
     /**
