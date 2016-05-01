@@ -166,6 +166,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         name.setText(language.get(Lang.NAME_COLUMN));
         newElementButton.setText(language.get(Lang.NEW_CONFIGURATION));
         editButton.setText(language.get(Lang.EDIT));
@@ -175,7 +176,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
         sutaLabel.setText(language.get(Lang.SUTA_LABEL));
         highAlarmLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
         lowAlarmLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
-        rateLabel.setText(language.get(Lang.RATE_LABEL));
+        rateLabel.setText(language.get(Lang.RATE_LABEL_DEVICE));
         delayLabel.setText(language.get(Lang.DELAY_LABEL));
         resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
     }

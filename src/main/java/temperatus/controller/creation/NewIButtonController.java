@@ -131,11 +131,11 @@ public class NewIButtonController extends AbstractCreationController implements 
         titledPane.setText(language.get(Lang.NEWBUTTONTITLE));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        serialLabel.setText(language.get(Lang.SERIALLABEL));
-        modelLabel.setText(language.get(Lang.MODELLABEL));
-        defaultPosLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
-        aliasLabel.setText(language.get(Lang.ALIASLABEL));
-        alias.setPromptText(language.get(Lang.ALIASPROMPT));
+        serialLabel.setText(language.get(Lang.SERIAL_LABEL));
+        modelLabel.setText(language.get(Lang.MODEL_LABEL));
+        defaultPosLabel.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
+        aliasLabel.setText(language.get(Lang.ALIAS_LABEL));
+        alias.setPromptText(language.get(Lang.ALIAS_PROMPT));
     }
 
 }

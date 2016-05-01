@@ -229,15 +229,15 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWFORMULA));
+        titledPane.setText(language.get(Lang.NEW_FORMULA_BUTTON));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        referenceLabel.setText(language.get(Lang.REFERENCELABEL));
-        referenceInput.setPromptText(language.get(Lang.REFERENCEPROMPT));
-        operationLabel.setText(language.get(Lang.OPERATIONLABEL));
-        operationArea.setPromptText(language.get(Lang.OPERATIONPROMPT));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        referenceLabel.setText(language.get(Lang.FORMULA_REFERENCE_LABEL));
+        referenceInput.setPromptText(language.get(Lang.FORMULA_REFERENCE_PROMPT));
+        operationLabel.setText(language.get(Lang.FORMULA_OPERATION_LABEL));
+        operationArea.setPromptText(language.get(Lang.FORMULA_OPERATION_PROMPT));
     }
 
 }

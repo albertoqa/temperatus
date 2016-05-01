@@ -58,19 +58,19 @@ public class ManageController implements Initializable, AbstractController {
 
                     String fxml = "";
 
-                    if (language.get(Lang.SUBJECTSPANE).equals(newValue.getText())) {
+                    if (language.get(Lang.SUBJECTS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_SUBJECT;
-                    } else if (language.get(Lang.GAMESPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.GAMES_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_GAME;
-                    } else if (language.get(Lang.FORMULASPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.FORMULAS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_FORMULA;
-                    } else if (language.get(Lang.POSITIONSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.POSITIONS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_POSITION;
-                    } else if (language.get(Lang.AUTHORSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.AUTHORS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_AUTHOR;
-                    } else if (language.get(Lang.IBUTTONSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.IBUTTONS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_IBUTTON;
-                    } else if (language.get(Lang.CONFIGURATIONSPANE).equals(newValue.getText())) {
+                    } else if (language.get(Lang.CONFIGURATIONS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_CONFIGURATIONS;
                     }
 
@@ -82,7 +82,6 @@ public class ManageController implements Initializable, AbstractController {
                     }
                 } else {
                     logger.debug("Setting controller for tab... " + newValue.getText());
-
                     // set the controller of the tab so it can be reloaded (on new object creation or update) if needed
                     VistaNavigator.setController(controllers.get(newValue));
                 }
@@ -94,12 +93,12 @@ public class ManageController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-        subjectsTab.setText(language.get(Lang.SUBJECTSPANE));
-        gamesTab.setText(language.get(Lang.GAMESPANE));
-        formulasTab.setText(language.get(Lang.FORMULASPANE));
-        positionsTab.setText(language.get(Lang.POSITIONSPANE));
-        authorsTab.setText(language.get(Lang.AUTHORSPANE));
-        iButtonsTab.setText(language.get(Lang.IBUTTONSPANE));
-        configurationsTab.setText(language.get(Lang.CONFIGURATIONSPANE));
+        subjectsTab.setText(language.get(Lang.SUBJECTS_TAB));
+        gamesTab.setText(language.get(Lang.GAMES_TAB));
+        formulasTab.setText(language.get(Lang.FORMULAS_TAB));
+        positionsTab.setText(language.get(Lang.POSITIONS_TAB));
+        authorsTab.setText(language.get(Lang.AUTHORS_TAB));
+        iButtonsTab.setText(language.get(Lang.IBUTTONS_TAB));
+        configurationsTab.setText(language.get(Lang.CONFIGURATIONS_TAB));
     }
 }

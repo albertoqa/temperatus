@@ -139,6 +139,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
 
     @Override
     public void translate() {
+        titledPane.setText(language.get(Lang.EXPORT_TITLE));
         exportButton.setText(language.get(Lang.EXPORT));
         cancelButton.setText(language.get(Lang.CANCEL));
         periodLabel.setText(language.get(Lang.PERIOD));

@@ -226,6 +226,9 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     @Override
     public void translate() {
+
+
+
         /*TODO
             @FXML private Label missionInProgressLabel;
     @FXML private Label sutaMissionLabel;

@@ -111,7 +111,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void editGame() {
-        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
+        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEW_GAME));
         newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -120,7 +120,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
+        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEW_GAME));
     }
 
     /**
@@ -167,16 +167,17 @@ public class ManageGameController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         title.setText(language.get(Lang.TITLE));
         numberOfButtons.setText(language.get(Lang.NUM_BUTTONS_COLUMN));
         defaultPositions.setText(language.get(Lang.DEFAULT_POS_COLUMN));
         defaultFormulas.setText(language.get(Lang.DEFAULT_FORMULAS_COLUMN));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
-        newElementButton.setText(language.get(Lang.NEWGAMEBUTTON));
-        numberOfButtonsLabel.setText(language.get(Lang.NUMBUTTONSLABEL));
-        defaultFormulasLabel.setText(language.get(Lang.DEFAULTFORMULASLABEL));
-        defaultPositionsLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
+        newElementButton.setText(language.get(Lang.NEW_GAME_BUTTON));
+        numberOfButtonsLabel.setText(language.get(Lang.NUMBER_OF_BUTTONS_LABEL));
+        defaultFormulasLabel.setText(language.get(Lang.DEFAULT_FORMULAS_LABEL));
+        defaultPositionsLabel.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
         completeInfoButton.setText(language.get(Lang.COMPLETE_INFO));
     }
 

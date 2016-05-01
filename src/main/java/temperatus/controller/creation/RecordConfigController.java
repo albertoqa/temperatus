@@ -356,7 +356,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void addFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
+        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEW_FORMULA_BUTTON));
     }
 
     /**
@@ -378,7 +378,7 @@ public class RecordConfigController extends AbstractCreationController implement
         titleLabel.setText(language.get(Lang.RECORD_CONFIG_TITLE));
         formulasLabel.setText(language.get(Lang.FORMULAS));
         rangeOfTimeLabel.setText(language.get(Lang.RANGE_OF_TIME));
-        modelL.setText(language.get(Lang.MODELLABEL));
+        modelL.setText(language.get(Lang.MODEL_LABEL));
         rateL.setText(language.get(Lang.RATE_LABEL));
         startDateL.setText(language.get(Lang.START_DATE));
         endDateL.setText(language.get(Lang.END_DATE));

@@ -165,7 +165,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Lang.NEWPROJECT);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Lang.NEW_PROJECT);
     }
 
     @FXML
@@ -176,27 +176,27 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, Lang.NEWGAME);
+        VistaNavigator.openModal(Constants.NEW_GAME, Lang.NEW_GAME);
     }
 
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, Lang.NEWFORMULA);
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Lang.NEW_FORMULA_BUTTON);
     }
 
     @FXML
     private void goNewSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, Lang.NEWSUBJECT);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Lang.NEW_SUBJECT_BUTTON);
     }
 
     @FXML
     private void goNewPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, Lang.NEWPOSITION);
+        VistaNavigator.openModal(Constants.NEW_POSITION, Lang.NEW_POSITION);
     }
 
     @FXML
     private void goNewAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, Lang.NEWAUTHOR);
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Lang.NEW_AUTHOR_BUTTON);
     }
 
 

@@ -108,7 +108,7 @@ public class NewMissionController extends AbstractCreationController implements 
      * @param mission mission to update/edit
      */
     public void setMissionForUpdate(Mission mission) {
-        title.setText(language.get(Lang.UPDATE_MISSION_TITLE)); // change title to Upate
+        title.setText(language.get(Lang.UPDATE_MISSION_TITLE)); // change title to Update
         saveButton.setText(language.get(Lang.UPDATE));  // change save button text to update
         this.mission = mission;
         projectBox.getSelectionModel().select(mission.getProject());
@@ -173,7 +173,9 @@ public class NewMissionController extends AbstractCreationController implements 
 
             // Continue to new Record View -> preselect this mission
             NewRecordController newRecordController = VistaNavigator.loadVista(Constants.NEW_RECORD);
-            newRecordController.loadData(mission, isUpdate);
+            if (newRecordController != null) {
+                newRecordController.loadData(mission, isUpdate);
+            }
 
             logger.info("Saved: " + mission);
 
@@ -211,7 +213,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEW_PROJECT));
     }
 
     /**
@@ -219,7 +221,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEWGAME));
+        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEW_GAME));
     }
 
     /**
@@ -227,7 +229,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEW_SUBJECT_BUTTON));
     }
 
     /**
@@ -235,7 +237,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEW_AUTHOR_BUTTON));
     }
 
     /**
@@ -271,19 +273,23 @@ public class NewMissionController extends AbstractCreationController implements 
     public void translate() {
         saveButton.setText(language.get(Lang.CONTINUE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
         observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
-        title.setText(language.get(Lang.NEWMISSIONTITLE));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONS_PROMPT));
+        title.setText(language.get(Lang.NEW_MISSION_TITLE));
         projectLabel.setText(language.get(Lang.PROJECT_LABEL));
         authorLabel.setText(language.get(Lang.AUTHOR_LABEL));
         startDateLabel.setText(language.get(Lang.START_DATE_LABEL));
         gameLabel.setText(language.get(Lang.GAME_LABEL));
         subjectLabel.setText(language.get(Lang.SUBJECT_LABEL));
         newProjectButton.setText(language.get(Lang.NEW_PROJECT_BUTTON));
-        newGameButton.setText(language.get(Lang.NEWGAMEBUTTON));
-        newSubjectButton.setText(language.get(Lang.NEWSUBJECTBUTTON));
+        newGameButton.setText(language.get(Lang.NEW_GAME_BUTTON));
+        newSubjectButton.setText(language.get(Lang.NEW_SUBJECT_BUTTON));
+        projectBox.setPromptText(language.get(Lang.PROJECT_PROMPT));
+        authorBox.setPromptText(language.get(Lang.AUTHOR_PROMPT));
+        subjectBox.setPromptText(language.get(Lang.SUBJECT_PROMPT));
+        gameBox.setPromptText(language.get(Lang.GAME_PROMPT));
     }
 
 }

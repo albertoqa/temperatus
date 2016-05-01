@@ -79,9 +79,9 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
 
     @Override
     public void translate() {
-        modelLabel.setText(language.get(Lang.MODELLABEL));
-        serialLabel.setText(language.get(Lang.SERIALLABEL));
-        aliasLabel.setText(language.get(Lang.ALIASLABEL));
+        modelLabel.setText(language.get(Lang.MODEL_LABEL));
+        serialLabel.setText(language.get(Lang.SERIAL_LABEL));
+        aliasLabel.setText(language.get(Lang.ALIAS_LABEL));
         sampleRateLabel.setText(language.get(Lang.RATE_LABEL));
         startDateLabel.setText(language.get(Lang.START_DATE));
         endDateLabel.setText(language.get(Lang.END_DATE));

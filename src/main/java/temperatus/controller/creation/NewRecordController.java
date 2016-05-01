@@ -1051,9 +1051,9 @@ public class NewRecordController extends AbstractCreationController implements I
     public void translate() {
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        titleLabel.setText(language.get(Lang.RECORDTITLE));
+        titleLabel.setText(language.get(Lang.NEW_RECORD));
         indexLabel.setText(language.get(Lang.INDEX));
-        positionLabel.setText(language.get(Lang.POSITIONCOLUMN));
-        dataSourceLabel.setText(language.get(Lang.DATASOURCECOLUMN));
+        positionLabel.setText(language.get(Lang.POSITION_COLUMN));
+        dataSourceLabel.setText(language.get(Lang.DATA_SOURCE_COLUMN));
     }
 }

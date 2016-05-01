@@ -88,7 +88,7 @@ public class OutliersController implements Initializable, AbstractController {
     @Override
     public void translate() {
         date.setText(language.get(Lang.DATE_COLUMN));
-        position.setText(language.get(Lang.POSITIONCOLUMN));
+        position.setText(language.get(Lang.POSITION_COLUMN));
         value.setText(language.get(Lang.VALUE_COLUMN));
         headerLabel.setText(language.get(Lang.OUTLIERS));
         continueButton.setText(language.get(Lang.CONTINUE));

@@ -102,7 +102,6 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
     @Override
     public void translate() {
         translateCommon();
-
         titledPane.setText(language.get(Lang.NEW_CONFIG));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));

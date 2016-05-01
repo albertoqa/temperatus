@@ -10,7 +10,7 @@
          <children>
             <AnchorPane layoutX="306.0" layoutY="-59.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="35.0" layoutY="15.0" styleClass="headerLabel" text="Configure iButton" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                  <Label fx:id="headerLabel" layoutX="35.0" layoutY="15.0" styleClass="headerLabel" text="Configure iButton" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font name="Avenir Light" size="35.0" />
                      </font>
@@ -47,7 +47,7 @@
             <Button fx:id="saveButton" layoutX="516.0" layoutY="479.0" mnemonicParsing="false" onAction="#saveConfiguration" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.leftAnchor="516.0" />
             <Spinner fx:id="onAlarmDelayInput" layoutX="266.0" layoutY="415.0" prefHeight="29.0" prefWidth="156.0" visible="false" />
             <CheckBox fx:id="activateAlarmCheck" layoutX="505.0" layoutY="272.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="270.0" styleClass="label-paneinfo" text="Activate alarm" AnchorPane.leftAnchor="504.0" AnchorPane.rightAnchor="37.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="18.0" layoutY="99.0" prefHeight="16.0" prefWidth="80.0" styleClass="label-paneinfo" text="Preload:" AnchorPane.leftAnchor="18.0" />
+            <Label fx:id="preloadLabel" alignment="CENTER_RIGHT" layoutX="18.0" layoutY="99.0" prefHeight="16.0" prefWidth="80.0" styleClass="label-paneinfo" text="Preload:" AnchorPane.leftAnchor="18.0" />
             <Label fx:id="observationsLabel" alignment="CENTER_RIGHT" layoutY="465.0" minWidth="80.0" prefHeight="16.0" prefWidth="98.0" styleClass="label-paneinfo" text="Observations:" AnchorPane.leftAnchor="0.0" />
             <Label fx:id="infoArea" layoutX="441.0" layoutY="535.0" prefHeight="70.0" prefWidth="339.0" text="Label" />
          </children>

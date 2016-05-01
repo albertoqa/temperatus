@@ -52,7 +52,9 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
 
+    @FXML private Label headerLabel;
     @FXML private Label infoArea;
+    @FXML private Label preloadLabel;
 
     @Autowired DeviceMissionStartTask deviceMissionStartTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
@@ -120,11 +122,11 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Duplicate entry");
+            Alert alert = new Alert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
             alert.show();
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unknown error.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
             alert.show();
         }
     }
@@ -213,6 +215,8 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         configureButton.setText(language.get(Lang.CONFIGURE));
         saveButton.setText(language.get(Lang.SAVE));
         helpButton.setText(language.get(Lang.HELP));
+        preloadLabel.setText(language.get(Lang.PRELOAD_CONFIGURATION));
+        headerLabel.setText(language.get(Lang.START_DEVICE_MISSION));
     }
 
 }

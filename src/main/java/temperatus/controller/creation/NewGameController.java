@@ -339,17 +339,17 @@ public class NewGameController extends AbstractCreationController implements Ini
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWGAME));
+        titledPane.setText(language.get(Lang.NEW_GAME));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
         observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
-        numButtonsLabel.setText(language.get(Lang.NUMBUTTONSLABEL));
-        numButtonsInput.setPromptText(language.get(Lang.NUMBUTTONSPROMPT));
-        defaultFormulasLabel.setText(language.get(Lang.DEFAULTFORMULASLABEL));
-        defaultPositionsLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONS_PROMPT));
+        numButtonsLabel.setText(language.get(Lang.NUMBER_OF_BUTTONS_LABEL));
+        numButtonsInput.setPromptText(language.get(Lang.NUMBER_OF_BUTTONS_PROMPT));
+        defaultFormulasLabel.setText(language.get(Lang.DEFAULT_FORMULAS_LABEL));
+        defaultPositionsLabel.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
         cleanButton.setText(language.get(Lang.CLEAN_BUTTON));
     }
 

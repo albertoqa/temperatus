@@ -142,11 +142,7 @@ public class NewSubjectController extends AbstractCreationController implements 
                 subject.setAge(Integer.valueOf(ageInput.getText()));
                 subject.setWeight(Double.valueOf(weightInput.getText()));
                 subject.setHeight(Double.valueOf(heightInput.getText()));
-                if (gender.getSelectedToggle() == isMale) {
-                    subject.setSex(true);   // true = male
-                } else {
-                    subject.setSex(false);  // false = female
-                }
+                subject.setSex(gender.getSelectedToggle() == isMale);   // true = male, false = female
             } else {
                 subject.setIsPerson(false);
             }
@@ -177,19 +173,19 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWGAME));
+        titledPane.setText(language.get(Lang.NEW_GAME));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
         observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
-        ageLabel.setText(language.get(Lang.AGELABEL));
-        ageInput.setPromptText(language.get(Lang.AGEPROMPT));
-        weightLabel.setText(language.get(Lang.WEIGHTLABEL));
-        weightInput.setPromptText(language.get(Lang.WEIGHTPROMPT));
-        sizeLabel.setText(language.get(Lang.SIZELABEL));
-        heightInput.setPromptText(language.get(Lang.SIZEPROMPT));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        observationsInput.setPromptText(language.get(Lang.OBSERVATIONS_PROMPT));
+        ageLabel.setText(language.get(Lang.AGE_LABEL));
+        ageInput.setPromptText(language.get(Lang.AGE_PROMPT));
+        weightLabel.setText(language.get(Lang.WEIGHT_LABEL));
+        weightInput.setPromptText(language.get(Lang.WEIGHT_PROMPT));
+        sizeLabel.setText(language.get(Lang.HEIGHT_LABEL));
+        heightInput.setPromptText(language.get(Lang.SIZE_PROMPT));
         isPerson.setText(language.get(Lang.ISPERSON));
         isObject.setText(language.get(Lang.ISOBJECT));
         isMale.setText(language.get(Lang.ISMALE));

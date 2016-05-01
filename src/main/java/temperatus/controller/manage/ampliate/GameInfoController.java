@@ -115,9 +115,11 @@ public class GameInfoController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-        numberOfButtonsLabel.setText(language.get(Lang.NUMBUTTONSLABEL));
-        defaultFormulasLabel.setText(language.get(Lang.DEFAULTFORMULASLABEL));
-        defaultPositionsLabel.setText(language.get(Lang.DEFAULTPOSLABEL));
+        headerTitle.setText(language.get(Lang.GAME_COMPLETE_INFO));
+        backButton.setText(language.get(Lang.BACK_BUTTON));
+        numberOfButtonsLabel.setText(language.get(Lang.NUMBER_OF_BUTTONS_LABEL));
+        defaultFormulasLabel.setText(language.get(Lang.DEFAULT_FORMULAS_LABEL));
+        defaultPositionsLabel.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
     }
 
 }

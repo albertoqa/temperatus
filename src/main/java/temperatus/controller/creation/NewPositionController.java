@@ -198,13 +198,13 @@ public class NewPositionController extends AbstractCreationController implements
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWPOSITION));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        titledPane.setText(language.get(Lang.NEW_POSITION));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
-        imageLabel.setText(language.get(Lang.IMAGELABEL));
-        selectImageButton.setText(language.get(Lang.SELECTIMAGEBUTTON));
+        imageLabel.setText(language.get(Lang.IMAGE_LABEL));
+        selectImageButton.setText(language.get(Lang.SELECT_IMAGE_BUTTON));
     }
 
 }

@@ -155,8 +155,12 @@ public class TemperatureLogController implements Initializable, AbstractControll
 
     @Override
     public void translate() {
-        dateAxis.setLabel("Time of measurement");
-        temperatureAxis.setLabel("Temperature in ºC");  // TODO show label depending on the unit
+        dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
+        } else {
+            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
+        }
         headerLabel.setText(language.get(Lang.TEMPERATURE_LOG));
         backButton.setText(language.get(Lang.BACK_BUTTON));
         exportButton.setText(language.get(Lang.EXPORT));

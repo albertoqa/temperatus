@@ -92,9 +92,9 @@ public class NewAuthorController extends AbstractCreationController implements I
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEWAUTHOR));
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        titledPane.setText(language.get(Lang.NEW_AUTHOR_BUTTON));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
     }

@@ -220,15 +220,21 @@ public abstract class AbstractStartDeviceMissionController {
      * Translate the common elements
      */
     void translateCommon() {
-        nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
-        nameLabel.setText(language.get(Lang.NAMELABEL));
+        nameInput.setPromptText(language.get(Lang.NAME_PROMPT));
+        nameLabel.setText(language.get(Lang.NAME_LABEL));
 
-        rateLabel.setText(language.get(Lang.RATE_LABEL));
+        rateLabel.setText(language.get(Lang.RATE_LABEL_DEVICE));
         resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
         startLabel.setText(language.get(Lang.START_DATE_LABEL));
         highLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
         lowLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
-        alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL)); // TODO change depending on the preferred unit
+
+        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+            alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL_C));
+        } else {
+            alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL_F));
+        }
+
         observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
 
         immediatelyCheck.setText(language.get(Lang.IMMEDIATELY));
@@ -241,6 +247,6 @@ public abstract class AbstractStartDeviceMissionController {
         activateAlarmCheck.setText(language.get(Lang.SET_ALARM_CHECK));
 
         rateInput.setPromptText(language.get(Lang.RATE_PROMPT));
-        observationsArea.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
+        observationsArea.setPromptText(language.get(Lang.OBSERVATIONS_PROMPT));
     }
 }

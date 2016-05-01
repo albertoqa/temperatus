@@ -71,6 +71,14 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         unitGroup.getToggles().addAll(unitC, unitF);
         unitGroup.selectToggle(unitC);
 
+        unitGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.equals(unitC)) {
+                temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
+            } else {
+                temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
+            }
+        });
+
         createTimeLineWithPeriod();
         lineChart.setData(FXCollections.observableArrayList(serie));
     }
@@ -156,6 +164,8 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
     public void translate() {
         currentTemp.setText(language.get(Lang.READING));
         serie.setName(language.get(Lang.REAL_TIME_TEMP));
+        dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+        temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
     }
 
 }

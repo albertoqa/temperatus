@@ -111,7 +111,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
      */
     @FXML
     private void editFormula() {
-        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
+        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEW_FORMULA_BUTTON));
         newFormulaController.setFormulaForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -120,7 +120,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
      */
     @FXML
     private void newFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEWFORMULA));
+        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEW_FORMULA_BUTTON));
     }
 
     /**
@@ -160,13 +160,14 @@ public class ManageFormulaController implements Initializable, AbstractControlle
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         name.setText(language.get(Lang.NAME_COLUMN));
         reference.setText(language.get(Lang.REFERENCE_COLUMN));
         operation.setText(language.get(Lang.OPERATION_COLUMN));
         editFormula.setText(language.get(Lang.EDIT));
-        newElementButton.setText(language.get(Lang.NEWFORMULA));
+        newElementButton.setText(language.get(Lang.NEW_FORMULA_BUTTON));
         deleteFormula.setText(language.get(Lang.DELETE));
-        referenceLabel.setText(language.get(Lang.REFERENCELABEL));
-        operationLabel.setText(language.get(Lang.OPERATIONLABEL));
+        referenceLabel.setText(language.get(Lang.FORMULA_REFERENCE_LABEL));
+        operationLabel.setText(language.get(Lang.FORMULA_OPERATION_LABEL));
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.types.Device;
 
 import java.net.URL;
@@ -67,14 +68,11 @@ public class DeviceGeneralInfoController implements Initializable, AbstractContr
 
     @Override
     public void translate() {
-
-        /* TODO
-            @FXML private Label serialLabel;
-    @FXML private Label modelLabel;
-    @FXML private Label alternateNamesLabel;
-    @FXML private Label descriptionLabel;
-    @FXML private Label defaultPosLabel;
-    @FXML private Label aliasLabel;
-         */
+        serialLabel.setText(language.get(Lang.SERIAL_LABEL));
+        modelLabel.setText(language.get(Lang.MODEL_LABEL));
+        alternateNamesLabel.setText(language.get(Lang.ALTERNATE_NAMES_LABEL));
+        descriptionLabel.setText(language.get(Lang.DESCRIPTION_LABEL));
+        defaultPosLabel.setText(language.get(Lang.DEFAULT_POSITION_LABEL));
+        aliasLabel.setText(language.get(Lang.ALIAS_LABEL));
     }
 }

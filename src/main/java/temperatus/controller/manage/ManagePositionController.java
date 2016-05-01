@@ -94,7 +94,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void editPosition() {
-        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
+        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEW_POSITION));
         newPositionController.setPositionForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -103,7 +103,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void newPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEWPOSITION));
+        VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEW_POSITION));
     }
 
     /**
@@ -140,10 +140,11 @@ public class ManagePositionController implements Initializable, AbstractControll
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         place.setText(language.get(Lang.NAME_COLUMN));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
-        newElementButton.setText(language.get(Lang.NEWPOSITION));
+        newElementButton.setText(language.get(Lang.NEW_POSITION));
     }
 
 }

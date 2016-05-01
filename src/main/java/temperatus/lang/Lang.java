@@ -59,22 +59,23 @@ public class Lang {
     public static final String PROJECT_AUTHORS_LABEL = "authorsInvolvedLabel";
 
     // New project
-    public static final String NEWPROJECT = "newProject";
-    public static final String NAMEPROMPT = "namePrompt";
-    public static final String OBSERVATIONSPROMPT = "observationsPrompt";
-    public static final String NAMELABEL = "nameLabel";
+    public static final String NEW_PROJECT = "newProject";
+    public static final String NAME_PROMPT = "namePrompt";
+    public static final String OBSERVATIONS_PROMPT = "observationsPrompt";
+    public static final String NAME_LABEL = "nameLabel";
     public static final String OBSERVATIONS_LABEL = "observationsLabel";
     public static final String START_DATE_LABEL = "startDateLabel";
 
     // New author
-    public static final String NEWAUTHOR = "newAuthor";
+    public static final String NEW_AUTHOR_BUTTON = "newAuthor";
     public static final String PARTICIPATE_IN_PROJECTS = "participateInProjects";
 
     // New Game
-    public static final String NEWGAME = "newGame";
-    public static final String NUMBUTTONSPROMPT = "numButtonsPrompt";
-    public static final String NUMBUTTONSLABEL = "numButtonsLabel";
-    public static final String DEFAULTFORMULASLABEL = "defaultFormulas";
+    public static final String NEW_GAME = "newGame";
+    public static final String NUMBER_OF_BUTTONS_PROMPT = "numButtonsPrompt";
+    public static final String NUMBER_OF_BUTTONS_LABEL = "numButtonsLabel";
+    public static final String GAME_COMPLETE_INFO = "gameCompleteInfoTitle";
+    public static final String DEFAULT_FORMULAS_LABEL = "defaultFormulas";
     public static final String CLEAN_BUTTON = "cleanButton";
     public static final String TITLE = "title";
     public static final String NUM_BUTTONS_COLUMN = "numButtonsColumn";
@@ -88,21 +89,21 @@ public class Lang {
     public static final String CONNECTED_DEVICES = "connectedDevices";
 
     // New Formula
-    public static final String NEWFORMULA = "newFormula";
-    public static final String OPERATIONLABEL = "operationLabel";
-    public static final String OPERATIONPROMPT = "operationPrompt";
-    public static final String REFERENCELABEL = "referenceLabel";
-    public static final String REFERENCEPROMPT = "referencePrompt";
+    public static final String NEW_FORMULA_BUTTON = "newFormula";
+    public static final String FORMULA_OPERATION_LABEL = "operationLabel";
+    public static final String FORMULA_OPERATION_PROMPT = "operationPrompt";
+    public static final String FORMULA_REFERENCE_LABEL = "referenceLabel";
+    public static final String FORMULA_REFERENCE_PROMPT = "referencePrompt";
     public static final String REFERENCE_COLUMN = "referenceColumn";
     public static final String OPERATION_COLUMN = "operationColumn";
 
     // New Subject
-    public static final String AGELABEL = "ageLabel";
-    public static final String AGEPROMPT = "agePrompt";
-    public static final String WEIGHTLABEL = "weightLabel";
-    public static final String WEIGHTPROMPT = "weightPrompt";
-    public static final String SIZELABEL = "sizeLabel";
-    public static final String SIZEPROMPT = "sizePrompt";
+    public static final String AGE_LABEL = "ageLabel";
+    public static final String AGE_PROMPT = "agePrompt";
+    public static final String WEIGHT_LABEL = "weightLabel";
+    public static final String WEIGHT_PROMPT = "weightPrompt";
+    public static final String HEIGHT_LABEL = "sizeLabel";
+    public static final String SIZE_PROMPT = "sizePrompt";
     public static final String ISPERSON = "isPerson";
     public static final String ISOBJECT = "isObject";
     public static final String ISMALE = "isMale";
@@ -118,22 +119,25 @@ public class Lang {
     public static final String FIRST_PARTICIPATION = "firstParticipation";
 
     // New Mission
-    public static final String NEWMISSIONTITLE = "newMissionTitle";
+    public static final String NEW_MISSION_TITLE = "newMissionTitle";
     public static final String UPDATE_MISSION_TITLE = "updateMissionTitle";
     public static final String PROJECT_LABEL = "projectLabel";
     public static final String AUTHOR_LABEL = "authorLabel";
     public static final String GAME_LABEL = "gameLabel";
     public static final String SUBJECT_LABEL = "subjectLabel";
     public static final String NEW_PROJECT_BUTTON = "newProjectButton";
-    public static final String NEWGAMEBUTTON = "newGameButton";
-    public static final String NEWSUBJECTBUTTON = "newSubjectButton";
-    public static final String NEWSUBJECT = "newSubject";
+    public static final String NEW_GAME_BUTTON = "newGameButton";
+    public static final String NEW_SUBJECT_BUTTON = "newSubjectButton";
     public static final String OUTLIERS = "outliers";
+    public static final String PROJECT_PROMPT = "projectPrompt";
+    public static final String GAME_PROMPT = "gamePrompt";
+    public static final String SUBJECT_PROMPT = "subjectPrompt";
+    public static final String AUTHOR_PROMPT = "authorPrompt";
 
-    public static final String RECORDTITLE = "recordTitle";
+    public static final String NEW_RECORD = "recordTitle";
     public static final String UPDATE_NEW_RECORD_TITLE = "updateNewRecordTitle";
-    public static final String POSITIONCOLUMN = "positionColumn";
-    public static final String DATASOURCECOLUMN = "dataSourceColumn";
+    public static final String POSITION_COLUMN = "positionColumn";
+    public static final String DATA_SOURCE_COLUMN = "dataSourceColumn";
     public static final String INDEX = "index";
     public static final String IMPORTPLUS = "importPlus";
     public static final String KEEPDATA = "keepData";
@@ -165,8 +169,11 @@ public class Lang {
     public static final String COMPLETE_INFO = "completeInfo";
     public static final String TEMPERATURE_LOG = "temperatureLog";
 
+    public static final String SAVE_GRAPHIC = "saveGraphic";
+
     // New Configuration
-    public static final String SET_ALARM_LABEL = "setAlarm";
+    public static final String SET_ALARM_LABEL_C = "setAlarmC";
+    public static final String SET_ALARM_LABEL_F = "setAlarmF";
     public static final String IMMEDIATELY = "immediately";
     public static final String ON_DATE = "onDate";
     public static final String ON_ALARM = "onAlarm";
@@ -175,21 +182,22 @@ public class Lang {
     public static final String ROLL_OVER_CHECK = "rollOverCheck";
     public static final String SET_ALARM_CHECK = "setAlarmCheck";
     public static final String RATE_PROMPT = "ratePrompt";
+    public static final String RATE_LABEL_DEVICE = "rateLabelDevice";
 
     // New Position
-    public static final String NEWPOSITION = "newPosition";
-    public static final String IMAGELABEL = "imageLabel";
-    public static final String SELECTIMAGEBUTTON = "selectImageButton";
+    public static final String NEW_POSITION = "newPosition";
+    public static final String IMAGE_LABEL = "imageLabel";
+    public static final String SELECT_IMAGE_BUTTON = "selectImageButton";
 
     // Configuration
     public static final String CONFIGURATIONTITLE = "configurationTitle";
-    public static final String FORMULASPANE = "formulasPane";
-    public static final String GAMESPANE = "gamesPane";
-    public static final String SUBJECTSPANE = "subjectsPane";
-    public static final String POSITIONSPANE = "positionsPane";
-    public static final String AUTHORSPANE = "authorsPane";
-    public static final String IBUTTONSPANE = "iButtonsPane";
-    public static final String CONFIGURATIONSPANE = "configurationsPane";
+    public static final String FORMULAS_TAB = "formulasPane";
+    public static final String GAMES_TAB = "gamesPane";
+    public static final String SUBJECTS_TAB = "subjectsPane";
+    public static final String POSITIONS_TAB = "positionsPane";
+    public static final String AUTHORS_TAB = "authorsPane";
+    public static final String IBUTTONS_TAB = "iButtonsPane";
+    public static final String CONFIGURATIONS_TAB = "configurationsPane";
     public static final String LANG_SELECTOR = "langSel";
     public static final String UNIT_SELECTOR = "unitSel";
     public static final String WRITE_AS_INDEX_LABEL = "writeAsIndexLab";
@@ -212,17 +220,30 @@ public class Lang {
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
     public static final String IBUTTONDETECTED = "iBDetected";
-    public static final String SERIALLABEL = "serialLabel";
-    public static final String MODELLABEL = "modelLabel";
-    public static final String DEFAULTPOSLABEL = "defaultPosLabel";
-    public static final String ALIASLABEL = "aliasLabel";
-    public static final String ALIASPROMPT = "aliasPrompt";
+    public static final String SERIAL_LABEL = "serialLabel";
+    public static final String MODEL_LABEL = "modelLabel";
+    public static final String DEFAULT_POSITIONS_LABEL = "defaultPosLabel";
+    public static final String ALIAS_LABEL = "aliasLabel";
+    public static final String ALIAS_PROMPT = "aliasPrompt";
+
+    public static final String ALTERNATE_NAMES_LABEL = "alternateNamesLabel";
+    public static final String DESCRIPTION_LABEL = "descriptionLabel";
+    public static final String DEFAULT_POSITION_LABEL = "defaultPositionLabel";
 
     public static final String READING = "reading";
     public static final String REAL_TIME_TEMP = "realTimeTemp";
     public static final String MISSION_INFO = "missionInfo";
 
+    public static final String DATE_AXIS = "dateAxis";
+    public static final String TEMPERATURE_AXIS_C = "temperatureAxisC";
+    public static final String TEMPERATURE_AXIS_F = "temperatureAxisF";
+
     public static final String MISSION_CONFIGURED = "missionConfigured";
+
+    public static final String EXPORT_TITLE = "exportTitle";
+
+    public static final String PRELOAD_CONFIGURATION = "preloadConfiguration";
+    public static final String START_DEVICE_MISSION = "startDeviceMission";
 
     // Common
     public static final String SAVE = "save";
@@ -251,6 +272,9 @@ public class Lang {
 
     public static final String FAHRENHEIT = "fahrenheit";
     public static final String CELSIUS = "celsius";
+
+    public static final String KG = "kg";
+    public static final String CM = "cm";
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";

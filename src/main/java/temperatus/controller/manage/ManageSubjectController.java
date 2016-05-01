@@ -159,7 +159,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEW_SUBJECT_BUTTON));
     }
 
     /**
@@ -167,7 +167,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void editSubject() {
-        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEWSUBJECT));
+        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEW_SUBJECT_BUTTON));
         newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -206,6 +206,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         subjectType.setText(language.get(Lang.TYPE_COLUMN));
         name.setText(language.get(Lang.NAME_COLUMN));
         sex.setText(language.get(Lang.SEX_COLUMN));
@@ -213,12 +214,12 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         weight.setText(language.get(Lang.WEIGHT_COLUMN));
         height.setText(language.get(Lang.HEIGHT_COLUMN));
 
-        ageLabel.setText(language.get(Lang.AGELABEL));
-        weightLabel.setText(language.get(Lang.WEIGHTLABEL));
-        heightLabel.setText(language.get(Lang.SIZELABEL));
+        ageLabel.setText(language.get(Lang.AGE_LABEL));
+        weightLabel.setText(language.get(Lang.WEIGHT_LABEL));
+        heightLabel.setText(language.get(Lang.HEIGHT_LABEL));
         observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
-        newElementButton.setText(language.get(Lang.NEWSUBJECT));
+        newElementButton.setText(language.get(Lang.NEW_SUBJECT_BUTTON));
     }
 }

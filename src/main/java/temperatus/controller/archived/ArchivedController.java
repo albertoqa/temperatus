@@ -270,7 +270,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
+        VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEW_PROJECT));
     }
 
     /**
@@ -279,7 +279,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void editProject() {
-        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEWPROJECT));
+        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, language.get(Lang.NEW_PROJECT));
         newProjectController.setProject(getSelectedElement().getElement());
     }
 

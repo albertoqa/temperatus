@@ -100,7 +100,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void editAuthor() {
-        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
+        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEW_AUTHOR_BUTTON));
         newAuthorController.setAuthorForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -109,7 +109,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEWAUTHOR));
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEW_AUTHOR_BUTTON));
     }
 
     /**
@@ -123,7 +123,6 @@ public class ManageAuthorController implements Initializable, AbstractController
             Author author = table.getSelectionModel().getSelectedItem();
             authorService.delete(author);
             authors.remove(author);
-
             logger.debug("Author removed: " + author);
         }
     }
@@ -148,10 +147,11 @@ public class ManageAuthorController implements Initializable, AbstractController
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         name.setText(language.get(Lang.NAME_COLUMN));
         projectsLabel.setText(language.get(Lang.PARTICIPATE_IN_PROJECTS));
         editAuthorButton.setText(language.get(Lang.EDIT));
-        newElementButton.setText(language.get(Lang.NEWAUTHOR));
+        newElementButton.setText(language.get(Lang.NEW_AUTHOR_BUTTON));
         deleteAuthorButton.setText(language.get(Lang.DELETE));
     }
 

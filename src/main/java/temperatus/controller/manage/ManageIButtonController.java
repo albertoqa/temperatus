@@ -156,13 +156,14 @@ public class ManageIButtonController implements Initializable, AbstractControlle
 
     @Override
     public void translate() {
+        filterInput.setPromptText(language.get(Lang.FILTER));
         model.setText(language.get(Lang.MODEL_COLUMN));
         serial.setText(language.get(Lang.SERIAL_COLUMN));
         alias.setText(language.get(Lang.ALIAS_COLUMN));
         defaultPosition.setText(language.get(Lang.DEFAULT_POS_COLUMN));
-        defPos.setText(language.get(Lang.DEFAULTPOSLABEL));
-        modelInfo.setText(language.get(Lang.MODELLABEL));
-        aliasInfo.setText(language.get(Lang.ALIASLABEL));
+        defPos.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
+        modelInfo.setText(language.get(Lang.MODEL_LABEL));
+        aliasInfo.setText(language.get(Lang.ALIAS_LABEL));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
     }

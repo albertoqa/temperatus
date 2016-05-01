@@ -11,8 +11,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckListView;
 import org.springframework.context.annotation.Scope;
@@ -46,12 +48,15 @@ import java.util.*;
 @Scope("prototype")
 public class MissionLineChart implements Initializable, AbstractController {
 
+    @FXML private AnchorPane anchorPane;
     @FXML private LineChart<Date, Number> lineChart;
     @FXML private DateAxis dateAxis;
     @FXML private NumberAxis temperatureAxis;
 
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
+
+    @FXML private Button saveGraphicButton;
 
     @FXML private Spinner<Integer> spinner;
 
@@ -75,8 +80,6 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
-        dateAxis.setLabel("Time of measurement");
-        temperatureAxis.setLabel("Temperature in ºC");
 
         positionsList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Record>) c -> {
             c.next();
@@ -183,7 +186,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         this.records.addAll(dataMap.keySet());
 
         positionsList.getCheckModel().checkAll();
-        reloadSelectedSeriesForPeriod(1);   // TODO check this solution...
+        reloadSelectedSeriesForPeriod(1);
     }
 
     @FXML
@@ -215,6 +218,12 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-
+        saveGraphicButton.setText(language.get(Lang.SAVE_GRAPHIC));
+        dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
+        } else {
+            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
+        }
     }
 }
