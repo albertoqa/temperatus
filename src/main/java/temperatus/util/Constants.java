@@ -18,7 +18,7 @@ public class Constants {
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    public static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     public static final int DELAY = 0;    // DeviceDetectorTask delay in seconds
@@ -104,7 +104,7 @@ public class Constants {
     public static final String LANGUAGE = "language";
     public static final String LANGUAGE_EN = "en_US";
     public static final String LANGUAGE_SP = "es_ES";
-    public static final String PREFRANGE = "prefRange";
+    public static final String PREF_RANGE = "prefRange";
     public static final String DEFAULT_RANGE = "5";
     public static final String WRITE_AS_INDEX = "writeIndex";
     public static final boolean WRITE_INDEX = false;

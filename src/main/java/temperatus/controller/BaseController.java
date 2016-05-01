@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import temperatus.controller.button.ConnectedDevicesController;
 import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceConnectedList;
 import temperatus.lang.Lang;
@@ -64,7 +63,6 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Autowired IbuttonService ibuttonService;
 
-    @Autowired ConnectedDevicesController connectedDevicesController;   // scope = singleton
     @Autowired DeviceDetectorSource deviceDetectorSource;
     @Autowired DeviceConnectedList deviceConnectedList;
 
@@ -297,7 +295,7 @@ public class BaseController implements Initializable, AbstractController, Device
      * Only if after pop stack is not empty
      */
     public void popViewFromStack() {
-        logger.info("Poping view from the stack vistaHolder");
+        logger.info("Pop view from the stack vistaHolder");
 
         if (vistaHolder.getChildren().size() >= 2) { // stack cannot be empty
             Animation.fadeOutIn(vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 1), vistaHolder.getChildren().get(vistaHolder.getChildren().size() - 2));

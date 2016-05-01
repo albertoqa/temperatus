@@ -33,6 +33,8 @@ public class SplashController implements Initializable, AbstractController {
     @FXML private Label webPage;
     @FXML private ProgressBar progress;
 
+    private final String CANCELLED = "Cancelled";
+
     private Stage stage = new Stage();
 
     @Override
@@ -43,7 +45,7 @@ public class SplashController implements Initializable, AbstractController {
         progress.progressProperty().bind(task.progressProperty());
 
         Thread thread = new Thread(task);
-        thread.setDaemon(true);
+        thread.setDaemon(true);     // if application close, stop task
         thread.start();
     }
 
@@ -61,10 +63,10 @@ public class SplashController implements Initializable, AbstractController {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(80);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
-                            updateMessage("Cancelled");
+                            updateMessage(CANCELLED);
                             break;
                         }
                     }

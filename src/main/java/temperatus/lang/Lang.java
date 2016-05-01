@@ -38,6 +38,14 @@ public class Lang {
 
     public static final String BUY_COMPLETE = "buyComplete";
 
+    // Home
+    public static final String OPTIMIZED_TEXT = "optimizedText";
+    public static final String OPTIMIZED_TITLE = "optimizedTitle";
+    public static final String DATA_TEXT = "dataText";
+    public static final String DATA_TITLE = "dataTitle";
+    public static final String PERFORMANCE_TEXT = "performanceText";
+    public static final String PERFORMANCE_TITLE = "performanceTitle";
+
     // Archived
     public static final String PROJECT_COLUMN = "projectColumn";
     public static final String DATE_COLUMN = "dateColumn";

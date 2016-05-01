@@ -99,7 +99,6 @@ public class NewIButtonController extends AbstractCreationController implements 
                 VistaNavigator.getController().reload(ibutton);
             }
 
-            // TODO update connected devices table
             deviceConnectedList.replaceDevice(ibutton.getSerial(), ibutton.getAlias(), ibutton.getPositionProperty().getValue());
 
             logger.info("Saved: " + ibutton);

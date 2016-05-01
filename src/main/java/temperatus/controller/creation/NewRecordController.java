@@ -670,7 +670,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private ValidatedData validateData(int index, AbstractImporter importedData) throws ControlledTemperatusException {
 
         ValidatedData validatedData = new ValidatedData(importedData);
-        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));   // TODO not only outliers?
+        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
         Position position = getPositionForIndex(index);
 
         if (position == null) {
@@ -815,26 +815,36 @@ public class NewRecordController extends AbstractCreationController implements I
 
             //#################################################
 
-            // show the detected strange values to the user and allow to remove/edit them
-            logger.info("Loading modal view (show and wait): " + language.get(Lang.OUTLIERS));
-
-            SpringFxmlLoader loader = new SpringFxmlLoader();
-            Parent root = loader.load(VistaNavigator.class.getResource(Constants.OUTLIERS));
-
-            Stage stage = new Stage(StageStyle.TRANSPARENT);
-            stage.setTitle(language.get(Lang.OUTLIERS));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-
-            if (VistaNavigator.getParentNode() != null) {
-                VistaNavigator.getParentNode().setDisable(true);
+            boolean thereAreOutliers = false;
+            for(ValidatedData validatedData: validatedDataList) {
+                if(validatedData.getPossibleErrors().size() > 0) {
+                    thereAreOutliers = true;
+                    break;
+                }
             }
 
-            Animation.fadeOutIn(null, root);
+            if(thereAreOutliers) {
+                // show the detected strange values to the user and allow to remove/edit them
+                logger.info("Loading modal view (show and wait): " + language.get(Lang.OUTLIERS));
 
-            ((OutliersController)loader.getController()).setValidatedDataList(validatedDataList);
-            stage.showAndWait();
+                SpringFxmlLoader loader = new SpringFxmlLoader();
+                Parent root = loader.load(VistaNavigator.class.getResource(Constants.OUTLIERS));
+
+                Stage stage = new Stage(StageStyle.TRANSPARENT);
+                stage.setTitle(language.get(Lang.OUTLIERS));
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+
+                if (VistaNavigator.getParentNode() != null) {
+                    VistaNavigator.getParentNode().setDisable(true);
+                }
+
+                Animation.fadeOutIn(null, root);
+
+                ((OutliersController) loader.getController()).setValidatedDataList(validatedDataList);
+                stage.showAndWait();
+            }
 
             //#################################################
 

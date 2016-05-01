@@ -60,13 +60,6 @@ public class ThanksController implements Initializable, AbstractController {
         this.loadSplash = loadSplash;
     }
 
-    @Override
-    public void translate() {
-        featuresLabel.setText(language.get(Lang.FEATURES_LABEL));
-        successLabel.setText(language.get(Lang.SUCCESS_LABEL));
-        continueButton.setText(language.get(Lang.CONTINUE));
-    }
-
     /**
      * Close this stage and load the splash screen window
      */
@@ -82,4 +75,10 @@ public class ThanksController implements Initializable, AbstractController {
         stage.show();
     }
 
+    @Override
+    public void translate() {
+        featuresLabel.setText(language.get(Lang.FEATURES_LABEL));
+        successLabel.setText(language.get(Lang.SUCCESS_LABEL));
+        continueButton.setText(language.get(Lang.CONTINUE));
+    }
 }

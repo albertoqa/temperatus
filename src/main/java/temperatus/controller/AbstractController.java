@@ -17,7 +17,8 @@ public interface AbstractController {
      *
      * @param object object to reload
      */
-    default void reload(Object object) {}
+    default void reload(Object object) {
+    }
 
     /**
      * Translate all labels, buttons, titles... for a view

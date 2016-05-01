@@ -18,7 +18,7 @@ import static java.lang.Math.abs;
  */
 public class IButtonDataValidator {
 
-    private static final Integer RANGE = Integer.valueOf(Constants.prefs.get(Constants.PREFRANGE, Constants.DEFAULT_RANGE));
+    private static final Integer RANGE = Integer.valueOf(Constants.prefs.get(Constants.PREF_RANGE, Constants.DEFAULT_RANGE));
 
     private static Logger logger = LoggerFactory.getLogger(IButtonDataValidator.class.getName());
 
@@ -67,31 +67,34 @@ public class IButtonDataValidator {
 
     /**
      * Get the mean of the measurements
+     *
      * @param measurementList list of measurements
      * @return mean of the list
      */
     private static double getMean(List<Measurement> measurementList) {
         double sum = 0.0;
-        for(Measurement a : measurementList)
+        for (Measurement a : measurementList)
             sum += a.getData();
-        return sum/measurementList.size();
+        return sum / measurementList.size();
     }
 
     /**
      * Get the variance of the list
+     *
      * @param measurementList list to calculate variace from
      * @return variance
      */
     private static double getVariance(List<Measurement> measurementList) {
         double mean = getMean(measurementList);
         double temp = 0;
-        for(Measurement a : measurementList)
-            temp += (mean-a.getData())*(mean-a.getData());
-        return temp/measurementList.size();
+        for (Measurement a : measurementList)
+            temp += (mean - a.getData()) * (mean - a.getData());
+        return temp / measurementList.size();
     }
 
     /**
      * Get the standard deviation from the list
+     *
      * @param measurementList list to calculate deviation from
      * @return standard deviation
      */

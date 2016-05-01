@@ -31,13 +31,13 @@
                </BorderPane.margin>
                <children>
                   <Label fx:id="languageLabel" layoutX="43.0" layoutY="44.0" styleClass="label-paneinfo" text="Language:" />
-                  <ChoiceBox fx:id="languageChoice" layoutX="141.0" layoutY="39.0" prefWidth="150.0" styleClass="form" />
+                  <ChoiceBox fx:id="languageChoice" layoutX="113.0" layoutY="39.0" prefWidth="150.0" styleClass="form" />
                   <Label fx:id="unitLabel" layoutX="424.0" layoutY="44.0" styleClass="label-paneinfo" text="Unit:" />
-                  <RadioButton fx:id="cRadio" layoutX="468.0" layoutY="44.0" mnemonicParsing="false" text="C" />
-                  <RadioButton fx:id="fRadio" layoutX="527.0" layoutY="44.0" mnemonicParsing="false" text="F" />
+                  <RadioButton fx:id="cRadio" layoutX="466.0" layoutY="44.0" mnemonicParsing="false" text="ºC" />
+                  <RadioButton fx:id="fRadio" layoutX="466.0" layoutY="65.0" mnemonicParsing="false" text="ºF" />
                   <CheckBox fx:id="autoSync" layoutX="43.0" layoutY="95.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Auto-sync iButton time with system time." />
                   <CheckBox fx:id="writeAsIndexBox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Show index instead of Date/Time in graphics and exported data." />
-                  <Label fx:id="restartLabel" layoutX="297.0" layoutY="40.0" text="* restart needed">
+                  <Label fx:id="restartLabel" layoutX="269.0" layoutY="40.0" text="* restart needed">
                      <font>
                         <Font size="7.0" />
                      </font>

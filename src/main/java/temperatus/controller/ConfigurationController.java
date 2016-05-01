@@ -53,12 +53,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
         unitGroup.getToggles().add(cRadio);
         unitGroup.getToggles().add(fRadio);
 
-        if (Constants.UNIT_C.equals(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C))) {
-            cRadio.setSelected(true);
-        } else {
-            fRadio.setSelected(true);
-        }
-
         languageChoice.getItems().addAll(Constants.LANG_EN, Constants.LANG_SP);
 
         if (Constants.LANGUAGE_EN.equals(Constants.prefs.get(Constants.LANGUAGE, Constants.LANGUAGE_EN))) {
@@ -67,26 +61,24 @@ public class ConfigurationController implements Initializable, AbstractControlle
             languageChoice.getSelectionModel().select(Constants.LANG_SP);
         }
 
-        if (Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX)) {
-            writeAsIndexBox.setSelected(true);
-        } else {
-            writeAsIndexBox.setSelected(false);
-        }
-
-        if (Constants.prefs.getBoolean(Constants.AUTO_SYNC, Constants.SYNC)) {
-            autoSync.setSelected(true);
-        } else {
-            autoSync.setSelected(false);
-        }
-
+        writeAsIndexBox.setSelected(Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX));
+        autoSync.setSelected(Constants.prefs.getBoolean(Constants.AUTO_SYNC, Constants.SYNC));
+        cRadio.setSelected(Constants.UNIT_C.equals(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C)));
+        fRadio.setSelected(Constants.UNIT_F.equals(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C)));
     }
 
+    /**
+     * Save preferences and close the window
+     */
     @FXML
     private void okAction() {
         savePrefs();
         cancelAction();
     }
 
+    /**
+     * Save preferences but don't close the window
+     */
     @FXML
     private void applyAction() {
         savePrefs();
@@ -159,19 +151,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
         VistaNavigator.baseController.selectBase();
     }
 
-    @Override
-    public void translate() {
-        titledPane.setText(language.get(Lang.CONFIGURATIONTITLE));
-        languageLabel.setText(language.get(Lang.LANG_SELECTOR));
-        unitLabel.setText(language.get(Lang.UNIT_SELECTOR));
-        restartLabel.setText(language.get(Lang.RESTART_LABEL));
-        writeAsIndexBox.setText(language.get(Lang.WRITE_AS_INDEX_LABEL));
-        autoSync.setText(language.get(Lang.AUTO_SYNC_LABEL));
-        cancelButton.setText(language.get(Lang.CANCEL));
-        applyButton.setText(language.get(Lang.APPLY));
-        okButton.setText(language.get(Lang.OK));
-    }
-
     /**
      * If user change language and accept to restart the application so the change take effect
      *
@@ -187,7 +166,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
             return;
 
         /* Build command: java -jar application.jar */
-        final ArrayList<String> command = new ArrayList<String>();
+        final ArrayList<String> command = new ArrayList<>();
         command.add(javaBin);
         command.add("-jar");
         command.add(currentJar.getPath());
@@ -195,6 +174,19 @@ public class ConfigurationController implements Initializable, AbstractControlle
         final ProcessBuilder builder = new ProcessBuilder(command);
         builder.start();
         System.exit(0);
+    }
+
+    @Override
+    public void translate() {
+        titledPane.setText(language.get(Lang.CONFIGURATIONTITLE));
+        languageLabel.setText(language.get(Lang.LANG_SELECTOR));
+        unitLabel.setText(language.get(Lang.UNIT_SELECTOR));
+        restartLabel.setText(language.get(Lang.RESTART_LABEL));
+        writeAsIndexBox.setText(language.get(Lang.WRITE_AS_INDEX_LABEL));
+        autoSync.setText(language.get(Lang.AUTO_SYNC_LABEL));
+        cancelButton.setText(language.get(Lang.CANCEL));
+        applyButton.setText(language.get(Lang.APPLY));
+        okButton.setText(language.get(Lang.OK));
     }
 
 }

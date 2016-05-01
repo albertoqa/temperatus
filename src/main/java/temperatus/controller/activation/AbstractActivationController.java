@@ -35,7 +35,7 @@ abstract class AbstractActivationController {
 
     @FXML private Label activationInfoLabel;
 
-    @FXML ImageView temperatusImage;
+    @FXML private ImageView temperatusImage;
 
     @FXML private Button activateButton;
     @FXML private Button buyButton;
@@ -74,11 +74,7 @@ abstract class AbstractActivationController {
      * Check if is valid to try to activate the program
      */
     private void updateActivateButtonState() {
-        if (!isMailEmpty && !isKeyEmpty) {
-            activateButton.setDisable(false);
-        } else {
-            activateButton.setDisable(true);
-        }
+        activateButton.setDisable(!(!isMailEmpty && !isKeyEmpty));
     }
 
     /**
@@ -124,7 +120,7 @@ abstract class AbstractActivationController {
             Stage currentStage = (Stage) temperatusImage.getScene().getWindow();    // close current stage
             currentStage.close();
             thanksController.setLoadSplash(true);
-            stage.setOnCloseRequest(we -> startApplication() );
+            stage.setOnCloseRequest(we -> startApplication());
         } else {
             VistaNavigator.closeModal(anchorPane);
             thanksController.setLoadSplash(false);
