@@ -24,6 +24,8 @@ public class Constants {
     public static final int DELAY = 0;    // DeviceDetectorTask delay in seconds
     public static final int PERIOD = 8;   // DeviceDetectorTask run period (s)
 
+    public static final String DEGREE = "º";
+
     //#########################################################################//
     //* Convenience constants for fxml layouts
 

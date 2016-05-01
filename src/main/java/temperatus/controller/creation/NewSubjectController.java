@@ -181,7 +181,7 @@ public class NewSubjectController extends AbstractCreationController implements 
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
         nameLabel.setText(language.get(Lang.NAMELABEL));
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
         nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
         observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
         ageLabel.setText(language.get(Lang.AGELABEL));

@@ -52,7 +52,7 @@ public class ButtonDataController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        unitOfMeasurePreferred = new SimpleStringProperty(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Constants.UNIT_C: Constants.UNIT_F);
+        unitOfMeasurePreferred = new SimpleStringProperty(Constants.DEGREE + (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Constants.UNIT_C: Constants.UNIT_F));
 
         measurements = FXCollections.observableArrayList();
 

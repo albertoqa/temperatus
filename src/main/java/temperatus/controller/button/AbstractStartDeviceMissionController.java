@@ -225,11 +225,11 @@ public abstract class AbstractStartDeviceMissionController {
 
         rateLabel.setText(language.get(Lang.RATE_LABEL));
         resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
-        startLabel.setText(language.get(Lang.STARTDATELABEL));
+        startLabel.setText(language.get(Lang.START_DATE_LABEL));
         highLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
         lowLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
         alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL)); // TODO change depending on the preferred unit
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
 
         immediatelyCheck.setText(language.get(Lang.IMMEDIATELY));
         onDateCheck.setText(language.get(Lang.ON_DATE));

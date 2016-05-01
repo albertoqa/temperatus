@@ -116,8 +116,8 @@ public class NewProjectController extends AbstractCreationController implements 
         nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
         observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
         nameLabel.setText(language.get(Lang.NAMELABEL));
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
-        startDateLabel.setText(language.get(Lang.STARTDATELABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
+        startDateLabel.setText(language.get(Lang.START_DATE_LABEL));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
     }

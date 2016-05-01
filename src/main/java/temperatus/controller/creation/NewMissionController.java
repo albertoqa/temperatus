@@ -272,16 +272,16 @@ public class NewMissionController extends AbstractCreationController implements 
         saveButton.setText(language.get(Lang.CONTINUE));
         cancelButton.setText(language.get(Lang.CANCEL));
         nameLabel.setText(language.get(Lang.NAMELABEL));
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
         nameInput.setPromptText(language.get(Lang.NAMEPROMPT));
         observationsInput.setPromptText(language.get(Lang.OBSERVATIONSPROMPT));
         title.setText(language.get(Lang.NEWMISSIONTITLE));
-        projectLabel.setText(language.get(Lang.PROJECTLABEL));
-        authorLabel.setText(language.get(Lang.AUTHORLABEL));
-        startDateLabel.setText(language.get(Lang.STARTDATELABEL));
-        gameLabel.setText(language.get(Lang.GAMELABEL));
-        subjectLabel.setText(language.get(Lang.SUBJECTLABEL));
-        newProjectButton.setText(language.get(Lang.NEWPROJECTBUTTON));
+        projectLabel.setText(language.get(Lang.PROJECT_LABEL));
+        authorLabel.setText(language.get(Lang.AUTHOR_LABEL));
+        startDateLabel.setText(language.get(Lang.START_DATE_LABEL));
+        gameLabel.setText(language.get(Lang.GAME_LABEL));
+        subjectLabel.setText(language.get(Lang.SUBJECT_LABEL));
+        newProjectButton.setText(language.get(Lang.NEW_PROJECT_BUTTON));
         newGameButton.setText(language.get(Lang.NEWGAMEBUTTON));
         newSubjectButton.setText(language.get(Lang.NEWSUBJECTBUTTON));
     }

@@ -216,7 +216,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         ageLabel.setText(language.get(Lang.AGELABEL));
         weightLabel.setText(language.get(Lang.WEIGHTLABEL));
         heightLabel.setText(language.get(Lang.SIZELABEL));
-        observationsLabel.setText(language.get(Lang.OBSERVATIONSLABEL));
+        observationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
         newElementButton.setText(language.get(Lang.NEWSUBJECT));

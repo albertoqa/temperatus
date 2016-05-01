@@ -361,33 +361,27 @@ public class ArchivedController implements Initializable, AbstractController {
         dateColumn.setText(language.get(Lang.DATE_COLUMN));
         subjectColumn.setText(language.get(Lang.SUBJECT_COLUMN));
 
+        filterField.setPromptText(language.get(Lang.FILTER));
 
-        /* TODO
+        newProjectButton.setText(language.get(Lang.NEW_PROJECT_BUTTON));
+        newMissionButton.setText(language.get(Lang.NEW_MISSION_BUTTON));
 
-    @FXML private Label missionNameLabel;
-    @FXML private Label missionDateLabel;
-    @FXML private Label missionObservationsLabel;
-    @FXML private Label missionGameLabel;
-    @FXML private Label missionProjectLabel;
-    @FXML private Label missionSubjectLabel;
-    @FXML private Label missionAuthorLabel;
-    @FXML private Label projectNameLabel;
-    @FXML private Label projectStartDateLabel;
-    @FXML private Label projectNumberOfMissionsLabel;
-    @FXML private Label projectObservationsLabel;
-    @FXML private Label projectAuthorsLabel;
+        projectStartDateLabel.setText(language.get(Lang.START_DATE_LABEL));
+        projectNumberOfMissionsLabel.setText(language.get(Lang.NUMBER_OF_MISSIONS));
+        projectObservationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
+        projectAuthorsLabel.setText(language.get(Lang.PROJECT_AUTHORS_LABEL));
+        editProjectButton.setText(language.get(Lang.EDIT));
+        deleteProjectButton.setText(language.get(Lang.DELETE));
 
-        @FXML private Button deleteProjectButton;
-    @FXML private Button editProjectButton;
-
-    @FXML private Button missionInfoButton;
-    @FXML private Button deleteMissionButton;
-    @FXML private Button editMissionButton;
-
-        @FXML private TextField filterField;
-
-        @FXML private Button newMissionButton;
-    @FXML private Button newProjectButton;
-         */
+        missionInfoButton.setText(language.get(Lang.COMPLETE_INFO));
+        deleteMissionButton.setText(language.get(Lang.DELETE));
+        editMissionButton.setText(language.get(Lang.EDIT));
+        missionAuthorLabel.setText(language.get(Lang.AUTHOR_LABEL));
+        missionProjectLabel.setText(language.get(Lang.PROJECT_LABEL));
+        missionDateLabel.setText(language.get(Lang.START_DATE_LABEL));
+        missionSubjectLabel.setText(language.get(Lang.SUBJECT_LABEL));
+        missionGameLabel.setText(language.get(Lang.GAME_LABEL));
+        missionObservationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
     }
+
 }

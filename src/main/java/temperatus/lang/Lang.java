@@ -21,7 +21,6 @@ public class Lang {
 
     // Base controller
     public static final String RIGHTS = "rights";
-    public static final String SUBTITLE = "subtitle";
     public static final String LHOME = "home";
     public static final String ARCHIVE = "archive";
     public static final String DEVICES = "devices";
@@ -55,14 +54,17 @@ public class Lang {
     public static final String UNIT_COLUMN = "unitColumn";
     public static final String VALUE_COLUMN = "valueColumn";
     public static final String BUTTON_DATA = "buttonData";
+    public static final String NEW_MISSION_BUTTON = "newMissionButton";
+    public static final String NUMBER_OF_MISSIONS = "numberOfMissions";
+    public static final String PROJECT_AUTHORS_LABEL = "authorsInvolvedLabel";
 
     // New project
     public static final String NEWPROJECT = "newProject";
     public static final String NAMEPROMPT = "namePrompt";
     public static final String OBSERVATIONSPROMPT = "observationsPrompt";
     public static final String NAMELABEL = "nameLabel";
-    public static final String OBSERVATIONSLABEL = "observationsLabel";
-    public static final String STARTDATELABEL = "startDateLabel";
+    public static final String OBSERVATIONS_LABEL = "observationsLabel";
+    public static final String START_DATE_LABEL = "startDateLabel";
 
     // New author
     public static final String NEWAUTHOR = "newAuthor";
@@ -118,20 +120,16 @@ public class Lang {
     // New Mission
     public static final String NEWMISSIONTITLE = "newMissionTitle";
     public static final String UPDATE_MISSION_TITLE = "updateMissionTitle";
-    public static final String PROJECTLABEL = "projectLabel";
-    public static final String AUTHORLABEL = "authorLabel";
-    public static final String GAMELABEL = "gameLabel";
-    public static final String SUBJECTLABEL = "subjectLabel";
-    public static final String NEWPROJECTBUTTON = "newProjectButton";
+    public static final String PROJECT_LABEL = "projectLabel";
+    public static final String AUTHOR_LABEL = "authorLabel";
+    public static final String GAME_LABEL = "gameLabel";
+    public static final String SUBJECT_LABEL = "subjectLabel";
+    public static final String NEW_PROJECT_BUTTON = "newProjectButton";
     public static final String NEWGAMEBUTTON = "newGameButton";
     public static final String NEWSUBJECTBUTTON = "newSubjectButton";
-    public static final String AUTHORPROMPT = "authorPrompt";
-    public static final String NOSELECTION = "noSelection";
     public static final String NEWSUBJECT = "newSubject";
     public static final String OUTLIERS = "outliers";
 
-    // New Record
-    public static final String NEWRECORD = "newRecord";
     public static final String RECORDTITLE = "recordTitle";
     public static final String UPDATE_NEW_RECORD_TITLE = "updateNewRecordTitle";
     public static final String POSITIONCOLUMN = "positionColumn";
@@ -149,11 +147,11 @@ public class Lang {
 
     // Record config
     public static final String GENERAL_TAB = "generalTab";
-    public static final String ADD_FORMULA_BUTTON = "addFormulaButton";
     public static final String BACK_BUTTON = "backButton";
     public static final String TIME_RANGE_WARNING = "timeRangeWarning";
     public static final String RECORD_CONFIG_TITLE = "recordConfigTitle";
     public static final String FORMULAS = "formulas";
+    public static final String POSITIONS = "positions";
     public static final String RANGE_OF_TIME = "rangeOfTime";
     public static final String RATE_LABEL = "rateLabel";
     public static final String START_DATE = "startDate";
@@ -240,6 +238,8 @@ public class Lang {
     public static final String HELP = "help";
     public static final String CONFIRMATION = "confirmation";
     public static final String CONFIRMATION_LOSE_PROGRESS = "confirmationLoseProgress";
+
+    public static final String FILTER = "filter";
 
     public static final String DELETE = "delete";
     public static final String EDIT = "edit";

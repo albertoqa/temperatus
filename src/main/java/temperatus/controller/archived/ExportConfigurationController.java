@@ -142,7 +142,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         exportButton.setText(language.get(Lang.EXPORT));
         cancelButton.setText(language.get(Lang.CANCEL));
         periodLabel.setText(language.get(Lang.PERIOD));
-        positionsLabel.setText(language.get(Lang.POSITIONLABEL));
+        positionsLabel.setText(language.get(Lang.POSITIONS));
         formulasLabel.setText(language.get(Lang.FORMULAS));
     }
 }
