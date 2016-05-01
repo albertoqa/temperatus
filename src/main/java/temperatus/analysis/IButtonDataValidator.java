@@ -7,6 +7,9 @@ import temperatus.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.Math.abs;
 
 /**
  * Operations to perform over a list of measurements to check if the data contained is valid
@@ -25,7 +28,7 @@ public class IButtonDataValidator {
      * @param measurements measurements to compare
      * @return measurements found that appear to be incorrect
      */
-    public static List<Measurement> getAllOutliers(final List<Measurement> measurements) {
+    public static List<Measurement> getOutliers(final List<Measurement> measurements) {
         logger.debug("Generating list of outliers using a range of: [+-" + RANGE + "]");
 
         List<Measurement> outliers = new ArrayList<>();
@@ -42,6 +45,58 @@ public class IButtonDataValidator {
         return outliers;
     }
 
+    /**
+     * Compare measurements and return a list with all the possible errors
+     *
+     * @param measurements to compare
+     * @return possible errors
+     */
+    public static List<Measurement> getAllOutliers(final List<Measurement> measurements) {
+        logger.debug("Generating list of outliers");
 
+        List<Measurement> outliers = new ArrayList<>();
+
+        double mean = getMean(measurements);
+        double stdDev = getStdDev(measurements);
+
+        //IF abs(x-mu) > 3*std  THEN  x is outlier
+        outliers.addAll(measurements.stream().filter(measurement -> abs(measurement.getData() - mean) > 3 * stdDev).collect(Collectors.toList()));
+
+        return outliers;
+    }
+
+    /**
+     * Get the mean of the measurements
+     * @param measurementList list of measurements
+     * @return mean of the list
+     */
+    private static double getMean(List<Measurement> measurementList) {
+        double sum = 0.0;
+        for(Measurement a : measurementList)
+            sum += a.getData();
+        return sum/measurementList.size();
+    }
+
+    /**
+     * Get the variance of the list
+     * @param measurementList list to calculate variace from
+     * @return variance
+     */
+    private static double getVariance(List<Measurement> measurementList) {
+        double mean = getMean(measurementList);
+        double temp = 0;
+        for(Measurement a : measurementList)
+            temp += (mean-a.getData())*(mean-a.getData());
+        return temp/measurementList.size();
+    }
+
+    /**
+     * Get the standard deviation from the list
+     * @param measurementList list to calculate deviation from
+     * @return standard deviation
+     */
+    private static double getStdDev(List<Measurement> measurementList) {
+        return Math.sqrt(getVariance(measurementList));
+    }
 
 }

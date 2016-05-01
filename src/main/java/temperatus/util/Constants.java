@@ -105,7 +105,7 @@ public class Constants {
     public static final String LANGUAGE_EN = "en_US";
     public static final String LANGUAGE_SP = "es_ES";
     public static final String PREFRANGE = "prefRange";
-    public static final String DEFAULT_RANGE = "7";
+    public static final String DEFAULT_RANGE = "5";
     public static final String WRITE_AS_INDEX = "writeIndex";
     public static final boolean WRITE_INDEX = false;
     public static final String AUTO_SYNC = "autoSync";
