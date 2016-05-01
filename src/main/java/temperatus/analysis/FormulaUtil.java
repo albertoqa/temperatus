@@ -51,11 +51,11 @@ public class FormulaUtil {
      */
     public static boolean isValidFormula(final String operation, final List<Position> positions) {
 
-        String[] elements = operation.split(FormulaUtil.FORMULA_REGEX);    // split formula in all its elements
+        String[] elements = operation.split(FORMULA_REGEX);    // split formula in all its elements
 
         // replace all operands (positions) for 1
         for (int i = 0; i < elements.length; i++) {
-            if (!FormulaUtil.isOperator(elements[i])) {
+            if (!isOperator(elements[i])) {
                 for (Position position : positions) {
                     if (elements[i].equals(position.getPlace())) {
                         elements[i] = "1";
@@ -66,7 +66,7 @@ public class FormulaUtil {
         }
 
         // reconstruct the formula from its elements (with all the operands (positions) replaced by 1s
-        String toEval = FormulaUtil.generateFormula(elements);
+        String toEval = generateFormula(elements);
 
         // try to perform the operation
         try {

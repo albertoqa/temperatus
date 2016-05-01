@@ -3,10 +3,6 @@ package temperatus.controller.activation;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -16,13 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
+import temperatus.util.Browser;
 import temperatus.util.Constants;
 import temperatus.util.KeyValidator;
 import temperatus.util.VistaNavigator;
 
-import java.awt.*;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -51,7 +46,6 @@ abstract class AbstractActivationController {
 
     private static final String CHECKOUT_IMAGE = "/images/icon/checkout.png";
     //private static final String TRIAL_IMAGE = "/images/icon/trial.png";
-    private static final String PROJECT_WEB = "http://albertoqa.github.io/temperatusWeb/";
 
     private static Logger logger = LoggerFactory.getLogger(AbstractActivationController.class.getName());
 
@@ -96,24 +90,8 @@ abstract class AbstractActivationController {
     @FXML
     private void buy() throws MalformedURLException, URISyntaxException {
         logger.info("Redirecting to buy web-page... YUUUHUU");
-        URL url = new URL(PROJECT_WEB);
-        openWebPage(url.toURI());
-    }
-
-    /**
-     * Open a web-page on the default browser
-     *
-     * @param uri page to open
-     */
-    private static void openWebPage(URI uri) {
-        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-            try {
-                desktop.browse(uri);
-            } catch (Exception e) {
-                logger.error("Error opening default browser... " + e.getMessage());
-            }
-        }
+        URL url = new URL(Constants.PROJECT_WEB);
+        Browser.openWebPage(url.toURI());
     }
 
     /**

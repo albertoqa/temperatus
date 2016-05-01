@@ -14,6 +14,7 @@ public class Constants {
 
     public static final String VERSION = "Version 1.0";
     public static final String WEB = "www.temperatus.com";
+    public static final String PROJECT_WEB = "http://albertoqa.github.io/temperatusWeb/";
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -43,6 +44,7 @@ public class Constants {
     public static final String MISSION_LINE_CHART = "/fxml/MissionLineChart.fxml";
     public static final String EXPORT_CONFIG = "/fxml/ExportConfiguration.fxml";
     public static final String CONFIG_DEVICE = "/fxml/device/StartDeviceMission.fxml";
+    public static final String OUTLIERS = "/fxml/creation/Outliers.fxml";
 
     public static final String NEW_PROJECT = "/fxml/creation/NewProject.fxml";
     public static final String NEW_MISSION = "/fxml/creation/NewMission.fxml";

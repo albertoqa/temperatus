@@ -126,9 +126,6 @@ public class RecordConfigController extends AbstractCreationController implement
         loadFormulas();     // load all formulas that can be applied to this mission
         loadData();         // load all data to configure and validate
         loadTimeRange();    // load the slider and set tick time and time range
-
-        // TODO create popup to show problematic data and manage it
-        // TODO modal window con todos los datos chungos
     }
 
     /**

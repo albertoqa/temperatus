@@ -1,5 +1,6 @@
 package temperatus.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
@@ -8,8 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.device.DeviceOperationsManager;
+import temperatus.util.Browser;
 import temperatus.util.Constants;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,6 +34,14 @@ public class HomeController implements Initializable, AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         askForUserDefaultPreferences();
+
+        linkToWeb.setOnAction((ActionEvent e) -> {
+            try {
+                Browser.openWebPage(new URL(Constants.PROJECT_WEB).toURI());
+            } catch (URISyntaxException | MalformedURLException e1) {
+                logger.warn("Malformed URL");
+            }
+        });
 
         logger.info("Starting devices scan task");
         //deviceOperationsManager.init(); // start executors (and device scan task)

@@ -175,7 +175,7 @@ public class IbuttonDataImporter extends AbstractImporter {
      * @return temperature in celsius
      */
     private Double fahrenheitToCelsius(Double fahrenheit) {
-        return (fahrenheit - 32) * (5 / 9);
+        return (fahrenheit - 32) * (5.0 / 9);
     }
 
     /**

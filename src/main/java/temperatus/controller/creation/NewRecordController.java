@@ -13,12 +13,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +46,9 @@ import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
+import temperatus.util.Animation;
 import temperatus.util.Constants;
+import temperatus.util.SpringFxmlLoader;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
@@ -762,9 +769,9 @@ public class NewRecordController extends AbstractCreationController implements I
                     }
 
                     // compare data and obtain general information
-                    generalData.setAvgTemp(getAverageTemperature(validatedDataList));
                     generalData.setEndDate(getGlobalEndDate(validatedDataList));
                     generalData.setStartDate(getGlobalStartDate(validatedDataList));
+                    generalData.setAvgTemp(getAverageTemperature(validatedDataList));
                     generalData.setMaxTemp(getMaximumTemperature(validatedDataList));
                     generalData.setMinTemp(getMinimumTemperature(validatedDataList));
                     generalData.setRate(getRate(validatedDataList));
@@ -805,6 +812,32 @@ public class NewRecordController extends AbstractCreationController implements I
         pForm.progressProperty().bind(importAndValidateTask.progressProperty());
 
         importAndValidateTask.setOnSucceeded(event -> {
+
+            //#################################################
+
+            // show the detected strange values to the user and allow to remove/edit them
+            logger.info("Loading modal view (show and wait): " + language.get(Lang.OUTLIERS));
+
+            SpringFxmlLoader loader = new SpringFxmlLoader();
+            Parent root = loader.load(VistaNavigator.class.getResource(Constants.OUTLIERS));
+
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setTitle(language.get(Lang.OUTLIERS));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+
+            if (VistaNavigator.getParentNode() != null) {
+                VistaNavigator.getParentNode().setDisable(true);
+            }
+
+            Animation.fadeOutIn(null, root);
+
+            ((OutliersController)loader.getController()).setValidatedDataList(validatedDataList);
+            stage.showAndWait();
+
+            //#################################################
+
             RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
             recordConfigController.setMission(mission);
             recordConfigController.setData(validatedDataList, generalData);

@@ -120,6 +120,7 @@ public class Lang {
     public static final String AUTHORPROMPT = "authorPrompt";
     public static final String NOSELECTION = "noSelection";
     public static final String NEWSUBJECT = "newSubject";
+    public static final String OUTLIERS = "outliers";
 
     // New Record
     public static final String NEWRECORD = "newRecord";

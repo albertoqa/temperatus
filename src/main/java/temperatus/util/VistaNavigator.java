@@ -86,6 +86,10 @@ public class VistaNavigator {
         VistaNavigator.parentNode = parentNode;
     }
 
+    public static Node getParentNode() {
+        return parentNode;
+    }
+
     private static Scene createModalScene(Parent root) {
         Scene scene = new Scene(root);
         scene.setFill(null);
@@ -119,6 +123,26 @@ public class VistaNavigator {
         });
 
         stage.show();
+        return loader.getController();
+    }
+
+    public static <T> T openModalShowAndWait(String url, String title) {
+        logger.info("Loading modal view (show and wait): " + title);
+
+        Parent root = loader.load(VistaNavigator.class.getResource(url));
+        Scene scene = createModalScene(root);
+        Stage stage = createModalStage(scene, title);
+        Animation.fadeOutIn(null, root);
+        if (parentNode != null) {
+            parentNode.setDisable(true);
+        }
+
+        stage.setOnCloseRequest(event -> {
+            logger.info("Closing stage");
+            onCloseModalAction();
+        });
+
+        stage.showAndWait();
         return loader.getController();
     }
 
