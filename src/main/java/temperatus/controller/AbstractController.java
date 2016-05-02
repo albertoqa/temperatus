@@ -2,6 +2,7 @@ package temperatus.controller;
 
 import javafx.scene.control.Alert;
 import temperatus.lang.Language;
+import temperatus.util.VistaNavigator;
 
 /**
  * Abstract class for all controllers
@@ -32,7 +33,6 @@ public interface AbstractController {
      * @param message   message to show
      */
     default void showAlert(Alert.AlertType alertType, String message) {
-        Alert alert = new Alert(alertType, message);
-        alert.show();
+        VistaNavigator.showAlert(alertType, message);
     }
 }

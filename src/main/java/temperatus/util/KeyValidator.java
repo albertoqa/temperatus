@@ -35,15 +35,13 @@ public class KeyValidator {
     public static boolean validate(String mail, String key) {
         try {
             String userKey = PRIVATE_PASSWORD + mail;
-
             MessageDigest md = MessageDigest.getInstance(ALGORITHM);
             md.update(StandardCharsets.UTF_8.encode(userKey));
 
             return key.equals(String.format(KEY_FORMAT, new BigInteger(1, md.digest())));
         } catch (NoSuchAlgorithmException ex) {
             logger.error("Error validating credentials... " + ex.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_VALIDATING_CREDENTIALS));
-            alert.show();
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_VALIDATING_CREDENTIALS));
             return false;
         }
     }

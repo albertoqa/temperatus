@@ -3,6 +3,7 @@ package temperatus.util;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -15,8 +16,8 @@ import temperatus.controller.BaseController;
  */
 public class VistaNavigator {
 
-    private VistaNavigator() {
-    }
+    // Don't allow to instantiate this class
+    private VistaNavigator() {}
 
     private static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
 
@@ -44,13 +45,13 @@ public class VistaNavigator {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    /*  The main application layout  */
+    /*  The main application layout/stage  */
 
     public static BaseController baseController;
     private static Stage mainStage;
 
-    public static void setMainStage(Stage mainStag) {
-        mainStage = mainStag;
+    public static void setMainStage(Stage mainStage) {
+        VistaNavigator.mainStage = mainStage;
     }
 
     public static Stage getMainStage() {
@@ -88,6 +89,12 @@ public class VistaNavigator {
     ////////////////////////////////////////////////////////////////////////////
     /*  Modal Views Utils  */
 
+    private static Stage currentStage;
+
+    public static void setCurrentStage(Stage currentStage) {
+        VistaNavigator.currentStage = currentStage;
+    }
+
     private static Node parentNode;  // Used to disable when a modal window is opened
 
     public static void setParentNode(Node parentNode) {
@@ -96,12 +103,6 @@ public class VistaNavigator {
 
     public static Node getParentNode() {
         return parentNode;
-    }
-
-    private static Scene createModalScene(Parent root) {
-        Scene scene = new Scene(root);
-        scene.setFill(null);
-        return scene;
     }
 
     private static Stage createModalStage(Scene scene, String title) {
@@ -118,8 +119,9 @@ public class VistaNavigator {
         logger.info("Loading modal view: " + title);
 
         Parent root = loader.load(VistaNavigator.class.getResource(url));
-        Scene scene = createModalScene(root);
+        Scene scene = new Scene(root);
         Stage stage = createModalStage(scene, title);
+        currentStage = stage;
         Animation.fadeOutIn(null, root);
         if (parentNode != null) {
             parentNode.setDisable(true);
@@ -140,8 +142,23 @@ public class VistaNavigator {
     }
 
     private static void onCloseModalAction() {
+        currentStage = null;
         parentNode.setDisable(false);
         baseController.selectBase();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    /*  Alert Utils  */
+
+    public static void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type, message);
+        if(currentStage != null) {
+            alert.initOwner(currentStage);
+        } else if(mainStage != null) {
+            alert.initOwner(mainStage);
+        }
+        alert.show();
     }
 
 }

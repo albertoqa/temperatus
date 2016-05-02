@@ -29,6 +29,7 @@ public class Main extends Application {
         if (!isActivated) {
             // load the activation window
             pane = FXMLLoader.load(getClass().getResource(Constants.ACTIVATION));
+            VistaNavigator.setCurrentStage(primaryStage);
         } else {
             // load the Splash screen
             pane = VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH));

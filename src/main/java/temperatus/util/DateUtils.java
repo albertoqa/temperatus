@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
+ * Utility functions to manage dates
+ * <p>
  * Created by alberto on 23/4/16.
  */
 public class DateUtils {
@@ -17,8 +19,9 @@ public class DateUtils {
      * @return LocalDate
      */
     public static LocalDate asLocalDate(Date date) {
-        if (date == null)
+        if (date == null) {
             return null;
+        }
 
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
@@ -30,8 +33,9 @@ public class DateUtils {
      * @return Date
      */
     public static Date asUtilDate(LocalDate date) {
-        if (date == null)
+        if (date == null) {
             return null;
+        }
 
         return Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }

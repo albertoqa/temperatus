@@ -34,6 +34,7 @@ public class SplashController implements Initializable, AbstractController {
     @FXML private ProgressBar progress;
 
     private final String CANCELLED = "Cancelled";
+    private final int SLEEP = 80;
 
     private Stage stage = new Stage();
 
@@ -63,7 +64,7 @@ public class SplashController implements Initializable, AbstractController {
                 final int max = 50;
                 for (int i = 1; i <= max; i++) {
                     try {
-                        Thread.sleep(80);
+                        Thread.sleep(SLEEP);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
                             updateMessage(CANCELLED);

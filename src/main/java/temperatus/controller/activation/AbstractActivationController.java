@@ -79,15 +79,17 @@ abstract class AbstractActivationController {
 
     /**
      * Open the default browser and go to the project address
-     *
-     * @throws MalformedURLException
-     * @throws URISyntaxException
      */
     @FXML
-    private void buy() throws MalformedURLException, URISyntaxException {
+    private void buy() {
         logger.info("Redirecting to buy web-page... YUUUHUU");
-        URL url = new URL(Constants.PROJECT_WEB);
-        Browser.openWebPage(url.toURI());
+        URL url = null;
+        try {
+            url = new URL(Constants.PROJECT_WEB);
+            Browser.openWebPage(url.toURI());
+        } catch (MalformedURLException | URISyntaxException e) {
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
+        }
     }
 
     /**
@@ -99,17 +101,16 @@ abstract class AbstractActivationController {
         if (KeyValidator.validate(mailInput.getText(), keyInput.getText())) {
             logger.info("Application activated!");
             Constants.prefs.putBoolean(Constants.ACTIVATED, true);  // save activated state :D
-            showTanks();
+            showThanks();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_INVALID_CREDENTIALS));
-            alert.show();
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_INVALID_CREDENTIALS));
         }
     }
 
     /**
      * Show thank screen
      */
-    private void showTanks() {
+    private void showThanks() {
         Stage stage = new Stage();
         Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.THANKS));
         ThanksController thanksController = VistaNavigator.loader.getController();

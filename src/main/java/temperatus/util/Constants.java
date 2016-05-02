@@ -83,18 +83,18 @@ public class Constants {
     // * Resources addresses
 
     // Icon images
+    public static final int NUMBER_OF_ICONS = 13;
     public static final String[] ICONS = {"/images/icons/about.png", "/images/icons/archive.png", "/images/icons/author.png",
             "/images/icons/conf.png", "/images/icons/devices.png", "/images/icons/formula.png", "/images/icons/game.png",
             "/images/icons/home.png", "/images/icons/manage.png", "/images/icons/mission.png", "/images/icons/position.png",
             "/images/icons/project.png", "/images/icons/subject.png"};
 
     public static final int ICON_SIZE = 15;
-    public static final int NUMBER_OF_ICONS = 13;
 
     //#########################################################################//
     // * User preferences
 
-    public static final Preferences prefs = Preferences.userRoot().node("temperatusA");
+    public static final Preferences prefs = Preferences.userRoot().node("temperatus");
 
     public static final String ACTIVATED = "activated";
 
@@ -116,7 +116,6 @@ public class Constants {
 
     public static final String LANG_EN = "English";
     public static final String LANG_SP = "Spanish";
-
 
     private Constants() {
     }

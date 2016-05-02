@@ -150,6 +150,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         treeTable.setRoot(root);
         treeTable.sort();
+        // TODO cuidado cuando se pulsa la cabecera de una columnaaa.....
     }
 
     /**

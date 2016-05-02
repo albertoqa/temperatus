@@ -18,6 +18,13 @@ public class SpringFxmlLoader {
 
     private Object controller = null;
 
+    /**
+     * Load a new view, and its controller (bean)
+     *
+     * @param url fxml address
+     * @param <T> controller of the fxml
+     * @return controller
+     */
     public <T> T load(URL url) {
         try {
             FXMLLoader loader = new FXMLLoader(url);
@@ -40,7 +47,4 @@ public class SpringFxmlLoader {
         return (T) controller;
     }
 
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
 }

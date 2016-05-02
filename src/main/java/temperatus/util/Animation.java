@@ -15,6 +15,9 @@ public final class Animation {
     private static final double INVISIBLE = 0.25;
     private static final double TRANSPARENCY = 0.3; // opacity level
     private static final double VISIBLE = 1.0;
+    private static final int MAX = 100;
+    private static final int MIN = 0;
+    private static final double OPACITY = 0.5;
 
     private static FadeTransition fadeIn(Node node, Boolean invisible, Boolean play) {
         FadeTransition fadeIn = new FadeTransition(Duration.millis(LIFESPAN), node);
@@ -58,19 +61,19 @@ public final class Animation {
     }
 
     public static void fadeInTransition(Node node) {
-        if (node.getOpacity() < 0.5) {
+        if (node.getOpacity() < OPACITY) {
             FadeTransition fadeOut = new FadeTransition(Duration.millis(LIFESPAN), node);
-            fadeOut.setFromValue(0);
-            fadeOut.setToValue(100);
+            fadeOut.setFromValue(MIN);
+            fadeOut.setToValue(MAX);
             fadeOut.play();
         }
     }
 
     public static void fadeOutTransition(Node node) {
-        if (node.getOpacity() > 0.5) {
+        if (node.getOpacity() > OPACITY) {
             FadeTransition fadeOut = new FadeTransition(Duration.millis(LIFESPAN), node);
-            fadeOut.setFromValue(100);
-            fadeOut.setToValue(0);
+            fadeOut.setFromValue(MAX);
+            fadeOut.setToValue(MIN);
             fadeOut.play();
         }
     }

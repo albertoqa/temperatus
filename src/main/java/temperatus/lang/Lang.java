@@ -171,6 +171,7 @@ public class Lang {
     public static final String TEMPERATURE_LOG = "temperatureLog";
 
     public static final String SAVE_GRAPHIC = "saveGraphic";
+    public static final String TEMPERATURE_HOVER = "temperatureHover";
 
     // New Configuration
     public static final String SET_ALARM_LABEL_C = "setAlarmC";
@@ -307,6 +308,7 @@ public class Lang {
     public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";
     public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";
     public static final String ERROR_PARSE_DATE = "errorParseDate";
+    public static final String ERROR_BROWSER = "errorBrowser";
 
     public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";
     public static final String CANNOT_DELETE_DEFAULT_CONF = "cannotDeleteDefaultConf";

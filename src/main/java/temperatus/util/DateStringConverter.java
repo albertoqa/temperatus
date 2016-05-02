@@ -42,7 +42,7 @@ public class DateStringConverter extends StringConverter<Number> {
             Date date = Constants.dateTimeFormat.parse(s);
             return date.getTime();
         } catch (ParseException e) {
-            logger.warn("Cannot parse String to Date");
+            logger.error("Cannot parse String to Date");
             return 0;
         }
     }

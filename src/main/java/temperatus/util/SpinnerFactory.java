@@ -30,7 +30,7 @@ public class SpinnerFactory {
      */
     public static void setIntegerSpinner(Spinner<Integer> spinner) {
         TextFormatter<Integer> periodFormatter = new TextFormatter<>(new IntegerStringConverter(), 0, getFilter(NumberFormat.getIntegerInstance()));
-        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0));   // between 0-1000 and first value 0
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000000, 0));   // between 0-1000 and first value 0
         spinner.setEditable(true);
         spinner.getEditor().setTextFormatter(periodFormatter);
     }
@@ -42,7 +42,7 @@ public class SpinnerFactory {
      */
     public static void setIntegerSpinner(Spinner<Integer> spinner, int defaultValue) {
         TextFormatter<Integer> periodFormatter = new TextFormatter<>(new IntegerStringConverter(), defaultValue, getFilter(NumberFormat.getIntegerInstance()));
-        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, defaultValue));   // between 0-1000 and first value 0
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10000, defaultValue));   // between 0-1000 and first value 0
         spinner.setEditable(true);
         spinner.getEditor().setTextFormatter(periodFormatter);
     }
@@ -54,10 +54,9 @@ public class SpinnerFactory {
      */
     public static void setDoubleSpinner(Spinner<Double> spinner) {
         TextFormatter<Double> periodFormatter = new TextFormatter<>(setConverter(), 0.0, getFilter(new DecimalFormat("#.##")));
-        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000.0, 10000.0, 0.0, 0.5));   // between 0-1000 and first value 0
+        spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000.0, 10000.0, 0.0, 0.5));   // between -1000-1000 and first value 0
         spinner.setEditable(true);
         spinner.getEditor().setTextFormatter(periodFormatter);
-
     }
 
     /**

@@ -1,7 +1,10 @@
 package temperatus.util;
 
+import javafx.scene.control.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 
 import java.awt.*;
 import java.net.URI;
@@ -27,7 +30,10 @@ public class Browser {
                 desktop.browse(uri);
             } catch (Exception e) {
                 logger.error("Error opening default browser... " + e.getMessage());
+                VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
             }
+        } else {
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
         }
     }
 

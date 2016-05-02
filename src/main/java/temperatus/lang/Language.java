@@ -31,7 +31,6 @@ public class Language {
             locale = new Locale(language[0], language[1]);
         } catch (Exception ex) {
             logger.error("Error loading language");
-
             locale = new Locale("en", "US");    // If any error, load English
         }
         resourceBundle = ResourceBundle.getBundle("languages/language", locale);

@@ -12,7 +12,7 @@ import javafx.scene.input.KeyEvent;
 public class TextValidation {
 
     /**
-     * Validate textField input to only numbers with a max longitude
+     * Validate textField input to only numbers (double) with a max longitude
      *
      * @param max_Length max longitude of the input
      * @return eventHandler
