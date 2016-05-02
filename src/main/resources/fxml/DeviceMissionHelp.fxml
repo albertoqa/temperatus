@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="652.0" styleClass="grayBack" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.StartDeviceMissionHelpController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="modal">
+         <children>
+            <AnchorPane layoutX="227.0" layoutY="-11.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="headerLabel" layoutX="69.0" layoutY="27.0" styleClass="headerLabel" text="Help" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0" />
+                  <Button fx:id="backButton" layoutX="626.0" layoutY="22.0" mnemonicParsing="false" onAction="#back" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="22.0" />
+               </children>
+            </AnchorPane>
+            <GridPane layoutX="27.0" layoutY="93.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="169.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="482.0" minWidth="10.0" prefWidth="482.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="199.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="105.0" minHeight="0.0" prefHeight="92.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="The DS1922/3-series loggers allow for choosing between low resolution (0.5°C for temperature values, same as with the DS1921G) and high resolution (0.0625°C). " textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets right="27.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Avenir Light" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="239.0" text="Resolution:" textAlignment="JUSTIFY" wrapText="true">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Avenir Black" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="When setting up a logger for a mission, one must ensure that the number of samples taken during a mission fits into the data-log memory. If a mission takes longer than planned, the logger generates more data than can fit into the memory. The rollover option allows the user to choose what the logger does when the memory is full.With the rollover disabled, no additional data is stored when the memory is full; the excess data is lost, but all the data from the beginning of the mission is stored up to the end of the memory. With the rollover enabled, the logging continues, but the data from the beginning of the mission is lost and overwritten with new data." textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="27.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Avenir Light" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="239.0" text="RollOver:" textAlignment="JUSTIFY" wrapText="true" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Avenir Black" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Logger iButton data sheets use the term sample rate to reference the time between consecutive measurements (log entries) during a mission. The sample rate is typically specified in minutes. The DS1922/3 series of loggers also support fast sampling, where the rate is specified in seconds." textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="27.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Avenir Light" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="The abbreviation SUTA stands for &quot;Start (Mission) Upon Temperature Alarm.&quot; This feature allows conserving memory and, if high-resolution temperature logging is requested, battery energy. If SUTA is selected, first the logger waits until the mission start delay is over. Then it starts measuring the temperature in low-resolution mode at the specified sample rate. The temperature values are discarded until there is a value that matches or exceeds one of the specified temperature alarm thresholds. The first logged temperature is when the alarm occurred. At the time of the next sample, the mission time stamp is recorded and the device continues logging at the selected resolution." textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Avenir Light" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="27.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="The purpose of a logger is to monitor whether the temperature and/or humidity of the object to be monitored stays within certain limits. The desirable range is marked by a high alarm and low alarm threshold. Logger iButtons have registers to store these thresholds. When during a mission a logged value is outside the desirable range, a corresponding register bit is set to indicate the alarm." textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Avenir Light" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="27.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="239.0" text="Sample Rate:" textAlignment="JUSTIFY" wrapText="true" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Avenir Black" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="239.0" text="SUTA:" textAlignment="JUSTIFY" wrapText="true" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Avenir Black" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="239.0" text="Alarm:" textAlignment="JUSTIFY" wrapText="true" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Avenir Black" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

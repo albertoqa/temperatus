@@ -28,6 +28,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -199,6 +200,14 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
         }
         anchorPane.setDisable(false);
+    }
+
+    /**
+     * Show a modal window with help about how to configure the mission
+     */
+    @FXML
+    private void help() {
+        VistaNavigator.openModal(Constants.MISSION_HELP, language.get(Lang.MISSION_HELP));
     }
 
     @Override

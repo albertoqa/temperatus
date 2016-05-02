@@ -148,6 +148,7 @@ public class Lang {
     public static final String CONFIRMATION_DELETE_RECORD = "confirmationDeleteRecord";
     public static final String CONFIRMATION_DELETE_POSITION = "confirmationDeletePosition";
     public static final String DELETEDATA = "deleteData";
+    public static final String MISSION_HELP = "missionHelp";
 
     // Record config
     public static final String GENERAL_TAB = "generalTab";

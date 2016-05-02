@@ -15,7 +15,7 @@
                         <Font name="Avenir Light" size="35.0" />
                      </font>
                   </Label>
-                  <Button fx:id="helpButton" layoutX="681.0" layoutY="22.0" mnemonicParsing="false" styleClass="ibtn" text="Help" AnchorPane.rightAnchor="27.0" />
+                  <Button fx:id="helpButton" onAction="#help" layoutX="681.0" layoutY="22.0" mnemonicParsing="false" styleClass="ibtn" text="Help" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <CheckListView fx:id="deviceCheckListView" layoutX="120.0" layoutY="535.0" prefHeight="113.0" prefWidth="290.0" stylesheets="@../../styles/formulasListView.css" AnchorPane.bottomAnchor="12.0" AnchorPane.topAnchor="535.0" />
