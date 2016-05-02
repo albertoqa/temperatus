@@ -65,13 +65,15 @@ public class ThanksController implements Initializable, AbstractController {
      */
     private void startApplication() {
         Stage currentStage = (Stage) anchorPane.getScene().getWindow();    // close current stage
-        currentStage.close();
 
         Stage stage = new Stage();
         Pane pane = VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH));
         Scene scene = new Scene(pane);
         stage.initStyle(StageStyle.UNDECORATED); // remove borders
         stage.setScene(scene);
+        stage.initOwner(currentStage);
+
+        currentStage.close();
         stage.show();
     }
 

@@ -203,7 +203,6 @@ public class Lang {
     public static final String UNIT_SELECTOR = "unitSel";
     public static final String WRITE_AS_INDEX_LABEL = "writeAsIndexLab";
     public static final String AUTO_SYNC_LABEL = "autoSyncLab";
-    public static final String RESTART_LABEL = "restartLab";
     public static final String RESTART = "restart";
 
     public static final String NEW_CONFIGURATION = "newConfiguration";

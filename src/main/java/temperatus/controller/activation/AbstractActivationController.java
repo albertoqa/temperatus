@@ -118,6 +118,7 @@ abstract class AbstractActivationController {
 
         if (temperatusImage != null) {
             Stage currentStage = (Stage) temperatusImage.getScene().getWindow();    // close current stage
+            stage.initOwner(currentStage);
             currentStage.close();
             thanksController.setLoadSplash(true);
             stage.setOnCloseRequest(we -> startApplication());
@@ -133,9 +134,11 @@ abstract class AbstractActivationController {
      * Close this stage and load the splash screen window
      */
     void startApplication() {
-        ((Stage) temperatusImage.getScene().getWindow()).close();    // close current stage
+        Stage current = ((Stage) temperatusImage.getScene().getWindow());    // close current stage
         Stage stage = new Stage(StageStyle.UNDECORATED);
         stage.setScene(new Scene(VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH))));
+        stage.initOwner(current);
+        current.close();
         stage.show();
     }
 

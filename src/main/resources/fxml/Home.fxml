@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<StackPane id="/fxml/Home.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
+<StackPane id="/fxml/Home.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="601.0" prefWidth="820.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
    <children>
       <AnchorPane prefHeight="615.0" prefWidth="636.0">
          <children>
@@ -18,7 +18,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="204.0" layoutY="271.0" prefHeight="100.0" prefWidth="412.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="271.0">
+            <HBox alignment="CENTER" layoutX="204.0" layoutY="237.0" prefHeight="358.0" prefWidth="412.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="237.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                      <children>

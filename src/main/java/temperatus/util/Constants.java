@@ -94,7 +94,7 @@ public class Constants {
     //#########################################################################//
     // * User preferences
 
-    public static final Preferences prefs = Preferences.userRoot().node("temperatus");
+    public static final Preferences prefs = Preferences.userRoot().node("temperatusA");
 
     public static final String ACTIVATED = "activated";
 

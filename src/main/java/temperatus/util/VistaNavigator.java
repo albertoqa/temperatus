@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.controller.AbstractController;
@@ -23,7 +22,7 @@ public class VistaNavigator {
 
     public static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
-    public static final double MIN_HEIGHT = 680.0;
+    public static final double MIN_HEIGHT = 620.0;
     public static final double MIN_WIDTH = 1000.0;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -48,6 +47,15 @@ public class VistaNavigator {
     /*  The main application layout  */
 
     public static BaseController baseController;
+    private static Stage mainStage;
+
+    public static void setMainStage(Stage mainStag) {
+        mainStage = mainStag;
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
 
     public static void setBaseController(BaseController baseController) {
         VistaNavigator.baseController = baseController;
@@ -100,9 +108,9 @@ public class VistaNavigator {
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.setResizable(false);
+        stage.initOwner(mainStage);
         return stage;
     }
 

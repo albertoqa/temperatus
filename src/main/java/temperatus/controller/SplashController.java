@@ -85,10 +85,12 @@ public class SplashController implements Initializable, AbstractController {
      * Close actual stage and open a new one with Home screen loaded
      */
     private void showHome() {
-        VistaNavigator.loadVista(Constants.HOME);
+        VistaNavigator.setController(VistaNavigator.loadVista(Constants.HOME));
 
         Stage currentStage = (Stage) rights.getScene().getWindow();
+        stage.initOwner(currentStage);
         currentStage.close();
+        VistaNavigator.setMainStage(stage);
         stage.show();
     }
 

@@ -55,6 +55,10 @@ public class Language {
         return localeToLanguage(language);
     }
 
+    public void reloadLanguage() {
+        loadLanguage();
+    }
+
     public static Language getInstance() {
         return instance;
     }

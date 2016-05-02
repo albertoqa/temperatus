@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="622.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
@@ -37,11 +36,6 @@
                   <RadioButton fx:id="fRadio" layoutX="466.0" layoutY="65.0" mnemonicParsing="false" text="ºF" />
                   <CheckBox fx:id="autoSync" layoutX="43.0" layoutY="95.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Auto-sync iButton time with system time." />
                   <CheckBox fx:id="writeAsIndexBox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Show index instead of Date/Time in graphics and exported data." />
-                  <Label fx:id="restartLabel" layoutX="269.0" layoutY="40.0" text="* restart needed">
-                     <font>
-                        <Font size="7.0" />
-                     </font>
-                  </Label>
                </children>
             </AnchorPane>
          </center>

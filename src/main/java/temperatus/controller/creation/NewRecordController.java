@@ -835,6 +835,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setResizable(false);
+                stage.initOwner(VistaNavigator.getMainStage());
 
                 if (VistaNavigator.getParentNode() != null) {
                     VistaNavigator.getParentNode().setDisable(true);
