@@ -71,4 +71,15 @@
    <center>
       <StackPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <AnchorPane prefHeight="21.0" prefWidth="1000.0" style="-fx-background-color: #2b3940;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="750.0" layoutY="2.0" prefHeight="17.0" prefWidth="474.0" text="User: Alberto Quesada" textFill="#d7d0d0" AnchorPane.rightAnchor="27.0">
+               <font>
+                  <Font name="Avenir Light" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

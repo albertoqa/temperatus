@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -62,6 +63,8 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private TitledPane accordionPane;
     @FXML private BorderPane parentPane;
 
+    @FXML private Label userLabel;
+
     @Autowired IbuttonService ibuttonService;
 
     @Autowired DeviceDetectorSource deviceDetectorSource;
@@ -76,6 +79,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing base controller");
+        userLabel.setText("");
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(deviceConnectedList);
@@ -92,6 +96,8 @@ public class BaseController implements Initializable, AbstractController, Device
                 toggle.setSelected(true);
             }
         });
+
+        userLabel.setOnMouseClicked(event -> VistaNavigator.openModal(Constants.USER, ""));
 
         VistaNavigator.setParentNode(this.parentPane);    // used to disable its elements when a modal window is opened
     }
@@ -321,6 +327,13 @@ public class BaseController implements Initializable, AbstractController, Device
         nAuthor.setText(language.get(Lang.NAUTHOR));
     }
 
+    /**
+     * Set the name of the user currently logged
+     * @param name name of the user
+     */
+    public void setUserName(String name) {
+        userLabel.setText(language.get(Lang.USER) + "  " + name);
+    }
 
     /***********************************
      *       Device Detection

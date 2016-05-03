@@ -33,6 +33,7 @@ public class Constants {
     public static final String ACTIVATION = "/fxml/Activation.fxml";
     public static final String BUY_COMPLETE = "/fxml/Activate.fxml";
     public static final String THANKS = "/fxml/Thanks.fxml";
+    public static final String USER = "/fxml/User.fxml";
 
     public static final String BASE = "/fxml/Base.fxml";
     public static final String HOME = "/fxml/Home.fxml";

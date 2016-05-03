@@ -36,6 +36,7 @@ public class Lang {
     public static final String NGAME = "nGame";
 
     public static final String BUY_COMPLETE = "buyComplete";
+    public static final String USER = "user";
 
     // Home
     public static final String OPTIMIZED_TEXT = "optimizedText";
@@ -68,6 +69,10 @@ public class Lang {
 
     // New author
     public static final String NEW_AUTHOR_BUTTON = "newAuthor";
+    public static final String NEW_USER_BUTTON = "newUser";
+    public static final String NEW_USER_PROMPT = "newUserPrompt";
+    public static final String INSERT_USER_NAME = "insertUserName";
+    public static final String WHO_IS_USING = "whoIsUsing";
     public static final String PARTICIPATE_IN_PROJECTS = "participateInProjects";
 
     // New Game
@@ -313,6 +318,7 @@ public class Lang {
     public static final String MUST_SELECT_POSITION = "mustSelectPosition";
     public static final String MUST_SELECT_POSITION_FOR_ALL = "mustSelectPositionForAll";
     public static final String MUST_SELECT_ALL_ROW = "mustSelectAllRow";
+    public static final String MUST_SELECT_USER = "mustSelectUser";
 
     public static final String INVALID_NAME_FORMULA = "invalidNameFormula";
     public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";

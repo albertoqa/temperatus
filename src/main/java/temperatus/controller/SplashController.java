@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.lang.Lang;
@@ -93,6 +95,19 @@ public class SplashController implements Initializable, AbstractController {
         currentStage.close();
         VistaNavigator.setMainStage(stage);
         stage.show();
+
+        // Ask who is the user that is going to use the application
+        Stage userStage = new Stage();
+        userStage.initOwner(stage);
+        userStage.setScene(new Scene(VistaNavigator.loader.load(getClass().getResource(Constants.USER))));
+        userStage.initModality(Modality.APPLICATION_MODAL);
+        userStage.initStyle(StageStyle.TRANSPARENT);
+
+        if (VistaNavigator.getParentNode() != null) {
+            VistaNavigator.getParentNode().setDisable(true);
+        }
+
+        userStage.show();
     }
 
     /**

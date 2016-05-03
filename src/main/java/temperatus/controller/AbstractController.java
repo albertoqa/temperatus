@@ -1,6 +1,8 @@
 package temperatus.controller;
 
 import javafx.scene.control.Alert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import temperatus.lang.Language;
 import temperatus.listener.DatabaseThreadFactory;
 import temperatus.util.VistaNavigator;
@@ -21,6 +23,8 @@ public interface AbstractController {
         in this case, is used to load elements from the DB. ThreadPool is set to 1 to ensure that
         only one database operation is performed at a time*/
     ExecutorService databaseExecutor = Executors.newFixedThreadPool(1, new DatabaseThreadFactory());    // executes database operations concurrent to JavaFX operations.
+
+    Logger history = LoggerFactory.getLogger("HISTORY");    // write the history of use of the application to a file
 
     /**
      * Reload a given object
