@@ -26,6 +26,7 @@ import temperatus.device.task.DeviceReadTask;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.types.Device;
 import temperatus.util.Constants;
+import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -108,6 +109,8 @@ public class DeviceMissionInformationController implements Initializable, Abstra
         deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
         ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
 
+        //history.info(User.getUserName() + " " + language.get(Lang.READ_MISSION_HISTORY) + "  " + device.getAlias());
+
         Futures.addCallback(future, new FutureCallback<Object>() {
             public void onSuccess(Object result) {
                 Platform.runLater(() -> {
@@ -183,6 +186,8 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             startProgressIndicator();
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
+
+            history.info(User.getUserName() + " " + language.get(Lang.STOP_MISSION_HISTORY) + "  " + device.getAlias());
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 public void onSuccess(Boolean result) {

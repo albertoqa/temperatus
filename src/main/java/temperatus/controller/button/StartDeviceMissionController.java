@@ -31,6 +31,7 @@ import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.util.Constants;
+import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -184,6 +185,8 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
                 deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply
                 ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
                 startProgressIndicator();
+
+                history.info(User.getUserName() + " " + language.get(Lang.START_MISSION_HISTORY) + "  " + device.getAlias());
 
                 Futures.addCallback(future, new FutureCallback<Boolean>() {
                     public void onSuccess(Boolean result) {

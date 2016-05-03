@@ -341,10 +341,12 @@ public class Lang {
     public static final String ACTIVATION_INFO_LABEL = "activationInfoLabel";
     public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
 
-
     // History
     public static final String DELETE_HISTORY = "deleteHistory";
     public static final String SAVE_EDIT_HISTORY = "saveEditHistory";
+    public static final String STOP_MISSION_HISTORY = "stopMissionHistory";
+    public static final String READ_MISSION_HISTORY = "readMissionHistory";
+    public static final String START_MISSION_HISTORY = "startMissionHistory";
 
 
     private Lang() {
