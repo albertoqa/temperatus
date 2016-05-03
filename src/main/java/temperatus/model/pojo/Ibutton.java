@@ -87,12 +87,7 @@ public class Ibutton implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Ibutton{" +
-                "serial='" + serial + '\'' +
-                ", model='" + model + '\'' +
-                ", alias='" + alias + '\'' +
-                ", id=" + id +
-                '}';
+        return getSerial();
     }
 
     @Override

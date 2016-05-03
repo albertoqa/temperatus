@@ -27,7 +27,6 @@ import temperatus.model.service.MissionService;
 import temperatus.model.service.ProjectService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
-import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -287,7 +286,6 @@ public class ArchivedController implements Initializable, AbstractController {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             root.getInternalChildren().remove(treeItem);
-            history.info(User.getUserName() + " - Deleted project: " + treeItem.getValue().getName().getValue());
         }
     }
 

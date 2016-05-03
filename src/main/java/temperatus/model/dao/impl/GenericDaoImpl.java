@@ -1,8 +1,15 @@
 package temperatus.model.dao.impl;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
+import temperatus.model.pojo.Measurement;
+import temperatus.model.pojo.Record;
+import temperatus.util.User;
 
 import java.util.List;
 
@@ -12,6 +19,8 @@ import java.util.List;
 @Repository
 public class GenericDaoImpl {
 
+    private static Logger history = LoggerFactory.getLogger("HISTORY");    // write the history of use of the application to a file
+
     @Autowired protected SessionFactory sessionFactory;
 
     public <T> T save(final T o) {
@@ -20,6 +29,10 @@ public class GenericDaoImpl {
 
     public void delete(final Object object) {
         sessionFactory.getCurrentSession().delete(object);
+
+        if (!(object instanceof Measurement) && !(object instanceof Record)) {
+            history.info(User.getUserName() + " " + Language.getInstance().get(Lang.DELETE_HISTORY) + " " + object.toString());
+        }
     }
 
     public <T> T get(final Class<T> type, final int id) {
@@ -32,6 +45,10 @@ public class GenericDaoImpl {
 
     public <T> void saveOrUpdate(final T o) {
         sessionFactory.getCurrentSession().saveOrUpdate(o);
+
+        if (!(o instanceof Measurement) && !(o instanceof Record)) {
+            history.info(User.getUserName() + " " + Language.getInstance().get(Lang.SAVE_EDIT_HISTORY) + " " + o.toString());
+        }
     }
 
     public <T> List<T> getAll(final Class<T> type) {

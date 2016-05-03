@@ -154,10 +154,7 @@ public class Mission implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Mission{" +
-                "name='" + name + '\'' +
-                ", dateIni=" + dateIni +
-                '}';
+        return getName();
     }
 
     @Override

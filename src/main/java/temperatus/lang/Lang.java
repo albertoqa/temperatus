@@ -342,6 +342,11 @@ public class Lang {
     public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
 
 
+    // History
+    public static final String DELETE_HISTORY = "deleteHistory";
+    public static final String SAVE_EDIT_HISTORY = "saveEditHistory";
+
+
     private Lang() {
     }
 
