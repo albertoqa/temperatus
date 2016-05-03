@@ -1,6 +1,7 @@
 package temperatus.controller.creation;
 
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,6 +24,7 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -88,11 +90,10 @@ public class NewMissionController extends AbstractCreationController implements 
 
         dateInput.setValue(LocalDate.now());    // Default date: today
 
-        // * Load all projects, authors, games and subjects from database and allow the user to choose them
-        projectBox.setItems(FXCollections.observableArrayList(projectService.getAll()));
-        authorBox.setItems(FXCollections.observableArrayList(authorService.getAll()));
-        gameBox.setItems(FXCollections.observableArrayList(gameService.getAll()));
-        subjectBox.setItems(FXCollections.observableArrayList(subjectService.getAll()));
+        projectBox.setItems(FXCollections.observableArrayList());
+        authorBox.setItems(FXCollections.observableArrayList());
+        gameBox.setItems(FXCollections.observableArrayList());
+        subjectBox.setItems(FXCollections.observableArrayList());
 
         new AutoCompleteComboBoxListener<>(projectBox);
         new AutoCompleteComboBoxListener<>(authorBox);
@@ -100,6 +101,53 @@ public class NewMissionController extends AbstractCreationController implements 
         new AutoCompleteComboBoxListener<>(subjectBox);
 
         translate();
+
+        getAllElements();
+    }
+
+    /**
+     * Load all projects, authors, games and subjects from database and allow the user to choose them
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Project>> getProjectsTask = new Task<List<Project>>() {
+            @Override
+            public List<Project> call() throws Exception {
+                return projectService.getAll();
+            }
+        };
+
+        Task<List<Author>> getAuthorsTask = new Task<List<Author>>() {
+            @Override
+            public List<Author> call() throws Exception {
+                return authorService.getAll();
+            }
+        };
+
+        Task<List<Game>> getGamesTask = new Task<List<Game>>() {
+            @Override
+            public List<Game> call() throws Exception {
+                return gameService.getAll();
+            }
+        };
+
+        Task<List<Subject>> getSubjectsTask = new Task<List<Subject>>() {
+            @Override
+            public List<Subject> call() throws Exception {
+                return subjectService.getAll();
+            }
+        };
+
+        getProjectsTask.setOnSucceeded(e -> projectBox.getItems().addAll(getProjectsTask.getValue()));
+        getAuthorsTask.setOnSucceeded(e -> authorBox.getItems().addAll(getAuthorsTask.getValue()));
+        getGamesTask.setOnSucceeded(e -> gameBox.getItems().addAll(getGamesTask.getValue()));
+        getSubjectsTask.setOnSucceeded(e -> subjectBox.getItems().addAll(getSubjectsTask.getValue()));
+
+        // run the tasks using a thread from the thread pool:
+        databaseExecutor.submit(getProjectsTask);
+        databaseExecutor.submit(getAuthorsTask);
+        databaseExecutor.submit(getGamesTask);
+        databaseExecutor.submit(getSubjectsTask);
     }
 
     /**

@@ -277,6 +277,16 @@ public class Lang {
     public static final String KG = "kg";
     public static final String CM = "cm";
 
+    public static final String EMPTY_TABLE_MEASUREMENTS = "emptyTableMeasurements";
+    public static final String EMPTY_TABLE_ARCHIVE = "emptyTableArchive";
+    public static final String EMPTY_TABLE_AUTHORS = "emptyTableAuthors";
+    public static final String EMPTY_TABLE_CONFIGURATIONS = "emptyTableConfigurations";
+    public static final String EMPTY_TABLE_FORMULAS = "emptyTableFormulas";
+    public static final String EMPTY_TABLE_GAMES = "emptyTableGames";
+    public static final String EMPTY_TABLE_IBUTTON = "emptyTableIButtons";
+    public static final String EMPTY_TABLE_POSITIONS = "emptyTablePositions";
+    public static final String EMPTY_TABLE_SUBJECTS = "emptyTableSubjects";
+
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
 

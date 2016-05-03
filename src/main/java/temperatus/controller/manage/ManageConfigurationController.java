@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,6 +24,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -76,7 +78,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
         VistaNavigator.setController(this);
         translate();
 
-        configurations = FXCollections.observableArrayList(configurationService.getAll());
+        configurations = FXCollections.observableArrayList();
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
 
         FilteredList<Configuration> filteredData = new FilteredList<>(configurations, p -> true);
@@ -105,6 +107,27 @@ public class ManageConfigurationController implements Initializable, AbstractCon
         table.getColumns().addAll(name);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Configurations from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Configuration>> getConfigurationsTask = new Task<List<Configuration>>() {
+            @Override
+            public List<Configuration> call() throws Exception {
+                return configurationService.getAll();
+            }
+        };
+
+        // on task completion add all configurations to the table
+        getConfigurationsTask.setOnSucceeded(e -> configurations.setAll(getConfigurationsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getConfigurationsTask);
     }
 
     /**
@@ -179,5 +202,6 @@ public class ManageConfigurationController implements Initializable, AbstractCon
         rateLabel.setText(language.get(Lang.RATE_LABEL_DEVICE));
         delayLabel.setText(language.get(Lang.DELAY_LABEL));
         resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_CONFIGURATIONS)));
     }
 }

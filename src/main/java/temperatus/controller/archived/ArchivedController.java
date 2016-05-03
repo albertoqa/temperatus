@@ -17,7 +17,6 @@ import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
 import temperatus.lang.Lang;
-import temperatus.listener.DatabaseThreadFactory;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.types.TreeElement;
@@ -32,8 +31,6 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Show all the projects and missions saved to the db
@@ -102,8 +99,6 @@ public class ArchivedController implements Initializable, AbstractController {
     @Autowired ProjectService projectService;
     @Autowired MissionService missionService;
 
-    private ExecutorService databaseExecutor;     // executes database operations concurrent to JavaFX operations.
-
     private static Logger logger = LoggerFactory.getLogger(ArchivedController.class.getName());
 
     @Override
@@ -112,11 +107,6 @@ public class ArchivedController implements Initializable, AbstractController {
 
         VistaNavigator.setController(this);     // let the application know that this is the current controller
         translate();
-
-        /* Executor is used to perform long operations in a different thread than the UI elements
-        in this case, is used to load elements from the DB. ThreadPool is set to 1 to ensure that
-        only one database operation is performed at a time*/
-        databaseExecutor = Executors.newFixedThreadPool(1, new DatabaseThreadFactory());
 
         nameColumn.setCellValueFactory(param -> param.getValue().getValue().getName());
         dateColumn.setCellValueFactory(param -> param.getValue().getValue().getDate());
@@ -383,6 +373,7 @@ public class ArchivedController implements Initializable, AbstractController {
         missionSubjectLabel.setText(language.get(Lang.SUBJECT_LABEL));
         missionGameLabel.setText(language.get(Lang.GAME_LABEL));
         missionObservationsLabel.setText(language.get(Lang.OBSERVATIONS_LABEL));
+        treeTable.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_ARCHIVE)));
     }
 
 }

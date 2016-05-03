@@ -346,6 +346,7 @@ public class RecordConfigController extends AbstractCreationController implement
         stackPane.getChildren().add(box);
 
         Thread thread = new Thread(saveMeasurementsAndFormulasForMissionTask);
+        thread.setDaemon(true);
         thread.start();
 
         logger.info("Saving measurements to database...");

@@ -1,6 +1,7 @@
 package temperatus.controller.creation;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import temperatus.model.service.PositionService;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -62,7 +64,6 @@ public class NewFormulaController extends AbstractCreationController implements 
     public void initialize(URL location, ResourceBundle resources) {
         formula = null;
 
-        positionsSelector.getItems().addAll(positionService.getAll());
         addListenerToList();    // if a position is selected try to add it to the formula
 
         operationArea.textProperty().bind(operation);
@@ -79,6 +80,27 @@ public class NewFormulaController extends AbstractCreationController implements 
         });
 
         translate();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Positions from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Position>> getPositionsTask = new Task<List<Position>>() {
+            @Override
+            public List<Position> call() throws Exception {
+                return positionService.getAll();
+            }
+        };
+
+        // on task completion add all positions to the table
+        getPositionsTask.setOnSucceeded(e -> positionsSelector.getItems().addAll(getPositionsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getPositionsTask);
     }
 
     /**

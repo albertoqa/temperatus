@@ -1,5 +1,6 @@
 package temperatus.controller;
 
+import com.dalsemi.onewire.container.OneWireSensor;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -343,7 +344,7 @@ public class BaseController implements Initializable, AbstractController, Device
         if (ibutton == null) {
             Platform.runLater(() -> {
                 NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
-                newIButtonController.setData(event.getSerial(), event.getContainer().getName());
+                newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
             });
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());

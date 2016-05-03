@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -25,6 +26,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -61,7 +63,7 @@ public class ManagePositionController implements Initializable, AbstractControll
         VistaNavigator.setController(this);
         translate();
 
-        positions = FXCollections.observableArrayList(positionService.getAll());
+        positions = FXCollections.observableArrayList();
         place.setCellValueFactory(cellData -> cellData.getValue().getPlaceProperty());
 
         FilteredList<Position> filteredData = new FilteredList<>(positions, p -> true);
@@ -87,6 +89,27 @@ public class ManagePositionController implements Initializable, AbstractControll
         table.getColumns().addAll(place);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Positions from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Position>> getPositionsTask = new Task<List<Position>>() {
+            @Override
+            public List<Position> call() throws Exception {
+                return positionService.getAll();
+            }
+        };
+
+        // on task completion add all positions to the table
+        getPositionsTask.setOnSucceeded(e -> positions.setAll(getPositionsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getPositionsTask);
     }
 
     /**
@@ -145,6 +168,7 @@ public class ManagePositionController implements Initializable, AbstractControll
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
         newElementButton.setText(language.get(Lang.NEW_POSITION));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_POSITIONS)));
     }
 
 }

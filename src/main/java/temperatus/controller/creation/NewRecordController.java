@@ -865,6 +865,7 @@ public class NewRecordController extends AbstractCreationController implements I
             stackPane.getChildren().add(box);
 
             Thread thread = new Thread(importAndValidateTask);  // start task in a new thread
+            thread.setDaemon(true);
             thread.start();
         } else {
             showAlert(Alert.AlertType.WARNING, language.get(Lang.MUST_SELECT_ALL_ROW));

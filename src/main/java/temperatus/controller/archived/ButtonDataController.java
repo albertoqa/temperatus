@@ -94,5 +94,6 @@ public class ButtonDataController implements Initializable, AbstractController {
         value.setText(language.get(Lang.VALUE_COLUMN));
         headerLabel.setText(language.get(Lang.BUTTON_DATA));
         backButton.setText(language.get(Lang.BACK_BUTTON));
+        tableView.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_MEASUREMENTS)));
     }
 }

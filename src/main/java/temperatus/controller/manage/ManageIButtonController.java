@@ -4,10 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewIButtonController;
+import temperatus.device.DeviceConnectedList;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
@@ -23,6 +27,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -58,6 +63,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
     private ObservableList<Ibutton> ibuttons;
 
     @Autowired IbuttonService ibuttonService;
+    @Autowired DeviceConnectedList deviceConnectedList;
 
     private static Logger logger = LoggerFactory.getLogger(ManageIButtonController.class.getName());
 
@@ -66,7 +72,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
         VistaNavigator.setController(this);
         translate();
 
-        ibuttons = FXCollections.observableArrayList(ibuttonService.getAll());
+        ibuttons = FXCollections.observableArrayList();
         model.setCellValueFactory(cellData -> cellData.getValue().getModelProperty());
         serial.setCellValueFactory(cellData -> cellData.getValue().getSerialProperty());
         alias.setCellValueFactory(cellData -> cellData.getValue().getAliasProperty());
@@ -110,6 +116,46 @@ public class ManageIButtonController implements Initializable, AbstractControlle
         table.getColumns().addAll(model, serial, alias, defaultPosition);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        // allow edit alias of devices directly on the table
+        table.setEditable(true);
+        alias.setCellFactory(TextFieldTableCell.forTableColumn());
+        alias.setOnEditCommit(t -> {
+            Ibutton b = t.getTableView().getItems().get(t.getTablePosition().getRow());
+            b.setAlias(t.getNewValue());
+            try {
+                ibuttonService.saveOrUpdate(b);
+                aliasInfo.setText(t.getNewValue());
+                deviceConnectedList.replaceDevice(b.getSerial(), t.getNewValue(), b.getPosition() != null ? b.getPosition().getPlace() : "");
+            } catch (ConstraintViolationException ex) {
+                logger.warn("Duplicate entry");
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
+            } catch (Exception ex) {
+                logger.warn("Unknown exception" + ex.getMessage());
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
+            }
+        });
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Ibuttons from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Ibutton>> getIbuttonsTask = new Task<List<Ibutton>>() {
+            @Override
+            public List<Ibutton> call() throws Exception {
+                return ibuttonService.getAll();
+            }
+        };
+
+        // on task completion add all ibuttons to the table
+        getIbuttonsTask.setOnSucceeded(e -> ibuttons.setAll(getIbuttonsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getIbuttonsTask);
     }
 
     /**
@@ -166,6 +212,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
         aliasInfo.setText(language.get(Lang.ALIAS_LABEL));
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_IBUTTON)));
     }
 
 }

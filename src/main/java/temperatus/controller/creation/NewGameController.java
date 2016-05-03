@@ -1,5 +1,6 @@
 package temperatus.controller.creation;
 
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -117,15 +118,43 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         canvas.setOnMouseClicked(mouseHandler);
         gc = canvas.getGraphicsContext2D();
-
-        positionsSelector.getSourceItems().addAll(positionService.getAll());
-        formulasList.getItems().addAll(formulaService.getAll());
         drawNumber.setText("1");
 
         numButtonsInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_NUM_BUTTONS));
 
         translate();
+
+        getAllElements();
     }
+
+    /**
+     * Fetch all Positions and formulas from database and add it to the combo-boxes.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Position>> getPositionsTask = new Task<List<Position>>() {
+            @Override
+            public List<Position> call() throws Exception {
+                return positionService.getAll();
+            }
+        };
+
+        Task<List<Formula>> getFormulasTask = new Task<List<Formula>>() {
+            @Override
+            public List<Formula> call() throws Exception {
+                return formulaService.getAll();
+            }
+        };
+
+        getPositionsTask.setOnSucceeded(e -> positionsSelector.getSourceItems().addAll(getPositionsTask.getValue()));
+        getFormulasTask.setOnSucceeded(e -> formulasList.getItems().addAll(getFormulasTask.getValue()));
+
+        // run the tasks using a thread from the thread pool:
+        databaseExecutor.submit(getPositionsTask);
+        databaseExecutor.submit(getFormulasTask);
+    }
+
+
 
     /**
      * Handle mouse clicks over the images. Draw a small black circle on the position of the click

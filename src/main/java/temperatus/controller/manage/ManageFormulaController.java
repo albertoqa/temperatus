@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,6 +24,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -64,7 +66,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
         VistaNavigator.setController(this);
         translate();
 
-        formulas = FXCollections.observableArrayList(formulaService.getAll());
+        formulas = FXCollections.observableArrayList();
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         reference.setCellValueFactory(cellData -> cellData.getValue().getReferenceProperty());
         operation.setCellValueFactory(cellData -> cellData.getValue().getOperationProperty());
@@ -104,6 +106,27 @@ public class ManageFormulaController implements Initializable, AbstractControlle
         table.getColumns().addAll(name, reference, operation);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Formulas from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Formula>> getFormulasTask = new Task<List<Formula>>() {
+            @Override
+            public List<Formula> call() throws Exception {
+                return formulaService.getAll();
+            }
+        };
+
+        // on task completion add all formulas to the table
+        getFormulasTask.setOnSucceeded(e -> formulas.setAll(getFormulasTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getFormulasTask);
     }
 
     /**
@@ -169,5 +192,6 @@ public class ManageFormulaController implements Initializable, AbstractControlle
         deleteFormula.setText(language.get(Lang.DELETE));
         referenceLabel.setText(language.get(Lang.FORMULA_REFERENCE_LABEL));
         operationLabel.setText(language.get(Lang.FORMULA_OPERATION_LABEL));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_FORMULAS)));
     }
 }

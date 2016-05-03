@@ -92,5 +92,6 @@ public class OutliersController implements Initializable, AbstractController {
         value.setText(language.get(Lang.VALUE_COLUMN));
         headerLabel.setText(language.get(Lang.OUTLIERS));
         continueButton.setText(language.get(Lang.CONTINUE));
+        tableView.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_MEASUREMENTS)));
     }
 }

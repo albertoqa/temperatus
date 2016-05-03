@@ -1,6 +1,6 @@
 package temperatus.controller.creation;
 
-import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -23,6 +23,7 @@ import temperatus.model.service.PositionService;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -58,8 +59,27 @@ public class NewIButtonController extends AbstractCreationController implements 
         ibutton = null;
 
         // * Load all positions from database and allow the user to choose them
-        position.setItems(FXCollections.observableArrayList(positionService.getAll()));
         new AutoCompleteComboBoxListener<>(position);
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Positions from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Position>> getPositionsTask = new Task<List<Position>>() {
+            @Override
+            public List<Position> call() throws Exception {
+                return positionService.getAll();
+            }
+        };
+
+        // on task completion add all positions to the table
+        getPositionsTask.setOnSucceeded(e -> position.getItems().addAll(getPositionsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getPositionsTask);
     }
 
     /**
@@ -68,9 +88,13 @@ public class NewIButtonController extends AbstractCreationController implements 
      * @param serial device serial
      * @param model  device model
      */
-    public void setData(String serial, String model) {
+    public void setData(String serial, String model, boolean isAdapter) {
         this.serial.setText(serial);
         this.model.setText(model);
+
+        if(isAdapter) {
+            position.setDisable(true);
+        }
     }
 
     /**

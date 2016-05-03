@@ -1,10 +1,12 @@
 package temperatus.controller.button;
 
+import com.dalsemi.onewire.container.OneWireSensor;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -32,6 +34,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -49,6 +52,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @FXML private Button configureButton;
     @FXML private Button helpButton;
     @FXML private Button saveButton;
+    @FXML private Button backButton;
 
     @FXML private StackPane stackPane;
     @FXML private AnchorPane anchorPane;
@@ -71,8 +75,8 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
         initializeViewElements();
 
-        deviceCheckListView.setItems(deviceConnectedList.getDevices());
-        configurationsCombobox.setItems(FXCollections.observableArrayList(configurationService.getAll()));
+        deviceCheckListView.setItems(deviceConnectedList.getDevices().filtered(device -> device.getContainer() instanceof OneWireSensor));
+        configurationsCombobox.setItems(FXCollections.observableArrayList());
 
         loadDefaultConfiguration();     // load the default configuration
 
@@ -80,12 +84,33 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
         // if selected a pre-configuration, load it
         configurationsCombobox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && newValue.intValue() > 0) {
+            if (newValue != null && newValue.intValue() >= 0) {
                 loadConfiguration(configurationsCombobox.getItems().get(newValue.intValue()));
             }
         });
 
         infoArea.setText("");
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Configurations from database and add it to the combo-box.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Configuration>> getConfigurationsTask = new Task<List<Configuration>>() {
+            @Override
+            public List<Configuration> call() throws Exception {
+                return configurationService.getAll();
+            }
+        };
+
+        // on task completion add all configurations to the table
+        getConfigurationsTask.setOnSucceeded(e -> configurationsCombobox.getItems().addAll(getConfigurationsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getConfigurationsTask);
     }
 
     /**
@@ -203,6 +228,14 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     }
 
     /**
+     * Go back to ConnectedDevices view
+     */
+    @FXML
+    private void back() {
+        VistaNavigator.loadVista(Constants.CONNECTED);
+    }
+
+    /**
      * Show a modal window with help about how to configure the mission
      */
     @FXML
@@ -226,6 +259,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         helpButton.setText(language.get(Lang.HELP));
         preloadLabel.setText(language.get(Lang.PRELOAD_CONFIGURATION));
         headerLabel.setText(language.get(Lang.START_DEVICE_MISSION));
+        backButton.setText(language.get(Lang.BACK_BUTTON));
     }
 
 }

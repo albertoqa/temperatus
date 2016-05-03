@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -26,6 +27,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -72,7 +74,7 @@ public class ManageGameController implements Initializable, AbstractController {
         VistaNavigator.setController(this);
         translate();
 
-        games = FXCollections.observableArrayList(gameService.getAll());
+        games = FXCollections.observableArrayList();
         title.setCellValueFactory(cellData -> cellData.getValue().getTitleProperty());
         numberOfButtons.setCellValueFactory(cellData -> cellData.getValue().getNumberOfButtonsProperty());
         defaultPositions.setCellValueFactory(cellData -> cellData.getValue().getNumberOfDefaultPositionsProperty());
@@ -104,6 +106,27 @@ public class ManageGameController implements Initializable, AbstractController {
         table.getColumns().addAll(title, numberOfButtons, defaultPositions, defaultFormulas);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Games from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Game>> getGamesTask = new Task<List<Game>>() {
+            @Override
+            public List<Game> call() throws Exception {
+                return gameService.getAll();
+            }
+        };
+
+        // on task completion add all games to the table
+        getGamesTask.setOnSucceeded(e -> games.setAll(getGamesTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getGamesTask);
     }
 
     /**
@@ -179,6 +202,7 @@ public class ManageGameController implements Initializable, AbstractController {
         defaultFormulasLabel.setText(language.get(Lang.DEFAULT_FORMULAS_LABEL));
         defaultPositionsLabel.setText(language.get(Lang.DEFAULT_POSITIONS_LABEL));
         completeInfoButton.setText(language.get(Lang.COMPLETE_INFO));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_GAMES)));
     }
 
 }

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -25,6 +26,7 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -80,7 +82,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         VistaNavigator.setController(this);
         translate();
 
-        subjects = FXCollections.observableArrayList(subjectService.getAll());
+        subjects = FXCollections.observableArrayList();
         subjectType.setCellValueFactory(cellData -> cellData.getValue().getType());
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         sex.setCellValueFactory(cellData -> cellData.getValue().getSexProperty());
@@ -152,6 +154,27 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         table.getColumns().addAll(subjectType, name, sex, age, weight, height);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Subjects from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Subject>> getSubjectsTask = new Task<List<Subject>>() {
+            @Override
+            public List<Subject> call() throws Exception {
+                return subjectService.getAll();
+            }
+        };
+
+        // on task completion add all sujects to the table
+        getSubjectsTask.setOnSucceeded(e -> subjects.setAll(getSubjectsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getSubjectsTask);
     }
 
     /**
@@ -221,5 +244,6 @@ public class ManageSubjectController implements Initializable, AbstractControlle
         editButton.setText(language.get(Lang.EDIT));
         deleteButton.setText(language.get(Lang.DELETE));
         newElementButton.setText(language.get(Lang.NEW_SUBJECT_BUTTON));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_SUBJECTS)));
     }
 }

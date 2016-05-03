@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,6 +25,7 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -62,7 +64,7 @@ public class ManageAuthorController implements Initializable, AbstractController
         VistaNavigator.setController(this);
         translate();
 
-        authors = FXCollections.observableArrayList(authorService.getAll());
+        authors = FXCollections.observableArrayList();
         name.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
 
         // allow to filter the table
@@ -77,8 +79,8 @@ public class ManageAuthorController implements Initializable, AbstractController
             if (author != null) {
                 nameInfo.setText(author.getName().toUpperCase());
                 String projects = "";
-                for(Mission mission: author.getMissions()) {
-                    if(!projects.contains(mission.getProject().getName())) {
+                for (Mission mission : author.getMissions()) {
+                    if (!projects.contains(mission.getProject().getName())) {
                         projects = projects + "- " + mission.getProject().getName() + NEW_LINE;
                     }
                 }
@@ -93,6 +95,27 @@ public class ManageAuthorController implements Initializable, AbstractController
         table.getColumns().addAll(name);
         table.setItems(sortedData);
         table.getSelectionModel().clearSelection();
+
+        getAllElements();
+    }
+
+    /**
+     * Fetch all Authors from database and add it to the table.
+     * Use a different thread than the UI thread.
+     */
+    private void getAllElements() {
+        Task<List<Author>> getAuthorsTask = new Task<List<Author>>() {
+            @Override
+            public List<Author> call() throws Exception {
+                return authorService.getAll();
+            }
+        };
+
+        // on task completion add all authors to the table
+        getAuthorsTask.setOnSucceeded(e -> authors.setAll(getAuthorsTask.getValue()));
+
+        // run the task using a thread from the thread pool:
+        databaseExecutor.submit(getAuthorsTask);
     }
 
     /**
@@ -129,6 +152,7 @@ public class ManageAuthorController implements Initializable, AbstractController
 
     /**
      * Reload Author on edit/create
+     *
      * @param object object to reload
      */
     @Override
@@ -153,6 +177,7 @@ public class ManageAuthorController implements Initializable, AbstractController
         editAuthorButton.setText(language.get(Lang.EDIT));
         newElementButton.setText(language.get(Lang.NEW_AUTHOR_BUTTON));
         deleteAuthorButton.setText(language.get(Lang.DELETE));
+        table.setPlaceholder(new Label(language.get(Lang.EMPTY_TABLE_AUTHORS)));
     }
 
 }
