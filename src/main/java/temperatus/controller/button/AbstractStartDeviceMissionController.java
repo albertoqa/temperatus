@@ -50,7 +50,7 @@ public abstract class AbstractStartDeviceMissionController {
     @FXML private Spinner<Integer> delayInput;
     @FXML private Spinner<Integer> onAlarmDelayInput;
 
-    @FXML private TextField nameInput;
+    @FXML public TextField nameInput;
     @FXML private TextField dateInput;
     @FXML private TextField rateInput;
     @FXML private TextArea observationsArea;

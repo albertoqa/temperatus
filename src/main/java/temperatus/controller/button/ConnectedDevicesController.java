@@ -96,6 +96,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             searchingIndicator.setVisible(false);
             configureButton.setDisable(false);
         }
+        configureButton.setDisable(false);
+
         logger.debug("No devices... showing search indicator");
     }
 

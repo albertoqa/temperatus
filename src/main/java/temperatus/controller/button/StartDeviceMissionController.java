@@ -85,6 +85,14 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         configurationsCombobox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.intValue() >= 0) {
                 loadConfiguration(configurationsCombobox.getItems().get(newValue.intValue()));
+                saveButton.setText(language.get(Lang.UPDATE));
+
+                nameInput.textProperty().addListener((ob, old, in) -> {
+                    if(!old.equals(in)) {
+                        saveButton.setText(language.get(Lang.SAVE));
+                    }
+                });
+
             }
         });
 
@@ -141,6 +149,13 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
             Configuration configuration = new Configuration();
             generateConfiguration(configuration);
+
+            Configuration preselected = configurationsCombobox.getSelectionModel().getSelectedItem();
+
+            if(preselected != null && saveButton.getText().equals(language.get(Lang.UPDATE))) {
+                configuration.setId(preselected.getId());
+            }
+
             configurationService.saveOrUpdate(configuration);
 
             logger.info("Saved: " + configuration);
