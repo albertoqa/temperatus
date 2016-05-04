@@ -32,6 +32,7 @@ public class Configuration implements java.io.Serializable {
     private Double highAlarmC2;
     private Double resolutionC2;
     private String observations;
+    private int startN;
 
     public Configuration() {
     }
@@ -236,6 +237,15 @@ public class Configuration implements java.io.Serializable {
 
     public void setObservations(String observations) {
         this.observations = observations;
+    }
+
+    @Column(name = "START_N")
+    public int getStartN() {
+        return startN;
+    }
+
+    public void setStartN(int startN) {
+        this.startN = startN;
     }
 
     @Override

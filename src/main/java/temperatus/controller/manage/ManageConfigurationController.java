@@ -14,10 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.controller.button.NewConfigurationController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -69,7 +71,6 @@ public class ManageConfigurationController implements Initializable, AbstractCon
 
     @Autowired ConfigurationService configurationService;
 
-    private static final String CELSIUS = "ºC";
     private static final String DEFAULT = "Default";
     private static Logger logger = LoggerFactory.getLogger(ManageConfigurationController.class.getName());
 
@@ -96,8 +97,17 @@ public class ManageConfigurationController implements Initializable, AbstractCon
                 rate.setText(configuration.getRate() + "  " + language.get(Lang.SECONDS));
                 delay.setText(configuration.getDelay() + "  " + language.get(Lang.SEC));
                 resolution.setText(String.valueOf(configuration.getResolutionC1()));
-                highAlarm.setText((configuration.getHighAlarmC1() != null ? configuration.getHighAlarmC1() + CELSIUS : language.get(Lang.NOT_SET)));
-                lowAlarm.setText((configuration.getLowAlarmC1() != null ? configuration.getLowAlarmC1() + CELSIUS : language.get(Lang.NOT_SET)));
+
+                // Show the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+                if(Unit.C.equals(unit)) {
+                    highAlarm.setText((configuration.getHighAlarmC1() != null ? configuration.getHighAlarmC1() + " " + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
+                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? configuration.getLowAlarmC1() + " " + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
+                } else {
+                    highAlarm.setText((configuration.getHighAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1()) + " " + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
+                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1()) + " " + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
+                }
             }
         });
 

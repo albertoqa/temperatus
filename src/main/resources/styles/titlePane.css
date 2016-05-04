@@ -288,3 +288,7 @@
    -fx-focus-color: gray;
    -fx-faint-focus-color: transparent;
  }
+
+ .onHover{
+     -fx-background-color: ORANGE;
+ }

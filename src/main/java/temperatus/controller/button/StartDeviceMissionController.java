@@ -79,8 +79,6 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         deviceCheckListView.setItems(deviceConnectedList.getDevices().filtered(device -> device.getContainer() instanceof OneWireSensor));
         configurationsCombobox.setItems(FXCollections.observableArrayList());
 
-        loadDefaultConfiguration();     // load the default configuration
-
         new AutoCompleteComboBoxListener<>(configurationsCombobox);
 
         // if selected a pre-configuration, load it
@@ -108,7 +106,10 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         };
 
         // on task completion add all configurations to the table
-        getConfigurationsTask.setOnSucceeded(e -> configurationsCombobox.getItems().addAll(getConfigurationsTask.getValue()));
+        getConfigurationsTask.setOnSucceeded(e -> {
+            configurationsCombobox.getItems().addAll(getConfigurationsTask.getValue());
+            loadDefaultConfiguration();     // load the default configuration
+        });
 
         // run the task using a thread from the thread pool:
         databaseExecutor.submit(getConfigurationsTask);

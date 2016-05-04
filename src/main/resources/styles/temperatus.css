@@ -1048,6 +1048,12 @@
     -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
 }
 
+.check-box .text {
+  -fx-font-size: 11px;
+  -fx-font-family: "Avenir Medium";
+  -fx-text-fill: black;
+}
+
 .check-box:focused .box {
     -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
     -fx-background-insets: -1.4, 0, 1, 2;
@@ -1092,8 +1098,8 @@
   -fx-font-size: 11px;
   -fx-font-family: "Avenir Medium";
   -fx-text-fill: black;
-  -fx-focus-color: black;
-  -fx-faint-focus-color: black;
+  -fx-focus-color: gray;
+  -fx-faint-focus-color: transparent;
 }
 
 .range-slider .range-bar {

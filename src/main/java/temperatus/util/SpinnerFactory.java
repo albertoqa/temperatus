@@ -53,7 +53,7 @@ public class SpinnerFactory {
      * @param spinner spinner to set to Double
      */
     public static void setDoubleSpinner(Spinner<Double> spinner) {
-        TextFormatter<Double> periodFormatter = new TextFormatter<>(setConverter(), 0.0, getFilter(new DecimalFormat("#.##")));
+        TextFormatter<Double> periodFormatter = new TextFormatter<>(setConverter(), 0.0, getFilter(Constants.decimalFormat));
         spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000.0, 10000.0, 0.0, 0.5));   // between -1000-1000 and first value 0
         spinner.setEditable(true);
         spinner.getEditor().setTextFormatter(periodFormatter);
@@ -94,7 +94,7 @@ public class SpinnerFactory {
      */
     private static StringConverter<Double> setConverter() {
         return new StringConverter<Double>() {
-            private final DecimalFormat df = new DecimalFormat("#.##");
+            private final DecimalFormat df = Constants.decimalFormat;
 
             @Override
             public String toString(Double value) {

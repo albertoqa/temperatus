@@ -143,6 +143,7 @@ public class Lang {
     public static final String UPDATE_NEW_RECORD_TITLE = "updateNewRecordTitle";
     public static final String POSITION_COLUMN = "positionColumn";
     public static final String DATA_SOURCE_COLUMN = "dataSourceColumn";
+    public static final String IMPORT_COLUMN = "importColumn";
     public static final String INDEX = "index";
     public static final String IMPORTPLUS = "importPlus";
     public static final String KEEPDATA = "keepData";
@@ -340,6 +341,8 @@ public class Lang {
 
     public static final String ACTIVATION_INFO_LABEL = "activationInfoLabel";
     public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
+
+    public static final String INVALID_FILE_FORMAT = "invalidFileFormat";
 
     // History
     public static final String DELETE_HISTORY = "deleteHistory";

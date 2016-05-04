@@ -23,8 +23,10 @@ public class Device {
     private String adapterPort; // port where the adapter is connected
 
     public Device(OneWireContainer container, String adapterName, String adapterPort) {
-        this.serial.setValue(container.getAddressAsString());
-        this.model.setValue(container.getName());
+        if(container != null) {
+            this.serial.setValue(container.getAddressAsString());
+            this.model.setValue(container.getName());
+        }
         this.container = container;
         this.adapterName = adapterName;
         this.adapterPort = adapterPort;

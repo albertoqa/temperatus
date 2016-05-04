@@ -75,6 +75,9 @@ public class NewFormulaController extends AbstractCreationController implements 
                 if (value.length() > 0) {
                     operation.set(value.substring(0, value.length() - 1));
                 }
+            } else if(keyEvent.getText().matches("[0-9.]")) {
+                String value = keyEvent.getText();
+                operation.set(operation.getValue() + value);
             }
             keyEvent.consume();
         });

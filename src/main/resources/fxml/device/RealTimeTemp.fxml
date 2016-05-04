@@ -6,11 +6,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import temperatus.model.pojo.utils.DateAxis?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.RealTimeTemperatureController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.RealTimeTemperatureController">
    <children>
-      <RadioButton fx:id="unitC" layoutX="570.0" layoutY="41.0" mnemonicParsing="false" text="ºC" AnchorPane.rightAnchor="120.0" />
-      <RadioButton fx:id="unitF" layoutX="623.0" layoutY="41.0" mnemonicParsing="false" text="ºF" AnchorPane.rightAnchor="66.0" />
-      <LineChart fx:id="lineChart" layoutX="14.0" layoutY="73.0" prefHeight="271.0" prefWidth="652.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="80.0">
+      <RadioButton fx:id="unitC" layoutX="446.0" layoutY="26.0" mnemonicParsing="false" text="ºC" AnchorPane.rightAnchor="120.0" />
+      <RadioButton fx:id="unitF" layoutX="502.0" layoutY="26.0" mnemonicParsing="false" text="ºF" AnchorPane.rightAnchor="66.0" />
+      <LineChart fx:id="lineChart" layoutX="27.0" layoutY="57.0" prefHeight="271.0" prefWidth="652.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="57.0">
         <xAxis>
             <!--<NumberAxis fx:id="dateaAxis" side="BOTTOM" />-->
             <DateAxis fx:id="dateAxis" side="BOTTOM" />
@@ -19,6 +19,6 @@
           <NumberAxis fx:id="temperatureAxis" side="LEFT" />
         </yAxis>
       </LineChart>
-      <TextField fx:id="currentTemp" alignment="CENTER" editable="false" layoutX="68.0" layoutY="31.0" prefHeight="38.0" prefWidth="438.0" promptText="Reading..." styleClass="formBig" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="215.0" />
+      <TextField fx:id="currentTemp" alignment="CENTER" editable="false" layoutX="68.0" layoutY="18.0" prefHeight="30.0" prefWidth="317.0" promptText="Reading..." styleClass="form" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="215.0" />
    </children>
 </AnchorPane>

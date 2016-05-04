@@ -42,6 +42,7 @@ public class DeviceGeneralInfoController implements Initializable, AbstractContr
 
     /**
      * Set device to show its info
+     *
      * @param device device selected
      */
     void setDevice(Device device) {
@@ -50,12 +51,13 @@ public class DeviceGeneralInfoController implements Initializable, AbstractContr
 
     /**
      * Load device info on the view
-     * @param serial device's serial
-     * @param model device's model
+     *
+     * @param serial   device's serial
+     * @param model    device's model
      * @param altNames device's alternate names
-     * @param desc device's description
-     * @param pos device's default position (if any)
-     * @param alias device's alias (if any)
+     * @param desc     device's description
+     * @param pos      device's default position (if any)
+     * @param alias    device's alias (if any)
      */
     private void setInfo(String serial, String model, String altNames, String desc, String pos, String alias) {
         this.serial.setText(serial);

@@ -223,7 +223,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
      * End the progress indicator and activate the anchor pane
      */
     private void stopProgressIndicator() {
-        if(stackPane.getChildren().size() > 1) {
+        if (stackPane.getChildren().size() > 1) {
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
         }
         anchorPane.setDisable(false);

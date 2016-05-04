@@ -13,6 +13,7 @@ import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
 import temperatus.util.TextValidation;
+import temperatus.util.VistaNavigator;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -94,6 +95,8 @@ public abstract class AbstractStartDeviceMissionController {
             }
         });
 
+        activateAlarmCheck.setSelected(false);
+
         SpinnerFactory.setDoubleSpinner(highAlarm);
         SpinnerFactory.setDoubleSpinner(lowAlarm);
 
@@ -108,35 +111,49 @@ public abstract class AbstractStartDeviceMissionController {
      * Generate a configuration object with the values obtained from the user input
      */
     void generateConfiguration(Configuration configuration) throws ControlledTemperatusException {
-        configuration.setName(nameInput.getText());
-        configuration.setSyncTime(syncTime.isSelected());
-        configuration.setRollover(rollOver.isSelected());
-        configuration.setDelay(getStart());
-        configuration.setRate(Integer.valueOf(rateInput.getText()));
-        configuration.setSuta(onAlarmCheck.isSelected());
+        try {
+            configuration.setName(nameInput.getText());
+            configuration.setSyncTime(syncTime.isSelected());
+            configuration.setRollover(rollOver.isSelected());
+            configuration.setDelay(getStart());
+            configuration.setRate(Integer.valueOf(rateInput.getText()));
+            configuration.setSuta(onAlarmCheck.isSelected());
 
-        configuration.setChannelEnabledC1(true);
-        configuration.setChannelEnabledC2(false);
-        configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
-        if (activateAlarmCheck.isSelected()) {
-
-            // Show the data using the preferred unit
-            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
-
-            if(Unit.C.equals(unit)) {
-                configuration.setHighAlarmC1(highAlarm.getValue());
-                configuration.setLowAlarmC1(lowAlarm.getValue());
+            if (delayCheck.isSelected()) {
+                configuration.setStartN(0);
+            } else if (onDateCheck.isSelected()) {
+                configuration.setStartN(1);
+            } else if (onAlarmCheck.isSelected()) {
+                configuration.setStartN(2);
             } else {
-                configuration.setHighAlarmC1(Calculator.celsiusToFahrenheit(highAlarm.getValue()));
-                configuration.setLowAlarmC1(Calculator.celsiusToFahrenheit(lowAlarm.getValue()));
+                configuration.setStartN(3);
             }
 
-            configuration.setEnableAlarmC1(true);
-        } else {
-            configuration.setEnableAlarmC1(false);
-        }
+            configuration.setChannelEnabledC1(true);
+            configuration.setChannelEnabledC2(false);
+            configuration.setResolutionC1(resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_LOW) ? RES_LOW : RES_HIGH);
+            if (activateAlarmCheck.isSelected()) {
 
-        configuration.setObservations(observationsArea.getText());
+                // Show the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+
+                if (Unit.C.equals(unit)) {
+                    configuration.setHighAlarmC1(Double.valueOf(highAlarm.getEditor().getText().replace(",", ".")));
+                    configuration.setLowAlarmC1(Double.valueOf(lowAlarm.getEditor().getText().replace(",", ".")));
+                } else {
+                    configuration.setHighAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(highAlarm.getEditor().getText().replace(",", "."))));
+                    configuration.setLowAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(lowAlarm.getEditor().getText().replace(",", "."))));
+                }
+
+                configuration.setEnableAlarmC1(true);
+            } else {
+                configuration.setEnableAlarmC1(false);
+            }
+
+            configuration.setObservations(observationsArea.getText());
+        } catch (Exception e) {
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_INPUT_NUMBER));
+        }
     }
 
     /**
@@ -153,9 +170,16 @@ public abstract class AbstractStartDeviceMissionController {
         rollOver.setSelected(configuration.isRollover());
         onAlarmCheck.setSelected(configuration.isSuta());
 
-        delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-        onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-        dateInput.setText(Constants.dateTimeFormat.format(new Date()));
+        if(configuration.getStartN() == 0) {
+            delayCheck.setSelected(true);
+            delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
+        } else if(configuration.getStartN() == 1) {
+            onDateCheck.setSelected(true);
+            dateInput.setText(Constants.dateTimeFormat.format(new Date()));
+        } else if(configuration.getStartN() == 2) {
+            onAlarmCheck.setSelected(true);
+            onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
+        }
 
         if (configuration.getResolutionC1() == RES_LOW) {
             resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
@@ -170,11 +194,11 @@ public abstract class AbstractStartDeviceMissionController {
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
 
                 if(Unit.C.equals(unit)) {
-                    highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()));
-                    lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()));
+                    highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()).replace(".", ","));
+                    lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()).replace(".", ","));
                 } else {
-                    highAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1())));
-                    lowAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1())));
+                    highAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1())).replace(".", ","));
+                    lowAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1())).replace(".", ","));
                 }
 
             } catch (Exception ex) {

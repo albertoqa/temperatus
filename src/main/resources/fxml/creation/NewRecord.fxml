@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 <StackPane id="NewRecord" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewRecordController">
    <children>
       <AnchorPane fx:id="anchorPane" prefHeight="609.0" prefWidth="809.0" style="-fx-background-color: transparent;">
@@ -83,8 +83,15 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="addSourceBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #2b3940;" />
-                  <VBox fx:id="addPositionBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="50.0" spacing="10.0" style="-fx-background-color: #2b3940;" />
+                  <VBox fx:id="addSourceBoxTitle" alignment="TOP_CENTER" maxWidth="100.0" minWidth="40.0" prefHeight="441.0" prefWidth="80.0" spacing="10.0" style="-fx-background-color: #2b3940;">
+                     <children>
+                        <Label fx:id="importLabel" text="Import" textFill="WHITE">
+                           <font>
+                              <Font name="Avenir Light" size="13.0" />
+                           </font>
+                        </Label>
+                     </children></VBox>
+                  <VBox fx:id="addPositionBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" style="-fx-background-color: #2b3940;" />
                   <VBox fx:id="keepDataBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>

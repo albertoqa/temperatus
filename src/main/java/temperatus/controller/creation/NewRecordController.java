@@ -82,6 +82,7 @@ public class NewRecordController extends AbstractCreationController implements I
     @FXML private Label indexLabel;
     @FXML private Label positionLabel;
     @FXML private Label dataSourceLabel;
+    @FXML private Label importLabel;
 
     @FXML private ScrollPane scrollPane;
 
@@ -117,6 +118,8 @@ public class NewRecordController extends AbstractCreationController implements I
 
     private File[] filesToSave;                         // Files where temp data is temporary stored
     private boolean isUpdate;
+
+    private File lastOpenedFile;        // Save the last directory opened to reopen if more imports
 
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 180.0;     // Preferred width for combo-box
@@ -351,7 +354,7 @@ public class NewRecordController extends AbstractCreationController implements I
         importSource.setUserData(index);    // required to know in which row is located
         importSource.getStyleClass().add("ibtn");
         importSource.setText(language.get(Lang.IMPORTPLUS));
-        importSource.addEventHandler(MouseEvent.MOUSE_CLICKED, addImportDataButtonHandler());   // action for the button
+        importSource.addEventHandler(MouseEvent.MOUSE_CLICKED, importMoreThanOneFile());   // action for the button
         addSourceBox.getChildren().addAll(importSource);
 
         ToggleButton keepButton = new ToggleButton();
@@ -548,6 +551,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
             if (file != null) {
                 SourceChoice sourceChoice = new SourceChoice(file);
+                lastOpenedFile = file.getParentFile();
 
                 Button clickedButton = (Button) event.getSource();
                 Integer index = (Integer) clickedButton.getUserData();
@@ -569,12 +573,74 @@ public class NewRecordController extends AbstractCreationController implements I
     }
 
     /**
+     * Handle action when an import button is pressed.
+     * Allow to select more than one file. When more than one is selected, add them to the next rows.
+     */
+    private EventHandler<Event> importMoreThanOneFile() {
+        final EventHandler<Event> myHandler = event -> {
+
+            FileChooser fileChooser = new FileChooser();
+
+            if (lastOpenedFile != null) {
+                fileChooser.setInitialDirectory(lastOpenedFile);
+            }
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilterCSV = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.CSV");
+            fileChooser.getExtensionFilters().add(extFilterCSV);
+
+            //Show open file dialog
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+
+            Button clickedButton = (Button) event.getSource();
+            Integer row = (Integer) clickedButton.getUserData();
+
+            int actual_index = 0;
+
+            // Add the files to the rows
+            if (selectedFiles != null) {
+                for (int index = row; actual_index < selectedFiles.size() && index < game.getNumButtons(); index++) {
+
+                    File actual = selectedFiles.get(actual_index++);
+
+                    if (actual != null) {
+                        SourceChoice sourceChoice = new SourceChoice(actual);
+                        lastOpenedFile = actual.getParentFile();
+
+                        if (sourceBox.getChildren().get(index) instanceof ComboBox) {
+                            // check if already added this same file to the combo-box
+                            if (!((ComboBox) sourceBox.getChildren().get(index)).getItems().contains(sourceChoice)) {
+                                getSourceChoiceComboBoxForIndex(index).getItems().add(sourceChoice);
+                            }
+
+                            // select it only if no "Keep Data" active
+                            if (!sourceBox.getChildren().get(index).isDisable()) {
+                                getSourceChoiceComboBoxForIndex(index).getSelectionModel().select(sourceChoice); // select it
+                                filesToSave[index] = actual;
+                            }
+                        }
+                    }
+
+                }
+            }
+            event.consume();
+        };
+
+        return myHandler;
+
+    }
+
+    /**
      * Open the File Chooser (only allow csv files) and return the selected file
      *
      * @return selected file
      */
     private File importDataFromSource() {
         FileChooser fileChooser = new FileChooser();
+
+        if (lastOpenedFile != null) {
+            fileChooser.setInitialDirectory(lastOpenedFile);
+        }
 
         //Set extension filter
         FileChooser.ExtensionFilter extFilterCSV = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.CSV");
@@ -648,12 +714,13 @@ public class NewRecordController extends AbstractCreationController implements I
      * @param index row to import data to
      * @return iButtonDataImporter with all the info
      */
-    private IbuttonDataImporter importIbuttonData(int index) {
+    private IbuttonDataImporter importIbuttonData(int index) throws ControlledTemperatusException {
         if (filesToSave[index] != null) {
             try {
                 return new IbuttonDataImporter(filesToSave[index]);
             } catch (ControlledTemperatusException e) {
-                showAlert(Alert.AlertType.ERROR, language.get(Lang.INDEX) + ": " + index + "   " + language.get(Lang.PROCESSING_ERROR) + e.getMessage());
+                int row = index + 1;
+                throw new ControlledTemperatusException(language.get(Lang.INDEX) + ": " + row + "   " + language.get(Lang.PROCESSING_ERROR) + "  " + e.getMessage());
             }
         }
         return null;
@@ -800,9 +867,16 @@ public class NewRecordController extends AbstractCreationController implements I
 
                     updateProgress(10, 10);
 
-                } catch (ControlledTemperatusException e) {
+                } catch (Exception e) {
                     logger.error("Error saving or analyzing data: " + e.getMessage());
-                    showAlert(Alert.AlertType.ERROR, e.getMessage());
+                    Platform.runLater(() -> {
+                        showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+                        anchorPane.setDisable(false);
+                        mission.getRecords().clear();
+                    });
+
+                    throw new InterruptedException();
                 }
                 return null;
             }
@@ -816,16 +890,16 @@ public class NewRecordController extends AbstractCreationController implements I
             //#################################################
 
             boolean thereAreOutliers = false;
-            for(ValidatedData validatedData: validatedDataList) {
-                if(validatedData.getPossibleErrors().size() > 0) {
+            for (ValidatedData validatedData : validatedDataList) {
+                if (validatedData.getPossibleErrors().size() > 0) {
                     thereAreOutliers = true;
                     break;
                 }
             }
 
-            if(thereAreOutliers) {
+            if (thereAreOutliers) {
                 // show the detected strange values to the user and allow to remove/edit them
-                logger.info("Loading modal view (show and wait): " + language.get(Lang.OUTLIERS));
+                logger.info("Loading modal view outliers (show and wait): " + language.get(Lang.OUTLIERS));
 
                 SpringFxmlLoader loader = new SpringFxmlLoader();
                 Parent root = loader.load(VistaNavigator.class.getResource(Constants.OUTLIERS));
@@ -891,7 +965,7 @@ public class NewRecordController extends AbstractCreationController implements I
             }
 
             if (showWarn) {
-                showAlert(Alert.AlertType.WARNING, language.get(Lang.DIFFERENT_RATES));
+                Platform.runLater(() -> showAlert(Alert.AlertType.WARNING, language.get(Lang.DIFFERENT_RATES)));
             }
 
             return rate;
@@ -1057,5 +1131,6 @@ public class NewRecordController extends AbstractCreationController implements I
         indexLabel.setText(language.get(Lang.INDEX));
         positionLabel.setText(language.get(Lang.POSITION_COLUMN));
         dataSourceLabel.setText(language.get(Lang.DATA_SOURCE_COLUMN));
+        importLabel.setText(language.get(Lang.IMPORT_COLUMN));
     }
 }

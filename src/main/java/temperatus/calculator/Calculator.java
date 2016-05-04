@@ -2,6 +2,7 @@ package temperatus.calculator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import temperatus.util.Constants;
 
 /**
  * Evaluate a math expression given in string form
@@ -108,7 +109,7 @@ public class Calculator {
      * @return temperature in celsius
      */
     public static Double fahrenheitToCelsius(Double fahrenheit) {
-        return (fahrenheit - 32) * (5.0 / 9);
+        return Double.valueOf(Constants.decimalFormat.format((fahrenheit - 32) * (5.0 / 9)).replace(",", "."));
     }
 
     /**
@@ -118,6 +119,6 @@ public class Calculator {
      * @return temperature in fahrenheit
      */
     public static Double celsiusToFahrenheit(Double celsius) {
-        return (celsius * 1.8 + 32);
+        return Double.valueOf(Constants.decimalFormat.format((celsius * 1.8 + 32)).replace(",", "."));
     }
 }
