@@ -343,6 +343,7 @@ public class Lang {
     public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
 
     public static final String INVALID_FILE_FORMAT = "invalidFileFormat";
+    public static final String ERROR_SAVING_MEASUREMENTS = "errorSavingMeasurements";
 
     // History
     public static final String DELETE_HISTORY = "deleteHistory";

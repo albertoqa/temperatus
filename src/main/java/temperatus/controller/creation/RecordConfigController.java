@@ -339,6 +339,8 @@ public class RecordConfigController extends AbstractCreationController implement
             anchorPane.setDisable(false);
         });
 
+        saveMeasurementsAndFormulasForMissionTask.setOnFailed(event -> VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_SAVING_MEASUREMENTS)));
+
         anchorPane.setDisable(true);
 
         VBox box = new VBox(pForm);
