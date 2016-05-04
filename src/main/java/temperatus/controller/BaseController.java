@@ -64,6 +64,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @FXML private BorderPane parentPane;
 
     @FXML private Label userLabel;
+    @FXML private Label historyLabel;
 
     @Autowired IbuttonService ibuttonService;
 
@@ -98,6 +99,7 @@ public class BaseController implements Initializable, AbstractController, Device
         });
 
         userLabel.setOnMouseClicked(event -> VistaNavigator.openModal(Constants.USER, ""));
+        historyLabel.setOnMouseClicked(event -> VistaNavigator.pushViewToStack(Constants.HISTORY));
 
         VistaNavigator.setParentNode(this.parentPane);    // used to disable its elements when a modal window is opened
     }
@@ -325,6 +327,7 @@ public class BaseController implements Initializable, AbstractController, Device
         nGame.setText(language.get(Lang.NGAME));
         nSubject.setText(language.get(Lang.NSUBJECT));
         nAuthor.setText(language.get(Lang.NAUTHOR));
+        historyLabel.setText(language.get(Lang.HISTORY_LABEL));
     }
 
     /**

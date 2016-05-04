@@ -57,7 +57,14 @@ public class UserController implements Initializable, AbstractController {
         };
 
         // on task completion add all authors to the table
-        getAuthorsTask.setOnSucceeded(e -> userBox.getItems().addAll(getAuthorsTask.getValue()));
+        getAuthorsTask.setOnSucceeded(e -> {
+            userBox.getItems().addAll(getAuthorsTask.getValue());
+
+            if(User.getUser() != null) {
+                userBox.getSelectionModel().select(User.getUser());
+            }
+
+        });
 
         // run the task using a thread from the thread pool:
         databaseExecutor.submit(getAuthorsTask);

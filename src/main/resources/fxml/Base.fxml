@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 <BorderPane fx:id="parentPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="680.0" prefWidth="1000.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.BaseController">
    <left>
       <AnchorPane prefHeight="776.0" prefWidth="180.0" style="-fx-background-color: #1c292f;" BorderPane.alignment="CENTER">
@@ -74,7 +74,12 @@
    <bottom>
       <AnchorPane prefHeight="21.0" prefWidth="1000.0" style="-fx-background-color: #2b3940;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="750.0" layoutY="2.0" prefHeight="17.0" prefWidth="474.0" text="User: Alberto Quesada" textFill="#d7d0d0" AnchorPane.rightAnchor="27.0">
+            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="362.0" layoutY="1.0" prefHeight="17.0" prefWidth="474.0" text="User: Alberto Quesada" textFill="#d7d0d0" AnchorPane.rightAnchor="164.0">
+               <font>
+                  <Font name="Avenir Light" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="historyLabel" layoutX="891.0" layoutY="2.0" prefHeight="17.0" prefWidth="123.0" text="|     History" textFill="#d7d0d0" AnchorPane.rightAnchor="27.0">
                <font>
                   <Font name="Avenir Light" size="13.0" />
                </font>
