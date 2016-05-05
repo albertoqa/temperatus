@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
@@ -17,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +35,6 @@ import java.util.List;
 public class IbuttonDataImporter extends AbstractImporter {
 
     private static final String[] FILE_HEADER_MAPPING = {"Date/Time", "Unit", "Value"};
-    private static final SimpleDateFormat timeStampFormatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
     private static final String TIMESTAMP_HEADER = "Date/Time";
     private static final String UNIT_HEADER = "Unit";
@@ -98,7 +97,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             while (line < csvRecords.size()) {
                 CSVRecord record = csvRecords.get(line);
 
-                Date measurementDate = timeStampFormatter.parse(record.get(TIMESTAMP_HEADER));
+                Date measurementDate = Constants.dateTimeCSVFormat.parse(record.get(TIMESTAMP_HEADER));
                 String unit = record.get(UNIT_HEADER);
                 Unit u = unit.equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
@@ -112,9 +111,9 @@ public class IbuttonDataImporter extends AbstractImporter {
                 } else if (unit.equals(Constants.UNIT_F)) {
                     // All data saved to db must be in celsius
                     if (record.size() == 4) {
-                        measurementData = fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
+                        measurementData = Calculator.fahrenheitToCelsius(getData(record.get(VALUE_HEADER), record.get(3)));
                     } else {
-                        measurementData = fahrenheitToCelsius(Double.parseDouble(record.get(VALUE_HEADER)));
+                        measurementData = Calculator.fahrenheitToCelsius(Double.parseDouble(record.get(VALUE_HEADER)));
                     }
                 }
 
@@ -171,16 +170,6 @@ public class IbuttonDataImporter extends AbstractImporter {
             logger.warn("Error generating decimal data for: " + integer + " , " + decimal);
             return Double.NaN;
         }
-    }
-
-    /**
-     * Convert fahrenheit to celsius
-     *
-     * @param fahrenheit temperature to convert in fahrenheit
-     * @return temperature in celsius
-     */
-    private Double fahrenheitToCelsius(Double fahrenheit) {
-        return (fahrenheit - 32) * (5.0 / 9);
     }
 
     /**

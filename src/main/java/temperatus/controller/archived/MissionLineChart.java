@@ -138,7 +138,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     }
 
     private XYChart.Series<Date, Number> createSerieForRecord(Record record, int period) {
-        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
+        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
@@ -159,7 +159,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
         serie.setName(formula.getName());
 
-        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(dataMap.keySet()), formula, period);
+        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
 
         // Show the data using the preferred unit
         Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;

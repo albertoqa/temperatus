@@ -16,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.exporter.MissionExporter;
 import temperatus.lang.Lang;
-import temperatus.model.pojo.Formula;
-import temperatus.model.pojo.Mission;
-import temperatus.model.pojo.Position;
-import temperatus.model.pojo.Record;
+import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 import temperatus.util.SpinnerFactory;
@@ -30,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -55,6 +53,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
     @FXML private Label formulasLabel;
 
     private Mission mission;
+    private HashMap<Record, List<Measurement>> dataMap;
 
     private static Logger logger = LoggerFactory.getLogger(ExportConfigurationController.class.getName());
 
@@ -82,6 +81,14 @@ public class ExportConfigurationController implements Initializable, AbstractCon
     public void setMission(Mission mission) {
         this.mission = mission;
         loadData();
+    }
+
+    /**
+     * Set the record-measurements information
+     * @param dataMap record-measurements
+     */
+    void setDataMap(HashMap<Record, List<Measurement>> dataMap) {
+        this.dataMap = dataMap;
     }
 
     /**
@@ -126,7 +133,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
 
             // create a new mission exporter and set the data to export
             MissionExporter missionExporter = new MissionExporter();
-            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), mission.getRecords(), unit);
+            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
 
             Workbook workBook = missionExporter.export();
 
