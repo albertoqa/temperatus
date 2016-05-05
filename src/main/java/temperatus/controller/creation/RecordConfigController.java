@@ -272,8 +272,8 @@ public class RecordConfigController extends AbstractCreationController implement
             @Override
             public Void call() throws InterruptedException {
 
-                Date startDate = null;
-                Date endDate = null;
+                final Date startDate;
+                final Date endDate;
 
                 try {
                     startDate = Constants.dateTimeFormat.parse(initTime.getText());
@@ -284,13 +284,9 @@ public class RecordConfigController extends AbstractCreationController implement
                 }
 
                 // Calculate total number of measurements to update the progress indicator
-                int totalMeasurements = 0;
-                for (ValidatedData validatedData : data) {
-                    for(Measurement measurement: validatedData.getMeasurements()) {
-                        if(measurement.getDate().before(endDate) && measurement.getDate().after(startDate)) {
-                            totalMeasurements++;
-                        }
-                    }
+                long totalMeasurements = 0;
+                for(ValidatedData validatedData: data) {
+                    totalMeasurements += validatedData.getMeasurements().stream().filter(measurement -> measurement.getDate().before(endDate) && measurement.getDate().after(startDate)).count();
                 }
 
                 // Save measurements + check if is in the range - [the save is the slowest part]

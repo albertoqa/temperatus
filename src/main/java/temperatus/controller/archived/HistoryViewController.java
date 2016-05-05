@@ -47,8 +47,7 @@ public class HistoryViewController implements Initializable, AbstractController 
      * Read history file and add its content to the textArea
      */
     private void readFileContent() {
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new ReverseLineInputStream(new File(HISTORY_FILE))));
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new ReverseLineInputStream(new File(HISTORY_FILE))))) {
             while (true) {
                 String line = in.readLine();
                 if (line == null) {
