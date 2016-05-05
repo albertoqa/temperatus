@@ -200,7 +200,7 @@ public class MissionLineChart implements Initializable, AbstractController {
             fileChooser.getExtensionFilters().add(extFilter);
 
             //Show save file dialog
-            File file = fileChooser.showSaveDialog(null);
+            File file = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
 
             if (file != null) {
                 WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);

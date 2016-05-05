@@ -108,7 +108,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
 
-            File file = fileChooser.showSaveDialog(null);   //Show save file dialog
+            File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
             if (file != null) {
                 // create a new mission exporter and set the data to export

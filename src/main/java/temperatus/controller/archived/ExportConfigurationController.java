@@ -115,7 +115,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls");
         fileChooser.getExtensionFilters().add(extFilter);   //Set extension filter
 
-        File file = fileChooser.showSaveDialog(null);   //Show save file dialog
+        File file = fileChooser.showSaveDialog(titledPane.getScene().getWindow());   //Show save file dialog
 
         if (file != null) {
             List<Record> records = new ArrayList<>();

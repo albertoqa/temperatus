@@ -24,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.commons.io.FileUtils;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,10 @@ import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
-import temperatus.util.*;
+import temperatus.util.Animation;
+import temperatus.util.Constants;
+import temperatus.util.SpringFxmlLoader;
+import temperatus.util.VistaNavigator;
 
 import java.io.File;
 import java.net.URL;
@@ -586,7 +590,7 @@ public class NewRecordController extends AbstractCreationController implements I
             fileChooser.getExtensionFilters().add(extFilterCSV);
 
             //Show open file dialog
-            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stackPane.getScene().getWindow());
 
             Button clickedButton = (Button) event.getSource();
             Integer row = (Integer) clickedButton.getUserData();
@@ -643,7 +647,7 @@ public class NewRecordController extends AbstractCreationController implements I
         fileChooser.getExtensionFilters().add(extFilterCSV);
 
         //Show open file dialog
-        return fileChooser.showOpenDialog(null);
+        return fileChooser.showOpenDialog(stackPane.getScene().getWindow());
     }
 
     /**
@@ -862,7 +866,7 @@ public class NewRecordController extends AbstractCreationController implements I
                             dest.getParentFile().mkdirs();
                             dest.createNewFile();
 
-                            FileManage.copy(validatedData.getDataFile(), dest);
+                            FileUtils.copyFileToDirectory(validatedData.getDataFile(), dest);
                             validatedData.setDataFile(dest);
 
                             Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition(), dest.getPath());

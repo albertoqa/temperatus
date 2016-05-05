@@ -123,7 +123,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialFileName("TemperatusBackup");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-            File f = fileChooser.showSaveDialog(VistaNavigator.getMainStage());
+            File f = fileChooser.showSaveDialog(titledPane.getScene().getWindow());
             f.mkdir();
 
             FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), f);
@@ -146,7 +146,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
             // Copy history, images, missions data and database
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-            File f = fileChooser.showOpenDialog(VistaNavigator.getMainStage());
+            File f = fileChooser.showOpenDialog(titledPane.getScene().getWindow());
             File destiny = new File("./");
 
             FileUtils.copyDirectory(f, destiny);

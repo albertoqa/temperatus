@@ -179,7 +179,7 @@ public class NewPositionController extends AbstractCreationController implements
         fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
         //Show open file dialog
-        File file = fileChooser.showOpenDialog(null);
+        File file = fileChooser.showOpenDialog(titledPane.getScene().getWindow());
 
         if (file != null) {
             try {
