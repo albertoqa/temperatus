@@ -28,6 +28,13 @@ public class Constants {
     public static final String DEGREE = "º";
 
     //#########################################################################//
+
+    public static final String MISSIONS_PATH = "./data/";   // path where all data is saved
+    public static final String DATABASE_PATH = "./database.h2.db";   // path where the database is saved
+    public static final String IMAGES_PATH = "./images/";   // path where all images are saved
+    public static final String HISTORY_PATH = "./history.txt";   // path where the history is saved
+
+    //#########################################################################//
     //* Convenience constants for fxml layouts
 
     public static final String SPLASH = "/fxml/Welcome.fxml";

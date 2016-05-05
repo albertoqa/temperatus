@@ -3,29 +3,39 @@ package temperatus.controller.button;
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;
 import com.dalsemi.onewire.container.TemperatureContainer;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceConnectedList;
+import temperatus.device.DeviceOperationsManager;
+import temperatus.device.task.DeviceMissionDisableTask;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
+import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Show all the devices connected to the computer and their information. Depending on
@@ -35,6 +45,9 @@ import java.util.ResourceBundle;
  */
 @Controller
 public class ConnectedDevicesController implements Initializable, AbstractController {
+
+    @FXML private StackPane stackPane;
+    @FXML private Button disableAllButton;
 
     @FXML private Label headerLabel;
     @FXML private Label searchingLabel;
@@ -54,6 +67,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     @Autowired IbuttonService ibuttonService;
     @Autowired DeviceConnectedList deviceConnectedList;
+    @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
+    @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private static final String EMPTY = "";
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
@@ -208,6 +223,65 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     }
 
     /**
+     * Disable all missions actives in the connected devices
+     */
+    @FXML
+    private void disableAllMissions() {
+        AtomicInteger started = new AtomicInteger(0);
+        AtomicInteger finished = new AtomicInteger(0);
+
+        deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
+            startProgressIndicator();
+
+            deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
+            ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
+            started.set(started.get()+1);
+
+            history.info(User.getUserName() + " " + language.get(Lang.STOP_MISSION_HISTORY) + "  " + device.getAlias());
+
+            Futures.addCallback(future, new FutureCallback<Boolean>() {
+                public void onSuccess(Boolean result) {
+                    finished.set(finished.get()+1);
+                    if(started.get() == finished.get()) {
+                        Platform.runLater(() -> stopProgressIndicator());
+                    }
+                }
+
+                public void onFailure(Throwable thrown) {
+                    Platform.runLater(() -> {
+                        stopProgressIndicator();
+                        showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_STOPPING_MISSION));
+                        logger.error("Error stopping mission on device - Future error");
+                    });
+                }
+            });
+
+        });
+    }
+
+    /**
+     * Start the progress indicator and blur the pane
+     */
+    private void startProgressIndicator() {
+        if(!stackPane.isDisable()) {
+            stackPane.setDisable(true);    // blur pane
+            VBox box = new VBox(new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS)); // add a progress indicator to the view
+            box.setAlignment(Pos.CENTER);
+            stackPane.getChildren().add(box);
+        }
+    }
+
+    /**
+     * End the progress indicator and activate the anchor pane
+     */
+    private void stopProgressIndicator() {
+        if (stackPane.getChildren().size() > 1) {
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+        }
+        stackPane.setDisable(false);
+    }
+
+    /**
      * If new device registered to database, reload its alias and default position to show
      *
      * @param object object to reload
@@ -260,6 +334,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         searchingLabel.setText(language.get(Lang.SEARCHING));
         headerLabel.setText(language.get(Lang.CONNECTED_DEVICES));
         configureButton.setText(language.get(Lang.CONFIGURE));
+        disableAllButton.setText(language.get(Lang.DISABLE_ALL));
     }
 
 }

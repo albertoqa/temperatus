@@ -31,6 +31,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
+import temperatus.util.Constants;
 import temperatus.util.TextValidation;
 import temperatus.util.VistaNavigator;
 
@@ -100,8 +101,6 @@ public class NewGameController extends AbstractCreationController implements Ini
     private static final String LAT = "lateral";
 
     private static final int MAX_DIGITS_FOR_NUM_BUTTONS = 3;
-
-    private static final String PATH_TO_SAVE = "./images/";    // TODO change to application directory
 
     private static Logger logger = LoggerFactory.getLogger(NewGameController.class.getName());
 
@@ -331,7 +330,7 @@ public class NewGameController extends AbstractCreationController implements Ini
                 break;
         }
 
-        File outputFile = new File(PATH_TO_SAVE + fileName);
+        File outputFile = new File(Constants.IMAGES_PATH + fileName);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         try {
             ImageIO.write(bImage, "png", outputFile);

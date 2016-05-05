@@ -15,6 +15,7 @@ public class Measurement {
     private SimpleDoubleProperty data = new SimpleDoubleProperty();
     private Unit unit;      // C, F
     private File file;      // location of the file containing this measurement
+    private SimpleStringProperty position = new SimpleStringProperty();
 
     public Measurement() {
     }
@@ -55,6 +56,18 @@ public class Measurement {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public String getPosition() {
+        return position.get();
+    }
+
+    public SimpleStringProperty positionProperty() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position.set(position);
     }
 
     @Override

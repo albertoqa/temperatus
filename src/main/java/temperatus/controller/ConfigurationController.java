@@ -3,6 +3,8 @@ package temperatus.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import temperatus.lang.Lang;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,6 +37,8 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML private Button cancelButton;
     @FXML private Button applyButton;
     @FXML private Button okButton;
+    @FXML private Button exportButton;
+    @FXML private Button importButton;
 
     private ToggleGroup unitGroup = new ToggleGroup();
 
@@ -110,6 +116,46 @@ public class ConfigurationController implements Initializable, AbstractControlle
         this.translate();
     }
 
+    @FXML
+    private void exportApplicationData() {
+        try {
+            // Copy history, images, missions data and database
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName("TemperatusBackup");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
+            File f = fileChooser.showSaveDialog(VistaNavigator.getMainStage());
+            f.mkdir();
+
+            FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), f);
+            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), f);
+            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), f);
+            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), f);
+
+        } catch (IOException e) {
+            e.printStackTrace();    // TODO
+        }
+    }
+
+    /**
+     * Replace application current data with the import
+     */
+    @FXML
+    private void importApplicationData() {
+        // TODO warn!
+        try {
+            // Copy history, images, missions data and database
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
+            File f = fileChooser.showOpenDialog(VistaNavigator.getMainStage());
+            File destiny = new File("./");
+
+            FileUtils.copyDirectory(f, destiny);
+
+        } catch (IOException e) {
+            e.printStackTrace();    // TODO
+        }
+    }
+
     /**
      * Discard changes and close the window
      */
@@ -129,6 +175,8 @@ public class ConfigurationController implements Initializable, AbstractControlle
         cancelButton.setText(language.get(Lang.CANCEL));
         applyButton.setText(language.get(Lang.APPLY));
         okButton.setText(language.get(Lang.OK));
+        exportButton.setText(language.get(Lang.EXPORT));
+        importButton.setText(language.get(Lang.IMPORT));
     }
 
 }

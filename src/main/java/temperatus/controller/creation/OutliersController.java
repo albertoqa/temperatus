@@ -52,7 +52,7 @@ public class OutliersController implements Initializable, AbstractController {
 
         measurements = FXCollections.observableArrayList();
 
-        //position.setCellValueFactory(cellData -> cellData.getValue().getRecord().getPosition().getPlaceProperty());   TODO
+        position.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
         value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
 
@@ -115,6 +115,7 @@ public class OutliersController implements Initializable, AbstractController {
         for (ValidatedData validatedData : data) {
             for(Measurement measurement: validatedData.getPossibleErrors()) {
                 measurement.setFile(validatedData.getDataFile());
+                measurement.setPosition(validatedData.getPosition().getPlace());
                 measurements.add(measurement);
             }
         }

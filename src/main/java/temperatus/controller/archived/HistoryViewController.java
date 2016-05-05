@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
+import temperatus.util.Constants;
 import temperatus.util.ReverseLineInputStream;
 import temperatus.util.User;
 import temperatus.util.VistaNavigator;
@@ -33,7 +34,6 @@ public class HistoryViewController implements Initializable, AbstractController 
 
     private static final String NEW_LINE = "\n";
     private static final String EMPTY = "";
-    private static final String HISTORY_FILE = "./history.txt";
 
     private static Logger logger = LoggerFactory.getLogger(HistoryViewController.class.getName());
 
@@ -47,7 +47,7 @@ public class HistoryViewController implements Initializable, AbstractController 
      * Read history file and add its content to the textArea
      */
     private void readFileContent() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(new ReverseLineInputStream(new File(HISTORY_FILE))))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new ReverseLineInputStream(new File(Constants.HISTORY_PATH))))) {
             while (true) {
                 String line = in.readLine();
                 if (line == null) {
@@ -67,7 +67,7 @@ public class HistoryViewController implements Initializable, AbstractController 
     private void resetLog() {
         logger.info("Resetting history log");
         try {
-            new PrintWriter(HISTORY_FILE).close();
+            new PrintWriter(Constants.HISTORY_PATH).close();
             historyContent.setText(EMPTY);
             history.info(User.getUserName() + " " + language.get(Lang.CLEAN_HISTORY));
             readFileContent();

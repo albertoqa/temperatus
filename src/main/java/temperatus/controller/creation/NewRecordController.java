@@ -46,12 +46,9 @@ import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.types.SourceChoice;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.*;
-import temperatus.util.Animation;
-import temperatus.util.Constants;
-import temperatus.util.SpringFxmlLoader;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
-import java.io.*;
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 
@@ -119,8 +116,6 @@ public class NewRecordController extends AbstractCreationController implements I
     private boolean isUpdate;
 
     private File lastOpenedDirectory;        // Save the last directory opened to reopen if more imports
-
-    private static final String DATABASE_PATH = "./data/";   // path where all data is saved
 
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 180.0;     // Preferred width for combo-box
@@ -861,13 +856,13 @@ public class NewRecordController extends AbstractCreationController implements I
                     for (ValidatedData validatedData : validatedDataList) {
                         if (!validatedData.isUpdate()) {
 
-                            String path = DATABASE_PATH + mission.getName() + File.separator + validatedData.getPosition().getPlace() + "_" + index + ".csv";
+                            String path = Constants.MISSIONS_PATH + mission.getName() + File.separator + validatedData.getPosition().getPlace() + "_" + index + ".csv";
 
                             File dest = new File(path);
                             dest.getParentFile().mkdirs();
                             dest.createNewFile();
 
-                            copyFile(validatedData.getDataFile(), dest);
+                            FileManage.copy(validatedData.getDataFile(), dest);
                             validatedData.setDataFile(dest);
 
                             Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition(), dest.getPath());
@@ -959,21 +954,6 @@ public class NewRecordController extends AbstractCreationController implements I
         }
     }
 
-    /**
-     * Copy a file from a source to a destiny
-     * @param source source file
-     * @param dest file to copy to
-     * @throws IOException
-     */
-    private static void copyFile(File source, File dest) throws IOException {
-        try (InputStream is = new FileInputStream(source); OutputStream os = new FileOutputStream(dest)) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        }
-    }
 
     /**
      * Get the sample rate used for the experiment

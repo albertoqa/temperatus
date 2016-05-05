@@ -252,12 +252,15 @@ public class Lang {
     public static final String PRELOAD_CONFIGURATION = "preloadConfiguration";
     public static final String START_DEVICE_MISSION = "startDeviceMission";
 
+    public static final String DISABLE_ALL = "disableAll";
+
     // Common
     public static final String SAVE = "save";
     public static final String UPDATE = "update";
     public static final String CANCEL = "cancel";
     public static final String PERIOD = "period";
     public static final String EXPORT = "export";
+    public static final String IMPORT = "import";
     public static final String CONTINUE = "continue";
     public static final String OK = "ok";
     public static final String APPLY = "apply";
