@@ -56,7 +56,7 @@ public class HomeController implements Initializable, AbstractController {
         });
 
         logger.info("Starting devices scan task");
-        //deviceOperationsManager.init(); // start executors (and device scan task) FIXME
+        deviceOperationsManager.init(); // start executors (and device scan task)
         //Constants.prefs.putBoolean(Constants.ACTIVATED, false);
     }
 

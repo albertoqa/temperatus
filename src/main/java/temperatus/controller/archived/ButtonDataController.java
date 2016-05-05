@@ -59,7 +59,7 @@ public class ButtonDataController implements Initializable, AbstractController {
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
         unit.setCellValueFactory(cellData -> unitOfMeasurePreferred);
 
-        if(Constants.UNIT_C.equals(unitOfMeasurePreferred.getValue())) {
+        if(unitOfMeasurePreferred.getValue().contains(Constants.UNIT_C)) {
             value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
         } else {
             value.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(Calculator.celsiusToFahrenheit(cellData.getValue().getData()))));

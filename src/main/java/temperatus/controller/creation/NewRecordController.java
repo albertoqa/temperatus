@@ -866,7 +866,7 @@ public class NewRecordController extends AbstractCreationController implements I
                             dest.getParentFile().mkdirs();
                             dest.createNewFile();
 
-                            FileUtils.copyFileToDirectory(validatedData.getDataFile(), dest);
+                            FileUtils.copyFile(validatedData.getDataFile(), dest);
                             validatedData.setDataFile(dest);
 
                             Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition(), dest.getPath());

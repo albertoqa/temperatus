@@ -3,6 +3,7 @@ package temperatus.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -144,9 +145,8 @@ public class ConfigurationController implements Initializable, AbstractControlle
         // TODO warn!
         try {
             // Copy history, images, missions data and database
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-            File f = fileChooser.showOpenDialog(titledPane.getScene().getWindow());
+            DirectoryChooser fileChooser = new DirectoryChooser();
+            File f = fileChooser.showDialog(titledPane.getScene().getWindow());
             File destiny = new File("./");
 
             FileUtils.copyDirectory(f, destiny);
