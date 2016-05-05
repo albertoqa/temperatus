@@ -17,9 +17,8 @@ import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Export mission data to excel format
@@ -32,7 +31,7 @@ public class MissionExporter {
     private int period;
     private String missionName;
     private List<Record> records;       // Records (positions) selected by the user to export
-    private Set<Record> allRecords;     // All the records of the mission - used to calculate values of formulas
+    private HashMap<Record, List<Measurement>> dataMap;     // All the records-measurements of the mission - used to calculate values of formulas
     private List<Formula> formulas;     // Formulas selected to export
     private Unit unit;                  // Unit to use in the export
 
@@ -64,7 +63,7 @@ public class MissionExporter {
             Cell device = dataRow.createCell(0);
             device.setCellValue(record.getPosition().getPlace());
 
-            List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
+            List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
             int col = 1;
             for (Measurement measurement : toExport) {
@@ -110,7 +109,7 @@ public class MissionExporter {
         for (Formula formula : formulas) {
             logger.debug("Exporting data for formula: " + formula);
 
-            List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(new ArrayList<>(allRecords), formula, period);
+            List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
 
             Row dataRow = missionSheet.createRow(row);
             Cell device = dataRow.createCell(0);
@@ -153,14 +152,14 @@ public class MissionExporter {
      * @param missionName name of the mission -- name of the excel sheet
      * @param records     records selected by the user to export
      * @param formulas    formulas related to the mission and selected to export
-     * @param allRecords  all records of the mission
+     * @param dataMap  all records-measurements of the mission
      */
-    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, Set<Record> allRecords, Unit unit) {
+    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, HashMap<Record, List<Measurement>> dataMap, Unit unit) {
         this.period = period;
         this.missionName = missionName;
         this.records = records;
         this.formulas = formulas;
-        this.allRecords = allRecords;
+        this.dataMap = dataMap;
         this.unit = unit;
     }
 }

@@ -51,7 +51,7 @@ import temperatus.util.Constants;
 import temperatus.util.SpringFxmlLoader;
 import temperatus.util.VistaNavigator;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -104,7 +104,6 @@ public class NewRecordController extends AbstractCreationController implements I
     @Autowired IbuttonService ibuttonService;
     @Autowired PositionService positionService;
     @Autowired RecordService recordService;
-    @Autowired MeasurementService measurementService;
     @Autowired MissionService missionService;
 
     @Autowired DeviceConnectedList deviceConnectedList;             // List of currently connected devices
@@ -119,7 +118,9 @@ public class NewRecordController extends AbstractCreationController implements I
     private File[] filesToSave;                         // Files where temp data is temporary stored
     private boolean isUpdate;
 
-    private File lastOpenedFile;        // Save the last directory opened to reopen if more imports
+    private File lastOpenedDirectory;        // Save the last directory opened to reopen if more imports
+
+    private static final String DATABASE_PATH = "./data/";   // path where all data is saved
 
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 180.0;     // Preferred width for combo-box
@@ -422,7 +423,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
                                 // Alert user that iButton can be removed
                                 Notifications.create().title(language.get(Lang.DATASAVEDTITLE)).text(language.get(Lang.DATASAVEDTEXT)).show();
-                                logger.info("Data saved sucessfully");
+                                logger.info("Data saved successfully");
                             });
                         }
 
@@ -551,7 +552,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
             if (file != null) {
                 SourceChoice sourceChoice = new SourceChoice(file);
-                lastOpenedFile = file.getParentFile();
+                lastOpenedDirectory = file.getParentFile();
 
                 Button clickedButton = (Button) event.getSource();
                 Integer index = (Integer) clickedButton.getUserData();
@@ -581,8 +582,8 @@ public class NewRecordController extends AbstractCreationController implements I
 
             FileChooser fileChooser = new FileChooser();
 
-            if (lastOpenedFile != null) {
-                fileChooser.setInitialDirectory(lastOpenedFile);
+            if (lastOpenedDirectory != null) {
+                fileChooser.setInitialDirectory(lastOpenedDirectory);
             }
 
             //Set extension filter
@@ -605,7 +606,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
                     if (actual != null) {
                         SourceChoice sourceChoice = new SourceChoice(actual);
-                        lastOpenedFile = actual.getParentFile();
+                        lastOpenedDirectory = actual.getParentFile();
 
                         if (sourceBox.getChildren().get(index) instanceof ComboBox) {
                             // check if already added this same file to the combo-box
@@ -638,8 +639,8 @@ public class NewRecordController extends AbstractCreationController implements I
     private File importDataFromSource() {
         FileChooser fileChooser = new FileChooser();
 
-        if (lastOpenedFile != null) {
-            fileChooser.setInitialDirectory(lastOpenedFile);
+        if (lastOpenedDirectory != null) {
+            fileChooser.setInitialDirectory(lastOpenedDirectory);
         }
 
         //Set extension filter
@@ -737,12 +738,13 @@ public class NewRecordController extends AbstractCreationController implements I
     private ValidatedData validateData(int index, AbstractImporter importedData) throws ControlledTemperatusException {
 
         ValidatedData validatedData = new ValidatedData(importedData);
-        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
         Position position = getPositionForIndex(index);
 
         if (position == null) {
             throw new ControlledTemperatusException(language.get(Lang.MUST_SELECT_POSITION_FOR_ALL));
         }
+
+        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(importedData.getMeasurements()));
         validatedData.setPosition(position);
 
         Ibutton ibutton = ibuttonService.getBySerial(validatedData.getDeviceSerial());
@@ -769,13 +771,22 @@ public class NewRecordController extends AbstractCreationController implements I
         return validatedData;
     }
 
-    private ValidatedData generateValidatedDataForAlreadySavedRecord(int index) {
+    private ValidatedData generateValidatedDataForAlreadySavedRecord(int index) throws ControlledTemperatusException {
         Record record = getSourceChoiceForIndex(index).getRecord();
         ValidatedData validatedData = new ValidatedData();
         validatedData.setIbutton(record.getIbutton());
         validatedData.setDeviceModel(record.getIbutton().getModel());
         validatedData.setDeviceSerial(record.getIbutton().getSerial());
-        List<Measurement> measurements = new ArrayList<>(record.getMeasurements());
+
+        List<Measurement> measurements = null;
+
+        try {
+            IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(new File(record.getDataPath()));
+            measurements = ibuttonDataImporter.getMeasurements();
+        } catch (ControlledTemperatusException e) {
+            throw new ControlledTemperatusException("");    // TODO MENSAJE!
+        }
+
         Collections.sort(measurements, (a, b) -> a.getDate().compareTo(b.getDate()));    // sort list by date
 
         validatedData.setMeasurements(measurements);
@@ -845,23 +856,25 @@ public class NewRecordController extends AbstractCreationController implements I
                     generalData.setModels(getModels(validatedDataList));
                     generalData.setMeasurementsPerButton(getMeasurementsPerButton(validatedDataList));
 
-                    // save Records to database
-                    //Set<Record> records = new HashSet<>();
+                    // copy csv files to application folder and save Records to database
+                    int index = 0;
                     for (ValidatedData validatedData : validatedDataList) {
                         if (!validatedData.isUpdate()) {
-                            Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition());
+
+                            String path = DATABASE_PATH + mission.getName() + File.separator + validatedData.getPosition().getPlace() + "_" + index + ".csv";
+
+                            File dest = new File(path);
+                            dest.getParentFile().mkdirs();
+                            dest.createNewFile();
+
+                            copyFile(validatedData.getDataFile(), dest);
+                            validatedData.setDataFile(dest);
+
+                            Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition(), dest.getPath());
                             recordService.save(record);
 
-                            // iterate over all measurements and set its records to be able to save them later (also with the possibleErrors)
-                            for (int i = 0; i < validatedData.getMeasurements().size(); i++) {
-                                validatedData.getMeasurements().get(i).setRecord(record);
-                            }
-
-                            for (int i = 0; i < validatedData.getPossibleErrors().size(); i++) {
-                                validatedData.getPossibleErrors().get(i).setRecord(record);
-                            }
-
                             mission.getRecords().add(record);
+                            index++;
                         }
                     }
 
@@ -943,6 +956,22 @@ public class NewRecordController extends AbstractCreationController implements I
             thread.start();
         } else {
             showAlert(Alert.AlertType.WARNING, language.get(Lang.MUST_SELECT_ALL_ROW));
+        }
+    }
+
+    /**
+     * Copy a file from a source to a destiny
+     * @param source source file
+     * @param dest file to copy to
+     * @throws IOException
+     */
+    private static void copyFile(File source, File dest) throws IOException {
+        try (InputStream is = new FileInputStream(source); OutputStream os = new FileOutputStream(dest)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
         }
     }
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
-import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.util.User;
 
@@ -30,7 +29,7 @@ public class GenericDaoImpl {
     public void delete(final Object object) {
         sessionFactory.getCurrentSession().delete(object);
 
-        if (!(object instanceof Measurement) && !(object instanceof Record)) {
+        if (!(object instanceof Record)) {
             history.info(User.getUserName() + " " + Language.getInstance().get(Lang.DELETE_HISTORY) + " " + object.toString());
         }
     }
@@ -46,7 +45,7 @@ public class GenericDaoImpl {
     public <T> void saveOrUpdate(final T o) {
         sessionFactory.getCurrentSession().saveOrUpdate(o);
 
-        if (!(o instanceof Measurement) && !(o instanceof Record)) {
+        if (!(o instanceof Record)) {
             history.info(User.getUserName() + " " + Language.getInstance().get(Lang.SAVE_EDIT_HISTORY) + " " + o.toString());
         }
     }

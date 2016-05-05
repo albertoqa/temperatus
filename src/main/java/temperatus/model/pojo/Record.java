@@ -18,21 +18,24 @@ public class Record implements java.io.Serializable {
     private Mission mission;
     private Position position;
     private Set<Measurement> measurements = new HashSet<Measurement>(0);
+    private String dataPath;
 
     public Record() {
     }
 
-    public Record(Ibutton ibutton, Mission mission, Position position) {
+    public Record(Ibutton ibutton, Mission mission, Position position, String path) {
         this.ibutton = ibutton;
         this.mission = mission;
         this.position = position;
+        this.dataPath = path;
     }
 
-    public Record(Ibutton ibutton, Mission mission, Position position, Set<Measurement> measurements) {
+    public Record(Ibutton ibutton, Mission mission, Position position, Set<Measurement> measurements, String path) {
         this.ibutton = ibutton;
         this.mission = mission;
         this.position = position;
         this.measurements = measurements;
+        this.dataPath = path;
     }
 
     @Id
@@ -77,13 +80,23 @@ public class Record implements java.io.Serializable {
         this.position = position;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "record", cascade = CascadeType.ALL)
+    @Transient
     public Set<Measurement> getMeasurements() {
         return this.measurements;
     }
 
+    @Transient
     public void setMeasurements(Set<Measurement> measurements) {
         this.measurements = measurements;
+    }
+
+    @Column(name = "DATA_PATH", nullable = false)
+    public String getDataPath() {
+        return this.dataPath;
+    }
+
+    public void setDataPath(String dataPath) {
+        this.dataPath = dataPath;
     }
 
     @Override

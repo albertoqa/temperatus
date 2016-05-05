@@ -17,8 +17,10 @@ import temperatus.analysis.pojo.ValidatedData;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,7 +52,7 @@ public class OutliersController implements Initializable, AbstractController {
 
         measurements = FXCollections.observableArrayList();
 
-        position.setCellValueFactory(cellData -> cellData.getValue().getRecord().getPosition().getPlaceProperty());
+        //position.setCellValueFactory(cellData -> cellData.getValue().getRecord().getPosition().getPlaceProperty());   TODO
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
         value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
 
@@ -60,10 +62,49 @@ public class OutliersController implements Initializable, AbstractController {
         tableView.setEditable(true);
         value.setCellFactory(TextFieldTableCell.forTableColumn());
         value.setOnEditCommit(t -> {
-            t.getTableView().getItems().get(t.getTablePosition().getRow()).setData(Double.valueOf(t.getNewValue()));
+            Measurement m = t.getTableView().getItems().get(t.getTablePosition().getRow());
+            updateMeasurementInFile(m, Double.valueOf(t.getNewValue()));
             // exception not controlled, let it like this
         });
     }
+
+    /**
+     * Update the temperature value in the file
+     * @param measurement measurement to update
+     */
+    private void updateMeasurementInFile(Measurement measurement, Double newValue) {
+        // open file
+        String lineToChange = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + measurement.getData();
+        String updatedLine = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + newValue;
+
+        lineToChange = lineToChange.replace(".", ",");
+        updatedLine = updatedLine.replace(".", ",");
+
+        try {
+            updateLine(lineToChange, updatedLine, measurement.getFile());
+        } catch (IOException e) {
+           logger.error("Line cannot be replaced...");
+        }
+    }
+
+
+    private void updateLine(String toUpdate, String updated, File data) throws IOException {
+        BufferedReader file = new BufferedReader(new FileReader(data));
+        String line;
+        String input = "";
+
+        while ((line = file.readLine()) != null)
+            input += line + System.lineSeparator();
+
+        input = input.replace(toUpdate, updated);
+
+        FileOutputStream os = new FileOutputStream(data);
+        os.write(input.getBytes());
+
+        file.close();
+        os.close();
+    }
+
 
     /**
      * Set all the outliers detected
@@ -72,7 +113,10 @@ public class OutliersController implements Initializable, AbstractController {
      */
     void setValidatedDataList(List<ValidatedData> data) {
         for (ValidatedData validatedData : data) {
-            measurements.addAll(validatedData.getPossibleErrors());
+            for(Measurement measurement: validatedData.getPossibleErrors()) {
+                measurement.setFile(validatedData.getDataFile());
+                measurements.add(measurement);
+            }
         }
     }
 

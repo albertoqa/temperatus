@@ -32,12 +32,15 @@ import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Position;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.FormulaService;
-import temperatus.model.service.MeasurementService;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
 import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
@@ -90,7 +93,6 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private Label minTempL;
     @FXML private Label avgTempL;
 
-    @Autowired MeasurementService measurementService;
     @Autowired FormulaService formulaService;
     @Autowired MissionService missionService;
 
@@ -200,9 +202,9 @@ public class RecordConfigController extends AbstractCreationController implement
         avgMeasurementsLabel.setText(String.valueOf(generalData.getMeasurementsPerButton()));
 
         // Export the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-        if(Constants.UNIT_C.equals(unit.name())) {
+        if (Constants.UNIT_C.equals(unit.name())) {
             maxTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMaxTemp())));
             minTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getMinTemp())));
             avgTempLabel.setText(String.valueOf(Constants.decimalFormat.format(generalData.getAvgTemp())));
@@ -272,54 +274,81 @@ public class RecordConfigController extends AbstractCreationController implement
             @Override
             public Void call() throws InterruptedException {
 
-                final Date startDate;
-                final Date endDate;
-
                 try {
+                    final Date startDate;
+                    final Date endDate;
+
                     startDate = Constants.dateTimeFormat.parse(initTime.getText());
                     endDate = Constants.dateTimeFormat.parse(endTime.getText());
-                } catch (ParseException e) {
-                    logger.error("Incorrect dates...");
-                    throw new InterruptedException();
-                }
 
-                // Calculate total number of measurements to update the progress indicator
-                long totalMeasurements = 0;
-                for(ValidatedData validatedData: data) {
-                    totalMeasurements += validatedData.getMeasurements().stream().filter(measurement -> measurement.getDate().before(endDate) && measurement.getDate().after(startDate)).count();
-                }
 
-                // Save measurements + check if is in the range - [the save is the slowest part]
-                int actualMeasurement = 0;
-                for (ValidatedData validatedData : data) {
-                    if(!validatedData.isUpdate()) { // only save if it is not an update
-                        for (Measurement measurement : validatedData.getMeasurements()) {
-                            if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
-                                updateProgress(actualMeasurement++, totalMeasurements);
-                                measurementService.save(measurement);
+                    // Calculate total number of measurements to update the progress indicator
+                    long totalMeasurements = 0;
+                    for (ValidatedData validatedData : data) {
+                        totalMeasurements += validatedData.getMeasurements().stream().filter(measurement -> measurement.getDate().before(endDate) && measurement.getDate().after(startDate)).count();
+                    }   // TODO
+
+                    // Save measurements + check if is in the range - [the save is the slowest part]
+                    int actualMeasurement = 0;
+                    for (ValidatedData validatedData : data) {
+                        if (!validatedData.isUpdate()) { // only save if it is not an update
+
+
+                            BufferedReader file = new BufferedReader(new FileReader(validatedData.getDataFile()));
+                            String line;
+                            String input = "";
+
+                            while ((line = file.readLine()) != null) {
+                                input += line + System.lineSeparator();
+
+                                if(line.contains("Date/Time,Unit,Value")) {
+                                    break;
+                                }
                             }
-                        }
-                    } else {
-                        for (Measurement measurement : validatedData.getMeasurements()) {
-                            if (measurement.getDate().before(startDate) && measurement.getDate().after(endDate)) {
-                                updateProgress(actualMeasurement++, totalMeasurements);
-                                measurementService.delete(measurement); // TODO is this working??
+
+                            for (Measurement measurement : validatedData.getMeasurements()) {
+                                if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
+                                    updateProgress(actualMeasurement++, totalMeasurements);
+                                    String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + Constants.decimalFormat.format(measurement.getData());
+                                    toAdd = toAdd.replace(".", ",");
+                                    input = input.concat(toAdd + System.lineSeparator());
+                                }
+                            }
+
+                            FileOutputStream os = new FileOutputStream(validatedData.getDataFile());
+                            os.write(input.getBytes());
+
+                            file.close();
+                            os.close();
+
+                        } else {
+                            for (Measurement measurement : validatedData.getMeasurements()) {
+                                if (measurement.getDate().before(startDate) && measurement.getDate().after(endDate)) {
+                                    updateProgress(actualMeasurement++, totalMeasurements);
+                                    //measurementService.delete(measurement); // TODO is this working??
+                                }
                             }
                         }
                     }
-                }
 
-                Set<Formula> selectedFormulas = new HashSet<>();
-                selectedFormulas.addAll(listViewFormulas.getCheckModel().getCheckedItems());
+                    Set<Formula> selectedFormulas = new HashSet<>();
+                    selectedFormulas.addAll(listViewFormulas.getCheckModel().getCheckedItems());
 
-                mission.setFormulas(selectedFormulas);
-                try {
+                    mission.setFormulas(selectedFormulas);
                     missionService.saveOrUpdate(mission);   // update mission saving the selected formulas
+
+                    updateProgress(10, 10);
+
+
+                } catch (ParseException e) {
+                    logger.error("Incorrect dates...");
+                    throw new InterruptedException();
                 } catch (ControlledTemperatusException e) {
                     logger.error("Error updating formulas of mission...");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
-                updateProgress(10, 10);
                 return null;
             }
         };
@@ -360,11 +389,12 @@ public class RecordConfigController extends AbstractCreationController implement
 
     /**
      * If a new formula is created, reload it
+     *
      * @param object object to reload
      */
     @Override
     public void reload(Object object) {
-        if(object instanceof Formula) {
+        if (object instanceof Formula) {
             listViewFormulas.getItems().add((Formula) object);
         }
     }

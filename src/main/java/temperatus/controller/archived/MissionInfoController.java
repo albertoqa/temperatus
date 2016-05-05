@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
+import temperatus.exception.ControlledTemperatusException;
+import temperatus.importer.IbuttonDataImporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -65,10 +68,14 @@ public class MissionInfoController implements Initializable, AbstractController 
 
         List<Record> records = mission.getRecords().stream().collect(Collectors.toList());
 
-        dataMap = new HashMap<>();
-        for (Record record : records) {
-            List<Measurement> measurements = record.getMeasurements().stream().collect(Collectors.toList());
-            dataMap.put(record, measurements);
+        try {
+            dataMap = new HashMap<>();
+            for (Record record : records) {
+                List<Measurement> measurements = new IbuttonDataImporter(new File(record.getDataPath())).getMeasurements();
+                dataMap.put(record, measurements);
+            }
+        } catch (ControlledTemperatusException e) {
+            e.printStackTrace();
         }
 
         //TODO throw exception if == null
@@ -103,6 +110,7 @@ public class MissionInfoController implements Initializable, AbstractController 
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, language.get(Lang.EXPORTCONFIG));
             exportConfigurationController.setMission(mission);
+            exportConfigurationController.setDataMap(dataMap);
         } else {
             VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
         }

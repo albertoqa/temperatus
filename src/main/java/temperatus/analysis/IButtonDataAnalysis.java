@@ -9,6 +9,7 @@ import temperatus.model.pojo.Record;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,16 +87,16 @@ public class IButtonDataAnalysis {
      * Generate a list of measurements in which each measurement is calculated performing the operation of the formula
      * and making groups of measurements and calculating its average value
      *
-     * @param records all records of the mission
+     * @param dataMap all records-measurements of the mission
      * @param formula operation to perform
      * @param period  number of measurements of each group
      * @return list of measurements in groups and with the operation performed
      */
-    public static List<Measurement> getListOfMeasurementsForFormulaAndPeriod(List<Record> records, Formula formula, int period) {
+    public static List<Measurement> getListOfMeasurementsForFormulaAndPeriod(HashMap<Record, List<Measurement>> dataMap, Formula formula, int period) {
         logger.debug("Performing formula [" + formula.getOperation() + "] and average measurements with period " + period);
 
         String operation = formula.getOperation();
-        List<Measurement> measurements = getListOfMeasurementsForPeriod(new ArrayList<>(records.get(0).getMeasurements()), period).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());
+        List<Measurement> measurements = getListOfMeasurementsForPeriod(dataMap.values().iterator().next(), period).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());
 
         // Split operation in all its elements and save it one time for each group of measurements
         List<String[]> operations = new ArrayList<>();
@@ -104,10 +105,10 @@ public class IButtonDataAnalysis {
         }
 
         // for each record check if its position is part of the operation, if yes - replace the position name for its temperature value
-        for (Record record : records) {
+        for (Record record : dataMap.keySet()) {
             String position = record.getPosition().getPlace();
             if (operation.contains(position)) {
-                List<Measurement> recordMeasurements = getListOfMeasurementsForPeriod(new ArrayList<>(record.getMeasurements()), period);
+                List<Measurement> recordMeasurements = getListOfMeasurementsForPeriod(dataMap.get(record), period);
                 int index = 0;
                 for (Measurement measurement : recordMeasurements) {
                     String[] elements = operations.get(index);
