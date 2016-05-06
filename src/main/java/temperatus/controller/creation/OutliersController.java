@@ -81,6 +81,7 @@ public class OutliersController implements Initializable, AbstractController {
         updatedLine = updatedLine.replace(".", ",");
 
         try {
+            measurement.setData(newValue);
             updateLine(lineToChange, updatedLine, measurement.getFile());
         } catch (IOException e) {
            logger.error("Line cannot be replaced...");

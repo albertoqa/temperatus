@@ -13,6 +13,7 @@ import temperatus.listener.DeviceDetectorSource;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,10 +69,12 @@ public class DeviceDetectorTask implements Runnable {
                     if (adapter.adapterDetected()) {
 
                         // Check if devices previously detected are still connected
-                        for (String serial : serialsDetected) {
-                            if (!adapter.isPresent(serial)) {
+                        Iterator<String> i = serialsDetected.iterator();
+                        while (i.hasNext()) {
+                            String serial = i.next();
+                            if (!adapter.isPresent(serial.split("--")[1])) {
                                 serialsDetected.remove(serial);
-                                deviceDetectorSource.departureEvent(serial);
+                                deviceDetectorSource.departureEvent(serial, adapter.getAddressAsString(), port_name);
                             }
                         }
 
@@ -80,7 +83,7 @@ public class DeviceDetectorTask implements Runnable {
                         adapter.targetAllFamilies();
                         for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
                             OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-                            String serial = ibutton.getAddressAsString();
+                            String serial = adapter.getAddressAsString() + "--" + ibutton.getAddressAsString();
 
                             // New device detected, add it to the list and warn the listeners
                             if (!serialsDetected.contains(serial)) {
@@ -91,8 +94,14 @@ public class DeviceDetectorTask implements Runnable {
                         adapter.endExclusive();
                     } else {
                         // Adapter disconnected, check if any registered device was registered with this adapter
-                        serialsDetected.remove(adapter.getAddressAsString());
-                        deviceDetectorSource.departureEvent(adapter.getAddressAsString());
+                        Iterator<String> i = serialsDetected.iterator();
+                        while (i.hasNext()) {
+                            if(i.next().contains(adapter.getAddressAsString())) {
+                                i.remove();
+                            }
+                        }
+
+                        deviceDetectorSource.departureEvent("", adapter.getAddressAsString(), port_name);
                     }
                     adapter.freePort();
 

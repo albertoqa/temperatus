@@ -69,11 +69,13 @@ public class DeviceDetectorSource {
      *
      * @param serial device's serial
      */
-    public synchronized void departureEvent(String serial) {
+    public synchronized void departureEvent(String serial, String adapterAddress, String port) {
         logger.info("Departure event with serial: " + serial + "\n Notifying of the departure to all the listeners");
 
         DeviceDetector event = new DeviceDetector(this);
         event.setSerial(serial);
+        event.setAdapterName(adapterAddress);
+        event.setAdapterPort(port);
 
         for (DeviceDetectorListener listener : listeners) {
             (listener).departure(event);

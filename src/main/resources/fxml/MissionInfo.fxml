@@ -115,7 +115,8 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <StackPane fx:id="lineChartStackPane" prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane fx:id="lineChartStackPane" prefWidth="200.0" />
+                        <StackPane fx:id="histogramStack" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>

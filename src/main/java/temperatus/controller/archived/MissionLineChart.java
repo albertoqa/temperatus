@@ -185,7 +185,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         this.formulas.addAll(formulas);
         this.records.addAll(dataMap.keySet());
 
-        positionsList.getCheckModel().checkAll();
+        positionsList.getCheckModel().check(0);
         reloadSelectedSeriesForPeriod(1);
     }
 

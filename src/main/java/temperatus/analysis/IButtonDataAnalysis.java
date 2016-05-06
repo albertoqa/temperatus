@@ -193,6 +193,27 @@ public class IButtonDataAnalysis {
         }
         return maxTemp;
     }
+
+    /**
+     * Generate a histogram of temperatures.
+     * @param measurementsLists measurements to categorize
+     * @return histogram of temperatures
+     */
+    public static int[] calcHistogram(List<List<Measurement>> measurementsLists, double min, double max, int numBins) {
+        final int[] result = new int[numBins];
+        final double binSize = (max - min)/numBins;
+
+        for (List<Measurement> measurementsList : measurementsLists) {
+            for(Measurement measurement: measurementsList) {
+                int bin = (int) ((measurement.getData() - min) / binSize);
+                if (bin >= 0 && bin < numBins) {
+                    result[bin] += 1;
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 

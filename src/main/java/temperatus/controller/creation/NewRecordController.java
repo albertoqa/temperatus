@@ -845,16 +845,6 @@ public class NewRecordController extends AbstractCreationController implements I
                         }
                     }
 
-                    // compare data and obtain general information
-                    generalData.setEndDate(getGlobalEndDate(validatedDataList));
-                    generalData.setStartDate(getGlobalStartDate(validatedDataList));
-                    generalData.setAvgTemp(getAverageTemperature(validatedDataList));
-                    generalData.setMaxTemp(getMaximumTemperature(validatedDataList));
-                    generalData.setMinTemp(getMinimumTemperature(validatedDataList));
-                    generalData.setRate(getRate(validatedDataList));
-                    generalData.setModels(getModels(validatedDataList));
-                    generalData.setMeasurementsPerButton(getMeasurementsPerButton(validatedDataList));
-
                     // copy csv files to application folder and save Records to database
                     int index = 0;
                     for (ValidatedData validatedData : validatedDataList) {
@@ -934,6 +924,16 @@ public class NewRecordController extends AbstractCreationController implements I
             }
 
             //#################################################
+
+            // compare data and obtain general information
+            generalData.setMaxTemp(getMaximumTemperature(validatedDataList));
+            generalData.setMinTemp(getMinimumTemperature(validatedDataList));
+            generalData.setEndDate(getGlobalEndDate(validatedDataList));
+            generalData.setStartDate(getGlobalStartDate(validatedDataList));
+            generalData.setAvgTemp(getAverageTemperature(validatedDataList));
+            generalData.setRate(getRate(validatedDataList));
+            generalData.setModels(getModels(validatedDataList));
+            generalData.setMeasurementsPerButton(getMeasurementsPerButton(validatedDataList));
 
             RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
             recordConfigController.setMission(mission);

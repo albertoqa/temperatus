@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.controller.AbstractController;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.IbuttonDataImporter;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ public class MissionInfoController implements Initializable, AbstractController 
     @FXML private Label subjectName;
 
     @FXML private StackPane lineChartStackPane;
+    @FXML private StackPane histogramStack;
 
     @Autowired MissionService missionService;
 
@@ -102,6 +105,27 @@ public class MissionInfoController implements Initializable, AbstractController 
         missionLineChart.setData(dataMap, mission.getFormulas());
 
         lineChartStackPane.getChildren().setAll(missionLineChartPane);
+
+        List<List<Measurement>> measurementsLists = dataMap.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+        double maxT = Double.MIN_VALUE;
+        double minT = Double.MAX_VALUE;
+        for (List<Measurement> measurementList : measurementsLists) {
+            double max = IButtonDataAnalysis.getMaxTemperature(measurementList);
+            double min = IButtonDataAnalysis.getMinTemperature(measurementList);
+
+            if (max > maxT) {
+                maxT = max;
+            }
+            if (min < minT) {
+                minT = min;
+            }
+        }
+
+        Node histogramChart = VistaNavigator.loader.load(HistogramController.class.getResource(Constants.HISTOGRAM_CHART));
+        HistogramController histogramController = VistaNavigator.loader.getController();
+        histogramController.setData(measurementsLists, maxT, minT);
+
+        histogramStack.getChildren().setAll(histogramChart);
     }
 
     @FXML

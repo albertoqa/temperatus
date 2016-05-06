@@ -84,16 +84,19 @@ public class DeviceConnectedList implements DeviceDetectorListener {
 
     /**
      * On device departure find it in the list of connected devices and remove it
+     * If device was an adapter, remove all elements connected to it.
      *
      * @param event info of the device departing
      */
     @Override
     public void departure(DeviceDetector event) {
         String serial = event.getSerial();
+        String port = event.getAdapterPort();
+        String adapterName = event.getAdapterName();
+
         for (Device device : getDevices()) {
-            if (serial.equals(device.getSerial())) {
+            if (serial.equals(device.getSerial()) || (adapterName.equals(device.getAdapterName()) && port.equals(device.getAdapterPort()))) {
                 Platform.runLater(() -> getDevices().remove(device));
-                break;
             }
         }
     }

@@ -54,6 +54,7 @@ public class Constants {
     public static final String BUTTON_DATA = "/fxml/ButtonData.fxml";
     public static final String TEMPERATURE_LOG = "/fxml/device/TemperatureLog.fxml";
     public static final String MISSION_LINE_CHART = "/fxml/MissionLineChart.fxml";
+    public static final String HISTOGRAM_CHART = "/fxml/Histogram.fxml";
     public static final String EXPORT_CONFIG = "/fxml/ExportConfiguration.fxml";
     public static final String CONFIG_DEVICE = "/fxml/device/StartDeviceMission.fxml";
     public static final String OUTLIERS = "/fxml/creation/Outliers.fxml";
