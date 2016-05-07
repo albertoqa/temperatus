@@ -23,10 +23,10 @@
 }
 
 .titled-pane > .title {
-  -fx-background-color: #34aab0;
+  -fx-background-color: #303840;
   -fx-background-radius: 0;
   -fx-background-insets: 0;
-  -fx-color: #2b3940;
+  -fx-color: #303840;
   -fx-border-color : #3a474d;
   -fx-border-width: 0 0 0.5 0;
   -fx-border-style: none;
@@ -161,7 +161,7 @@
 
  .check-box .box {
      -fx-background-color: white;
-     -fx-border-color: #2b3940;
+     -fx-border-color: #303840;
      -fx-border-width: 0.5;
      -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
  }

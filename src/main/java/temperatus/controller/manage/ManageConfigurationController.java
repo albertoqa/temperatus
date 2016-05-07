@@ -145,7 +145,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
      */
     @FXML
     private void editConfiguration() {
-        NewConfigurationController newConfigurationController = VistaNavigator.openModal(Constants.NEW_CONFIG, language.get(Lang.NEW_CONFIG));
+        NewConfigurationController newConfigurationController = VistaNavigator.openModal(Constants.NEW_CONFIG, "");
         newConfigurationController.setConfigurationForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -154,7 +154,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
      */
     @FXML
     private void newConfiguration() {
-        VistaNavigator.openModal(Constants.NEW_CONFIG, language.get(Lang.NEW_CONFIG));
+        VistaNavigator.openModal(Constants.NEW_CONFIG, "");
     }
 
     /**

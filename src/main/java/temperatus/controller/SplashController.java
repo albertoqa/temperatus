@@ -14,6 +14,7 @@ import javafx.stage.StageStyle;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.lang.Lang;
+import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -104,7 +105,8 @@ public class SplashController implements Initializable, AbstractController {
         userStage.initStyle(StageStyle.TRANSPARENT);
 
         if (VistaNavigator.getParentNode() != null) {
-            VistaNavigator.getParentNode().setDisable(true);
+            //VistaNavigator.getParentNode().setDisable(true);
+            Animation.blurOut(VistaNavigator.getParentNode());
         }
 
         userStage.show();

@@ -141,7 +141,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
             }
             back();      // close the window
         } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, "");
         }
     }
 

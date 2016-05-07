@@ -117,7 +117,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void editPosition() {
-        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEW_POSITION));
+        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, "");
         newPositionController.setPositionForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -126,7 +126,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void newPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, language.get(Lang.NEW_POSITION));
+        VistaNavigator.openModal(Constants.NEW_POSITION, "");
     }
 
     /**

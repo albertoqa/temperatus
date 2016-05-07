@@ -48,9 +48,9 @@
                   </Label>
                </children>
             </AnchorPane>
-            <HBox layoutX="27.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="755.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="102.0">
+            <HBox layoutX="27.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="755.0" style="-fx-background-color: #303840;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="102.0">
                <children>
-                  <VBox fx:id="idBoxTitle" alignment="CENTER" prefHeight="561.0" prefWidth="70.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="idBoxTitle" alignment="CENTER" prefHeight="561.0" prefWidth="70.0" spacing="10.0" style="-fx-background-color: #303840;" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="indexLabel" text="Index" textFill="WHITE">
                            <font>
@@ -59,7 +59,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="positionBoxTitle" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="positionBoxTitle" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #303840;" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets right="50.0" />
                      </padding>
@@ -71,7 +71,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="sourceBoxTitle" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="sourceBoxTitle" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="441.0" spacing="10.0" style="-fx-background-color: #303840;" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="12.0" />
                      </HBox.margin>
@@ -83,7 +83,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="addSourceBoxTitle" alignment="TOP_CENTER" maxWidth="100.0" minWidth="40.0" prefHeight="441.0" prefWidth="80.0" spacing="10.0" style="-fx-background-color: #2b3940;">
+                  <VBox fx:id="addSourceBoxTitle" alignment="TOP_CENTER" maxWidth="100.0" minWidth="40.0" prefHeight="441.0" prefWidth="80.0" spacing="10.0" style="-fx-background-color: #303840;">
                      <children>
                         <Label fx:id="importLabel" text="Import" textFill="WHITE">
                            <font>
@@ -91,8 +91,8 @@
                            </font>
                         </Label>
                      </children></VBox>
-                  <VBox fx:id="addPositionBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" style="-fx-background-color: #2b3940;" />
-                  <VBox fx:id="keepDataBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #2b3940;" HBox.hgrow="ALWAYS" />
+                  <VBox fx:id="addPositionBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" style="-fx-background-color: #303840;" />
+                  <VBox fx:id="keepDataBoxTitle" alignment="TOP_CENTER" prefHeight="441.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #303840;" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

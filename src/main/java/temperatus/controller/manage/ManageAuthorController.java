@@ -123,7 +123,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void editAuthor() {
-        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEW_AUTHOR_BUTTON));
+        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
         newAuthorController.setAuthorForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -132,7 +132,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, language.get(Lang.NEW_AUTHOR_BUTTON));
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
     }
 
     /**

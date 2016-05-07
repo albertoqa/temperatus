@@ -36,7 +36,7 @@
 
 .check-box .box {
     -fx-background-color: white;
-    -fx-border-color: #2b3940;
+    -fx-border-color: #303840;
     -fx-border-width: 0.5;
     -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
 }

@@ -182,7 +182,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEW_SUBJECT_BUTTON));
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
     }
 
     /**
@@ -190,7 +190,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void editSubject() {
-        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, language.get(Lang.NEW_SUBJECT_BUTTON));
+        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
         newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

@@ -52,7 +52,7 @@
                   <Button fx:id="backButton" layoutX="636.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="26.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="26.0" layoutY="334.0" prefHeight="22.0" prefWidth="200.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="334.0">
+            <AnchorPane layoutX="26.0" layoutY="334.0" prefHeight="22.0" prefWidth="200.0" style="-fx-background-color: #303840;" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="334.0">
                <children>
                   <Label fx:id="formulasLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="3.0" styleClass="label-paneinfocolumn" text="Formulas" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <font>
@@ -71,7 +71,7 @@
                   <Label fx:id="endTimeLabel" layoutX="458.0" layoutY="23.0" styleClass="label-paneinfo" text="End Date:" AnchorPane.rightAnchor="111.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="252.0" layoutY="334.0" prefHeight="22.0" prefWidth="452.0" style="-fx-background-color: #2b3940;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="334.0">
+            <AnchorPane layoutX="252.0" layoutY="334.0" prefHeight="22.0" prefWidth="452.0" style="-fx-background-color: #303840;" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="334.0">
                <children>
                   <Label fx:id="rangeOfTimeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="3.0" styleClass="label-paneinfocolumn" text="Range of Time" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <font>

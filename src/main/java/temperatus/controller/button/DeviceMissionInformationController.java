@@ -162,7 +162,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML
     private void showTemperatureData() {
         if (deviceMissionData.getMeasurements() != null) {
-            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, language.get(Lang.TEMPERATURE_LOG));
+            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, "");
             temperatureLogController.setData(deviceMissionData.getMeasurements(), device.getSerial(), device.getDefaultPosition());
         }
     }

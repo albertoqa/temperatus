@@ -914,10 +914,11 @@ public class NewRecordController extends AbstractCreationController implements I
                 stage.initOwner(VistaNavigator.getMainStage());
 
                 if (VistaNavigator.getParentNode() != null) {
-                    VistaNavigator.getParentNode().setDisable(true);
+                    //VistaNavigator.getParentNode().setDisable(true);
+                    Animation.blurOut(VistaNavigator.getParentNode());
                 }
 
-                Animation.fadeOutIn(null, root);
+                //Animation.fadeOutIn(null, root);
 
                 ((OutliersController) loader.getController()).setValidatedDataList(validatedDataList);
                 stage.showAndWait();

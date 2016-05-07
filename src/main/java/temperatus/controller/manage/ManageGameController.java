@@ -134,7 +134,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void editGame() {
-        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEW_GAME));
+        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, "");
         newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -143,7 +143,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, language.get(Lang.NEW_GAME));
+        VistaNavigator.openModal(Constants.NEW_GAME, "");
     }
 
     /**

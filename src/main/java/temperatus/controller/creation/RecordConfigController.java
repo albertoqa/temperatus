@@ -384,7 +384,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void addFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, language.get(Lang.NEW_FORMULA_BUTTON));
+        VistaNavigator.openModal(Constants.NEW_FORMULA, "");
     }
 
     /**

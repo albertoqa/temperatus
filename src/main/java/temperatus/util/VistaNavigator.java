@@ -124,7 +124,8 @@ public class VistaNavigator {
         currentStage = stage;
         Animation.fadeOutIn(null, root);
         if (parentNode != null) {
-            parentNode.setDisable(true);
+            Animation.blurOut(parentNode);
+            //parentNode.setDisable(true);
         }
 
         stage.setOnCloseRequest(event -> {
@@ -143,7 +144,8 @@ public class VistaNavigator {
 
     private static void onCloseModalAction() {
         currentStage = null;
-        parentNode.setDisable(false);
+        //parentNode.setDisable(false);
+        Animation.blurIn(parentNode);
         baseController.selectBase();
     }
 

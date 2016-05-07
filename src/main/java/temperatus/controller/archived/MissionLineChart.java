@@ -212,7 +212,7 @@ public class MissionLineChart implements Initializable, AbstractController {
                 }
             }
         } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, language.get(Lang.BUY_COMPLETE));
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, "");
         }
     }
 

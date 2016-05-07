@@ -163,7 +163,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
      */
     @FXML
     private void editIbutton() {
-        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
+        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
         newIButtonController.setIbuttonForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

@@ -163,7 +163,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goConfig() {
-        VistaNavigator.openModal(Constants.CONFIG, language.get(Lang.CONFIGURATION));
+        VistaNavigator.openModal(Constants.CONFIG, "");
     }
 
     @FXML
@@ -174,7 +174,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, Lang.NEW_PROJECT);
+        VistaNavigator.openModal(Constants.NEW_PROJECT, "");
     }
 
     @FXML
@@ -185,27 +185,27 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @FXML
     private void goNewGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, Lang.NEW_GAME);
+        VistaNavigator.openModal(Constants.NEW_GAME, "");
     }
 
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, Lang.NEW_FORMULA_BUTTON);
+        VistaNavigator.openModal(Constants.NEW_FORMULA, "");
     }
 
     @FXML
     private void goNewSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, Lang.NEW_SUBJECT_BUTTON);
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
     }
 
     @FXML
     private void goNewPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, Lang.NEW_POSITION);
+        VistaNavigator.openModal(Constants.NEW_POSITION, "");
     }
 
     @FXML
     private void goNewAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, Lang.NEW_AUTHOR_BUTTON);
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
     }
 
 
@@ -359,7 +359,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
         if (ibutton == null) {
             Platform.runLater(() -> {
-                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, language.get(Lang.NEWBUTTONTITLE));
+                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
                 newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
             });
         } else {

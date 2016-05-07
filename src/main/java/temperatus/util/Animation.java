@@ -1,7 +1,11 @@
 package temperatus.util;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
+import javafx.scene.effect.GaussianBlur;
 import javafx.util.Duration;
 
 /**
@@ -12,6 +16,7 @@ import javafx.util.Duration;
 public final class Animation {
 
     private static final double LIFESPAN = 250; // duration
+    private static final double LIFESPAN_BLUR = 190; // duration
     private static final double INVISIBLE = 0.25;
     private static final double TRANSPARENCY = 0.3; // opacity level
     private static final double VISIBLE = 1.0;
@@ -76,6 +81,26 @@ public final class Animation {
             fadeOut.setToValue(MIN);
             fadeOut.play();
         }
+    }
+
+    public static void blurOut(Node node) {
+        GaussianBlur blur = new GaussianBlur(0.0);
+        node.setEffect(blur);
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(blur.radiusProperty(), 9.0);
+        KeyFrame kf = new KeyFrame(Duration.millis(LIFESPAN_BLUR), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+    }
+
+    public static void blurIn(Node node) {
+        GaussianBlur blur = (GaussianBlur) node.getEffect();
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(blur.radiusProperty(), 0.0);
+        KeyFrame kf = new KeyFrame(Duration.millis(LIFESPAN_BLUR), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(actionEvent -> node.setEffect(null));
+        timeline.play();
     }
 
 }
