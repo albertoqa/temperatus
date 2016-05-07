@@ -74,6 +74,7 @@ public class NewAuthorController extends AbstractCreationController implements I
             if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new author creation
                 VistaNavigator.getController().reload(author);
+                VistaNavigator.baseController.reload(author);
             }
 
             logger.info("Saved: " + author);

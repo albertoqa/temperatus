@@ -71,6 +71,7 @@ public class Lang {
     public static final String NEW_AUTHOR_BUTTON = "newAuthor";
     public static final String NEW_USER_BUTTON = "newUser";
     public static final String NEW_USER_PROMPT = "newUserPrompt";
+    public static final String SELECT_USER_PROMPT = "selectUserPrompt";
     public static final String INSERT_USER_NAME = "insertUserName";
     public static final String WHO_IS_USING = "whoIsUsing";
     public static final String PARTICIPATE_IN_PROJECTS = "participateInProjects";

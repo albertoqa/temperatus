@@ -16,7 +16,7 @@
 .headerLabel {
   -fx-font-family: "Avenir Medium";
   -fx-font-size: 27px;
-  -fx-text-fill: #4c5e70;
+  -fx-text-fill: #303840;
 }
 
 .mainLabel {
@@ -155,9 +155,9 @@
     -fx-border-style: none;
     -fx-border-color : transparent grey grey transparent;
     -fx-border-width:1;
-/*    -fx-background-color: #16b7bd; */
-/*    -fx-background-color: #299bb4; */
-    -fx-background-color: #40749b;
+/*    -fx-background-color: #4c5b72; */
+/*    -fx-background-color: #3f668d; */
+    -fx-background-color: #4c5b72;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-font-family: "Avenir Book";
@@ -170,7 +170,7 @@
 }
 
 .cbtn:hover{
-    -fx-background-color: #699ca7;
+    -fx-background-color: #6780a1;
 }
 
 .cbtn:pressed, .cbtn:default:hover:pressed
@@ -605,9 +605,9 @@
  }
 
  .tree-table-view .column-header, .tree-table-view .filler {
-     -fx-background-color: #303840;
+     -fx-background-color: #6a7b8d;
      /*303840
-     -fx-background-color: #8493a8;*/
+     -fx-background-color: #6a7b8d;*/
      -fx-size: 22;
      -fx-border-color: -fx-box-border;
      -fx-border-insets: -1 0 0 -1;
@@ -665,13 +665,13 @@
      -fx-background-insets: 0 1 0 1,0,0;
  }
  .tab-pane .tab {
-     -fx-background-color: #303840;
+     -fx-background-color: #a0a3b1;
 
  }
 
  .tab-pane .tab:selected
  {
-     -fx-background-color: #34aab0;
+     -fx-background-color: #4c5b72;
  }
 
  .tab .tab-label {
@@ -1010,7 +1010,7 @@
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-background-color: #303840;
+    -fx-background-color: #6a7b8d;
     /*303840
     -fx-background-color: #8493a8;*/
     -fx-size: 22;

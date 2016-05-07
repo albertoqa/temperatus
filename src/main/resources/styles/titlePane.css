@@ -82,7 +82,7 @@
      -fx-border-width:1;
  /*    -fx-background-color: #16b7bd; */
  /*    -fx-background-color: #299bb4; */
-     -fx-background-color: #40749b;
+     -fx-background-color: #4c5b72;
      -fx-background-insets: 0;
      -fx-border-insets: 0;
      -fx-font-family: "Avenir Book";
@@ -95,7 +95,8 @@
  }
 
  .cbtn:hover{
-     -fx-background-color: #699ca7;
+     -fx-background-color: #6780a1;
+     /*-fx-background-color: #4aa7ca5;*/
  }
 
  .cbtn:pressed, .cbtn:default:hover:pressed

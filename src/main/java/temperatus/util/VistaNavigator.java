@@ -125,7 +125,6 @@ public class VistaNavigator {
         Animation.fadeOutIn(null, root);
         if (parentNode != null) {
             Animation.blurOut(parentNode);
-            //parentNode.setDisable(true);
         }
 
         stage.setOnCloseRequest(event -> {
