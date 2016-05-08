@@ -16,6 +16,8 @@ public class Constants {
     public static final String WEB = "www.temperatus.com";
     public static final String PROJECT_WEB = "http://albertoqa.github.io/temperatusWeb/";
 
+    public static final String ICON_BAR = "/images/icon_bar.png";
+
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     public static final DateFormat dateTimeCSVFormat = new SimpleDateFormat("dd/MM/yy H:mm:ss");
@@ -105,6 +107,8 @@ public class Constants {
     // * User preferences
 
     public static final Preferences prefs = Preferences.userRoot().node("temperatus");
+
+    public static final String UPDATE = "update";
 
     public static final String ACTIVATED = "activated";
 

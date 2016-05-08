@@ -198,9 +198,24 @@ INSERT INTO MEASUREMENT VALUES(4, 1, '2016-02-01 20:23:00', '19', 0);
 
 
 -------------------------
--                       -
+-   Deployment          -
 -------------------------
 
+# Local python server
+python -m SimpleHTTPServer 8899
 
 $ mvn package
 $ javapackager -deploy -native dmg -srcfiles ./a/temperatus-shaded.jar -srcfiles ./a/database.h2.db -outdir packages -name Temperatus -title "Temperatus" -appclass temperatus.Main -outfile Temperatus -Bruntime=./jre1.8.0_66.jre/
+
+# Deploy
+cd /Users/alberto/Desktop/temperatus/temperatus && mvn package && cp /Users/alberto/Desktop/temperatus/temperatus/target/temperatus.jar /Users/alberto/Desktop/deploy/Temperatus.jar && javapackager -deploy -native dmg -srcfiles /Users/alberto/Desktop/deploy/Temperatus.jar -srcfiles /Users/alberto/Desktop/deploy/database.h2.db -outdir /Users/alberto/Desktop/deploy/packages -name Temperatus -title "Temperatus" -appclass temperatus.Main -outfile Temperatus -Bruntime=/Users/alberto/Desktop/deploy/jre1.8.0_66.jre/ -Bicon=/Users/alberto/Desktop/deploy/icon.icns
+
+# No deploy
+cd /Users/alberto/Desktop/temperatus/temperatus && mvn package && cp /Users/alberto/Desktop/temperatus/temperatus/target/temperatus.jar /Users/alberto/Desktop/server/Temperatus.jar && pack200 /Users/alberto/Desktop/server/Temperatus.jar.pack.gz /Users/alberto/Desktop/server/Temperatus.jar
+
+# Temperatus & Loader
+cd /Users/alberto/Desktop/temperatus/temperatus && mvn package && cd .. && cd ./loader && mvn package && cp /Users/alberto/Desktop/temperatus/temperatus/target/temperatus.jar /Users/alberto/Desktop/deploy/Temperatus.jar && cp /Users/alberto/Desktop/temperatus/loader/target/loader.jar /Users/alberto/Desktop/deploy/Loader.jar && javapackager -deploy -native dmg -srcfiles /Users/alberto/Desktop/deploy/Loader.jar -srcfiles /Users/alberto/Desktop/deploy/Temperatus.jar -srcfiles /Users/alberto/Desktop/deploy/database.h2.db -outdir /Users/alberto/Desktop/deploy/packages -name Temperatus -title "Temperatus" -appclass AppLoader -outfile Temperatus -Bruntime=/Users/alberto/Desktop/deploy/jre1.8.0_66.jre/ -Bicon=/Users/alberto/Desktop/deploy/icon.icns
+
+# Loader maven
+cd /Users/alberto/Desktop/temperatus/loader && mvn package && cp /Users/alberto/Desktop/temperatus/loader/target/loader.jar /Users/alberto/Desktop/deploy/Loader.jar
+

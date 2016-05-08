@@ -45,6 +45,7 @@ public class HomeController implements Initializable, AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        translate();
 
         linkToWeb.setOnAction((ActionEvent e) -> {
             try {

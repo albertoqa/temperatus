@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.Scope;
@@ -92,6 +93,7 @@ public class SplashController implements Initializable, AbstractController {
         stage.initOwner(currentStage);
         currentStage.close();
         VistaNavigator.setMainStage(stage);
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR)); // TODO check if working and set to all Stages of the app
         stage.show();
     }
 

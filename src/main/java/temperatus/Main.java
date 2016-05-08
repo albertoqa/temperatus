@@ -3,6 +3,7 @@ package temperatus;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,6 +25,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Pane pane;
 
+        // TODO if first start... ask user about: Name, Language and Updates at least...
+
         boolean isActivated = Constants.prefs.getBoolean(Constants.ACTIVATED, false);
         logger.info("Is the software already activated?  " + isActivated);
         if (!isActivated) {
@@ -39,6 +42,7 @@ public class Main extends Application {
         Scene scene = new Scene(pane);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().setAll(new Image(Constants.ICON_BAR));
         primaryStage.show();
     }
 

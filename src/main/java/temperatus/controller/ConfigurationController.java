@@ -119,21 +119,32 @@ public class ConfigurationController implements Initializable, AbstractControlle
 
     @FXML
     private void exportApplicationData() {
+        // Copy history, images, missions data and database
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("TemperatusBackup");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
+        File f = fileChooser.showSaveDialog(titledPane.getScene().getWindow());
+        f.mkdir();
+
         try {
-            // Copy history, images, missions data and database
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName("TemperatusBackup");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-            File f = fileChooser.showSaveDialog(titledPane.getScene().getWindow());
-            f.mkdir();
-
             FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), f);
-            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), f);
-            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), f);
-            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), f);
-
         } catch (IOException e) {
-            e.printStackTrace();    // TODO
+            logger.warn("History cannot be exported");
+        }
+        try {
+            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), f);
+        } catch (IOException e) {
+            logger.warn("Database cannot be exported");
+        }
+        try {
+            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), f);
+        } catch (IOException e) {
+            logger.warn("Images cannot be exported");
+        }
+        try {
+            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), f);
+        } catch (IOException e) {
+            logger.warn("Missions data cannot be exported");
         }
     }
 

@@ -9,11 +9,11 @@
       <AnchorPane prefHeight="615.0" prefWidth="636.0">
          <children>
             <Separator layoutX="41.0" layoutY="243.0" prefHeight="8.0" prefWidth="761.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-            <HBox alignment="CENTER" layoutX="111.0" layoutY="24.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="110.0">
+            <HBox alignment="CENTER" layoutX="111.0" layoutY="50.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="110.0">
                <children>
-                  <ImageView fitHeight="266.0" fitWidth="599.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="158.0" fitWidth="541.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/temperatus.jpg" />
+                        <Image url="@../images/temperatus.png" />
                      </image>
                   </ImageView>
                </children>

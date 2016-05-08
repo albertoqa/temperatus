@@ -6,25 +6,25 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="617.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.SplashController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="580.0" style="-fx-background-color: #ffffff;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.SplashController">
    <children>
-      <Label fx:id="webPage" layoutX="477.0" layoutY="225.0" text="www.temperatus.com">
-         <font>
-            <Font name="Avenir Light" size="13.0" />
-         </font></Label>
-      <Label fx:id="version" layoutX="534.0" layoutY="14.0" text="Version 1.0">
-         <font>
-            <Font name="Avenir Light" size="13.0" />
-         </font></Label>
-      <Label fx:id="rights" layoutX="14.0" layoutY="225.0" text="2016 - Temperatus. Todos los derechos reservados.">
-         <font>
-            <Font name="Avenir Light" size="13.0" />
-         </font></Label>
-      <ProgressBar fx:id="progress" layoutX="82.0" layoutY="169.0" prefHeight="20.0" prefWidth="453.0" progress="0.0" />
-      <ImageView fitHeight="194.0" fitWidth="368.0" layoutX="125.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="315.0" fitWidth="580.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/temperatus.jpg" />
+            <Image url="@../images/splash.png" />
          </image>
       </ImageView>
+      <Label fx:id="webPage" layoutX="440.0" layoutY="257.0" text="www.temperatus.com" textFill="WHITE">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font></Label>
+      <Label fx:id="version" layoutX="503.0" layoutY="14.0" text="Version 1.0" textFill="WHITE">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font></Label>
+      <Label fx:id="rights" layoutX="14.0" layoutY="257.0" text="2016 - Temperatus. Todos los derechos reservados." textFill="WHITE">
+         <font>
+            <Font name="Avenir Light" size="13.0" />
+         </font></Label>
+      <ProgressBar fx:id="progress" layoutX="70.0" layoutY="220.0" prefHeight="0.0" prefWidth="453.0" progress="0.0" />
    </children>
 </Pane>
