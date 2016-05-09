@@ -164,7 +164,7 @@ public class BaseController implements Initializable, AbstractController, Device
         // on task completion add all authors to the table
         getAuthorsTask.setOnSucceeded(e -> {
             authors.setAll(getAuthorsTask.getValue());
-            if(User.getUser() != null) {
+            if (User.getUser() != null) {
                 userBox.getSelectionModel().select(User.getUser());
             }
 
@@ -518,7 +518,6 @@ public class BaseController implements Initializable, AbstractController, Device
         userInput.setPromptText(language.get(Lang.NEW_USER_PROMPT));
         userBox.setPromptText(language.get(Lang.SELECT_USER_PROMPT));
     }
-
 
 
     /**

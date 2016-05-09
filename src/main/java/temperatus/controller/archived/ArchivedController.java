@@ -140,7 +140,10 @@ public class ArchivedController implements Initializable, AbstractController {
 
         treeTable.setRoot(root);
         treeTable.sort();
-        // TODO cuidado cuando se pulsa la cabecera de una columnaaa.....
+
+        nameColumn.setSortable(false);
+        subjectColumn.setSortable(false);
+        dateColumn.setSortable(false);
     }
 
     /**
@@ -280,7 +283,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteProject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             projectService.delete(getSelectedElement().getElement());
@@ -295,7 +298,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteMission() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             ((Project) treeTable.getSelectionModel().getSelectedItem().getParent().getValue().getElement()).getMissions().remove(getSelectedElement().getElement());

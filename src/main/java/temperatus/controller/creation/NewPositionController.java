@@ -19,6 +19,7 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.PositionService;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
@@ -55,6 +56,7 @@ public class NewPositionController extends AbstractCreationController implements
 
     private static final String DEFAULT_IMAGE = "/images/noimage.jpg";  // Set the default image to show -> no image picture
     private String imagePath;
+    private boolean saveImage = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -113,8 +115,21 @@ public class NewPositionController extends AbstractCreationController implements
                     position = new Position();
                 }
 
+                if(saveImage) {
+                    File outputFile = new File(Constants.IMAGES_PATH + name);
+                    BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);    // TODO la imagen no la coge bien!
+                    try {
+                        ImageIO.write(bImage, "png", outputFile);
+                        position.setPicture(Constants.IMAGES_PATH + name + ".png");
+                    } catch (IOException e) {
+                        logger.error("Error saving image to disk... " + e.getMessage());
+                        throw new ControlledTemperatusException(language.get(Lang.CANNOT_SAVE_IMAGE));
+                    }
+                } else {
+                    position.setPicture(imagePath);
+                }
+
                 position.setPlace(name);
-                position.setPicture(imagePath);
                 positionService.saveOrUpdate(position);
 
                 VistaNavigator.closeModal(titledPane);
@@ -187,13 +202,12 @@ public class NewPositionController extends AbstractCreationController implements
                 Image image = SwingFXUtils.toFXImage(bufferedImage, null);
                 imageView.setImage(image);
                 imagePath = file.getAbsolutePath();
+                saveImage = true;
             } catch (IOException ex) {
                 logger.warn("Invalid image:" + ex.getMessage());
                 showAlert(Alert.AlertType.ERROR, ex.getMessage());
             }
         }
-
-        // TODO save images to default folder
     }
 
     @Override

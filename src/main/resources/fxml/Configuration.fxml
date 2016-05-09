@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="646.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="315.0" prefWidth="646.0" stylesheets="@../styles/titlePane.css" text="Configuration" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.ConfigurationController">
    <content>
       <BorderPane>
          <bottom>
@@ -38,6 +38,7 @@
                   <RadioButton fx:id="fRadio" layoutX="466.0" layoutY="65.0" mnemonicParsing="false" text="ºF" />
                   <CheckBox fx:id="autoSync" layoutX="43.0" layoutY="95.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Auto-sync iButton time with system time." />
                   <CheckBox fx:id="writeAsIndexBox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Show index instead of Date/Time in graphics and exported data." />
+                  <CheckBox fx:id="updates" layoutX="43.0" layoutY="191.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Search for updates automatically on application start." />
                </children>
             </AnchorPane>
          </center>

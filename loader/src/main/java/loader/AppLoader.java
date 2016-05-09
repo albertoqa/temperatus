@@ -17,14 +17,15 @@ import java.util.prefs.Preferences;
 import java.util.zip.GZIPInputStream;
 
 /**
- * This app
+ * Update module for Temperatus.
+ * <p>
+ * Check on start for new versions: if available download and alert the user. Install on restart.
  */
 public class AppLoader {
 
     private static final Preferences prefs = Preferences.userRoot().node("temperatus");
     private static final String UPDATE = "update";
 
-    // Constants
     private static final String AppDirName = "Temperatus";
     private static final String JarName = "Temperatus.jar";
     private static final String JarURL = "http://localhost:8899/Temperatus.jar.pack.gz";
@@ -61,7 +62,7 @@ public class AppLoader {
         // If Update Jar exists, copy it into place
         File jar = getAppFile(JarName);
 
-        if(update) {
+        if (update) {
             File updateJar = getAppFile(JarName + ".update");
             if (updateJar.exists()) {
                 copyFile(updateJar, jar);
@@ -84,7 +85,7 @@ public class AppLoader {
 
         Thread.currentThread().setContextClassLoader(classloader);
 
-        main.invoke(null, new Object[] { args });
+        main.invoke(null, new Object[]{args});
     }
 
     /**
@@ -154,16 +155,8 @@ public class AppLoader {
      * Returns the Main jar file.
      */
     private static File getAppFile(String aName) {
-        return new File(getAppDir(), aName);
+        return new File(getAppDataDir(AppDirName, true), aName);
     }
-
-    /**
-     * Returns the Main jar file.
-     */
-    private static File getAppDir() {
-        return getAppDataDir(AppDirName, true);
-    }
-
 
 /**
  *

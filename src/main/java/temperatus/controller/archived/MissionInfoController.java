@@ -3,6 +3,7 @@ package temperatus.controller.archived;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.controller.AbstractController;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.importer.IbuttonDataImporter;
+import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
@@ -77,10 +79,8 @@ public class MissionInfoController implements Initializable, AbstractController 
                 dataMap.put(record, measurements);
             }
         } catch (ControlledTemperatusException e) {
-            e.printStackTrace();
+            VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.CORRUPTED_DATA_IMPORT));
         }
-
-        //TODO throw exception if == null
 
         writeDataOnView();
     }

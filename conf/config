@@ -198,7 +198,7 @@ INSERT INTO MEASUREMENT VALUES(4, 1, '2016-02-01 20:23:00', '19', 0);
 
 
 -------------------------
--   Deployment          -
+-   Deployment MAC      -
 -------------------------
 
 # Local python server
@@ -218,4 +218,12 @@ cd /Users/alberto/Desktop/temperatus/temperatus && mvn package && cd ./loader &&
 
 # Loader maven
 cd /Users/alberto/Desktop/temperatus/temperatus/loader && mvn package && cp /Users/alberto/Desktop/temperatus/temperatus/loader/target/loader.jar /Users/alberto/Desktop/deploy/Loader.jar
+
+
+-------------------------
+-   Deployment  WIN     -
+-------------------------
+
+# Generate pack.gz for Temperatus.jar
+cd C:/Users/alberto/Desktop/temperatus/temperatus && C:/apache-maven-3.3.9/bin/mvn package && cp C:/Users/alberto/Desktop/temperatus/temperatus/target/temperatus.jar C:/Users/alberto/Desktop/server/Temperatus.jar && pack200 C:/Users/alberto/Desktop/server/Temperatus.jar.pack.gz C:/Users/alberto/Desktop/server/Temperatus.jar
 

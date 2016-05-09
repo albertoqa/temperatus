@@ -1112,7 +1112,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     @FXML
     private void cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, Lang.CONFIRMATION_LOSE_PROGRESS);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_LOSE_PROGRESS));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && ButtonType.OK == result.get()) {
             if (!isUpdate) {

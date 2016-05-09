@@ -208,7 +208,7 @@ public class MissionLineChart implements Initializable, AbstractController {
                 try {
                     ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
                 } catch (IOException e) {
-                    // TODO: handle exception here
+                    showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_SAVING_IMAGE));
                 }
             }
         } else {

@@ -25,8 +25,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Pane pane;
 
-        // TODO if first start... ask user about: Name, Language and Updates at least...
-
         boolean isActivated = Constants.prefs.getBoolean(Constants.ACTIVATED, false);
         logger.info("Is the software already activated?  " + isActivated);
         if (!isActivated) {

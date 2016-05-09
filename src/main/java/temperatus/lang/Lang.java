@@ -211,7 +211,7 @@ public class Lang {
     public static final String UNIT_SELECTOR = "unitSel";
     public static final String WRITE_AS_INDEX_LABEL = "writeAsIndexLab";
     public static final String AUTO_SYNC_LABEL = "autoSyncLab";
-    public static final String RESTART = "restart";
+    public static final String AUTO_UPDATE_LABEL = "autoUpdate";
 
     public static final String NEW_CONFIGURATION = "newConfiguration";
     public static final String SYNC_LABEL = "sync";
@@ -348,6 +348,11 @@ public class Lang {
 
     public static final String INVALID_FILE_FORMAT = "invalidFileFormat";
     public static final String ERROR_SAVING_MEASUREMENTS = "errorSavingMeasurements";
+
+    public static final String CONFIRMATION_IMPORT = "confirmationImport";
+    public static final String IMPORT_ERROR = "importError";
+    public static final String CORRUPTED_DATA_IMPORT = "corruptedDataImport";
+    public static final String ERROR_SAVING_IMAGE = "errorSavingImage";
 
     // History
     public static final String DELETE_HISTORY = "deleteHistory";

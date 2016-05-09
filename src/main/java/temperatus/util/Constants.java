@@ -108,7 +108,6 @@ public class Constants {
 
     public static final Preferences prefs = Preferences.userRoot().node("temperatus");
 
-    public static final String UPDATE = "update";
 
     public static final String ACTIVATED = "activated";
 
@@ -127,6 +126,8 @@ public class Constants {
     public static final boolean WRITE_INDEX = false;
     public static final String AUTO_SYNC = "autoSync";
     public static final boolean SYNC = false;
+    public static final String UPDATE = "update";
+    public static final boolean UPD = true;
 
     public static final String LANG_EN = "English";
     public static final String LANG_SP = "Spanish";
