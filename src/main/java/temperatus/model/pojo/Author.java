@@ -71,4 +71,19 @@ public class Author implements java.io.Serializable {
         return name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+
+        Author author = (Author) o;
+
+        return getName() != null ? getName().equals(author.getName()) : author.getName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
+    }
 }

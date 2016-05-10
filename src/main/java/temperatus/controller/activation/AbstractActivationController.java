@@ -3,6 +3,7 @@ package temperatus.controller.activation;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -116,6 +117,7 @@ abstract class AbstractActivationController {
         ThanksController thanksController = VistaNavigator.loader.getController();
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
 
         if (temperatusImage != null) {
             Stage currentStage = (Stage) temperatusImage.getScene().getWindow();    // close current stage
@@ -139,6 +141,7 @@ abstract class AbstractActivationController {
         Stage stage = new Stage(StageStyle.UNDECORATED);
         stage.setScene(new Scene(VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH))));
         stage.initOwner(current);
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
         current.close();
         stage.show();
     }

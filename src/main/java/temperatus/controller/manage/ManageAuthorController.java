@@ -143,6 +143,7 @@ public class ManageAuthorController implements Initializable, AbstractController
             Author author = table.getSelectionModel().getSelectedItem();
             authorService.delete(author);
             authors.remove(author);
+            VistaNavigator.baseController.removeAuthor(author);
             logger.debug("Author removed: " + author);
         }
     }

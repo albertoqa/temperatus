@@ -351,6 +351,8 @@ public class Lang {
     public static final String CORRUPTED_DATA_IMPORT = "corruptedDataImport";
     public static final String ERROR_SAVING_IMAGE = "errorSavingImage";
 
+    public static final String ERROR_EXPORTING_APP_DATA = "errorExportingAppData";
+
     public static final String INVALID_AUTHOR_NAME = "invalidAuthorName";
 
     // History

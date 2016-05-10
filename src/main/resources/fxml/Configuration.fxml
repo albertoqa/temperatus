@@ -36,7 +36,6 @@
                   <Label fx:id="unitLabel" layoutX="424.0" layoutY="44.0" styleClass="label-paneinfo" text="Unit:" />
                   <RadioButton fx:id="cRadio" layoutX="466.0" layoutY="44.0" mnemonicParsing="false" text="ºC" />
                   <RadioButton fx:id="fRadio" layoutX="466.0" layoutY="65.0" mnemonicParsing="false" text="ºF" />
-                  <CheckBox fx:id="autoSync" layoutX="43.0" layoutY="95.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Auto-sync iButton time with system time." />
                   <CheckBox fx:id="writeAsIndexBox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Show index instead of Date/Time in graphics and exported data." />
                   <CheckBox fx:id="updates" layoutX="43.0" layoutY="191.0" mnemonicParsing="false" styleClass="label-paneinfo" text="Search for updates automatically on application start." />
                </children>

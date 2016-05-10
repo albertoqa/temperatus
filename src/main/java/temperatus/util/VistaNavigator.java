@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -187,6 +188,7 @@ public class VistaNavigator {
         stage.initModality(Modality.WINDOW_MODAL);  // prevent the user to press on the application but outside of this modal
         stage.setResizable(false);
         stage.initOwner(mainStage);
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
         return stage;
     }
 

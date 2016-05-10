@@ -33,7 +33,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML private RadioButton cRadio;
     @FXML private RadioButton fRadio;
     @FXML private CheckBox writeAsIndexBox;
-    @FXML private CheckBox autoSync;
     @FXML private CheckBox updates;
 
     @FXML private Button cancelButton;
@@ -43,6 +42,8 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML private Button importButton;
 
     private ToggleGroup unitGroup = new ToggleGroup();
+
+    private final String INITIAL_NAME = "TemperatusBackup";
 
     private static Logger logger = LoggerFactory.getLogger(ConfigurationController.class.getName());
 
@@ -64,7 +65,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
         }
 
         writeAsIndexBox.setSelected(Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX));
-        autoSync.setSelected(Constants.prefs.getBoolean(Constants.AUTO_SYNC, Constants.SYNC));
         updates.setSelected(Constants.prefs.getBoolean(Constants.UPDATE, Constants.UPD));
         cRadio.setSelected(Constants.UNIT_C.equals(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C)));
         fRadio.setSelected(Constants.UNIT_F.equals(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C)));
@@ -103,9 +103,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
         // Write index instead of dateTime preference
         Constants.prefs.put(Constants.WRITE_AS_INDEX, String.valueOf(writeAsIndexBox.isSelected()));
 
-        // Auto sync device with system time preference
-        Constants.prefs.put(Constants.AUTO_SYNC, String.valueOf(autoSync.isSelected()));
-
         // Search for application updates on start
         Constants.prefs.put(Constants.UPDATE, String.valueOf(updates.isSelected()));
 
@@ -122,34 +119,48 @@ public class ConfigurationController implements Initializable, AbstractControlle
         this.translate();
     }
 
+    /**
+     * Export all the application data (images, history, database and mission info) to the folder
+     * selected by the user. If some of the data don't exists, continue with the rest.
+     */
     @FXML
     private void exportApplicationData() {
         // Copy history, images, missions data and database
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("TemperatusBackup");
+        fileChooser.setInitialFileName(INITIAL_NAME);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
         File f = fileChooser.showSaveDialog(titledPane.getScene().getWindow());
         f.mkdir();
 
+        boolean showWarn = false;
+
         try {
             FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), f);
         } catch (IOException e) {
+            showWarn = true;
             logger.warn("History cannot be exported");
         }
         try {
             FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), f);
         } catch (IOException e) {
+            showWarn = true;
             logger.warn("Database cannot be exported");
         }
         try {
             FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), f);
         } catch (IOException e) {
+            showWarn = true;
             logger.warn("Images cannot be exported");
         }
         try {
             FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), f);
         } catch (IOException e) {
+            showWarn = true;
             logger.warn("Missions data cannot be exported");
+        }
+
+        if(showWarn) {
+            VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_EXPORTING_APP_DATA));
         }
     }
 
@@ -174,12 +185,11 @@ public class ConfigurationController implements Initializable, AbstractControlle
     }
 
     /**
-     * Discard changes and close the window
+     * Discard not saved changes and close the window
      */
     @FXML
     private void cancelAction() {
         VistaNavigator.closeModal(titledPane);
-        VistaNavigator.baseController.selectBase();
     }
 
     @Override
@@ -188,7 +198,6 @@ public class ConfigurationController implements Initializable, AbstractControlle
         languageLabel.setText(language.get(Lang.LANG_SELECTOR));
         unitLabel.setText(language.get(Lang.UNIT_SELECTOR));
         writeAsIndexBox.setText(language.get(Lang.WRITE_AS_INDEX_LABEL));
-        autoSync.setText(language.get(Lang.AUTO_SYNC_LABEL));
         updates.setText(language.get(Lang.AUTO_UPDATE_LABEL));
         cancelButton.setText(language.get(Lang.CANCEL));
         applyButton.setText(language.get(Lang.APPLY));

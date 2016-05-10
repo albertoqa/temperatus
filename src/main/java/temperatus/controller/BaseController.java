@@ -96,6 +96,8 @@ public class BaseController implements Initializable, AbstractController, Device
     @Autowired AuthorService authorService;
 
     private ObservableList<Author> authors;
+    private final BooleanProperty showBottomPane = new SimpleBooleanProperty(this, "showBottomPane", true);
+    private DoubleProperty bottomPaneLocation = new SimpleDoubleProperty(this, "bottomPaneLocation");
 
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
@@ -112,6 +114,7 @@ public class BaseController implements Initializable, AbstractController, Device
         deviceDetectorSource.addEventListener(deviceConnectedList);
 
         translate();    // Translate menu buttons
+        VistaNavigator.setParentNode(this.parentPane);    // used to disable its elements when a modal window is opened
 
         menuGroup.getToggles().addAll(home, archive, devices, manage, configuration, about, nProject, nMission, nFormula, nGame, nSubject, nPosition, nAuthor);
         home.setSelected(true);
@@ -124,17 +127,22 @@ public class BaseController implements Initializable, AbstractController, Device
             }
         });
 
+        // when the user label is pressed the User pane is shown
         userLabel.setOnMouseClicked(event -> {
             Animation.blurOut(VistaNavigator.getParentNode());
             setShowBottomPane(true);
             parentPane.setDisable(true);
         });
 
+        // when the history label is pressed the history view is pushed to the stack and shown
         historyLabel.setOnMouseClicked(event -> VistaNavigator.pushViewToStack(Constants.HISTORY));
 
-        VistaNavigator.setParentNode(this.parentPane);    // used to disable its elements when a modal window is opened
+        /**
+         * Control the animation of the user pane
+         * On first start(BaseController is only loaded once at application start) the user pane is shown
+         * and the base controller and home view are disabled because the user is required to select an user.
+         */
 
-        // User pane properties
         authors = FXCollections.observableArrayList();
 
         showBottomPaneProperty().addListener((observable, oldValue, newValue) -> animateBottomPane());
@@ -147,8 +155,11 @@ public class BaseController implements Initializable, AbstractController, Device
         userBox.setItems(authors);
     }
 
-    //################################
-    // User control
+    //##################################################################//
+    //                                                                  //
+    //                         User Control                             //
+    //                                                                  //
+    //##################################################################//
 
     /**
      * Fetch all Authors from database and add it to the box.
@@ -162,13 +173,12 @@ public class BaseController implements Initializable, AbstractController, Device
             }
         };
 
-        // on task completion add all authors to the table
+        // on task completion add all authors to the combo-box - if a user was selected, pre-select it
         getAuthorsTask.setOnSucceeded(e -> {
             authors.setAll(getAuthorsTask.getValue());
             if (User.getUser() != null) {
                 userBox.getSelectionModel().select(User.getUser());
             }
-
         });
 
         // run the task using a thread from the thread pool:
@@ -192,11 +202,11 @@ public class BaseController implements Initializable, AbstractController, Device
     }
 
     /**
-     * Set the user currently using the application
+     * Set the user currently using the application and close the user pane
      */
     @FXML
     private void setUser() {
-        if (userBox.isVisible()) {
+        if (userBox.isVisible()) {  // already existent user
             Author selected = userBox.getSelectionModel().getSelectedItem();
             if (selected != null) {
                 User.setUser(selected);
@@ -206,7 +216,7 @@ public class BaseController implements Initializable, AbstractController, Device
             } else {
                 showAlert(Alert.AlertType.INFORMATION, language.get(Lang.MUST_SELECT_USER));
             }
-        } else {
+        } else {    // new user
             Author author = new Author();
             author.setName(userInput.getText());
             try {
@@ -221,6 +231,9 @@ public class BaseController implements Initializable, AbstractController, Device
         }
     }
 
+    /**
+     * Update user pane location on show/hide animation
+     */
     private void updateBottomPaneAnchors() {
         setTopAnchor(userPane, getBottomPaneLocation());
     }
@@ -236,12 +249,16 @@ public class BaseController implements Initializable, AbstractController, Device
         }
     }
 
-    private final BooleanProperty showBottomPane = new SimpleBooleanProperty(this, "showBottomPane", true);
-
+    /**
+     * @return is the pane currently on screen?
+     */
     private boolean isShowBottomPane() {
         return showBottomPane.get();
     }
 
+    /**
+     * @param showBottom set visibility of user pane
+     */
     private void setShowBottomPane(boolean showBottom) {
         showBottomPane.set(showBottom);
     }
@@ -257,15 +274,22 @@ public class BaseController implements Initializable, AbstractController, Device
         return showBottomPane;
     }
 
-    private DoubleProperty bottomPaneLocation = new SimpleDoubleProperty(this, "bottomPaneLocation");
-
+    /**
+     * @return current location of the user pane
+     */
     private double getBottomPaneLocation() {
         return bottomPaneLocation.get();
     }
 
+    /**
+     * Slide animation for user pane
+     *
+     * @param toY location to translate user pane
+     */
     private void slideBottomPane(double toY) {
         KeyValue keyValue = new KeyValue(bottomPaneLocation, toY);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+        Double animationDuration = 300.0;
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(animationDuration), keyValue);
         Timeline timeline = new Timeline(keyFrame);
         timeline.play();
     }
@@ -281,10 +305,24 @@ public class BaseController implements Initializable, AbstractController, Device
             if (!authors.contains(object)) {
                 authors.add((Author) object);
             }
-
-            //userBox.getSelectionModel().clearSelection();
-            //userBox.getSelectionModel().select((Author) object);
             logger.debug("Author reloaded: " + object);
+        }
+    }
+
+    /**
+     * Remove author from the combo-box if is removed from the database.
+     * @param author author to remove
+     */
+    public void removeAuthor(Author author) {
+        if(userBox.getSelectionModel().getSelectedItem().equals(author)) {
+            userBox.getSelectionModel().clearSelection();
+            authors.remove(author);
+            userBox.setItems(authors);
+            Animation.blurOut(VistaNavigator.getParentNode());
+            setShowBottomPane(true);
+            parentPane.setDisable(true);
+        } else {
+            authors.remove(author);
         }
     }
 

@@ -93,7 +93,7 @@ public class SplashController implements Initializable, AbstractController {
         stage.initOwner(currentStage);
         currentStage.close();
         VistaNavigator.setMainStage(stage);
-        stage.getIcons().setAll(new Image(Constants.ICON_BAR)); // TODO check if working and set to all Stages of the app
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
         stage.show();
     }
 

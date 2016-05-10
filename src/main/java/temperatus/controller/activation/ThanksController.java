@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -72,6 +73,7 @@ public class ThanksController implements Initializable, AbstractController {
         stage.initStyle(StageStyle.UNDECORATED); // remove borders
         stage.setScene(scene);
         stage.initOwner(currentStage);
+        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
 
         currentStage.close();
         stage.show();

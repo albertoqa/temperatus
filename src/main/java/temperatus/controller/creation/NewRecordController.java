@@ -909,6 +909,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setResizable(false);
                 stage.initOwner(VistaNavigator.getMainStage());
+                stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
 
                 if (VistaNavigator.getParentNode() != null) {
                     //VistaNavigator.getParentNode().setDisable(true);

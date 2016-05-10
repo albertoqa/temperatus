@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.lang.Lang;
-import temperatus.lang.Language;
 import temperatus.util.Browser;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
@@ -52,7 +51,7 @@ public class HomeController implements Initializable, AbstractController {
                 Browser.openWebPage(new URL(Constants.PROJECT_WEB).toURI());
             } catch (URISyntaxException | MalformedURLException e1) {
                 logger.warn("Malformed URL");
-                VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
+                VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_BROWSER));
             }
         });
 
