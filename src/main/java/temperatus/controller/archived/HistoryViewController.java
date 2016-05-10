@@ -36,15 +36,14 @@ public class HistoryViewController implements Initializable, AbstractController 
     @FXML private Button cleanButton;
     @FXML private TextArea historyContent;
 
-    private static final String NEW_LINE = "\n";
-    private static final String EMPTY = "";
-
     private static Logger logger = LoggerFactory.getLogger(HistoryViewController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         translate();
         readFileContent();
+
+        historyContent.setScrollTop(Double.MAX_VALUE);
     }
 
     /**
@@ -57,7 +56,7 @@ public class HistoryViewController implements Initializable, AbstractController 
                 if (line == null) {
                     break;
                 }
-                historyContent.appendText(line + NEW_LINE);
+                historyContent.appendText(line + Constants.NEW_LINE);
             }
         } catch (IOException e) {
             VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_READING_HISTORY));
@@ -72,11 +71,12 @@ public class HistoryViewController implements Initializable, AbstractController 
         logger.info("Resetting history log");
         try {
             new PrintWriter(Constants.HISTORY_PATH).close();
-            historyContent.setText(EMPTY);
-            history.info(User.getUserName() + " " + language.get(Lang.CLEAN_HISTORY));
+            historyContent.setText(Constants.EMPTY);
+            history.info(User.getUserName() + Constants.SPACE + language.get(Lang.CLEAN_HISTORY));
             readFileContent();
         } catch (FileNotFoundException e) {
             logger.error("History file not found!");
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_RESETING_HISTORY));
         }
     }
 
