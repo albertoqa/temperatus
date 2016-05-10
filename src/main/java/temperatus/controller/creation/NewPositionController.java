@@ -3,7 +3,10 @@ package temperatus.controller.creation;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -27,7 +30,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -103,9 +105,7 @@ public class NewPositionController extends AbstractCreationController implements
                 throw new ControlledTemperatusException(language.get(Lang.INVALID_NAME_FORMULA));
             } else if (position != null && !position.getPlace().isEmpty() && isUsedInAFormula(position.getPlace())) {
                 // warn user of position used in a formula... formula will be useless if delete position
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.REMOVE_FORMULA_CONFIRMATION));
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                if (!VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.REMOVE_FORMULA_CONFIRMATION))) {
                     isUsed = true;
                 }
             }

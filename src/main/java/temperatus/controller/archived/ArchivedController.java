@@ -30,7 +30,10 @@ import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Show all the projects and missions saved to the db
@@ -283,9 +286,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteProject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && ButtonType.OK == result.get()) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             root.getInternalChildren().remove(treeItem);
@@ -298,9 +299,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void deleteMission() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && ButtonType.OK == result.get()) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             ((Project) treeTable.getSelectionModel().getSelectedItem().getParent().getValue().getElement()).getMissions().remove(getSelectedElement().getElement());
             missionService.delete(getSelectedElement().getElement());
             FilterableTreeItem<TreeItem<TreeElement>> treeItem = (FilterableTreeItem) treeTable.getSelectionModel().getSelectedItem();

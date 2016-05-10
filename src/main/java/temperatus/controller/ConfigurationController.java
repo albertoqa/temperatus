@@ -16,7 +16,6 @@ import temperatus.util.VistaNavigator;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -159,9 +158,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
      */
     @FXML
     private void importApplicationData() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_IMPORT));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_IMPORT))) {
             try {
                 // Copy history, images, missions data and database
                 DirectoryChooser fileChooser = new DirectoryChooser();

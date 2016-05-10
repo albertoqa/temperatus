@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class DateStringConverter extends StringConverter<Number> {
 
-    private boolean slider;
+    private boolean slider;     // is this being applied to a slider or to another element?
 
     private static Logger logger = LoggerFactory.getLogger(DateStringConverter.class.getName());
 

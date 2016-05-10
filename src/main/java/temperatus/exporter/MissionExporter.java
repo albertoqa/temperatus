@@ -17,6 +17,7 @@ import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
+import temperatus.util.VistaNavigator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -139,8 +140,7 @@ public class MissionExporter {
 
         // Inform the user of the error/incorrect value
         if (showWarn) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
-            alert.show();
+            VistaNavigator.showAlert(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
         }
 
         return wb;

@@ -165,12 +165,10 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
-            Alert alert = new Alert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
-            alert.show();
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
         } catch (Exception ex) {
             logger.warn("Unknown exception" + ex.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
-            alert.show();
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
         }
     }
 

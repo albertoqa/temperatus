@@ -27,7 +27,6 @@ import temperatus.util.VistaNavigator;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -199,9 +198,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void deleteSubject() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             Subject subject = table.getSelectionModel().getSelectedItem();
             subjectService.delete(subject);
             subjects.remove(subject);

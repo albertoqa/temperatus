@@ -6,7 +6,9 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * Utility functions to manage dates
+ * Utility functions to manage dates... this is necessary because at the beginning of the project I didn't know
+ * the new Java 8 date functions... so I used the old Date instead of the new LocalDate. Some JavaFX elements
+ * need LocalDate objects so this utility functions transform dates between this two types.
  * <p>
  * Created by alberto on 23/4/16.
  */
@@ -19,11 +21,7 @@ public class DateUtils {
      * @return LocalDate
      */
     public static LocalDate asLocalDate(Date date) {
-        if (date == null) {
-            return null;
-        }
-
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        return date == null ? null : Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -33,11 +31,7 @@ public class DateUtils {
      * @return Date
      */
     public static Date asUtilDate(LocalDate date) {
-        if (date == null) {
-            return null;
-        }
-
-        return Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return date == null ? null : Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
 }

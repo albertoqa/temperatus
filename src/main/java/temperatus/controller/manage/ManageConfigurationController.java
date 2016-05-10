@@ -27,7 +27,6 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -166,13 +165,10 @@ public class ManageConfigurationController implements Initializable, AbstractCon
         Configuration configuration = table.getSelectionModel().getSelectedItem();
         if (DEFAULT.equals(configuration.getName())) {
             logger.info("Cannot delete default configuration...");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, language.get(Lang.CANNOT_DELETE_DEFAULT_CONF));
-            alert.showAndWait();
+            VistaNavigator.showAlert(Alert.AlertType.INFORMATION, language.get(Lang.CANNOT_DELETE_DEFAULT_CONF));
         } else {
             logger.info("Deleting configuration... " + configuration);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
                 configurationService.delete(configuration);
                 configurations.remove(configuration);
             }

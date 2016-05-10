@@ -28,7 +28,6 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -172,9 +171,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
      */
     @FXML
     private void deleteIbutton() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             Ibutton ibutton = table.getSelectionModel().getSelectedItem();
             ibuttonService.delete(ibutton);
             ibuttons.remove(ibutton);

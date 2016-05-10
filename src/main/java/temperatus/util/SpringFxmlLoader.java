@@ -16,7 +16,7 @@ public class SpringFxmlLoader {
 
     private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringApplicationConfig.class);
 
-    private Object controller = null;
+    private Object controller = null;       // controller of the last loaded view
 
     /**
      * Load a new view, and its controller (bean)

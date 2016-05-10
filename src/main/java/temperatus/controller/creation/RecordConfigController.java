@@ -230,9 +230,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
             for (Formula formula : c.getAddedSubList()) {
                 if (!isFormulaApplicableToThisMission(formula)) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.NOT_APPLICABLE_FORMULA));
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() != ButtonType.OK) {
+                    if (!VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.NOT_APPLICABLE_FORMULA))) {
                         listViewFormulas.getCheckModel().clearCheck(formula);
                         listViewFormulas.refresh();
                         break;

@@ -25,7 +25,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -247,9 +246,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             VistaNavigator.loadVista(Constants.ARCHIVED);
             VistaNavigator.baseController.selectMenuButton(Constants.ARCHIVED);
             VistaNavigator.baseController.setActualBaseView(Constants.ARCHIVED);

@@ -361,6 +361,7 @@ public class Lang {
     public static final String READ_MISSION_HISTORY = "readMissionHistory";
     public static final String START_MISSION_HISTORY = "startMissionHistory";
     public static final String CLEAN_HISTORY = "cleanHistory";
+    public static final String ERROR_READING_HISTORY = "errorReadingHistory";
     public static final String CLEAN_HISTORY_BUTTON = "resetHistory";
     public static final String HISTORY = "history";
     public static final String HISTORY_LABEL = "historyLabel";

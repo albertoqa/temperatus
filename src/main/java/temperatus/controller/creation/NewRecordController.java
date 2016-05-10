@@ -437,10 +437,7 @@ public class NewRecordController extends AbstractCreationController implements I
                     });
 
                 } else if (sourceChoice.getRecord() != null) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_DELETE_RECORD));
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && ButtonType.OK == result.get()) {
-
+                    if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_DELETE_RECORD))) {
                         // delete record from database
                         mission.getRecords().remove(sourceChoice.getRecord());
                         recordService.delete(sourceChoice.getRecord());
@@ -1112,9 +1109,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     @FXML
     private void cancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_LOSE_PROGRESS));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && ButtonType.OK == result.get()) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_LOSE_PROGRESS))) {
             if (!isUpdate) {
                 missionService.delete(mission);
             }

@@ -2,20 +2,24 @@ package temperatus.controller.archived;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 import temperatus.util.Constants;
-import temperatus.util.ReverseLineInputStream;
 import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,16 +51,16 @@ public class HistoryViewController implements Initializable, AbstractController 
      * Read history file and add its content to the textArea
      */
     private void readFileContent() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(new ReverseLineInputStream(new File(Constants.HISTORY_PATH))))) {
+        try (ReversedLinesFileReader fr = new ReversedLinesFileReader(new File(Constants.HISTORY_PATH))) {
             while (true) {
-                String line = in.readLine();
+                String line = fr.readLine();
                 if (line == null) {
                     break;
                 }
                 historyContent.appendText(line + NEW_LINE);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_READING_HISTORY));
         }
     }
 

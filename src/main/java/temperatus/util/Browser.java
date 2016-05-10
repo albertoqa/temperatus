@@ -33,6 +33,7 @@ public class Browser {
                 VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
             }
         } else {
+            logger.error("Error opening default browser... desktop is null or not supported.");
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
         }
     }

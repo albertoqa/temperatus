@@ -171,8 +171,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         for (Measurement measurement : measurements) {
             if (measurement.getData() == Double.NaN) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Some formulas cannot be calculated due to an error in the operation. Please check that selected formulas are correct.");
-                alert.show();
+                VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_CALCULATING_FORMULA));
                 break;
             }
         }

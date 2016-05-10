@@ -26,7 +26,6 @@ import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -140,9 +139,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void deleteAuthor() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             Author author = table.getSelectionModel().getSelectedItem();
             authorService.delete(author);
             authors.remove(author);
