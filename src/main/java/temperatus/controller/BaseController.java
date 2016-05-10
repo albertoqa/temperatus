@@ -311,10 +311,11 @@ public class BaseController implements Initializable, AbstractController, Device
 
     /**
      * Remove author from the combo-box if is removed from the database.
+     *
      * @param author author to remove
      */
     public void removeAuthor(Author author) {
-        if(userBox.getSelectionModel().getSelectedItem().equals(author)) {
+        if (userBox.getSelectionModel().getSelectedItem().equals(author)) {
             userBox.getSelectionModel().clearSelection();
             authors.remove(author);
             userBox.setItems(authors);
@@ -323,14 +324,15 @@ public class BaseController implements Initializable, AbstractController, Device
             parentPane.setDisable(true);
         } else {
             authors.remove(author);
+            userBox.setItems(authors);
         }
     }
 
-    //#########################################
-
-    /***********************************
-     * Menu
-     **********************************/
+    //##################################################################//
+    //                                                                  //
+    //                         Menu Control                             //
+    //                                                                  //
+    //##################################################################//
 
     /**
      * Load images for menu icons
@@ -361,77 +363,115 @@ public class BaseController implements Initializable, AbstractController, Device
         }
     }
 
+    /**
+     * Load home view
+     */
     @FXML
     private void goHome() {
         VistaNavigator.loadVista(Constants.HOME);
         actualBaseView = Constants.HOME;
     }
 
+    /**
+     * Load Archived view
+     */
     @FXML
     private void goArchive() {
         VistaNavigator.loadVista(Constants.ARCHIVED);
         actualBaseView = Constants.ARCHIVED;
     }
 
+    /**
+     * Load Devices view
+     */
     @FXML
     private void goDevices() {
         VistaNavigator.loadVista(Constants.CONNECTED);
         actualBaseView = Constants.CONNECTED;
     }
 
+    /**
+     * Load Manage viw
+     */
     @FXML
     private void goManage() {
         VistaNavigator.loadVista(Constants.MANAGE);
         actualBaseView = Constants.MANAGE;
     }
 
+    /**
+     * Load Configuration modal view
+     */
     @FXML
     private void goConfig() {
-        VistaNavigator.openModal(Constants.CONFIG, "");
+        VistaNavigator.openModal(Constants.CONFIG, Constants.EMPTY);
     }
 
+    /**
+     * Load About view
+     */
     @FXML
     private void goAbout() {
         VistaNavigator.loadVista(Constants.ABOUT);
         actualBaseView = Constants.ABOUT;
     }
 
+    /**
+     * Load New Project modal view
+     */
     @FXML
     private void goNewProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, "");
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.EMPTY);
     }
 
+    /**
+     * Load New Mission view
+     */
     @FXML
     private void goNewMission() {
         VistaNavigator.loadVista(Constants.NEW_MISSION);
         actualBaseView = Constants.NEW_MISSION;
     }
 
+    /**
+     * Load New Game modal view
+     */
     @FXML
     private void goNewGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, "");
+        VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
     }
 
+    /**
+     * Load New Formula modal view
+     */
     @FXML
     private void goNewFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, "");
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.EMPTY);
     }
 
+    /**
+     * Load New Subject modal view
+     */
     @FXML
     private void goNewSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.EMPTY);
     }
 
+    /**
+     * Load New Position modal view
+     */
     @FXML
     private void goNewPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, "");
+        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.EMPTY);
     }
 
+    /**
+     * Load New Author modal view
+     */
     @FXML
     private void goNewAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.EMPTY);
     }
-
 
     /**
      * Select the toggleButton matching the current view
@@ -483,10 +523,11 @@ public class BaseController implements Initializable, AbstractController, Device
         }
     }
 
-
-    /***********************************
-     *       View Operations
-     **********************************/
+    //##################################################################//
+    //                                                                  //
+    //                       View Operations                            //
+    //                                                                  //
+    //##################################################################//
 
     /**
      * @return the StackPane which holds the views (central)
@@ -558,7 +599,6 @@ public class BaseController implements Initializable, AbstractController, Device
         userBox.setPromptText(language.get(Lang.SELECT_USER_PROMPT));
     }
 
-
     /**
      * Set the name of the user currently logged
      *
@@ -568,9 +608,11 @@ public class BaseController implements Initializable, AbstractController, Device
         userLabel.setText(language.get(Lang.USER) + "  " + name);
     }
 
-    /***********************************
-     *       Device Detection
-     **********************************/
+    //##################################################################//
+    //                                                                  //
+    //                       Device Detection                           //
+    //                                                                  //
+    //##################################################################//
 
     /**
      * When a new device is detected the first thing to do is check if it is already saved in the db
@@ -589,7 +631,7 @@ public class BaseController implements Initializable, AbstractController, Device
 
         if (ibutton == null) {
             Platform.runLater(() -> {
-                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
+                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY);
                 newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
             });
         } else {
@@ -597,6 +639,11 @@ public class BaseController implements Initializable, AbstractController, Device
         }
     }
 
+    /**
+     * Nothing to do with departure events
+     *
+     * @param event info of the device departing
+     */
     @Override
     public void departure(DeviceDetector event) {
         logger.info("Listening event... device departed! Nothing to do here...");

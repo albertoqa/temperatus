@@ -11,7 +11,7 @@
       <TextArea fx:id="keyInput" layoutX="88.0" layoutY="262.0" prefHeight="53.0" prefWidth="460.0" promptText="73f5b722c48dc80eb3d02424fae95d6c7ad2f85d" styleClass="form" />
       <ImageView fx:id="temperatusImage" fitHeight="142.0" fitWidth="420.0" layoutX="108.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/temperatus.jpg" />
+            <Image url="@../images/temperatus.png" />
          </image>
       </ImageView>
       <Label fx:id="welcomeLabel" layoutX="244.0" layoutY="172.0" text="Welcome to Temperatus!">

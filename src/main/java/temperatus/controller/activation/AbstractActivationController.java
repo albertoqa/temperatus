@@ -7,16 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
-import temperatus.util.Browser;
-import temperatus.util.Constants;
-import temperatus.util.KeyValidator;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -50,6 +48,9 @@ abstract class AbstractActivationController {
 
     private static Logger logger = LoggerFactory.getLogger(AbstractActivationController.class.getName());
 
+    /**
+     * Common init method for Activation Controllers
+     */
     void init() {
         translate();
 
@@ -84,7 +85,7 @@ abstract class AbstractActivationController {
     @FXML
     private void buy() {
         logger.info("Redirecting to buy web-page... YUUUHUU");
-        URL url = null;
+        URL url;
         try {
             url = new URL(Constants.PROJECT_WEB);
             Browser.openWebPage(url.toURI());
@@ -126,7 +127,9 @@ abstract class AbstractActivationController {
             thanksController.setLoadSplash(true);
             stage.setOnCloseRequest(we -> startApplication());
         } else {
-            VistaNavigator.closeModal(anchorPane);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(VistaNavigator.getMainStage());
+            Animation.fadeInOutClose(anchorPane);
             thanksController.setLoadSplash(false);
         }
 
@@ -141,7 +144,6 @@ abstract class AbstractActivationController {
         Stage stage = new Stage(StageStyle.UNDECORATED);
         stage.setScene(new Scene(VistaNavigator.loader.load(getClass().getResource(Constants.SPLASH))));
         stage.initOwner(current);
-        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
         current.close();
         stage.show();
     }

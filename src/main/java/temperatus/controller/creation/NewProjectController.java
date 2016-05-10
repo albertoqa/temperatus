@@ -41,14 +41,12 @@ public class NewProjectController extends AbstractCreationController implements 
     @Autowired ProjectService projectService;
 
     private Project project;
-    private boolean isNew;  // if project is not new (update) then don't reload
 
     private static Logger logger = LoggerFactory.getLogger(NewProjectController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         project = null;
-        isNew = true;
         translate();
 
         dateInput.setValue(LocalDate.now());    // default date to now
@@ -65,7 +63,6 @@ public class NewProjectController extends AbstractCreationController implements 
         nameInput.setText(project.getName());
         observationsInput.setText(project.getObservations());
         dateInput.setValue(DateUtils.asLocalDate(project.getDateIni()));
-        isNew = false;
     }
 
     /**
@@ -91,7 +88,7 @@ public class NewProjectController extends AbstractCreationController implements 
             projectService.saveOrUpdate(project);
 
             VistaNavigator.closeModal(titledPane);
-            if (VistaNavigator.getController() != null && isNew) {
+            if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new project creation
                 VistaNavigator.getController().reload(project);
             }

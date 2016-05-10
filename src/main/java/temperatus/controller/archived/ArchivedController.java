@@ -157,7 +157,7 @@ public class ArchivedController implements Initializable, AbstractController {
     private FilterableTreeItem<TreeElement> getTreeProjects() {
 
         // root element holds all projects but it is not shown in the tree
-        FilterableTreeItem<TreeElement> rootNode = new FilterableTreeItem<>(new TreeElement(new Project("", new Date())));
+        FilterableTreeItem<TreeElement> rootNode = new FilterableTreeItem<>(new TreeElement(new Project(Constants.EMPTY, new Date())));
 
         // Get all projects on a different thread than the JavaFX UI thread to remain responsive
         Task<List<Project>> getAllProjectsTask = new Task<List<Project>>() {
@@ -171,7 +171,7 @@ public class ArchivedController implements Initializable, AbstractController {
         getAllProjectsTask.setOnSucceeded(e -> getTreeMissions(getAllProjectsTask.getValue(), rootNode));
 
         // run the task using a thread from the thread pool
-        logger.info("Submiting task to retrieve all projects");
+        logger.info("Submit task to retrieve all projects");
         databaseExecutor.submit(getAllProjectsTask);
 
         return rootNode;
@@ -207,7 +207,7 @@ public class ArchivedController implements Initializable, AbstractController {
             });
 
             // run the task using a thread from the thread pool:
-            logger.info("Submiting task to retrieve all missions for project: " + project.getName());
+            logger.info("Submit task to retrieve all missions for project: " + project.getName());
             databaseExecutor.submit(getMissionsTask);
         }
     }
@@ -229,12 +229,12 @@ public class ArchivedController implements Initializable, AbstractController {
         projectObservations.setText(project.getObservations());
 
         String authors = "";
-        for(Mission mission: project.getMissions()) {
-            if(!authors.contains(mission.getAuthor().getName())) {
+        for (Mission mission : project.getMissions()) {
+            if (!authors.contains(mission.getAuthor().getName())) {
                 authors = authors + mission.getAuthor().getName() + ", ";
             }
         }
-        if(!authors.equals("")) {   // remove last comma
+        if (!authors.equals(Constants.EMPTY)) {   // remove last comma
             authors = authors.substring(0, authors.length() - 2);
         }
 
@@ -267,7 +267,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, "");
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.EMPTY);
     }
 
     /**
@@ -276,7 +276,7 @@ public class ArchivedController implements Initializable, AbstractController {
      */
     @FXML
     private void editProject() {
-        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, "");
+        NewProjectController newProjectController = VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.EMPTY);
         newProjectController.setProject(getSelectedElement().getElement());
     }
 
@@ -290,6 +290,9 @@ public class ArchivedController implements Initializable, AbstractController {
             projectService.delete(getSelectedElement().getElement());
             TreeItem<TreeElement> treeItem = treeTable.getSelectionModel().getSelectedItem();
             root.getInternalChildren().remove(treeItem);
+            treeTable.getSelectionModel().clearSelection();
+            Animation.fadeOutTransition(projectInfoPane);
+            projectInfoPane.setDisable(true);
         }
     }
 
@@ -304,15 +307,22 @@ public class ArchivedController implements Initializable, AbstractController {
             missionService.delete(getSelectedElement().getElement());
             FilterableTreeItem<TreeItem<TreeElement>> treeItem = (FilterableTreeItem) treeTable.getSelectionModel().getSelectedItem();
             ((FilterableTreeItem<TreeItem<TreeElement>>) treeItem.getParent()).getInternalChildren().remove(treeItem);
+            treeTable.getSelectionModel().clearSelection();
+            Animation.fadeOutTransition(missionInfoPane);
+            missionInfoPane.setDisable(true);
         }
     }
 
     /**
      * Create a new mission -> load view and select its icon from the lateral menu
+     * Preselect project if currently selecting a project
      */
     @FXML
     private void newMission() {
-        VistaNavigator.loadVista(Constants.NEW_MISSION);
+        NewMissionController missionController = VistaNavigator.loadVista(Constants.NEW_MISSION);
+        if (getSelectedElement().getType().equals(TreeElementType.Project) && missionController != null) {
+            missionController.setProject(getSelectedElement().getElement());
+        }
         VistaNavigator.baseController.selectMenuButton(Constants.NEW_MISSION);
     }
 
@@ -325,6 +335,9 @@ public class ArchivedController implements Initializable, AbstractController {
         missionInfoController.setData(((Mission) getSelectedElement().getElement()).getId());
     }
 
+    /**
+     * Edit the selected mission
+     */
     @FXML
     private void editMission() {
         Mission mission = getSelectedElement().getElement();
@@ -341,10 +354,20 @@ public class ArchivedController implements Initializable, AbstractController {
         return treeTable.getSelectionModel().getSelectedItem().getValue();
     }
 
+    /**
+     * Reload if create/edit a project
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
-            root.getInternalChildren().add(new FilterableTreeItem<>(new TreeElement((Project) object)));
+            if (getSelectedElement().getType().equals(TreeElementType.Project) && ((Project) object).getId().equals(((Project) getSelectedElement().getElement()).getId())) {
+                projectName.setText(((Project) object).getName());
+                projectDate.setText(Constants.dateFormat.format(((Project) object).getDateIni()));
+            } else {
+                root.getInternalChildren().add(new FilterableTreeItem<>(new TreeElement((Project) object)));
+            }
         }
     }
 

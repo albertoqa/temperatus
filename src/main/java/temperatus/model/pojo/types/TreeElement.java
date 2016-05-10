@@ -93,9 +93,9 @@ public class TreeElement {
     @Override
     public String toString() {
         if (type == TreeElementType.Project) {
-            return project.getName() + " " + project.getDateIni().toString();
+            return project.getName() + " " + Constants.dateFormat.format(project.getDateIni());
         } else {
-            return mission.getName() + " " + mission.getSubject().getName() + " " + mission.getDateIni().toString() + " " + mission.getProject().getName();
+            return mission.getName() + " " + mission.getSubject().getName() + " " + Constants.dateFormat.format(mission.getDateIni()) + " " + mission.getProject().getName();
         }
     }
 

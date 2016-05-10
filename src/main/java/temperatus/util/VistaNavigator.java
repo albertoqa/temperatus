@@ -274,6 +274,11 @@ public class VistaNavigator {
      */
     public static boolean confirmationAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type, message);
+        if (currentStage != null) {
+            alert.initOwner(currentStage);
+        } else if (mainStage != null) {
+            alert.initOwner(mainStage);
+        }
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && ButtonType.OK == result.get();
     }

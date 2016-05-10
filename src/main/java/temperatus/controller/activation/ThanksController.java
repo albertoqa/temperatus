@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -13,6 +12,7 @@ import javafx.stage.StageStyle;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
+import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -48,6 +48,7 @@ public class ThanksController implements Initializable, AbstractController {
             startApplication();
         } else {
             Stage currentStage = (Stage) anchorPane.getScene().getWindow();    // close current stage
+            Animation.blurIn(VistaNavigator.getParentNode());
             currentStage.close();
         }
     }
@@ -73,7 +74,6 @@ public class ThanksController implements Initializable, AbstractController {
         stage.initStyle(StageStyle.UNDECORATED); // remove borders
         stage.setScene(scene);
         stage.initOwner(currentStage);
-        stage.getIcons().setAll(new Image(Constants.ICON_BAR));
 
         currentStage.close();
         stage.show();

@@ -75,7 +75,7 @@ public final class Animation {
      *
      * @param node node to close
      */
-    static void fadeInOutClose(Node node) {
+    public static void fadeInOutClose(Node node) {
         FadeTransition fadeIn = Animation.fadeIn(VistaNavigator.baseController.getVistaHolder().getShape(), false, false);
         FadeTransition fadeOut = Animation.fadeOut(node, false, false);
         fadeOut.setOnFinished(actionEvent -> node.getScene().getWindow().hide());
