@@ -10,6 +10,12 @@ import java.util.concurrent.ThreadFactory;
  */
 public class DaemonThreadFactory implements ThreadFactory {
 
+    /**
+     * Create a new thread with the runnable given and set the thread as a daemon
+     *
+     * @param r runnable
+     * @return daemon thread
+     */
     public Thread newThread(Runnable r) {
         Thread t = Executors.defaultThreadFactory().newThread(r);
         t.setDaemon(true);

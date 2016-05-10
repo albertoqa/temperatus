@@ -16,7 +16,7 @@ public class RecordDaoImpl extends GenericDaoImpl implements RecordDao {
     public List<Record> getByMissionId(int missionId) {
         return this.sessionFactory.getCurrentSession()
                 .createQuery(
-                        "from Record where misionId = :missionId")
+                        "from Record where Mission.id = :missionId")
                 .setParameter("missionId", missionId)
                 .list();
     }

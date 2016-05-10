@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.AuthorDao;
 import temperatus.model.pojo.Author;
 import temperatus.model.service.AuthorService;
@@ -44,7 +46,7 @@ public class AuthorServiceImpl implements AuthorService {
     public void saveOrUpdate(Author author) throws ControlledTemperatusException {
 
         if(author.getName() == null || author.getName().length() < 1 || author.getName().length() > 100) {
-            throw new ControlledTemperatusException("Invalid author name");
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_AUTHOR_NAME));
         }
 
         authorDao.saveOrUpdate(author);

@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceConnectedList;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
 import temperatus.listener.DeviceDetectorListener;
@@ -214,8 +215,8 @@ public class BaseController implements Initializable, AbstractController, Device
                 setShowBottomPane(false);
                 Animation.blurIn(VistaNavigator.getParentNode());
                 parentPane.setDisable(false);
-            } catch (Exception e) {
-                showAlert(Alert.AlertType.INFORMATION, language.get(Lang.INVALID_NAME));
+            } catch (ControlledTemperatusException e) {
+                showAlert(Alert.AlertType.INFORMATION, e.getMessage());
             }
         }
     }
@@ -237,11 +238,11 @@ public class BaseController implements Initializable, AbstractController, Device
 
     private final BooleanProperty showBottomPane = new SimpleBooleanProperty(this, "showBottomPane", true);
 
-    private final boolean isShowBottomPane() {
+    private boolean isShowBottomPane() {
         return showBottomPane.get();
     }
 
-    private final void setShowBottomPane(boolean showBottom) {
+    private void setShowBottomPane(boolean showBottom) {
         showBottomPane.set(showBottom);
     }
 
@@ -252,7 +253,7 @@ public class BaseController implements Initializable, AbstractController, Device
      *
      * @return the property used to control the bottom panel
      */
-    private final BooleanProperty showBottomPaneProperty() {
+    private BooleanProperty showBottomPaneProperty() {
         return showBottomPane;
     }
 

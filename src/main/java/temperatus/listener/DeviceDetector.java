@@ -51,4 +51,5 @@ public class DeviceDetector extends EventObject {
     void setAdapterPort(String adapterPort) {
         this.adapterPort = adapterPort;
     }
+
 }

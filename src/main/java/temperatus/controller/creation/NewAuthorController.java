@@ -81,7 +81,7 @@ public class NewAuthorController extends AbstractCreationController implements I
 
         } catch (ControlledTemperatusException ex) {
             logger.warn("Invalid name");
-            showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_NAME));
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
             showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
