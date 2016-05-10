@@ -96,7 +96,6 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
     @FXML
     private void cancel() {
         VistaNavigator.closeModal(titledPane);
-        VistaNavigator.baseController.selectBase();
     }
 
     @Override

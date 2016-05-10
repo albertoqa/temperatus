@@ -1145,3 +1145,8 @@
   -fx-focus-color: gray;
   -fx-faint-focus-color: transparent;
 }
+
+.spinner {
+  -fx-focus-color: gray;
+  -fx-faint-focus-color: transparent;
+}

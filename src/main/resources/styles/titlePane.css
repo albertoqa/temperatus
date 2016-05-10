@@ -293,3 +293,8 @@
  .onHover{
      -fx-background-color: ORANGE;
  }
+
+ .spinner {
+   -fx-focus-color: gray;
+   -fx-faint-focus-color: transparent;
+ }

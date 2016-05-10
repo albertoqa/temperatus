@@ -71,7 +71,6 @@ public class ExportConfigurationController implements Initializable, AbstractCon
     @FXML
     private void cancel() {
         VistaNavigator.closeModal(titledPane);
-        VistaNavigator.baseController.selectBase();
     }
 
     /**

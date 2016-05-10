@@ -7,6 +7,7 @@ import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
+import temperatus.model.pojo.types.Unit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +24,8 @@ public class IButtonDataAnalysis {
 
     private static Logger logger = LoggerFactory.getLogger(IButtonDataAnalysis.class.getName());
 
-    private IButtonDataAnalysis() {}
+    private IButtonDataAnalysis() {
+    }
 
     /**
      * Generate a list of measurements from a given list and period
@@ -196,18 +198,36 @@ public class IButtonDataAnalysis {
 
     /**
      * Generate a histogram of temperatures.
+     *
      * @param measurementsLists measurements to categorize
+     * @param max               maximum temperature
+     * @param min               minimum temperature
+     * @param numBins           number of bins to generate
+     * @param unit              unit of measure
      * @return histogram of temperatures
      */
-    public static int[] calcHistogram(List<List<Measurement>> measurementsLists, double min, double max, int numBins) {
+    public static int[] calcHistogram(List<List<Measurement>> measurementsLists, double min, double max, int numBins, Unit unit) {
         final int[] result = new int[numBins];
-        final double binSize = (max - min)/numBins;
+        final double binSize;
 
-        for (List<Measurement> measurementsList : measurementsLists) {
-            for(Measurement measurement: measurementsList) {
-                int bin = (int) ((measurement.getData() - min) / binSize);
-                if (bin >= 0 && bin < numBins) {
-                    result[bin] += 1;
+        if (unit.equals(Unit.C)) {
+            binSize = (max - min) / numBins;
+            for (List<Measurement> measurementsList : measurementsLists) {
+                for (Measurement measurement : measurementsList) {
+                    int bin = (int) ((measurement.getData() - min) / binSize);
+                    if (bin >= 0 && bin < numBins) {
+                        result[bin] += 1;
+                    }
+                }
+            }
+        } else {
+            binSize = (Calculator.celsiusToFahrenheit(max) - Calculator.celsiusToFahrenheit(min)) / numBins;
+            for (List<Measurement> measurementsList : measurementsLists) {
+                for (Measurement measurement : measurementsList) {
+                    int bin = (int) ((Calculator.celsiusToFahrenheit(measurement.getData()) - Calculator.celsiusToFahrenheit(min)) / binSize);
+                    if (bin >= 0 && bin < numBins) {
+                        result[bin] += 1;
+                    }
                 }
             }
         }

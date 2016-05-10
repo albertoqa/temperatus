@@ -52,6 +52,7 @@ public class ButtonDataController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
+        // unit of measure preferred by the user
         unitOfMeasurePreferred = new SimpleStringProperty(Constants.DEGREE + (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Constants.UNIT_C: Constants.UNIT_F));
 
         measurements = FXCollections.observableArrayList();
@@ -59,6 +60,7 @@ public class ButtonDataController implements Initializable, AbstractController {
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
         unit.setCellValueFactory(cellData -> unitOfMeasurePreferred);
 
+        // show the data in the unit preferred by the user
         if(unitOfMeasurePreferred.getValue().contains(Constants.UNIT_C)) {
             value.setCellValueFactory(cellData -> cellData.getValue().getDataProperty());
         } else {

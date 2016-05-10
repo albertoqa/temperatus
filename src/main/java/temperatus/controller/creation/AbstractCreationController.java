@@ -23,7 +23,6 @@ public abstract class AbstractCreationController implements AbstractController {
     @FXML
     private void cancel() {
         VistaNavigator.closeModal(titledPane);
-        VistaNavigator.baseController.selectBase();
     }
 
 }
