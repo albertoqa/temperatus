@@ -305,6 +305,7 @@ public class RecordConfigController extends AbstractCreationController implement
                             }
 
                             for (Measurement measurement : validatedData.getMeasurements()) {
+                                // TODO si la fecha es exactamente la misma no la mete!
                                 if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
                                     updateProgress(actualMeasurement++, totalMeasurements);
                                     String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + Constants.decimalFormat.format(measurement.getData());

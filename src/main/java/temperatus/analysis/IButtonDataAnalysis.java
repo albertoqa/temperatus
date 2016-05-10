@@ -3,6 +3,7 @@ package temperatus.analysis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.calculator.Calculator;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
@@ -22,8 +23,7 @@ public class IButtonDataAnalysis {
 
     private static Logger logger = LoggerFactory.getLogger(IButtonDataAnalysis.class.getName());
 
-    private IButtonDataAnalysis() {
-    }
+    private IButtonDataAnalysis() {}
 
     /**
      * Generate a list of measurements from a given list and period
@@ -130,7 +130,7 @@ public class IButtonDataAnalysis {
             try {
                 double result = Calculator.eval(FormulaUtil.generateFormula(operations.get(i)));
                 measurements.get(i).setData(result);
-            } catch (Exception ex) {
+            } catch (ControlledTemperatusException ex) {
                 logger.warn("Cannot perform operation: " + FormulaUtil.generateFormula(operations.get(i)) + " " + ex.getMessage());
                 measurements.get(i).setData(Double.NaN);
             }

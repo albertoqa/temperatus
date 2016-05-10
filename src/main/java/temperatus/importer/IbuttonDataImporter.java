@@ -53,6 +53,11 @@ public class IbuttonDataImporter extends AbstractImporter {
         readData();
     }
 
+    /**
+     * Parse the csv and read all its data
+     *
+     * @throws ControlledTemperatusException
+     */
     @Override
     public void readData() throws ControlledTemperatusException {
         logger.info("Reading csv data");
@@ -72,7 +77,7 @@ public class IbuttonDataImporter extends AbstractImporter {
 
             int line;   // current line being read
 
-            // Read the iButton info data
+            // Read the iButton info data until the header is found
             logger.debug("Reading iButton info data");
             for (line = 0; line < csvRecords.size(); line++) {
                 CSVRecord csvRecord = csvRecords.get(line);
@@ -101,6 +106,13 @@ public class IbuttonDataImporter extends AbstractImporter {
                 String unit = record.get(UNIT_HEADER);
                 Unit u = unit.equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
+                /**
+                 * In this css the decimal separator is a comma which interferes with the csv read... in this case
+                 * instead of 3 records we have 4 records. Form the measurement as the concatenation of the record
+                 * three and four like:
+                 * 12/12/2016 00:00:00, C, 12,3
+                 * Measurement = record.get(2) + , + record.get(3)
+                 */
                 double measurementData = 0.0;
                 if (unit.equals(Constants.UNIT_C)) {
                     if (record.size() == 4) {
@@ -117,17 +129,17 @@ public class IbuttonDataImporter extends AbstractImporter {
                     }
                 }
 
-                Measurement measurement = new Measurement(measurementDate, measurementData, u); // recordId must be set before save to db
+                Measurement measurement = new Measurement(measurementDate, measurementData, u);
                 measurements.add(measurement);
 
                 line++;
             }
 
-            if(measurements.size() > 1) {
+            if (measurements.size() > 1) {
                 startDate = measurements.get(0).getDate();
                 finishDate = measurements.get(measurements.size() - 1).getDate();
             } else {
-                throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_FILE_FORMAT) + "  " + fileToRead.getName());
+                throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_FILE_FORMAT) + Constants.SPACE + fileToRead.getName());
             }
 
         } catch (ControlledTemperatusException ex) {
@@ -184,7 +196,7 @@ public class IbuttonDataImporter extends AbstractImporter {
 
     @Override
     protected void checkIfFileIsValid() throws ControlledTemperatusException {
-        // TODO check if file valid
+        logger.debug("The check is performed in the read itself");
     }
 
 }

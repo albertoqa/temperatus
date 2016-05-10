@@ -43,7 +43,7 @@ public abstract class AbstractImporter {
      */
     abstract void checkIfFileIsValid() throws ControlledTemperatusException;
 
-    public File getReadedFile() {
+    public File getReadFile() {
         return fileToRead;
     }
 

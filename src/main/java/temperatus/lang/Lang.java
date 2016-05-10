@@ -1,11 +1,7 @@
 package temperatus.lang;
 
 /**
- * // * ################################################################## * //
- * // *                                                                    * //
- * // *                Constants for language names                        * //
- * // *                                                                    * //
- * // * ################################################################## * //
+ * Constans for language resources
  * <p>
  * Created by alberto on 18/4/16.
  */
@@ -299,6 +295,7 @@ public class Lang {
 
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
+    public static final String ERROR_EXPORTING_DATA = "errorExportingData";
 
     // ERRORS
     public static final String FILE_NOT_FOUND = "fileNotFound";

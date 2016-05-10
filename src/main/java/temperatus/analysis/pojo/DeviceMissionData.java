@@ -11,20 +11,20 @@ import java.util.List;
  */
 public class DeviceMissionData {
 
-    private String inProgress;
-    private String isSuta;
-    private String waitingForTempAlarm;
-    private String sampleRate;
-    private String missionStartTime;
-    private String missionSampleCount;
-    private String rollOverEnabled;
-    private String firstSampleTime;
-    private String totalMissionSamples;
-    private String totalDeviceSamples;
-    private String highAlarm;
-    private String lowAlarm;
-    private String resolution;
-    private List<Measurement> measurements;
+    private String inProgress;              // is there a mission currently running on the device?
+    private String isSuta;                  // is start upon temperature alarm configured?
+    private String waitingForTempAlarm;     // is waiting for the temperature alarm?
+    private String sampleRate;              // sample rate of measurement
+    private String missionStartTime;        // start date-time of the mission
+    private String missionSampleCount;      // number of measurements registered
+    private String rollOverEnabled;         // is roll-over enabled?
+    private String firstSampleTime;         // date-time of the first sample measurement
+    private String totalMissionSamples;     // total number of samples registered by the mission
+    private String totalDeviceSamples;      // total samples registered by the device
+    private String highAlarm;               // high alarm value (if set)
+    private String lowAlarm;                // low alarm value (if set)
+    private String resolution;              // resolution of measurement
+    private List<Measurement> measurements; // list of samples measured by the device
 
     public String getInProgress() {
         return inProgress;

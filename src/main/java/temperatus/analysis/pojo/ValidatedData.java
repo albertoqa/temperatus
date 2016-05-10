@@ -28,11 +28,12 @@ public class ValidatedData {
     private Date finishDate;    // end date of the experiment
     private boolean isUpdate = true;   // already saved data?
 
-    public ValidatedData() {}
+    public ValidatedData() {
+    }
 
     public ValidatedData(AbstractImporter importedData) {
         if (importedData != null) {
-            this.dataFile = importedData.getReadedFile();
+            this.dataFile = importedData.getReadFile();
             this.deviceModel = importedData.getDeviceModel();
             this.deviceSerial = importedData.getDeviceSerial();
             this.measurements = importedData.getMeasurements();

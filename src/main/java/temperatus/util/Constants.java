@@ -27,6 +27,7 @@ public class Constants {
     public static final String DEGREE = "º";
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
+    public static final String UNDERSCORE = "_";
 
     //#########################################################################//
 

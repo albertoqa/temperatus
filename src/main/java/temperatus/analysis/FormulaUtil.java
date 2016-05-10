@@ -1,6 +1,7 @@
 package temperatus.analysis;
 
 import temperatus.calculator.Calculator;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Position;
 
 import java.util.List;
@@ -15,8 +16,7 @@ public class FormulaUtil {
     // Regex used to split a formula in all its operands/operators - split by +-*/()
     static final String FORMULA_REGEX = "((?<=\\+)|(?=\\+))|((?<=\\-)|(?=\\-))|((?<=\\*)|(?=\\*))|((?<=\\/)|(?=\\/))|((?<=\\())|(?=\\()|(?<=\\))|(?=\\))";
 
-    private FormulaUtil() {
-    }
+    private FormulaUtil() {}
 
     /**
      * Check if a given string is a operator or a operand
@@ -72,7 +72,7 @@ public class FormulaUtil {
         try {
             Calculator.eval(toEval);
             return true;
-        } catch (Exception ex) {
+        } catch (ControlledTemperatusException ex) {
             return false;
         }
     }

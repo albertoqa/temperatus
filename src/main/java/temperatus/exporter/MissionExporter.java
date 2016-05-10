@@ -50,99 +50,103 @@ public class MissionExporter {
         logger.info("Generating data to export excel");
 
         Workbook wb = new HSSFWorkbook();
-        Sheet missionSheet = wb.createSheet(missionName);
-        Row headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
+        try {
+            Sheet missionSheet = wb.createSheet(missionName);
+            Row headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
 
-        /**
-         * Calculate independent positions first
-         */
-        int row = 1;
-        for (Record record : records) {
-            logger.debug("Exporting data for record: " + record);
+            /**
+             * Calculate independent positions first
+             */
+            int row = 1;
+            for (Record record : records) {
+                logger.debug("Exporting data for record: " + record);
 
-            Row dataRow = missionSheet.createRow(row);
+                Row dataRow = missionSheet.createRow(row);
 
-            Cell device = dataRow.createCell(0);
-            device.setCellValue(record.getPosition().getPlace());
+                Cell device = dataRow.createCell(0);
+                device.setCellValue(record.getPosition().getPlace());
 
-            List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
+                List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
-            int col = 1;
-            for (Measurement measurement : toExport) {
-                Cell data = dataRow.createCell(col);
+                int col = 1;
+                for (Measurement measurement : toExport) {
+                    Cell data = dataRow.createCell(col);
 
-                if(unit.equals(Unit.C)) {
-                    data.setCellValue(measurement.getData());
-                } else {
-                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
-                }
-
-                col++;
-            }
-
-            // Write the header as Index or DateTime
-            if (row == 1) {
-                logger.debug("Generating header");
-
-                boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
-                int c = 1;  // column
-
-                if (writeAsIndex) {
-                    for (Measurement measurement : toExport) {
-                        Cell time = headerRow.createCell(c);
-                        time.setCellValue(c);
-                        c++;
+                    if (unit.equals(Unit.C)) {
+                        data.setCellValue(measurement.getData());
+                    } else {
+                        data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
                     }
-                } else {
-                    for (Measurement measurement : toExport) {
-                        Cell time = headerRow.createCell(c);
-                        time.setCellValue(measurement.getDate().toString());
-                        c++;
+
+                    col++;
+                }
+
+                // Write the header as Index or DateTime
+                if (row == 1) {
+                    logger.debug("Generating header");
+
+                    boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
+                    int c = 1;  // column
+
+                    if (writeAsIndex) {
+                        for (Measurement measurement : toExport) {
+                            Cell time = headerRow.createCell(c);
+                            time.setCellValue(c);
+                            c++;
+                        }
+                    } else {
+                        for (Measurement measurement : toExport) {
+                            Cell time = headerRow.createCell(c);
+                            time.setCellValue(measurement.getDate().toString());
+                            c++;
+                        }
                     }
                 }
+
+                row++;
             }
 
-            row++;
-        }
+            /**
+             * Calculate formulas
+             */
+            for (Formula formula : formulas) {
+                logger.debug("Exporting data for formula: " + formula);
 
-        /**
-         * Calculate formulas
-         */
-        for (Formula formula : formulas) {
-            logger.debug("Exporting data for formula: " + formula);
+                List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
 
-            List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
+                Row dataRow = missionSheet.createRow(row);
+                Cell device = dataRow.createCell(0);
+                device.setCellValue(formula.getName());
 
-            Row dataRow = missionSheet.createRow(row);
-            Cell device = dataRow.createCell(0);
-            device.setCellValue(formula.getName());
+                int col = 1;
+                for (Measurement measurement : measurements) {
+                    Cell data = dataRow.createCell(col);
 
-            int col = 1;
-            for (Measurement measurement : measurements) {
-                Cell data = dataRow.createCell(col);
+                    if (unit.equals(Unit.C)) {
+                        data.setCellValue(measurement.getData());
+                    } else {
+                        data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                    }
 
-                if(unit.equals(Unit.C)) {
-                    data.setCellValue(measurement.getData());
-                } else {
-                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                    col++;
+
+                    if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
+                        logger.warn("Error in formula: " + formula);
+                        showWarn = true;
+                    }
                 }
 
-                col++;
-
-                if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
-                    logger.warn("Error in formula: " + formula);
-                    showWarn = true;
-                }
+                row++;
             }
 
-            row++;
-        }
+            // Inform the user of the error/incorrect value
+            if (showWarn) {
+                VistaNavigator.showAlert(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
+            }
 
-        // Inform the user of the error/incorrect value
-        if (showWarn) {
-            VistaNavigator.showAlert(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
+        } catch(Exception ex) {
+            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
         }
-
         return wb;
     }
 
