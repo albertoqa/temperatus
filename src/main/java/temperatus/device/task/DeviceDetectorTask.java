@@ -72,9 +72,9 @@ public class DeviceDetectorTask implements Runnable {
                         Iterator<String> i = serialsDetected.iterator();
                         while (i.hasNext()) {
                             String serial = i.next();
-                            if (!adapter.isPresent(serial.split("--")[1])) {
+                            if (!adapter.isPresent(serial.split("-")[0])) {
                                 serialsDetected.remove(serial);
-                                deviceDetectorSource.departureEvent(serial, adapter.getAddressAsString(), port_name);
+                                deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
                             }
                         }
 
@@ -83,29 +83,36 @@ public class DeviceDetectorTask implements Runnable {
                         adapter.targetAllFamilies();
                         for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
                             OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-                            String serial = adapter.getAddressAsString() + "--" + ibutton.getAddressAsString();
+                            String serial = ibutton.getAddressAsString() + "-" + port_name;
 
                             // New device detected, add it to the list and warn the listeners
+                            boolean alreadyIn = false;
                             if (!serialsDetected.contains(serial)) {
-                                serialsDetected.add(serial);
-                                deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
+                                for(String s: serialsDetected) {
+                                    if(s.contains(serial.split("-")[0])) {
+                                        alreadyIn = true;
+                                    }
+                                }
+                                if(!alreadyIn) {
+                                    serialsDetected.add(serial);
+                                    deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
+                                }
                             }
                         }
                         adapter.endExclusive();
-                    } else {
-                        // Adapter disconnected, check if any registered device was registered with this adapter
-                        Iterator<String> i = serialsDetected.iterator();
-                        while (i.hasNext()) {
-                            if(i.next().contains(adapter.getAddressAsString())) {
-                                i.remove();
-                            }
-                        }
-
-                        deviceDetectorSource.departureEvent("", adapter.getAddressAsString(), port_name);
                     }
+
                     adapter.freePort();
 
                 } catch (Exception e) {
+                    Iterator<String> i = serialsDetected.iterator();
+                    while (i.hasNext()) {
+                        String serial = i.next();
+                        if(serial.contains(port_name)) {
+                            i.remove();
+                            deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
+                        }
+                    }
                     // only prevent exception, not manage it at all... ¿NetAdapter?
                     // logger.debug("Exception in scan...  " + e.getMessage());
                 } finally {
