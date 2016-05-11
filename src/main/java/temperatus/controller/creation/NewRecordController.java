@@ -540,9 +540,11 @@ public class NewRecordController extends AbstractCreationController implements I
      * @return device with same serial as passed
      */
     private Device getDeviceFromIbutton(Ibutton ibutton) {
-        for (Device device : deviceConnectedList.getDevices()) {
-            if (device.getSerial().equals(ibutton.getSerial())) {
-                return device;
+        if(ibutton != null) {
+            for (Device device : deviceConnectedList.getDevices()) {
+                if (device.getSerial().equals(ibutton.getSerial())) {
+                    return device;
+                }
             }
         }
         return null;
@@ -951,12 +953,12 @@ public class NewRecordController extends AbstractCreationController implements I
             generalData.setModels(getModels(validatedDataList));
             generalData.setMeasurementsPerButton(getMeasurementsPerButton(validatedDataList));
 
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+            anchorPane.setDisable(false);
+
             RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
             recordConfigController.setMission(mission);
             recordConfigController.setData(validatedDataList, generalData, this);
-
-            stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
-            anchorPane.setDisable(false);
         });
 
         if (atLeastOneComplete) {

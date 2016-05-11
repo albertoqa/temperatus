@@ -344,7 +344,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
                 } catch (Exception e) {
                     Platform.runLater(() -> {
-                        showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        //showAlert(Alert.AlertType.ERROR, e.getMessage());
                         stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
                         anchorPane.setDisable(false);
                     });
@@ -364,10 +364,6 @@ public class RecordConfigController extends AbstractCreationController implement
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
             anchorPane.setDisable(false);
-        });
-
-        saveMeasurementsAndFormulasForMissionTask.setOnFailed(event -> {
-
         });
 
         saveMeasurementsAndFormulasForMissionTask.setOnFailed(event -> VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_SAVING_MEASUREMENTS)));
