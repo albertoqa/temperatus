@@ -71,6 +71,7 @@ public class NewFormulaController extends AbstractCreationController implements 
         // user is not allowed to insert characters directly on the operation, only delete them
         operationArea.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+                // TODO on backspace delete the complete value
                 String value = operation.getValue();
                 if (value.length() > 0) {
                     operation.set(value.substring(0, value.length() - 1));

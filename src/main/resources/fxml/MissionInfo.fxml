@@ -14,7 +14,7 @@
                      <children>
                         <AnchorPane prefHeight="46.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Label layoutX="70.0" layoutY="14.0" prefWidth="109.0" styleClass="label-paneinfo" text="Project:">
+                              <Label fx:id="projectNameLabel" layoutX="70.0" layoutY="14.0" prefWidth="109.0" styleClass="label-paneinfo" text="Project:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -24,7 +24,7 @@
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="497.0" layoutY="14.0" styleClass="label-paneinfo" text="Start Date:">
+                              <Label fx:id="projectDateLabel" layoutX="497.0" layoutY="14.0" styleClass="label-paneinfo" text="Start Date:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -37,7 +37,7 @@
                            </children></AnchorPane>
                         <AnchorPane prefHeight="113.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Label layoutX="65.0" layoutY="14.0" styleClass="label-paneinfo" text="Mission:">
+                              <Label fx:id="missionLabel" layoutX="65.0" layoutY="14.0" styleClass="label-paneinfo" text="Mission:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -47,7 +47,7 @@
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="68.0" layoutY="46.0" styleClass="label-paneinfo" text="Author:">
+                              <Label fx:id="authorLabel" layoutX="68.0" layoutY="46.0" styleClass="label-paneinfo" text="Author:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -57,7 +57,7 @@
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="530.0" layoutY="14.0" styleClass="label-paneinfo" text="Date:">
+                              <Label fx:id="dateLabel" layoutX="530.0" layoutY="14.0" styleClass="label-paneinfo" text="Date:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -67,7 +67,7 @@
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="29.0" layoutY="78.0" styleClass="label-paneinfo" text="Observations:">
+                              <Label fx:id="observationsLabel" layoutX="29.0" layoutY="78.0" styleClass="label-paneinfo" text="Observations:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -80,12 +80,12 @@
                            </children></AnchorPane>
                         <AnchorPane prefHeight="46.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Label layoutX="76.0" layoutY="14.0" styleClass="label-paneinfo" text="Game:">
+                              <Label fx:id="gameLabel" layoutX="76.0" layoutY="14.0" styleClass="label-paneinfo" text="Game:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="507.0" layoutY="14.0" styleClass="label-paneinfo" text="iButtons:">
+                              <Label fx:id="numberButtonsLabel" layoutX="507.0" layoutY="14.0" styleClass="label-paneinfo" text="iButtons:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -103,7 +103,7 @@
                            </children></AnchorPane>
                         <AnchorPane prefHeight="45.0" prefWidth="746.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Label layoutX="63.0" layoutY="14.0" styleClass="label-paneinfo" text="Subject:">
+                              <Label fx:id="subjectLabel" layoutX="63.0" layoutY="14.0" styleClass="label-paneinfo" text="Subject:">
                                  <font>
                                     <Font name="Avenir Light" size="20.0" />
                                  </font>
@@ -126,13 +126,12 @@
             </ScrollPane>
             <AnchorPane layoutX="307.0" layoutY="-80.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label styleClass="headerLabel" text="Mission Info" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
+                  <Label fx:id="headerLabel" styleClass="headerLabel" text="Mission Info" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font name="Avenir Light" size="28.0" />
                      </font>
                   </Label>
                   <Button fx:id="exportButton" layoutX="638.0" layoutY="23.0" mnemonicParsing="false" onAction="#exportData" prefWidth="127.0" styleClass="cbtn" text="Export" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="23.0" />
-                  <Button fx:id="generateReportButton" layoutX="473.0" layoutY="22.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" styleClass="cbtn" text="Generate Report" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="23.0" />
                </children>
             </AnchorPane>
          </children>

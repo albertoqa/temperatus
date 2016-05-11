@@ -133,7 +133,7 @@ public class IButtonDataAnalysis {
                 double result = Calculator.eval(FormulaUtil.generateFormula(operations.get(i)));
                 measurements.get(i).setData(result);
             } catch (ControlledTemperatusException ex) {
-                logger.warn("Cannot perform operation: " + FormulaUtil.generateFormula(operations.get(i)) + " " + ex.getMessage());
+                logger.debug("Cannot perform operation: " + FormulaUtil.generateFormula(operations.get(i)) + " " + ex.getMessage());
                 measurements.get(i).setData(Double.NaN);
             }
         }

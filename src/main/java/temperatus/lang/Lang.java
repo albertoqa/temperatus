@@ -124,6 +124,7 @@ public class Lang {
     public static final String NEW_MISSION_TITLE = "newMissionTitle";
     public static final String UPDATE_MISSION_TITLE = "updateMissionTitle";
     public static final String PROJECT_LABEL = "projectLabel";
+    public static final String MISSION_LABEL = "missionLabel";
     public static final String AUTHOR_LABEL = "authorLabel";
     public static final String GAME_LABEL = "gameLabel";
     public static final String SUBJECT_LABEL = "subjectLabel";

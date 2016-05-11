@@ -17,6 +17,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckListView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataAnalysis;
@@ -40,7 +42,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * Mission information show in a graph
+ * Mission information shown in a graph
  * <p>
  * Created by alberto on 6/4/16.
  */
@@ -66,8 +68,11 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     private HashMap<Record, List<Measurement>> dataMap;
 
+    private static Logger logger = LoggerFactory.getLogger(MissionLineChart.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        translate();
 
         series = FXCollections.observableArrayList();
         records = FXCollections.observableArrayList();
@@ -81,6 +86,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         lineChart.setData(series);
         lineChart.setAnimated(false);
 
+        // Listener for positions, when a position is checked show it on the graph
         positionsList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Record>) c -> {
             c.next();
             if (c.wasAdded()) {
@@ -95,6 +101,7 @@ public class MissionLineChart implements Initializable, AbstractController {
             }
         });
 
+        // Listener for formulas, when a formula is checked show it on the graph
         formulasList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Formula>) c -> {
             c.next();
             if (c.wasAdded()) {
@@ -109,34 +116,64 @@ public class MissionLineChart implements Initializable, AbstractController {
             }
         });
 
-        spinner.valueProperty().addListener((obs, oldValue, newValue) -> reloadSelectedSeriesForPeriod(newValue));
-
+        // On spinner value change recalculate all the data shown on the graph
+        spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                reloadSelectedSeriesForPeriod(newValue);
+            } else {
+                spinner.getEditor().setText("1");
+                reloadSelectedSeriesForPeriod(1);
+            }
+        });
     }
 
+    /**
+     * Add a new serie for the selected formula and the given period to the chart
+     *
+     * @param formula formula to add
+     * @param period  period to calculate
+     */
     private void addSerieForFormula(Formula formula, int period) {
         XYChart.Series<Date, Number> serie = createSerieForFormula(formula, period);
         series.add(serie);
         ChartToolTip.addToolTipOnHover(serie, lineChart);
     }
 
+    /**
+     * Add a new serie for the selected record (position) and the given period to the chart
+     *
+     * @param record related to the position
+     * @param period period to calculate
+     */
     private void addSerieForRecord(Record record, int period) {
         XYChart.Series<Date, Number> serie = createSerieForRecord(record, period);
         series.add(serie);
         ChartToolTip.addToolTipOnHover(serie, lineChart);
     }
 
+    /**
+     * Reload selected positions and formulas with a new period
+     *
+     * @param period new period to calculate
+     */
     private void reloadSelectedSeriesForPeriod(int period) {
         series.clear();
-
         for (Record record : positionsList.getCheckModel().getCheckedItems()) {
             addSerieForRecord(record, period);
         }
-
         for (Formula formula : formulasList.getCheckModel().getCheckedItems()) {
             addSerieForFormula(formula, period);
         }
     }
 
+    /**
+     * Create a new serie for the given record and period. Group temperatures in groups of <period> measurements and
+     * add them to the chart.
+     *
+     * @param record record to create the serie
+     * @param period period to calculate
+     * @return serie to show for the given record
+     */
     private XYChart.Series<Date, Number> createSerieForRecord(Record record, int period) {
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
@@ -154,6 +191,14 @@ public class MissionLineChart implements Initializable, AbstractController {
         return serie;
     }
 
+    /**
+     * Create a new serie for the given formula and period. Group temperatures in groups of <period> measurements and
+     * add them to the chart.
+     *
+     * @param formula formula to create the serie
+     * @param period  period to calculate
+     * @return serie to show for the given formula
+     */
     private XYChart.Series<Date, Number> createSerieForFormula(Formula formula, int period) {
 
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
@@ -170,7 +215,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         });
 
         for (Measurement measurement : measurements) {
-            if (measurement.getData() == Double.NaN) {
+            if (Double.isNaN(measurement.getData())) {
                 VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_CALCULATING_FORMULA));
                 break;
             }
@@ -179,15 +224,24 @@ public class MissionLineChart implements Initializable, AbstractController {
         return serie;
     }
 
+    /**
+     * Set the mission data for the controller
+     *
+     * @param dataMap record and measurements for the mission
+     * @param formulas formulas selected for the mission
+     */
     public void setData(HashMap<Record, List<Measurement>> dataMap, Set<Formula> formulas) {
         this.dataMap = dataMap;
         this.formulas.addAll(formulas);
         this.records.addAll(dataMap.keySet());
 
-        positionsList.getCheckModel().check(0);
-        reloadSelectedSeriesForPeriod(1);
+        positionsList.getCheckModel().check(0);     // select only the first record at the beginning so it load fast
+        reloadSelectedSeriesForPeriod(1);           // necessary to call this on init
     }
 
+    /**
+     * Save the current char (temperature log) to a png file
+     */
     @FXML
     public void saveAsPng() {
         // Only allow export if complete version of the application, trial version cannot export data
@@ -211,7 +265,7 @@ public class MissionLineChart implements Initializable, AbstractController {
                 }
             }
         } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, "");
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
 
@@ -219,7 +273,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     public void translate() {
         saveGraphicButton.setText(language.get(Lang.SAVE_GRAPHIC));
         dateAxis.setLabel(language.get(Lang.DATE_AXIS));
-        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+        if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
             temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
         } else {
             temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));

@@ -71,15 +71,9 @@ public class SpinnerFactory {
                 ParsePosition parsePosition = new ParsePosition(0);
                 try {
                     format.parse(c.getControlNewText(), parsePosition);
-
-                    if (parsePosition.getIndex() == 0 || parsePosition.getIndex() < c.getControlNewText().length()) {
-                        // reject parsing the complete text failed
-                        return null;
-                    }
-
                 } catch (NumberFormatException ex) {
                     logger.warn("Error parsing spinner value");
-                    c.setText("0");
+                    c.setText("1");
                 }
             }
             return c;
