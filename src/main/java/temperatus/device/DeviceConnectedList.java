@@ -38,6 +38,8 @@ public class DeviceConnectedList implements DeviceDetectorListener {
         devices.add(device);
     }
 
+    private synchronized void remove(Device device) { devices.remove(device); }
+
     public synchronized Device getDevice(String serial) {
         for (Device device : devices) {
             if (device.getSerial().equals(serial)) {
@@ -96,7 +98,7 @@ public class DeviceConnectedList implements DeviceDetectorListener {
 
         for (Device device : getDevices()) {
             if (serial.equals(device.getSerial()) || (adapterName.equals(device.getAdapterName()) && port.equals(device.getAdapterPort()))) {
-                Platform.runLater(() -> getDevices().remove(device));
+                Platform.runLater(() -> remove(device));
             }
         }
     }
