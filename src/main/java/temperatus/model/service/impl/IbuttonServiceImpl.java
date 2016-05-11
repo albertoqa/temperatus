@@ -3,6 +3,7 @@ package temperatus.model.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.dao.IbuttonDao;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
@@ -40,7 +41,7 @@ public class IbuttonServiceImpl implements IbuttonService {
     }
 
     @Override
-    public void saveOrUpdate(Ibutton ibutton) {
+    public void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException{
 
         // TODO check other constraints
 

@@ -16,6 +16,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.Subject;
 import temperatus.model.service.SubjectService;
 import temperatus.util.Animation;
+import temperatus.util.DateUtils;
 import temperatus.util.TextValidation;
 import temperatus.util.VistaNavigator;
 
@@ -44,7 +45,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @FXML private TextField nameInput;
     @FXML private TextArea observationsInput;
-    @FXML private TextField ageInput;
+    @FXML private DatePicker ageInput;
     @FXML private TextField weightInput;
     @FXML private TextField heightInput;
 
@@ -53,7 +54,6 @@ public class NewSubjectController extends AbstractCreationController implements 
     @Autowired SubjectService subjectService;
 
     private static final int MAX_DIGITS_FOR_SIZE = 8;
-    private static final int MAX_DIGITS_FOR_AGE = 3;
 
     private static Logger logger = LoggerFactory.getLogger(NewSubjectController.class.getName());
 
@@ -88,7 +88,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
         weightInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_SIZE));
         heightInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_SIZE));
-        ageInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_AGE));
+        ageInput.setEditable(false);
 
         translate();
     }
@@ -106,7 +106,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
         if (subject.isIsPerson()) {
             person.selectToggle(isPerson);
-            ageInput.setText(String.valueOf(subject.getAge()));
+            ageInput.setValue(DateUtils.asLocalDate(subject.getAge()));
             weightInput.setText(String.valueOf(subject.getWeight()));
             heightInput.setText(String.valueOf(subject.getHeight()));
 
@@ -139,7 +139,7 @@ public class NewSubjectController extends AbstractCreationController implements 
             // if subject is not a person only set the name and observations
             if (person.getSelectedToggle() == isPerson) {
                 subject.setIsPerson(true);
-                subject.setAge(Integer.valueOf(ageInput.getText()));
+                subject.setAge(DateUtils.asUtilDate(ageInput.getValue()));
                 subject.setWeight(Double.valueOf(weightInput.getText()));
                 subject.setHeight(Double.valueOf(heightInput.getText()));
                 subject.setSex(gender.getSelectedToggle() == isMale);   // true = male, false = female
@@ -175,7 +175,7 @@ public class NewSubjectController extends AbstractCreationController implements 
 
     @Override
     public void translate() {
-        titledPane.setText(language.get(Lang.NEW_GAME));
+        titledPane.setText(language.get(Lang.NEW_SUBJECT));
         saveButton.setText(language.get(Lang.SAVE));
         cancelButton.setText(language.get(Lang.CANCEL));
         nameLabel.setText(language.get(Lang.NAME_LABEL));

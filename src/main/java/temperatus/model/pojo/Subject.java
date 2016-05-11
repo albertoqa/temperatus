@@ -2,10 +2,12 @@ package temperatus.model.pojo;
 
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import temperatus.util.DateUtils;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ public class Subject implements java.io.Serializable {
     private boolean isPerson;
     private SimpleStringProperty name = new SimpleStringProperty();
     private Boolean sex;
-    private SimpleIntegerProperty age = new SimpleIntegerProperty();
+    private Date age;
     private SimpleDoubleProperty weight = new SimpleDoubleProperty();
     private SimpleDoubleProperty height = new SimpleDoubleProperty();
     private String observations;
@@ -36,12 +38,12 @@ public class Subject implements java.io.Serializable {
         this.name.setValue(name);
     }
 
-    public Subject(boolean isPerson, String name, Boolean sex, Integer age, Double weight, Double height,
+    public Subject(boolean isPerson, String name, Boolean sex, Date age, Double weight, Double height,
                    String observations, Set<Mission> missions) {
         this.isPerson = isPerson;
         this.name.setValue(name);
         this.sex = sex;
-        this.age.setValue(age);
+        this.age = age;
         this.weight.setValue(weight);
         this.height.setValue(height);
         this.observations = observations;
@@ -88,12 +90,13 @@ public class Subject implements java.io.Serializable {
     }
 
     @Column(name = "AGE")
-    public Integer getAge() {
-        return this.age.getValue();
+    @Temporal(TemporalType.DATE)
+    public Date getAge() {
+        return this.age;
     }
 
-    public void setAge(Integer age) {
-        this.age.setValue(age);
+    public void setAge(Date dateIni) {
+        this.age = dateIni;
     }
 
     @Column(name = "WEIGHT", precision = 17, scale = 0)
@@ -152,8 +155,15 @@ public class Subject implements java.io.Serializable {
     }
 
     @Transient
-    public StringBinding getAgeProperty() {
-        return age.asString();
+    public SimpleStringProperty getAgeProperty() {
+        if (this.isIsPerson()) {
+            if (age != null) {
+                LocalDate date = DateUtils.asLocalDate(age);
+                int years = LocalDate.now().getYear() - date.getYear();
+                return new SimpleStringProperty(String.valueOf(years));
+            }
+        }
+        return new SimpleStringProperty("");
     }
 
     @Transient

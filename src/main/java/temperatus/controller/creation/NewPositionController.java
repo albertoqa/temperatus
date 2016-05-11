@@ -57,6 +57,9 @@ public class NewPositionController extends AbstractCreationController implements
     private static Logger logger = LoggerFactory.getLogger(NewPositionController.class.getName());
 
     private static final String DEFAULT_IMAGE = "/images/noimage.jpg";  // Set the default image to show -> no image picture
+    private static final String FILE = "file:";
+    private static final String PNG = ".png";
+
     private String imagePath;
     private boolean saveImage = false;
 
@@ -82,7 +85,7 @@ public class NewPositionController extends AbstractCreationController implements
         imagePath = position.getPicture();
 
         try {
-            imageView.setImage(new Image(imagePath));
+            imageView.setImage(new Image(FILE + imagePath));
         } catch (Exception ex) {
             logger.error("Cannot find image for position...");
             imageView.setImage(new Image(DEFAULT_IMAGE));
@@ -116,11 +119,12 @@ public class NewPositionController extends AbstractCreationController implements
                 }
 
                 if(saveImage) {
-                    File outputFile = new File(Constants.IMAGES_PATH + name);
-                    BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);    // TODO la imagen no la coge bien!
+                    File outputFile = new File(Constants.IMAGES_PATH + name + PNG);
+                    outputFile.getParentFile().mkdir();
+                    BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
                     try {
                         ImageIO.write(bImage, "png", outputFile);
-                        position.setPicture(Constants.IMAGES_PATH + name + ".png");
+                        position.setPicture(Constants.IMAGES_PATH + name + PNG);
                     } catch (IOException e) {
                         logger.error("Error saving image to disk... " + e.getMessage());
                         throw new ControlledTemperatusException(language.get(Lang.CANNOT_SAVE_IMAGE));
@@ -191,9 +195,8 @@ public class NewPositionController extends AbstractCreationController implements
         FileChooser fileChooser = new FileChooser();
 
         //Set extension filter
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        FileChooser.ExtensionFilter extFilterImage = new FileChooser.ExtensionFilter("Image files (jpg/png)", "*.JPG", "*.PNG");
+        fileChooser.getExtensionFilters().addAll(extFilterImage);
 
         //Show open file dialog
         File file = fileChooser.showOpenDialog(titledPane.getScene().getWindow());

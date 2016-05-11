@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.device.DeviceConnectedList;
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.Position;
@@ -85,14 +86,15 @@ public class NewIButtonController extends AbstractCreationController implements 
     /**
      * Serial and model cannot be modified by the user. Set them from the device information
      *
-     * @param serial device serial
-     * @param model  device model
+     * @param serial    device serial
+     * @param model     device model
+     * @param isAdapter if adapter true don't allow to choose a position
      */
     public void setData(String serial, String model, boolean isAdapter) {
         this.serial.setText(serial);
         this.model.setText(model);
 
-        if(isAdapter) {
+        if (isAdapter) {
             position.setDisable(true);
         }
     }
@@ -127,6 +129,9 @@ public class NewIButtonController extends AbstractCreationController implements 
 
             logger.info("Saved: " + ibutton);
 
+        } catch (ControlledTemperatusException ex) {
+            logger.warn("Invalid data");
+            showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
             showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));

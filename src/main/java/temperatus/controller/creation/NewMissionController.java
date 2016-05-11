@@ -258,7 +258,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newProject() {
-        VistaNavigator.openModal(Constants.NEW_PROJECT, "");
+        VistaNavigator.openModal(Constants.NEW_PROJECT, Constants.EMPTY);
     }
 
     /**
@@ -266,7 +266,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, "");
+        VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
     }
 
     /**
@@ -274,7 +274,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.EMPTY);
     }
 
     /**
@@ -282,7 +282,7 @@ public class NewMissionController extends AbstractCreationController implements 
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.EMPTY);
     }
 
     /**

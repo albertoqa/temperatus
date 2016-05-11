@@ -16,7 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.CheckListView;
-import org.controlsfx.control.ListSelectionView;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,8 +68,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     @FXML private Label defaultPositionsLabel;
     @FXML private Label defaultFormulasLabel;
 
-    @FXML private ListSelectionView<Position> positionsSelector;
     @FXML private CheckListView<Formula> formulasList;
+    @FXML private CheckListView<Position> positionsList;
 
     @FXML private Button rightButton;
     @FXML private Button leftButton;
@@ -145,14 +144,13 @@ public class NewGameController extends AbstractCreationController implements Ini
             }
         };
 
-        getPositionsTask.setOnSucceeded(e -> positionsSelector.getSourceItems().addAll(getPositionsTask.getValue()));
+        getPositionsTask.setOnSucceeded(e -> positionsList.getItems().addAll(getPositionsTask.getValue()));
         getFormulasTask.setOnSucceeded(e -> formulasList.getItems().addAll(getFormulasTask.getValue()));
 
         // run the tasks using a thread from the thread pool:
         databaseExecutor.submit(getPositionsTask);
         databaseExecutor.submit(getFormulasTask);
     }
-
 
 
     /**
@@ -187,8 +185,9 @@ public class NewGameController extends AbstractCreationController implements Ini
             formulasList.getCheckModel().check(formula);    // check game's formulas
         }
 
-        positionsSelector.getTargetItems().addAll(game.getPositions());
-        positionsSelector.getSourceItems().removeAll(game.getPositions());
+        for (Position position : game.getPositions()) {
+            positionsList.getCheckModel().check(position);    // check game's positions
+        }
 
         List<temperatus.model.pojo.Image> imagesPaths = new ArrayList<>(game.getImages());
         images.clear();  // clear default images
@@ -228,7 +227,7 @@ public class NewGameController extends AbstractCreationController implements Ini
             game.setObservations(observationsInput.getText());
 
             game.getPositions().clear();
-            game.getPositions().addAll(positionsSelector.getTargetItems()); // default positions
+            game.getPositions().addAll(positionsList.getCheckModel().getCheckedItems()); // default positions
 
             game.getFormulas().clear();
             game.getFormulas().addAll(formulasList.getCheckModel().getCheckedItems());  // default formulas
@@ -293,7 +292,7 @@ public class NewGameController extends AbstractCreationController implements Ini
         keepImage();
         selectedImage = (selectedImage - 1) % images.size();
         if (selectedImage < 0) {
-            selectedImage = -selectedImage;
+            selectedImage = images.size() - 1;
         }
         imageView.setImage(images.get(selectedImage));
     }
@@ -333,6 +332,7 @@ public class NewGameController extends AbstractCreationController implements Ini
         }
 
         File outputFile = new File(Constants.IMAGES_PATH + fileName);
+        outputFile.getParentFile().mkdir();
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         try {
             ImageIO.write(bImage, "png", outputFile);

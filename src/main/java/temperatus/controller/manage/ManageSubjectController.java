@@ -126,7 +126,9 @@ public class ManageSubjectController implements Initializable, AbstractControlle
             if (subject != null) {
                 nameLabel.setText(subject.getName().toUpperCase());
                 if (subject.isIsPerson()) {
-                    ageInfo.setText(subject.getAge().toString());
+                    if(subject.getAge() != null) {
+                        ageInfo.setText(Constants.dateFormat.format(subject.getAge()));
+                    }
                     weightInfo.setText(subject.getWeight().toString());
                     heightInfo.setText(subject.getHeight().toString());
                 } else {

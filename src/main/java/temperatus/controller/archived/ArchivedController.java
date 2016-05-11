@@ -29,6 +29,7 @@ import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +62,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
     @FXML private Button deleteProjectButton;
     @FXML private Button editProjectButton;
+    @FXML private Button exportProjectButton;
 
     //#####################################################
     // Mission Information Pane labels
@@ -355,6 +357,22 @@ public class ArchivedController implements Initializable, AbstractController {
     }
 
     /**
+     * Export all the missions of the selected project to a excel file
+     * This option is only activated for premium version of the program
+     *
+     * @throws IOException
+     */
+    @FXML
+    private void exportProject() throws IOException {
+        // Only allow export if complete version of the application, trial version cannot export data
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            // TODO
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
+        }
+    }
+
+    /**
      * Reload if create/edit a project
      *
      * @param object object to reload
@@ -381,6 +399,7 @@ public class ArchivedController implements Initializable, AbstractController {
 
         newProjectButton.setText(language.get(Lang.NEW_PROJECT_BUTTON));
         newMissionButton.setText(language.get(Lang.NEW_MISSION_BUTTON));
+        exportProjectButton.setText(language.get(Lang.EXPORT));
 
         projectStartDateLabel.setText(language.get(Lang.START_DATE_LABEL));
         projectNumberOfMissionsLabel.setText(language.get(Lang.NUMBER_OF_MISSIONS));

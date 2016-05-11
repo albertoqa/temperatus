@@ -47,8 +47,6 @@ public class NewFormulaController extends AbstractCreationController implements 
     @Autowired PositionService positionService;
     @Autowired FormulaService formulaService;
 
-    private static Logger logger = LoggerFactory.getLogger(NewFormulaController.class.getName());
-
     private static final String PLUS = "+";
     private static final String MINUS = "-";
     private static final String MULT = "*";
@@ -56,12 +54,17 @@ public class NewFormulaController extends AbstractCreationController implements 
     private static final String LEFT = "(";
     private static final String RIGHT = ")";
 
-    private SimpleStringProperty operation = new SimpleStringProperty("");  // contains the actual formula created
+    private static final String DECIMAL_REGEX = "[0-9.]";
+
+    private SimpleStringProperty operation = new SimpleStringProperty("");  // contains the current formula created
 
     private Formula formula;
 
+    private static Logger logger = LoggerFactory.getLogger(NewFormulaController.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        translate();
         formula = null;
 
         addListenerToList();    // if a position is selected try to add it to the formula
@@ -69,21 +72,28 @@ public class NewFormulaController extends AbstractCreationController implements 
         operationArea.textProperty().bind(operation);
 
         // user is not allowed to insert characters directly on the operation, only delete them
+        // if character is a number or a . allow it
         operationArea.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-                // TODO on backspace delete the complete value
                 String value = operation.getValue();
                 if (value.length() > 0) {
-                    operation.set(value.substring(0, value.length() - 1));
+                    // if last char is an operator, delete it
+                    if (isLastCharAnOperator() || value.substring(value.length() - 1).equals(RIGHT)) {
+                        operation.set(value.substring(0, value.length() - 1));
+                    }
+                    // if it is not an operator, delete char until we found an operator or the operation is empty
+                    else {
+                        while (value.length() > 0 && !isLastCharAnOperator()) {
+                            operation.set(operation.getValue().substring(0, operation.getValue().length() - 1));
+                        }
+                    }
                 }
-            } else if(keyEvent.getText().matches("[0-9.]")) {
+            } else if (keyEvent.getText().matches(DECIMAL_REGEX)) {
                 String value = keyEvent.getText();
                 operation.set(operation.getValue() + value);
             }
             keyEvent.consume();
         });
-
-        translate();
 
         getAllElements();
     }
@@ -122,6 +132,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     /**
      * When user select a position from the list, try to add it to the current operation
+     * Before add it, check if is valid to add a position at this point of the formula
      */
     private void addListenerToList() {
         positionsSelector.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -151,8 +162,12 @@ public class NewFormulaController extends AbstractCreationController implements 
      * @return the last element of the operation is an operator?
      */
     private boolean isLastCharAnOperator() {
-        String lastChar = operation.getValue().substring(operation.length().get() - 1);
-        return PLUS.equals(lastChar) || MINUS.equals(lastChar) || MULT.equals(lastChar) || DIV.equals(lastChar) || LEFT.equals(lastChar);
+        if (operation.length().getValue() > 0) {
+            String lastChar = operation.getValue().substring(operation.length().get() - 1);
+            return PLUS.equals(lastChar) || MINUS.equals(lastChar) || MULT.equals(lastChar) || DIV.equals(lastChar) || LEFT.equals(lastChar);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -174,26 +189,41 @@ public class NewFormulaController extends AbstractCreationController implements 
         positionsSelector.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Add a plus operator
+     */
     @FXML
     private void plusOperation() {
         operator(PLUS);
     }
 
+    /**
+     * Add a minus operator
+     */
     @FXML
     private void minusOperation() {
         operator(MINUS);
     }
 
+    /**
+     * Add a multiplication operator
+     */
     @FXML
     private void multOperation() {
         operator(MULT);
     }
 
+    /**
+     * Add a division operator
+     */
     @FXML
     private void divOperation() {
         operator(DIV);
     }
 
+    /**
+     * Add a left bracket (only if allowed)
+     */
     @FXML
     private void leftOperation() {
         if (isValidToAddLeftBracket()) {
@@ -202,6 +232,9 @@ public class NewFormulaController extends AbstractCreationController implements 
         positionsSelector.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Add a right bracket
+     */
     @FXML
     private void rightOperation() {
         operation.set(operation.getValue() + RIGHT);

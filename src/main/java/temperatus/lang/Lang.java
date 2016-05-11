@@ -100,6 +100,7 @@ public class Lang {
     public static final String OPERATION_COLUMN = "operationColumn";
 
     // New Subject
+    public static final String NEW_SUBJECT = "newSubject";
     public static final String AGE_LABEL = "ageLabel";
     public static final String AGE_PROMPT = "agePrompt";
     public static final String WEIGHT_LABEL = "weightLabel";

@@ -1,5 +1,6 @@
 package temperatus.model.service;
 
+import temperatus.exception.ControlledTemperatusException;
 import temperatus.model.pojo.Ibutton;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface IbuttonService {
 
     List<Ibutton> getAll();
 
-    void saveOrUpdate(Ibutton ibutton);
+    void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException;
 
     Ibutton getBySerial(String serial);
 

@@ -70,33 +70,42 @@ public class OutliersController implements Initializable, AbstractController {
 
     /**
      * Update the temperature value in the file
+     *
      * @param measurement measurement to update
      */
     private void updateMeasurementInFile(Measurement measurement, Double newValue) {
-        // open file
-        String lineToChange = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + measurement.getData();
-        String updatedLine = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + newValue;
+        String lineToChange = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + measurement.getData();
+        String updatedLine = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + newValue;
 
-        lineToChange = lineToChange.replace(".", ",");
-        updatedLine = updatedLine.replace(".", ",");
+        lineToChange = lineToChange.replace(Constants.DOT, Constants.COMMA);  // if measurement is like 3.3, change it to 3,3
+        updatedLine = updatedLine.replace(Constants.DOT, Constants.COMMA);
 
         try {
             measurement.setData(newValue);
-            updateLine(lineToChange, updatedLine, measurement.getFile());
+            updateLine(lineToChange, updatedLine, measurement.getFile());   // replace line in file
         } catch (IOException e) {
-           logger.error("Line cannot be replaced...");
+            logger.error("Line cannot be replaced...");
         }
     }
 
-
+    /**
+     * Open the file related to the measurement, search for the line line to update and replace it with the new line
+     *
+     * @param toUpdate line to update
+     * @param updated new line
+     * @param data file where the data is stored
+     * @throws IOException
+     */
     private void updateLine(String toUpdate, String updated, File data) throws IOException {
         BufferedReader file = new BufferedReader(new FileReader(data));
         String line;
-        String input = "";
+        StringBuilder stringBuilder = new StringBuilder(Constants.EMPTY);
 
-        while ((line = file.readLine()) != null)
-            input += line + System.lineSeparator();
+        while ((line = file.readLine()) != null) {
+            stringBuilder.append(line + System.lineSeparator());
+        }
 
+        String input = stringBuilder.toString();
         input = input.replace(toUpdate, updated);
 
         FileOutputStream os = new FileOutputStream(data);
@@ -114,7 +123,7 @@ public class OutliersController implements Initializable, AbstractController {
      */
     void setValidatedDataList(List<ValidatedData> data) {
         for (ValidatedData validatedData : data) {
-            for(Measurement measurement: validatedData.getPossibleErrors()) {
+            for (Measurement measurement : validatedData.getPossibleErrors()) {
                 measurement.setFile(validatedData.getDataFile());
                 measurement.setPosition(validatedData.getPosition().getPlace());
                 measurements.add(measurement);
