@@ -132,6 +132,8 @@ public class NewPositionController extends AbstractCreationController implements
                 position.setPlace(name);
                 positionService.saveOrUpdate(position);
 
+                showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
                 VistaNavigator.closeModal(titledPane);
                 if (VistaNavigator.getController() != null) {
                     // Only necessary if base view needs to know about the new position creation

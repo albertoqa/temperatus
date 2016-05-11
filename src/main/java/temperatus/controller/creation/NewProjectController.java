@@ -87,6 +87,8 @@ public class NewProjectController extends AbstractCreationController implements 
 
             projectService.saveOrUpdate(project);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new project creation

@@ -70,6 +70,8 @@ public class NewConfigurationController extends AbstractStartDeviceMissionContro
             generateConfiguration(configuration);
             configurationService.saveOrUpdate(configuration);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new configuration creation

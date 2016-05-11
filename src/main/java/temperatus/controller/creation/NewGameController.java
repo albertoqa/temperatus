@@ -247,6 +247,8 @@ public class NewGameController extends AbstractCreationController implements Ini
 
             gameService.saveOrUpdate(game);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 VistaNavigator.getController().reload(game);

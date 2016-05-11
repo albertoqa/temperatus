@@ -149,6 +149,8 @@ public class NewSubjectController extends AbstractCreationController implements 
 
             subjectService.saveOrUpdate(subject);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 VistaNavigator.getController().reload(subject);

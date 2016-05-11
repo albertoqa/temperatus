@@ -256,13 +256,19 @@ public class VistaNavigator {
      * @param message message to show
      */
     public static void showAlert(Alert.AlertType type, String message) {
-        Alert alert = new Alert(type, message);
-        if (currentStage != null) {
-            alert.initOwner(currentStage);
-        } else if (mainStage != null) {
-            alert.initOwner(mainStage);
-        }
+        Alert alert = createAlert(type, message);
         alert.show();
+    }
+
+    /**
+     * Show a new alert window with the type and message given and wait for user response
+     *
+     * @param type    type of the alert
+     * @param message message to show
+     */
+    public static void showAlertAndWait(Alert.AlertType type, String message) {
+        Alert alert = createAlert(type, message);
+        alert.showAndWait();
     }
 
     /**
@@ -273,15 +279,26 @@ public class VistaNavigator {
      * @return confirmation or cancel?
      */
     public static boolean confirmationAlert(Alert.AlertType type, String message) {
+        Alert alert = createAlert(type, message);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && ButtonType.OK == result.get();
+    }
+
+    /**
+     * Create a new alert with the given type and message
+     *
+     * @param type    alert type
+     * @param message message to show
+     * @return alert
+     */
+    private static Alert createAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type, message);
         if (currentStage != null) {
             alert.initOwner(currentStage);
         } else if (mainStage != null) {
             alert.initOwner(mainStage);
         }
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && ButtonType.OK == result.get();
+        return alert;
     }
-
 }
 

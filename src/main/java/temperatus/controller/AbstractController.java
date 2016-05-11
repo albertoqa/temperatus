@@ -48,4 +48,14 @@ public interface AbstractController {
     default void showAlert(Alert.AlertType alertType, String message) {
         VistaNavigator.showAlert(alertType, message);
     }
+
+    /**
+     * Show a new alert and wait for user response
+     *
+     * @param alertType type of alert
+     * @param message   message to show
+     */
+    default void showAlertAndWait(Alert.AlertType alertType, String message) {
+        VistaNavigator.showAlertAndWait(alertType, message);
+    }
 }

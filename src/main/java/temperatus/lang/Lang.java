@@ -315,6 +315,8 @@ public class Lang {
     public static final String INVALID_DATE = "invalidDate";
     public static final String DIFFERENT_RATES = "differentRates";
 
+    public static final String SUCCESSFULLY_SAVED = "successfullySaved";
+
     public static final String MUST_SELECT_PROJECT = "mustSelectProject";
     public static final String MUST_SELECT_GAME = "mustSelectGame";
     public static final String MUST_SELECT_SUBJECT = "mustSelectSubject";

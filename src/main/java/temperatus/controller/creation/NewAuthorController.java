@@ -70,11 +70,13 @@ public class NewAuthorController extends AbstractCreationController implements I
             author.setName(nameInput.getText());
             authorService.saveOrUpdate(author);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             VistaNavigator.closeModal(titledPane);
             if (VistaNavigator.getController() != null) {
                 // Only necessary if base view needs to know about the new author creation
                 VistaNavigator.getController().reload(author);
-                VistaNavigator.baseController.reload(author);
+                VistaNavigator.baseController.reload(author);   // for the combo-box of user selection!
             }
 
             logger.info("Saved: " + author);

@@ -18,8 +18,14 @@ public abstract class AbstractCreationController implements AbstractController {
     @FXML Button saveButton;
     @FXML Button cancelButton;
 
+    /**
+     * Save the entity to database
+     */
     abstract void save();
 
+    /**
+     * Cancel the creation of the element and close the window
+     */
     @FXML
     private void cancel() {
         VistaNavigator.closeModal(titledPane);

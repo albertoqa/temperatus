@@ -232,6 +232,8 @@ public class NewFormulaController extends AbstractCreationController implements 
 
                 formulaService.saveOrUpdate(formula);
 
+                showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
                 VistaNavigator.closeModal(titledPane);
                 if (VistaNavigator.getController() != null) {
                     // Only necessary if base view needs to know about the new formula creation

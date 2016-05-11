@@ -158,6 +158,8 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
             configurationService.saveOrUpdate(configuration);
 
+            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
+
             logger.info("Saved: " + configuration);
 
         } catch (ControlledTemperatusException ex) {
