@@ -32,6 +32,9 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void delete(Mission mission) {
+
+        // TODO delete files!
+
         missionDao.delete(mission);
     }
 

@@ -1,5 +1,6 @@
 package temperatus.controller.creation;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -24,7 +25,6 @@ import temperatus.analysis.pojo.GeneralData;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.calculator.Calculator;
 import temperatus.controller.archived.MissionInfoController;
-import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
@@ -33,6 +33,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.MissionService;
+import temperatus.model.service.RecordService;
 import temperatus.util.Constants;
 import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
@@ -40,9 +41,7 @@ import temperatus.util.VistaNavigator;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,6 +94,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
     @Autowired FormulaService formulaService;
     @Autowired MissionService missionService;
+    @Autowired RecordService recordService;
 
     private static Logger logger = LoggerFactory.getLogger(RecordConfigController.class.getName());
 
@@ -102,7 +102,10 @@ public class RecordConfigController extends AbstractCreationController implement
     private GeneralData generalData;    // General data of the experiment
     private Mission mission;            // Parent mission
 
+    private NewRecordController newRecordController;
+
     private static final int NUMBER_OF_TICKS = 8;    // ticks to show on the slider
+    private static final String HEADER = "Date/Time,Unit,Value";    // Header line where the measurements start in the csv
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,11 +123,15 @@ public class RecordConfigController extends AbstractCreationController implement
     }
 
     /**
-     * All iButtons must be already saved to DB, measurements will be saved by this controller
+     * Set the data for the mission configuration
+     * @param data list of data for each position
+     * @param generalData general data
+     * @param controller controller of the newRecord to setUp the update if necessary
      */
-    public void setData(List<ValidatedData> data, GeneralData generalData) {
+    public void setData(List<ValidatedData> data, GeneralData generalData, NewRecordController controller) {
         this.data = data;
         this.generalData = generalData;
+        this.newRecordController = controller;
         loadFormulas();     // load all formulas that can be applied to this mission
         loadData();         // load all data to configure and validate
         loadTimeRange();    // load the slider and set tick time and time range
@@ -227,7 +234,6 @@ public class RecordConfigController extends AbstractCreationController implement
 
         listViewFormulas.getCheckModel().getCheckedItems().addListener((ListChangeListener<? super Formula>) c -> {
             c.next();
-
             for (Formula formula : c.getAddedSubList()) {
                 if (!isFormulaApplicableToThisMission(formula)) {
                     if (!VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.NOT_APPLICABLE_FORMULA))) {
@@ -256,8 +262,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void back() {
-        // TODO si voy para atras los records que ya se habian guardado tengo que borrarlos!!! si no... se guardan varias veces...
-        // TODO pero cuidado!! si estoy en un edit de una mission, los records no quiero borrarlos...
+        newRecordController.getUpdateReady();
         VistaNavigator.popViewFromStack();
     }
 
@@ -279,37 +284,35 @@ public class RecordConfigController extends AbstractCreationController implement
                     startDate = Constants.dateTimeFormat.parse(initTime.getText());
                     endDate = Constants.dateTimeFormat.parse(endTime.getText());
 
-
                     // Calculate total number of measurements to update the progress indicator
                     long totalMeasurements = 0;
                     for (ValidatedData validatedData : data) {
                         totalMeasurements += validatedData.getMeasurements().stream().filter(measurement -> measurement.getDate().before(endDate) && measurement.getDate().after(startDate)).count();
-                    }   // TODO
+                    }
 
-                    // Save measurements + check if is in the range - [the save is the slowest part]
+                    // Save measurements + check if is in the range
                     int actualMeasurement = 0;
                     for (ValidatedData validatedData : data) {
-                        if (!validatedData.isUpdate()) { // only save if it is not an update
-
+                        //if (!validatedData.isUpdate()) { // only save if it is not an update
 
                             BufferedReader file = new BufferedReader(new FileReader(validatedData.getDataFile()));
                             String line;
-                            String input = "";
+                            String input = Constants.EMPTY;
 
+                            // Write the mission data until we found the Header line
                             while ((line = file.readLine()) != null) {
                                 input += line + System.lineSeparator();
-
-                                if(line.contains("Date/Time,Unit,Value")) {
+                                if(line.contains(HEADER)) {
                                     break;
                                 }
                             }
 
+                            // insert only measurements in the range >= startDate and <= endDate
                             for (Measurement measurement : validatedData.getMeasurements()) {
-                                // TODO si la fecha es exactamente la misma no la mete!
-                                if (measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) {
+                                if ((measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) || measurement.getDate().equals(endDate) || measurement.getDate().equals(startDate)) {
                                     updateProgress(actualMeasurement++, totalMeasurements);
-                                    String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + "," + "C" + "," + Constants.decimalFormat.format(measurement.getData());
-                                    toAdd = toAdd.replace(".", ",");
+                                    String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
+                                    toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
                                     input = input.concat(toAdd + System.lineSeparator());
                                 }
                             }
@@ -320,14 +323,14 @@ public class RecordConfigController extends AbstractCreationController implement
                             file.close();
                             os.close();
 
-                        } else {
+                       /* } else {
                             for (Measurement measurement : validatedData.getMeasurements()) {
                                 if (measurement.getDate().before(startDate) && measurement.getDate().after(endDate)) {
                                     updateProgress(actualMeasurement++, totalMeasurements);
                                     //measurementService.delete(measurement); // TODO is this working??
                                 }
                             }
-                        }
+                        }*/
                     }
 
                     Set<Formula> selectedFormulas = new HashSet<>();
@@ -339,15 +342,15 @@ public class RecordConfigController extends AbstractCreationController implement
                     updateProgress(10, 10);
 
 
-                } catch (ParseException e) {
-                    logger.error("Incorrect dates...");
-                    throw new InterruptedException();
-                } catch (ControlledTemperatusException e) {
-                    logger.error("Error updating formulas of mission...");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) {
+                    Platform.runLater(() -> {
+                        showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
+                        anchorPane.setDisable(false);
+                    });
 
+                    throw new InterruptedException();
+                }
                 return null;
             }
         };
@@ -361,6 +364,10 @@ public class RecordConfigController extends AbstractCreationController implement
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
             anchorPane.setDisable(false);
+        });
+
+        saveMeasurementsAndFormulasForMissionTask.setOnFailed(event -> {
+
         });
 
         saveMeasurementsAndFormulasForMissionTask.setOnFailed(event -> VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_SAVING_MEASUREMENTS)));
@@ -383,7 +390,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void addFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, "");
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.EMPTY);
     }
 
     /**

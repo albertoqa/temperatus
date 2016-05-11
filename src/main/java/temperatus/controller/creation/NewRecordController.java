@@ -24,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.commons.io.FileUtils;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
@@ -128,6 +129,7 @@ public class NewRecordController extends AbstractCreationController implements I
     private static final Double PSIZE = 25.0;     // Preferred size for keep data button progress indicator
 
     private static final String STYLESHEET = "/styles/temperatus.css";
+    private static final String CSV = ".csv";
 
     private static Logger logger = LoggerFactory.getLogger(NewRecordController.class.getName());
 
@@ -234,15 +236,15 @@ public class NewRecordController extends AbstractCreationController implements I
      * Select the positions and sourceChoices already saved and set all to disable
      * Keep button becomes Delete button
      */
-    private void getUpdateReady() {
+    public void getUpdateReady() {
         logger.info("Setting records and data for update...");
-        isUpdate = true;
 
         List<Record> records = new ArrayList<>(mission.getRecords());
         for (int i = 0; i < mission.getGame().getNumButtons() && i < records.size(); i++) {
             getPositionComboBoxForIndex(i).getSelectionModel().select(records.get(i).getPosition());
 
             SourceChoice sourceChoice = new SourceChoice(records.get(i));
+            sourceChoice.setFile(new File(records.get(i).getDataPath()));
             getSourceChoiceComboBoxForIndex(i).getItems().add(sourceChoice);
             getSourceChoiceComboBoxForIndex(i).getSelectionModel().select(sourceChoice);
 
@@ -251,9 +253,10 @@ public class NewRecordController extends AbstractCreationController implements I
             addSourceBox.getChildren().get(i).setDisable(true);
 
             setButtonStyleRemove((ToggleButton) keepDataBox.getChildren().get(i));
-            saveButton.setText(language.get(Lang.UPDATE));
-            titleLabel.setText(language.get(Lang.UPDATE_NEW_RECORD_TITLE));
         }
+
+        saveButton.setText(language.get(Lang.UPDATE));
+        titleLabel.setText(language.get(Lang.UPDATE_NEW_RECORD_TITLE));
     }
 
     /**
@@ -377,7 +380,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     private void changeFileToSaveEvent(ComboBox<SourceChoice> sourceChoiceComboBox) {
         sourceChoiceComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && newValue.getFile() != null) {
                 filesToSave[(Integer) sourceChoiceComboBox.getUserData()] = newValue.getFile();
             }
         });
@@ -421,7 +424,7 @@ public class NewRecordController extends AbstractCreationController implements I
                                 filesToSave[index] = (File) result;            // save created file
 
                                 // Alert user that iButton can be removed
-                                Notifications.create().title(language.get(Lang.DATASAVEDTITLE)).text(language.get(Lang.DATASAVEDTEXT)).show();
+                                Notifications.create().title(language.get(Lang.DATA_SAVED_TITLE)).text(language.get(Lang.DATA_SAVED_TEXT)).show();
                                 logger.info("Data saved successfully");
                             });
                         }
@@ -442,6 +445,13 @@ public class NewRecordController extends AbstractCreationController implements I
                         mission.getRecords().remove(sourceChoice.getRecord());
                         recordService.delete(sourceChoice.getRecord());
 
+                        File file = sourceChoice.getFile();
+                        if (!file.delete()) {
+                            logger.error("Error removing file...");
+                        }
+
+                        filesToSave[index] = null;
+
                         getSourceChoiceComboBoxForIndex(index).getSelectionModel().clearSelection();
                         getSourceChoiceComboBoxForIndex(index).getItems().remove(sourceChoice);
 
@@ -449,8 +459,9 @@ public class NewRecordController extends AbstractCreationController implements I
                         setButtonStyleNormal(clickedButton);
 
                         clickedButton.setText(language.get(Lang.KEEPDATA));
-                        clickedButton.setSelected(false);
                         clickedButton.setDisable(true);
+                        clickedButton.setSelected(false);
+                        //TODO el boton esta desactivado pero no se pone con el mismo opacity...
 
                     } else {
                         setButtonStyleRemove(clickedButton);    // keep same state
@@ -516,7 +527,7 @@ public class NewRecordController extends AbstractCreationController implements I
         progressIndicator.setMaxSize(PSIZE, PSIZE);
         button.setGraphic(progressIndicator);
 
-        button.setText("");
+        button.setText(Constants.EMPTY);
         button.getStyleClass().clear();
         button.getStyleClass().add("kpbtn");
         button.setDisable(true);
@@ -542,6 +553,7 @@ public class NewRecordController extends AbstractCreationController implements I
      *
      * @return eventHandler
      */
+    @Ignore
     private EventHandler<Event> addImportDataButtonHandler() {
         final EventHandler<Event> myHandler = event -> {
             File file = importDataFromSource(); // select a file (csv) from the computer
@@ -624,7 +636,6 @@ public class NewRecordController extends AbstractCreationController implements I
         };
 
         return myHandler;
-
     }
 
     /**
@@ -632,6 +643,7 @@ public class NewRecordController extends AbstractCreationController implements I
      *
      * @return selected file
      */
+    @Ignore
     private File importDataFromSource() {
         FileChooser fileChooser = new FileChooser();
 
@@ -698,7 +710,6 @@ public class NewRecordController extends AbstractCreationController implements I
                 for (SourceChoice sourceChoice : getSourceChoiceComboBoxForIndex(i).getItems()) {
                     if (sourceChoice.isSameiButton(serial)) {
                         getSourceChoiceComboBoxForIndex(i).getItems().remove(sourceChoice);
-                        break;
                     }
                 }
             }
@@ -767,6 +778,13 @@ public class NewRecordController extends AbstractCreationController implements I
         return validatedData;
     }
 
+    /**
+     * Load the data of all the already imported and saved records
+     *
+     * @param index row of the record
+     * @return ValidateData object with the information of the record
+     * @throws ControlledTemperatusException
+     */
     private ValidatedData generateValidatedDataForAlreadySavedRecord(int index) throws ControlledTemperatusException {
         Record record = getSourceChoiceForIndex(index).getRecord();
         ValidatedData validatedData = new ValidatedData();
@@ -774,27 +792,25 @@ public class NewRecordController extends AbstractCreationController implements I
         validatedData.setDeviceModel(record.getIbutton().getModel());
         validatedData.setDeviceSerial(record.getIbutton().getSerial());
 
-        List<Measurement> measurements = null;
+        List<Measurement> measurements;
 
         try {
             IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(new File(record.getDataPath()));
             measurements = ibuttonDataImporter.getMeasurements();
         } catch (ControlledTemperatusException e) {
-            throw new ControlledTemperatusException("");    // TODO MENSAJE!
+            throw new ControlledTemperatusException(language.get(Lang.ERROR_READING_DATA));
         }
 
         Collections.sort(measurements, (a, b) -> a.getDate().compareTo(b.getDate()));    // sort list by date
-
+        validatedData.setPossibleErrors(IButtonDataValidator.getAllOutliers(measurements));
         validatedData.setMeasurements(measurements);
         validatedData.setFinishDate(measurements.get(measurements.size() - 1).getDate());
         validatedData.setPosition(record.getPosition());
-        validatedData.setSampleRate("");
+        validatedData.setSampleRate(Constants.EMPTY);
         validatedData.setStartDate(measurements.get(0).getDate());
         validatedData.setUpdate(true);
-
         return validatedData;
     }
-
 
     /**
      * Analyze the data, get the general information, save to database and load configureMissionScreen
@@ -847,21 +863,24 @@ public class NewRecordController extends AbstractCreationController implements I
                     for (ValidatedData validatedData : validatedDataList) {
                         if (!validatedData.isUpdate()) {
 
-                            String path = Constants.MISSIONS_PATH + mission.getName() + File.separator + validatedData.getPosition().getPlace() + "_" + index + ".csv";
+                            String path = Constants.MISSIONS_PATH + mission.getName() + File.separator + validatedData.getPosition().getPlace() + Constants.UNDERSCORE + index + CSV;
 
                             File dest = new File(path);
                             dest.getParentFile().mkdirs();
                             dest.createNewFile();
 
                             FileUtils.copyFile(validatedData.getDataFile(), dest);
+                            if(validatedData.getDataFile().getPath().contains(System.getProperty("java.io.tmpdir"))) {
+                                validatedData.getDataFile().delete();
+                            }
                             validatedData.setDataFile(dest);
 
                             Record record = new Record(validatedData.getIbutton(), mission, validatedData.getPosition(), dest.getPath());
                             recordService.save(record);
 
                             mission.getRecords().add(record);
-                            index++;
                         }
+                        index++;
                     }
 
                     updateProgress(10, 10);
@@ -916,8 +935,6 @@ public class NewRecordController extends AbstractCreationController implements I
                     Animation.blurOut(VistaNavigator.getParentNode());
                 }
 
-                //Animation.fadeOutIn(null, root);
-
                 ((OutliersController) loader.getController()).setValidatedDataList(validatedDataList);
                 stage.showAndWait();
             }
@@ -936,7 +953,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
             RecordConfigController recordConfigController = VistaNavigator.pushViewToStack(Constants.RECORD_CONFIG);
             recordConfigController.setMission(mission);
-            recordConfigController.setData(validatedDataList, generalData);
+            recordConfigController.setData(validatedDataList, generalData, this);
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
             anchorPane.setDisable(false);
@@ -971,18 +988,16 @@ public class NewRecordController extends AbstractCreationController implements I
             String rate = data.get(0).getSampleRate();
 
             for (ValidatedData validatedData : data) {
-                if (!rate.equals("") && !rate.equals(validatedData.getSampleRate())) {
+                if (!rate.equals(Constants.EMPTY) && !rate.equals(validatedData.getSampleRate())) {
                     showWarn = true;
                 }
             }
-
             if (showWarn) {
                 Platform.runLater(() -> showAlert(Alert.AlertType.WARNING, language.get(Lang.DIFFERENT_RATES)));
             }
-
             return rate;
         } else {
-            return "";
+            return Constants.EMPTY;
         }
     }
 
@@ -1055,7 +1070,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * @return list of models (string)
      */
     private String getModels(final List<ValidatedData> data) {
-        String model = "";
+        String model = Constants.EMPTY;
 
         for (ValidatedData validatedData : data) {
             String actualModel = validatedData.getDeviceModel();
@@ -1063,7 +1078,6 @@ public class NewRecordController extends AbstractCreationController implements I
                 model = model + actualModel;
             }
         }
-
         return model;
     }
 

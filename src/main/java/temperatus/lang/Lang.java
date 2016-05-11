@@ -147,8 +147,8 @@ public class Lang {
     public static final String IMPORTPLUS = "importPlus";
     public static final String KEEPDATA = "keepData";
     public static final String SAVEDDATA = "savedData";
-    public static final String DATASAVEDTITLE = "dataSavedTitle";
-    public static final String DATASAVEDTEXT = "dataSavedText";
+    public static final String DATA_SAVED_TITLE = "dataSavedTitle";
+    public static final String DATA_SAVED_TEXT = "dataSavedText";
     public static final String NOT_APPLICABLE_FORMULA = "notApplicableFormula";
     public static final String CONFIRMATION_DELETE_RECORD = "confirmationDeleteRecord";
     public static final String CONFIRMATION_DELETE_POSITION = "confirmationDeletePosition";
@@ -344,6 +344,8 @@ public class Lang {
 
     public static final String ERROR_VALIDATING_CREDENTIALS = "errorValidatingCredentials";
     public static final String ERROR_INVALID_CREDENTIALS = "errorInvalidCredentials";
+
+    public static final String ERROR_READING_DATA = "errorReadingData";
 
     public static final String ACTIVATION_INFO_LABEL = "activationInfoLabel";
     public static final String ACTIVATION_WARN_LABEL = "activationWarnLabel";
