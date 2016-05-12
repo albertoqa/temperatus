@@ -157,6 +157,15 @@ public class VistaNavigator {
     }
 
     /**
+     * Get the stage currently showed in the screen
+     *
+     * @return current stage
+     */
+    public static Stage getCurrentStage() {
+        return currentStage;
+    }
+
+    /**
      * Set the parent node
      *
      * @param parentNode node

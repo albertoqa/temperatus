@@ -124,9 +124,10 @@ public class RecordConfigController extends AbstractCreationController implement
 
     /**
      * Set the data for the mission configuration
-     * @param data list of data for each position
+     *
+     * @param data        list of data for each position
      * @param generalData general data
-     * @param controller controller of the newRecord to setUp the update if necessary
+     * @param controller  controller of the newRecord to setUp the update if necessary
      */
     public void setData(List<ValidatedData> data, GeneralData generalData, NewRecordController controller) {
         this.data = data;
@@ -262,7 +263,7 @@ public class RecordConfigController extends AbstractCreationController implement
      */
     @FXML
     private void back() {
-        newRecordController.getUpdateReady();
+        newRecordController.comingBackFromRecordConfig();
         VistaNavigator.popViewFromStack();
     }
 
@@ -293,44 +294,33 @@ public class RecordConfigController extends AbstractCreationController implement
                     // Save measurements + check if is in the range
                     int actualMeasurement = 0;
                     for (ValidatedData validatedData : data) {
-                        //if (!validatedData.isUpdate()) { // only save if it is not an update
+                        BufferedReader file = new BufferedReader(new FileReader(validatedData.getDataFile()));
+                        String line;
+                        String input = Constants.EMPTY;
 
-                            BufferedReader file = new BufferedReader(new FileReader(validatedData.getDataFile()));
-                            String line;
-                            String input = Constants.EMPTY;
-
-                            // Write the mission data until we found the Header line
-                            while ((line = file.readLine()) != null) {
-                                input += line + System.lineSeparator();
-                                if(line.contains(HEADER)) {
-                                    break;
-                                }
+                        // Write the mission data until we found the Header line
+                        while ((line = file.readLine()) != null) {
+                            input += line + System.lineSeparator();
+                            if (line.contains(HEADER)) {
+                                break;
                             }
+                        }
 
-                            // insert only measurements in the range >= startDate and <= endDate
-                            for (Measurement measurement : validatedData.getMeasurements()) {
-                                if ((measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) || measurement.getDate().equals(endDate) || measurement.getDate().equals(startDate)) {
-                                    updateProgress(actualMeasurement++, totalMeasurements);
-                                    String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
-                                    toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
-                                    input = input.concat(toAdd + System.lineSeparator());
-                                }
+                        // insert only measurements in the range >= startDate and <= endDate
+                        for (Measurement measurement : validatedData.getMeasurements()) {
+                            if ((measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) || measurement.getDate().equals(endDate) || measurement.getDate().equals(startDate)) {
+                                updateProgress(actualMeasurement++, totalMeasurements);
+                                String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
+                                toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
+                                input = input.concat(toAdd + System.lineSeparator());
                             }
+                        }
 
-                            FileOutputStream os = new FileOutputStream(validatedData.getDataFile());
-                            os.write(input.getBytes());
+                        FileOutputStream os = new FileOutputStream(validatedData.getDataFile());
+                        os.write(input.getBytes());
 
-                            file.close();
-                            os.close();
-
-                       /* } else {
-                            for (Measurement measurement : validatedData.getMeasurements()) {
-                                if (measurement.getDate().before(startDate) && measurement.getDate().after(endDate)) {
-                                    updateProgress(actualMeasurement++, totalMeasurements);
-                                    //measurementService.delete(measurement); // TODO is this working??
-                                }
-                            }
-                        }*/
+                        file.close();
+                        os.close();
                     }
 
                     Set<Formula> selectedFormulas = new HashSet<>();
@@ -341,10 +331,9 @@ public class RecordConfigController extends AbstractCreationController implement
 
                     updateProgress(10, 10);
 
-
                 } catch (Exception e) {
                     Platform.runLater(() -> {
-                        //showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        logger.error("Error saving data..." + e.getMessage());
                         stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
                         anchorPane.setDisable(false);
                     });
@@ -360,7 +349,9 @@ public class RecordConfigController extends AbstractCreationController implement
 
         saveMeasurementsAndFormulasForMissionTask.setOnSucceeded(event -> {
             MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-            missionInfoController.setData(mission.getId());
+            if(missionInfoController != null) {
+                missionInfoController.setData(mission.getId());
+            }
 
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
             anchorPane.setDisable(false);
@@ -379,14 +370,6 @@ public class RecordConfigController extends AbstractCreationController implement
         thread.start();
 
         logger.info("Saving measurements to database...");
-    }
-
-    /**
-     * Create a new formula
-     */
-    @FXML
-    private void addFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.EMPTY);
     }
 
     /**

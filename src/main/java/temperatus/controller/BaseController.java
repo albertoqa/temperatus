@@ -15,11 +15,16 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
@@ -28,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.creation.NewIButtonController;
 import temperatus.device.DeviceConnectedList;
+import temperatus.device.DeviceOperationsManager;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
 import temperatus.listener.DeviceDetector;
@@ -38,10 +44,7 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.AuthorService;
 import temperatus.model.service.IbuttonService;
-import temperatus.util.Animation;
-import temperatus.util.Constants;
-import temperatus.util.User;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.net.URL;
 import java.util.List;
@@ -91,6 +94,9 @@ public class BaseController implements Initializable, AbstractController, Device
 
     @Autowired IbuttonService ibuttonService;
 
+    @Autowired DeviceOperationsManager deviceOperationsManager;
+    private static boolean isFirstTime = true;  // check if is the first user logging after the application was opened
+
     @Autowired DeviceDetectorSource deviceDetectorSource;
     @Autowired DeviceConnectedList deviceConnectedList;
     @Autowired AuthorService authorService;
@@ -108,7 +114,7 @@ public class BaseController implements Initializable, AbstractController, Device
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing base controller");
-        userLabel.setText("");
+        userLabel.setText(Constants.EMPTY);
 
         deviceDetectorSource.addEventListener(this);
         deviceDetectorSource.addEventListener(deviceConnectedList);
@@ -213,6 +219,7 @@ public class BaseController implements Initializable, AbstractController, Device
                 setShowBottomPane(false);
                 Animation.blurIn(VistaNavigator.getParentNode());
                 parentPane.setDisable(false);
+                startDeviceScanTask();
             } else {
                 showAlert(Alert.AlertType.INFORMATION, language.get(Lang.MUST_SELECT_USER));
             }
@@ -225,9 +232,22 @@ public class BaseController implements Initializable, AbstractController, Device
                 setShowBottomPane(false);
                 Animation.blurIn(VistaNavigator.getParentNode());
                 parentPane.setDisable(false);
+                startDeviceScanTask();
             } catch (ControlledTemperatusException e) {
                 showAlert(Alert.AlertType.INFORMATION, e.getMessage());
             }
+        }
+    }
+
+    /**
+     * Check if the user is logged for the fist time since the application was opened and if so, start the devices scan
+     * task. This prevents that modal windows asking for alias for detected devices prompt over the user logging pane.
+     */
+    private void startDeviceScanTask() {
+        if (isFirstTime) {
+            logger.info("Starting devices scan task");
+            deviceOperationsManager.init(); // start executors (and device scan task)
+            isFirstTime = false;
         }
     }
 
@@ -631,8 +651,39 @@ public class BaseController implements Initializable, AbstractController, Device
 
         if (ibutton == null) {
             Platform.runLater(() -> {
-                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY);
-                newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
+
+                // TODO check
+                SpringFxmlLoader loader = new SpringFxmlLoader();
+                Parent root = loader.load(VistaNavigator.class.getResource(Constants.NEW_IBUTTON));
+
+                Stage stage = new Stage(StageStyle.TRANSPARENT);
+                stage.setTitle(Constants.EMPTY);
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+
+                stage.initOwner(VistaNavigator.getMainStage());
+                stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
+
+                if (VistaNavigator.getParentNode() != null && VistaNavigator.getCurrentStage() == null) {
+                    Animation.blurOut(VistaNavigator.getParentNode());
+                }
+
+                // Add listener to the stage so if it is closed by the X button the onCloseModalAction is also called
+                stage.setOnCloseRequest(e -> {
+                    logger.info("Closing stage");
+                    Animation.fadeInOutClose(root);
+
+                    if (VistaNavigator.getParentNode() != null && VistaNavigator.getCurrentStage() == null) {
+                        Animation.blurIn(VistaNavigator.getParentNode());
+                    }
+                });
+
+                ((NewIButtonController) loader.getController()).setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
+                stage.show();
+
+                //NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY, true);
+                //newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
             });
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());

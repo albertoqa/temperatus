@@ -8,9 +8,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import temperatus.device.DeviceOperationsManager;
 import temperatus.lang.Lang;
 import temperatus.util.Browser;
 import temperatus.util.Constants;
@@ -38,8 +36,6 @@ public class HomeController implements Initializable, AbstractController {
 
     @FXML private Hyperlink linkToWeb;
 
-    @Autowired DeviceOperationsManager deviceOperationsManager;
-
     private static Logger logger = LoggerFactory.getLogger(HomeController.class.getName());
 
     @Override
@@ -55,8 +51,6 @@ public class HomeController implements Initializable, AbstractController {
             }
         });
 
-        logger.info("Starting devices scan task");
-        //deviceOperationsManager.init(); // start executors (and device scan task) //FIXME
         //Constants.prefs.putBoolean(Constants.ACTIVATED, false);
     }
 

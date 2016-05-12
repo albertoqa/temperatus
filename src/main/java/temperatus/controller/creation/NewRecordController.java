@@ -236,7 +236,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * Select the positions and sourceChoices already saved and set all to disable
      * Keep button becomes Delete button
      */
-    public void getUpdateReady() {
+    private void getUpdateReady() {
         logger.info("Setting records and data for update...");
 
         List<Record> records = new ArrayList<>(mission.getRecords());
@@ -257,6 +257,21 @@ public class NewRecordController extends AbstractCreationController implements I
 
         saveButton.setText(language.get(Lang.UPDATE));
         titleLabel.setText(language.get(Lang.UPDATE_NEW_RECORD_TITLE));
+    }
+
+    /**
+     * When user press back on the RecordConfig screen this must be called
+     */
+    void comingBackFromRecordConfig() {
+        for(int i = 0; i < mission.getGame().getNumButtons(); i++) {
+            if(getSourceChoiceForIndex(i) != null && getSourceChoiceForIndex(i).getRecord() != null) {
+                positionBox.getChildren().get(i).setDisable(true);
+                sourceBox.getChildren().get(i).setDisable(true);
+                addSourceBox.getChildren().get(i).setDisable(true);
+
+                setButtonStyleRemove((ToggleButton) keepDataBox.getChildren().get(i));
+            }
+        }
     }
 
     /**
@@ -811,6 +826,7 @@ public class NewRecordController extends AbstractCreationController implements I
         validatedData.setSampleRate(Constants.EMPTY);
         validatedData.setStartDate(measurements.get(0).getDate());
         validatedData.setUpdate(true);
+        validatedData.setDataFile(new File(record.getDataPath()));
         return validatedData;
     }
 
@@ -872,6 +888,8 @@ public class NewRecordController extends AbstractCreationController implements I
                             dest.createNewFile();
 
                             FileUtils.copyFile(validatedData.getDataFile(), dest);
+
+                            // if file is in temp folder, delete it after copy
                             if(validatedData.getDataFile().getPath().contains(System.getProperty("java.io.tmpdir"))) {
                                 validatedData.getDataFile().delete();
                             }
@@ -881,6 +899,7 @@ public class NewRecordController extends AbstractCreationController implements I
                             recordService.save(record);
 
                             mission.getRecords().add(record);
+                            getSourceChoiceForIndex(index).setRecord(record);
                         }
                         index++;
                     }
@@ -933,7 +952,6 @@ public class NewRecordController extends AbstractCreationController implements I
                 stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
 
                 if (VistaNavigator.getParentNode() != null) {
-                    //VistaNavigator.getParentNode().setDisable(true);
                     Animation.blurOut(VistaNavigator.getParentNode());
                 }
 
