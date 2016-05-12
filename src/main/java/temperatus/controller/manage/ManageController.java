@@ -53,10 +53,11 @@ public class ManageController implements Initializable, AbstractController {
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                // if null then it means that is the first time this tab is opened
                 if (newValue.getContent() == null) {
                     logger.debug("Selecting new tab... " + newValue.getText());
 
-                    String fxml = "";
+                    String fxml = Constants.EMPTY;
 
                     if (language.get(Lang.SUBJECTS_TAB).equals(newValue.getText())) {
                         fxml = Constants.MANAGE_SUBJECT;
@@ -74,7 +75,7 @@ public class ManageController implements Initializable, AbstractController {
                         fxml = Constants.MANAGE_CONFIGURATIONS;
                     }
 
-                    if (!fxml.equals("")) {
+                    if (!fxml.equals(Constants.EMPTY)) {
                         Parent root = VistaNavigator.loader.load(this.getClass().getResource(fxml));
                         AbstractController controller = VistaNavigator.loader.getController();
                         newValue.setContent(root);

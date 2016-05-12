@@ -74,7 +74,6 @@ public class ManageSubjectController implements Initializable, AbstractControlle
 
     private static final String MALE = "male";
     private static final String FEMALE = "female";
-    private static final String SPACE = " ";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -132,19 +131,19 @@ public class ManageSubjectController implements Initializable, AbstractControlle
                     weightInfo.setText(subject.getWeight().toString());
                     heightInfo.setText(subject.getHeight().toString());
                 } else {
-                    ageInfo.setText(SPACE);
-                    weightInfo.setText(SPACE);
-                    heightInfo.setText(SPACE);
+                    ageInfo.setText(Constants.SPACE);
+                    weightInfo.setText(Constants.SPACE);
+                    heightInfo.setText(Constants.SPACE);
                 }
 
-                numberOfMissionsLabel.setText(language.get(Lang.PARTICIPATE_IN) + SPACE + String.valueOf(subject.getMissions().size()) + SPACE + language.get(Lang.MISSIONS));
+                numberOfMissionsLabel.setText(language.get(Lang.PARTICIPATE_IN) + Constants.SPACE + String.valueOf(subject.getMissions().size()) + Constants.SPACE + language.get(Lang.MISSIONS));
                 Date d = new Date();
                 for(Mission mission: subject.getMissions()) {
                     if(mission.getDateIni().before(d)) {
                         d = mission.getDateIni();
                     }
                 }
-                firstParticipationLabel.setText(language.get(Lang.FIRST_PARTICIPATION) + SPACE + Constants.dateFormat.format(d));
+                firstParticipationLabel.setText(language.get(Lang.FIRST_PARTICIPATION) + Constants.SPACE + Constants.dateFormat.format(d));
                 observationsInfo.setText(subject.getObservations());
             }
         });
@@ -183,7 +182,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void newSubject() {
-        VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
+        VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.EMPTY);
     }
 
     /**
@@ -191,7 +190,7 @@ public class ManageSubjectController implements Initializable, AbstractControlle
      */
     @FXML
     private void editSubject() {
-        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, "");
+        NewSubjectController newSubjectController = VistaNavigator.openModal(Constants.NEW_SUBJECT, Constants.EMPTY);
         newSubjectController.setSubjectForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

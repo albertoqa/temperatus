@@ -101,11 +101,11 @@ public class ManageConfigurationController implements Initializable, AbstractCon
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
 
                 if(Unit.C.equals(unit)) {
-                    highAlarm.setText((configuration.getHighAlarmC1() != null ? configuration.getHighAlarmC1() + " " + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
-                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? configuration.getLowAlarmC1() + " " + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
+                    highAlarm.setText((configuration.getHighAlarmC1() != null ? configuration.getHighAlarmC1() + Constants.SPACE + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
+                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? configuration.getLowAlarmC1() + Constants.SPACE + language.get(Lang.CELSIUS) : language.get(Lang.NOT_SET)));
                 } else {
-                    highAlarm.setText((configuration.getHighAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1()) + " " + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
-                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1()) + " " + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
+                    highAlarm.setText((configuration.getHighAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1()) + Constants.SPACE + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
+                    lowAlarm.setText((configuration.getLowAlarmC1() != null ? Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1()) + Constants.SPACE + language.get(Lang.FAHRENHEIT) : language.get(Lang.NOT_SET)));
                 }
             }
         });
@@ -144,7 +144,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
      */
     @FXML
     private void editConfiguration() {
-        NewConfigurationController newConfigurationController = VistaNavigator.openModal(Constants.NEW_CONFIG, "");
+        NewConfigurationController newConfigurationController = VistaNavigator.openModal(Constants.NEW_CONFIG, Constants.EMPTY);
         newConfigurationController.setConfigurationForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -153,7 +153,7 @@ public class ManageConfigurationController implements Initializable, AbstractCon
      */
     @FXML
     private void newConfiguration() {
-        VistaNavigator.openModal(Constants.NEW_CONFIG, "");
+        VistaNavigator.openModal(Constants.NEW_CONFIG, Constants.EMPTY);
     }
 
     /**

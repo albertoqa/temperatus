@@ -20,12 +20,14 @@ import temperatus.controller.manage.ampliate.GameInfoController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
+import temperatus.model.pojo.Image;
 import temperatus.model.pojo.Position;
 import temperatus.model.service.GameService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -88,8 +90,8 @@ public class ManageGameController implements Initializable, AbstractController {
             Animation.fadeInTransition(infoPane);
             if (game != null) {
                 nameLabel.setText(game.getTitle().toUpperCase());
-                formulasInfo.setText("");
-                positionsInfo.setText("");
+                formulasInfo.setText(Constants.EMPTY);
+                positionsInfo.setText(Constants.EMPTY);
                 for (Formula formula : game.getFormulas()) {
                     formulasInfo.setText(formulasInfo.getText() + formula.getName() + COMMA);
                 }
@@ -133,7 +135,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void editGame() {
-        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, "");
+        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
         newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -142,7 +144,7 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void newGame() {
-        VistaNavigator.openModal(Constants.NEW_GAME, "");
+        VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
     }
 
     /**
@@ -152,6 +154,9 @@ public class ManageGameController implements Initializable, AbstractController {
     private void deleteGame() {
         if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION))) {
             Game game = table.getSelectionModel().getSelectedItem();
+            for (Image image : game.getImages()) {
+                new File(image.getPath()).delete();
+            }
             gameService.delete(game);
             games.remove(game);
             logger.info("Deleted game... " + game);

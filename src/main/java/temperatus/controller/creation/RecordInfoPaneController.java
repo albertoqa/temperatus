@@ -73,7 +73,7 @@ public class RecordInfoPaneController implements Initializable, AbstractControll
      */
     @FXML
     private void completeInfo() {
-        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, "");
+        ButtonDataController buttonDataController = VistaNavigator.openModal(Constants.BUTTON_DATA, Constants.EMPTY);
         buttonDataController.setData(measurements);
     }
 

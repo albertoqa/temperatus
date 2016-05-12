@@ -55,7 +55,6 @@ public class ManageAuthorController implements Initializable, AbstractController
 
     @Autowired AuthorService authorService;
 
-    private static final String NEW_LINE = "\n";
     private static Logger logger = LoggerFactory.getLogger(ManageAuthorController.class.getName());
 
     @Override
@@ -77,10 +76,10 @@ public class ManageAuthorController implements Initializable, AbstractController
             Animation.fadeInTransition(infoPane);
             if (author != null) {
                 nameInfo.setText(author.getName().toUpperCase());
-                String projects = "";
+                String projects = Constants.EMPTY;
                 for (Mission mission : author.getMissions()) {
                     if (!projects.contains(mission.getProject().getName())) {
-                        projects = projects + "- " + mission.getProject().getName() + NEW_LINE;
+                        projects = projects + "- " + mission.getProject().getName() + Constants.NEW_LINE;
                     }
                 }
                 projectsInfo.setText(projects);
@@ -122,7 +121,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void editAuthor() {
-        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
+        NewAuthorController newAuthorController = VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.EMPTY);
         newAuthorController.setAuthorForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -131,7 +130,7 @@ public class ManageAuthorController implements Initializable, AbstractController
      */
     @FXML
     private void newAuthor() {
-        VistaNavigator.openModal(Constants.NEW_AUTHOR, "");
+        VistaNavigator.openModal(Constants.NEW_AUTHOR, Constants.EMPTY);
     }
 
     /**
@@ -143,7 +142,7 @@ public class ManageAuthorController implements Initializable, AbstractController
             Author author = table.getSelectionModel().getSelectedItem();
             authorService.delete(author);
             authors.remove(author);
-            VistaNavigator.baseController.removeAuthor(author);
+            VistaNavigator.baseController.removeAuthor(author);     // let the combo-box of users know about the deletion
             logger.debug("Author removed: " + author);
         }
     }

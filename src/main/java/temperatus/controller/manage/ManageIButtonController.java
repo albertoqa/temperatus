@@ -125,7 +125,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
             try {
                 ibuttonService.saveOrUpdate(b);
                 aliasInfo.setText(t.getNewValue());
-                deviceConnectedList.replaceDevice(b.getSerial(), t.getNewValue(), b.getPosition() != null ? b.getPosition().getPlace() : "");
+                deviceConnectedList.replaceDevice(b.getSerial(), t.getNewValue(), b.getPosition() != null ? b.getPosition().getPlace() : Constants.EMPTY);
             } catch (ConstraintViolationException ex) {
                 logger.warn("Duplicate entry");
                 showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
@@ -162,7 +162,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
      */
     @FXML
     private void editIbutton() {
-        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, "");
+        NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY);
         newIButtonController.setIbuttonForUpdate(table.getSelectionModel().getSelectedItem());
     }
 

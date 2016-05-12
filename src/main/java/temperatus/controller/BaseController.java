@@ -15,16 +15,11 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
@@ -44,7 +39,10 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.AuthorService;
 import temperatus.model.service.IbuttonService;
-import temperatus.util.*;
+import temperatus.util.Animation;
+import temperatus.util.Constants;
+import temperatus.util.User;
+import temperatus.util.VistaNavigator;
 
 import java.net.URL;
 import java.util.List;
@@ -651,9 +649,8 @@ public class BaseController implements Initializable, AbstractController, Device
 
         if (ibutton == null) {
             Platform.runLater(() -> {
-
                 // TODO check
-                SpringFxmlLoader loader = new SpringFxmlLoader();
+                /*SpringFxmlLoader loader = new SpringFxmlLoader();
                 Parent root = loader.load(VistaNavigator.class.getResource(Constants.NEW_IBUTTON));
 
                 Stage stage = new Stage(StageStyle.TRANSPARENT);
@@ -680,10 +677,10 @@ public class BaseController implements Initializable, AbstractController, Device
                 });
 
                 ((NewIButtonController) loader.getController()).setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
-                stage.show();
+                stage.show();*/
 
-                //NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY, true);
-                //newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
+                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY);
+                newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
             });
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());

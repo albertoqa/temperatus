@@ -345,6 +345,8 @@ public class Lang {
     public static final String ERROR_VALIDATING_CREDENTIALS = "errorValidatingCredentials";
     public static final String ERROR_INVALID_CREDENTIALS = "errorInvalidCredentials";
 
+    public static final String ERROR_LOADING_IMAGE = "errorLoadingImage";
+
     public static final String ERROR_READING_DATA = "errorReadingData";
 
     public static final String ACTIVATION_INFO_LABEL = "activationInfoLabel";

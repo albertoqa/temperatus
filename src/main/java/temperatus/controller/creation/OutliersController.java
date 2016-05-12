@@ -102,7 +102,7 @@ public class OutliersController implements Initializable, AbstractController {
         StringBuilder stringBuilder = new StringBuilder(Constants.EMPTY);
 
         while ((line = file.readLine()) != null) {
-            stringBuilder.append(line + System.lineSeparator());
+            stringBuilder.append(line).append(System.lineSeparator());
         }
 
         String input = stringBuilder.toString();
@@ -114,7 +114,6 @@ public class OutliersController implements Initializable, AbstractController {
         file.close();
         os.close();
     }
-
 
     /**
      * Set all the outliers detected

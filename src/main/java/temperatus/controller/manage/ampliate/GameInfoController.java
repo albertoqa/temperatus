@@ -2,6 +2,7 @@ package temperatus.controller.manage.ampliate;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -15,6 +16,7 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
 import temperatus.model.pojo.Image;
 import temperatus.model.pojo.Position;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -76,8 +78,8 @@ public class GameInfoController implements Initializable, AbstractController {
      * Load the data of the game on the view
      */
     private void loadData() {
-        for (Image image : game.getImages()) {
-            try {
+        try {
+            for (Image image : game.getImages()) {
                 javafx.scene.image.Image im = new javafx.scene.image.Image(FILE + image.getPath());
 
                 if (!im.errorProperty().getValue()) {
@@ -89,14 +91,15 @@ public class GameInfoController implements Initializable, AbstractController {
                         imBack.setImage(im);
                     }
                 }
-            } catch (Exception ex) {
-                logger.warn("Cannot load image...");
             }
+        } catch (Exception ex) {
+            showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_LOADING_IMAGE));
+            logger.warn("Cannot load image...");
         }
 
         nameLabel.setText(game.getTitle().toUpperCase());
-        formulasInfo.setText("");
-        positionsInfo.setText("");
+        formulasInfo.setText(Constants.EMPTY);
+        positionsInfo.setText(Constants.EMPTY);
         for (Formula formula : game.getFormulas()) {
             formulasInfo.setText(formulasInfo.getText() + formula.getName() + COMMA);
         }

@@ -133,7 +133,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
      */
     @FXML
     private void editFormula() {
-        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, "");
+        NewFormulaController newFormulaController = VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.EMPTY);
         newFormulaController.setFormulaForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -142,7 +142,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
      */
     @FXML
     private void newFormula() {
-        VistaNavigator.openModal(Constants.NEW_FORMULA, "");
+        VistaNavigator.openModal(Constants.NEW_FORMULA, Constants.EMPTY);
     }
 
     /**
@@ -165,8 +165,7 @@ public class ManageFormulaController implements Initializable, AbstractControlle
      */
     @Override
     public void reload(Object object) {
-        logger.info("Reloading formula?... ");
-
+        logger.info("Reloading formula... ");
         if (object instanceof Formula) {
             if (!formulas.contains(object)) {
                 formulas.add((Formula) object);

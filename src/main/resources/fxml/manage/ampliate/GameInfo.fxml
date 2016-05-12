@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<StackPane id="/fxml/GameInfo.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ampliate.GameInfoController">
+<StackPane id="/fxml/GameInfo.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="626.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.manage.ampliate.GameInfoController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="660.0" prefWidth="767.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="626.0" prefWidth="820.0">
          <children>
             <AnchorPane layoutX="230.0" layoutY="51.0" minWidth="-Infinity" prefHeight="70.0" prefWidth="770.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -13,7 +13,7 @@
                   <Button fx:id="backButton" layoutX="688.0" layoutY="22.0" mnemonicParsing="false" onAction="#back" prefWidth="127.0" styleClass="cbtn" text="Back" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="23.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="27.0" layoutY="455.0" prefHeight="200.0" prefWidth="717.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="455.0">
+            <AnchorPane layoutX="27.0" layoutY="410.0" prefHeight="200.0" prefWidth="717.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="410.0">
                <children>
                   <Label fx:id="nameLabel" layoutX="32.0" layoutY="26.0" styleClass="mainLabel" text="GAME 12 BOTONES" textFill="WHITE" />
                   <Label fx:id="numberOfButtonsLabel" alignment="CENTER_RIGHT" layoutX="66.0" layoutY="71.0" prefHeight="16.0" prefWidth="166.0" styleClass="label-paneinfo" text="Number of buttons:" textFill="WHITE" />
@@ -23,24 +23,24 @@
                   <Label fx:id="positionsInfo" alignment="TOP_LEFT" layoutX="266.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="457.0" styleClass="label-paneinfo" text="Hombro" textFill="WHITE" wrapText="true" />
                   <Label fx:id="formulasInfo" alignment="TOP_LEFT" layoutX="266.0" layoutY="108.0" prefHeight="37.0" prefWidth="457.0" styleClass="label-paneinfo" text="Formula 1" textFill="WHITE" wrapText="true" />
                </children></AnchorPane>
-            <HBox alignment="CENTER" layoutX="39.0" layoutY="89.0" prefHeight="349.0" prefWidth="744.0" spacing="10.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="38.0">
+            <HBox alignment="CENTER" layoutX="39.0" layoutY="89.0" prefHeight="311.0" prefWidth="744.0" spacing="10.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="38.0">
                <children>
-                  <ImageView fx:id="imFront" fitHeight="346.0" fitWidth="180.0" pickOnBounds="true">
+                  <ImageView fx:id="imFront" fitHeight="310.0" fitWidth="180.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../images/noimage.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imLat" fitHeight="346.0" fitWidth="180.0" pickOnBounds="true">
+                  <ImageView fx:id="imLat" fitHeight="310.0" fitWidth="180.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../images/noimage.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imBack" fitHeight="346.0" fitWidth="180.0" pickOnBounds="true">
+                  <ImageView fx:id="imBack" fitHeight="310.0" fitWidth="180.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../images/noimage.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imLat2" fitHeight="346.0" fitWidth="180.0" pickOnBounds="true">
+                  <ImageView fx:id="imLat2" fitHeight="310.0" fitWidth="180.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../images/noimage.jpg" />
                      </image>

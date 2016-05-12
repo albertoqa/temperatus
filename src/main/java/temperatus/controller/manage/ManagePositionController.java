@@ -25,6 +25,7 @@ import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -55,6 +56,7 @@ public class ManagePositionController implements Initializable, AbstractControll
     @Autowired PositionService positionService;
 
     private static final String DEFAULT_IMAGE = "/images/noimage.jpg";  // Set the default image to show -> no image picture
+    private static final String FILE = "file:";
     private static Logger logger = LoggerFactory.getLogger(ManagePositionController.class.getName());
 
     @Override
@@ -75,7 +77,7 @@ public class ManagePositionController implements Initializable, AbstractControll
             if (position != null) {
                 nameLabel.setText(position.getPlace());
                 try {
-                    imageView.setImage(new Image(position.getPicture()));
+                    imageView.setImage(new Image(FILE + position.getPicture()));
                 } catch (Exception ex) {
                     imageView.setImage(new Image(DEFAULT_IMAGE));
                 }
@@ -116,7 +118,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void editPosition() {
-        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, "");
+        NewPositionController newPositionController = VistaNavigator.openModal(Constants.NEW_POSITION, Constants.EMPTY);
         newPositionController.setPositionForUpdate(table.getSelectionModel().getSelectedItem());
     }
 
@@ -125,7 +127,7 @@ public class ManagePositionController implements Initializable, AbstractControll
      */
     @FXML
     private void newPosition() {
-        VistaNavigator.openModal(Constants.NEW_POSITION, "");
+        VistaNavigator.openModal(Constants.NEW_POSITION, Constants.EMPTY);
     }
 
     /**
@@ -137,6 +139,10 @@ public class ManagePositionController implements Initializable, AbstractControll
             Position position = table.getSelectionModel().getSelectedItem();
             positionService.delete(position);
             positions.remove(position);
+            String picturePath = position.getPicture();
+            if(!picturePath.equals(DEFAULT_IMAGE)) {
+                new File(position.getPicture()).delete();
+            }
             logger.info("Deleted position... " + position);
         }
     }
