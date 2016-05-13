@@ -150,7 +150,7 @@ public class Calculator {
      * @return temperature in celsius
      */
     public static Double fahrenheitToCelsius(Double fahrenheit) {
-        return Double.valueOf(Constants.decimalFormat.format((fahrenheit - 32) * (5.0 / 9)).replace(",", "."));
+        return Double.valueOf(Constants.decimalFormat.format((fahrenheit - 32) * (5.0 / 9)).replace(Constants.COMMA, Constants.DOT));
     }
 
     /**
@@ -160,6 +160,6 @@ public class Calculator {
      * @return temperature in fahrenheit
      */
     public static Double celsiusToFahrenheit(Double celsius) {
-        return Double.valueOf(Constants.decimalFormat.format(celsius * 1.8 + 32).replace(",", "."));
+        return Double.valueOf(Constants.decimalFormat.format(celsius * 1.8 + 32).replace(Constants.COMMA, Constants.DOT));
     }
 }

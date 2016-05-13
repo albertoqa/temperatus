@@ -1,8 +1,10 @@
 package temperatus.util;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import org.slf4j.Logger;
@@ -120,5 +122,19 @@ public class SpinnerFactory {
         };
     }
 
+    /**
+     * Validate spinner input to only numbers
+     *
+     * @return eventHandler
+     */
+    public static EventHandler<KeyEvent> numeric() {
+        return e -> {
+            Spinner<Integer> spinner = (Spinner<Integer>) e.getSource();
+            if (!e.getCharacter().matches("[0-9]")) {
+                e.consume();
+            }
+        };
+    }
 
 }
+

@@ -26,7 +26,9 @@ import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceRealTimeTempTask;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.types.Device;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
+import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -69,10 +71,17 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         newTemperature = true;
 
         unitGroup.getToggles().addAll(unitC, unitF);
-        unitGroup.selectToggle(unitC);
+
+        // Show the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+        if (Unit.C.equals(unit)) {
+            unitGroup.selectToggle(unitC);
+        } else {
+            unitGroup.selectToggle(unitF);
+        }
 
         unitGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.equals(unitC)) {
+            if (newValue.equals(unitC)) {
                 temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
             } else {
                 temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
@@ -112,13 +121,15 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
                     }
 
                     public void onFailure(Throwable thrown) {
-                        if (thrown.getMessage().contains(MISSION_ACTIVE)) {
-                            currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_MISSION_ACTIVE));
-                        } else {
-                            currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR));
-                        }
-                        newTemperature = true;
-                        logger.error("Error fetching temperature - Future error");
+                        Platform.runLater(() -> {
+                            if (thrown.getMessage().contains(MISSION_ACTIVE)) {
+                                currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_MISSION_ACTIVE));
+                            } else {
+                                currentTemp.setText(language.get(Lang.CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR));
+                            }
+                            newTemperature = true;
+                            logger.error("Error fetching temperature - Future error");
+                        });
                     }
                 });
             }
@@ -141,7 +152,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
         }
 
         serie.getData().add(new XYChart.Data<>(new Date(), temperature));
-        currentTemp.setText(temperature + " " + (unitGroup.getSelectedToggle().equals(unitF) ? language.get(Lang.FAHRENHEIT) : language.get(Lang.CELSIUS)));
+        currentTemp.setText(temperature + Constants.SPACE + (unitGroup.getSelectedToggle().equals(unitF) ? language.get(Lang.FAHRENHEIT) : language.get(Lang.CELSIUS)));
         logger.info("Temperature read: " + temperature);
     }
 

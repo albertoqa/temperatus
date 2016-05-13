@@ -11,11 +11,12 @@ import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.service.ConfigurationService;
 import temperatus.util.Constants;
+import temperatus.util.DateUtils;
 import temperatus.util.SpinnerFactory;
 import temperatus.util.TextValidation;
-import temperatus.util.VistaNavigator;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static temperatus.controller.AbstractController.language;
@@ -66,8 +67,12 @@ public abstract class AbstractStartDeviceMissionController {
     private static final double RES_LOW = 0.5;
     private static final double RES_HIGH = 0.0625;
 
+    private static final int START_DELAY = 1;
+    private static final int START_DATE = 2;
+    private static final int START_ALARM = 3;
+    private static final int START_NOW = 4;
+
     private static final int MAX_NUMBER_FOR_RATE_INPUT = 20;
-    private static final String EMPTY = "";
 
     /**
      * Initialize all the elements of the view
@@ -82,6 +87,8 @@ public abstract class AbstractStartDeviceMissionController {
 
         SpinnerFactory.setIntegerSpinner(delayInput);
         SpinnerFactory.setIntegerSpinner(onAlarmDelayInput);
+        delayInput.addEventFilter(KeyEvent.KEY_TYPED, SpinnerFactory.numeric());
+        onAlarmDelayInput.addEventFilter(KeyEvent.KEY_TYPED, SpinnerFactory.numeric());
 
         activateAlarmCheck.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -89,9 +96,9 @@ public abstract class AbstractStartDeviceMissionController {
                 lowAlarm.setDisable(false);
             } else {
                 highAlarm.setDisable(true);
-                highAlarm.getEditor().setText(EMPTY);
+                highAlarm.getEditor().setText(Constants.EMPTY);
                 lowAlarm.setDisable(true);
-                lowAlarm.getEditor().setText(EMPTY);
+                lowAlarm.getEditor().setText(Constants.EMPTY);
             }
         });
 
@@ -104,7 +111,9 @@ public abstract class AbstractStartDeviceMissionController {
 
         resolutionBox.getItems().addAll(RESOLUTION_LOW, RESOLUTION_HIGH);
         resolutionBox.getSelectionModel().select(RESOLUTION_LOW);
-        dateInput.setText(Constants.dateTimeFormat.format(new Date()));
+        dateInput.setText(Constants.dateTimeFormat.format(DateUtils.asUtilDate(LocalDateTime.now().plusMinutes(10))));
+
+        syncTime.setSelected(true);
     }
 
     /**
@@ -120,13 +129,13 @@ public abstract class AbstractStartDeviceMissionController {
             configuration.setSuta(onAlarmCheck.isSelected());
 
             if (delayCheck.isSelected()) {
-                configuration.setStartN(0);
+                configuration.setStartN(START_DELAY);
             } else if (onDateCheck.isSelected()) {
-                configuration.setStartN(1);
+                configuration.setStartN(START_DATE);
             } else if (onAlarmCheck.isSelected()) {
-                configuration.setStartN(2);
+                configuration.setStartN(START_ALARM);
             } else {
-                configuration.setStartN(3);
+                configuration.setStartN(START_NOW);
             }
 
             configuration.setChannelEnabledC1(true);
@@ -138,21 +147,22 @@ public abstract class AbstractStartDeviceMissionController {
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
                 if (Unit.C.equals(unit)) {
-                    configuration.setHighAlarmC1(Double.valueOf(highAlarm.getEditor().getText().replace(",", ".")));
-                    configuration.setLowAlarmC1(Double.valueOf(lowAlarm.getEditor().getText().replace(",", ".")));
+                    configuration.setHighAlarmC1(Double.valueOf(highAlarm.getEditor().getText().replace(Constants.COMMA, Constants.DOT)));
+                    configuration.setLowAlarmC1(Double.valueOf(lowAlarm.getEditor().getText().replace(Constants.COMMA, Constants.DOT)));
                 } else {
-                    configuration.setHighAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(highAlarm.getEditor().getText().replace(",", "."))));
-                    configuration.setLowAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(lowAlarm.getEditor().getText().replace(",", "."))));
+                    configuration.setHighAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(highAlarm.getEditor().getText().replace(Constants.COMMA, Constants.DOT))));
+                    configuration.setLowAlarmC1(Calculator.fahrenheitToCelsius(Double.valueOf(lowAlarm.getEditor().getText().replace(Constants.COMMA, Constants.DOT))));
                 }
-
                 configuration.setEnableAlarmC1(true);
             } else {
                 configuration.setEnableAlarmC1(false);
             }
 
             configuration.setObservations(observationsArea.getText());
+        } catch (ControlledTemperatusException ex){
+            throw ex;
         } catch (Exception e) {
-            VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_INPUT_NUMBER));
+            throw new ControlledTemperatusException(language.get(Lang.INVALID_INPUT_NUMBER));
         }
     }
 
@@ -170,13 +180,13 @@ public abstract class AbstractStartDeviceMissionController {
         rollOver.setSelected(configuration.isRollover());
         onAlarmCheck.setSelected(configuration.isSuta());
 
-        if(configuration.getStartN() == 0) {
+        if(configuration.getStartN() == START_DELAY) {
             delayCheck.setSelected(true);
             delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-        } else if(configuration.getStartN() == 1) {
+        } else if(configuration.getStartN() == START_DATE) {
             onDateCheck.setSelected(true);
-            dateInput.setText(Constants.dateTimeFormat.format(new Date()));
-        } else if(configuration.getStartN() == 2) {
+            dateInput.setText(Constants.dateTimeFormat.format(DateUtils.asUtilDate(LocalDateTime.now().plusMinutes(10))));
+        } else if(configuration.getStartN() == START_ALARM) {
             onAlarmCheck.setSelected(true);
             onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
         }
@@ -194,11 +204,11 @@ public abstract class AbstractStartDeviceMissionController {
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
 
                 if(Unit.C.equals(unit)) {
-                    highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()).replace(".", ","));
-                    lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()).replace(".", ","));
+                    highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()).replace(Constants.DOT, Constants.COMMA));
+                    lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()).replace(Constants.DOT, Constants.COMMA));
                 } else {
-                    highAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1())).replace(".", ","));
-                    lowAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1())).replace(".", ","));
+                    highAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getHighAlarmC1())).replace(Constants.DOT, Constants.COMMA));
+                    lowAlarm.getEditor().setText(String.valueOf(Calculator.celsiusToFahrenheit(configuration.getLowAlarmC1())).replace(Constants.DOT, Constants.COMMA));
                 }
 
             } catch (Exception ex) {
@@ -215,15 +225,21 @@ public abstract class AbstractStartDeviceMissionController {
      * @return start delay in seconds
      */
     private int getStart() throws ControlledTemperatusException {
+        int delay;
         if (immediatelyCheck.isSelected()) {
-            return 0;
+            delay = 0;
         } else if (delayCheck.isSelected()) {
-            return delayInput.getValue();
+            delay = delayInput.getValue();
         } else if (onDateCheck.isSelected()) {
-            return calculateDateDelay(dateInput.getText());
+            delay = calculateDateDelay(dateInput.getText());
         } else {
-            return onAlarmDelayInput.getValue();
+            delay = onAlarmDelayInput.getValue();
         }
+
+        if(delay < 0) {
+            throw new ControlledTemperatusException(language.get(Lang.INVALID_START_DELAY));
+        }
+        return delay;
     }
 
     /**

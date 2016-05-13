@@ -88,15 +88,14 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
                 saveButton.setText(language.get(Lang.UPDATE));
 
                 nameInput.textProperty().addListener((ob, old, in) -> {
-                    if(!old.equals(in)) {
+                    if (!old.equals(in)) {
                         saveButton.setText(language.get(Lang.SAVE));
                     }
                 });
-
             }
         });
 
-        infoArea.setText("");
+        infoArea.setText(Constants.EMPTY);
 
         getAllElements();
     }
@@ -152,7 +151,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
             Configuration preselected = configurationsCombobox.getSelectionModel().getSelectedItem();
 
-            if(preselected != null && saveButton.getText().equals(language.get(Lang.UPDATE))) {
+            if (preselected != null && saveButton.getText().equals(language.get(Lang.UPDATE))) {
                 configuration.setId(preselected.getId());
             }
 
@@ -202,21 +201,23 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
                 ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
                 startProgressIndicator();
 
-                history.info(User.getUserName() + " " + language.get(Lang.START_MISSION_HISTORY) + "  " + device.getAlias());
+                history.info(User.getUserName() + Constants.SPACE + language.get(Lang.START_MISSION_HISTORY) + Constants.SPACE + device.getAlias());
 
                 Futures.addCallback(future, new FutureCallback<Boolean>() {
                     public void onSuccess(Boolean result) {
                         Platform.runLater(() -> {
-                            logger.info("Device configured correctly");
-                            Notifications.create().title(language.get(Lang.MISSION_CONFIGURED)).text(language.get(Lang.SERIAL_COLUMN) + device.getSerial()).show();
-                            stopProgressIndicator();
+                            if (result) {
+                                logger.info("Device configured correctly");
+                                Notifications.create().title(language.get(Lang.MISSION_CONFIGURED)).text(language.get(Lang.SERIAL_COLUMN) + device.getSerial()).show();
+                                stopProgressIndicator();
+                            } else {
+                                error(device.getSerial());
+                            }
                         });
                     }
 
                     public void onFailure(Throwable thrown) {
-                        logger.error("Error starting mission on device - Future error");
-                        showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_STARTING_MISSION) + device.getSerial());
-                        stopProgressIndicator();
+                        Platform.runLater(() -> error(device.getSerial()));
                     }
                 });
             }
@@ -224,6 +225,17 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             logger.warn("Error in the configuration... " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         }
+    }
+
+    /**
+     * If fail to start mission show error message
+     *
+     * @param serial serial of the device where the start failed
+     */
+    private void error(String serial) {
+        logger.error("Error starting mission on device - Future error");
+        showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_STARTING_MISSION) + serial);
+        stopProgressIndicator();
     }
 
     /**
@@ -240,7 +252,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
      * End the progress indicator and activate the anchor pane
      */
     private void stopProgressIndicator() {
-        if(stackPane.getChildren().size() > 1) {
+        if (stackPane.getChildren().size() > 1) {
             stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
         }
         anchorPane.setDisable(false);
@@ -262,6 +274,11 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         VistaNavigator.openModal(Constants.MISSION_HELP, language.get(Lang.MISSION_HELP));
     }
 
+    /**
+     * If a new configuration is created reload it on the combo-box
+     *
+     * @param object object to reload
+     */
     @Override
     public void reload(Object object) {
         if (object instanceof Configuration) {

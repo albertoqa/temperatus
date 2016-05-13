@@ -331,6 +331,7 @@ public class Lang {
     public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";
     public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";
     public static final String ERROR_PARSE_DATE = "errorParseDate";
+    public static final String INVALID_START_DELAY = "invalidStartDelay";
     public static final String ERROR_BROWSER = "errorBrowser";
 
     public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";

@@ -460,7 +460,7 @@ public class NewRecordController extends AbstractCreationController implements I
                         mission.getRecords().remove(sourceChoice.getRecord());
                         recordService.delete(sourceChoice.getRecord());
 
-                        File file = sourceChoice.getFile();
+                        File file = new File(sourceChoice.getRecord().getDataPath());
                         if (!file.delete()) {
                             logger.error("Error removing file...");
                         }

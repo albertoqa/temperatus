@@ -19,12 +19,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.pojo.DeviceMissionData;
+import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionDisableTask;
 import temperatus.device.task.DeviceReadTask;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.types.Device;
+import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 import temperatus.util.User;
 import temperatus.util.VistaNavigator;
@@ -81,9 +83,9 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Device device;
-    private static Logger logger = LoggerFactory.getLogger(DeviceMissionInformationController.class.getName());
-
     private DeviceMissionData deviceMissionData;
+
+    private static Logger logger = LoggerFactory.getLogger(DeviceMissionInformationController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,8 +110,6 @@ public class DeviceMissionInformationController implements Initializable, Abstra
         startProgressIndicator();
         deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
         ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
-
-        //history.info(User.getUserName() + " " + language.get(Lang.READ_MISSION_HISTORY) + "  " + device.getAlias());
 
         Futures.addCallback(future, new FutureCallback<Object>() {
             public void onSuccess(Object result) {
@@ -147,8 +147,18 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             totalMissionSamples.setText(deviceMissionData.getTotalMissionSamples());
             totalDeviceSamples.setText(deviceMissionData.getTotalDeviceSamples());
             resolution.setText(deviceMissionData.getResolution());
-            highAlarm.setText(deviceMissionData.getHighAlarm());    // TODO change depending on unit of measurement preferred
-            lowAlarm.setText(deviceMissionData.getLowAlarm());
+
+            // Show the data using the preferred unit
+            Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+
+            if (Unit.C.equals(unit)) {
+                highAlarm.setText(deviceMissionData.getHighAlarm());
+                lowAlarm.setText(deviceMissionData.getLowAlarm());
+            } else {
+                highAlarm.setText(String.valueOf(Calculator.celsiusToFahrenheit(Double.valueOf(deviceMissionData.getHighAlarm()))));
+                lowAlarm.setText(String.valueOf(Calculator.celsiusToFahrenheit(Double.valueOf(deviceMissionData.getLowAlarm()))));
+            }
+
             missionSampleCount.setText(deviceMissionData.getMissionSampleCount());
             firstSampleTime.setText(deviceMissionData.getFirstSampleTime());
         } else {
@@ -162,7 +172,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML
     private void showTemperatureData() {
         if (deviceMissionData.getMeasurements() != null) {
-            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, "");
+            TemperatureLogController temperatureLogController = VistaNavigator.openModal(Constants.TEMPERATURE_LOG, Constants.EMPTY);
             temperatureLogController.setData(deviceMissionData.getMeasurements(), device.getSerial(), device.getDefaultPosition());
         }
     }
@@ -187,7 +197,7 @@ public class DeviceMissionInformationController implements Initializable, Abstra
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
 
-            history.info(User.getUserName() + " " + language.get(Lang.STOP_MISSION_HISTORY) + "  " + device.getAlias());
+            history.info(User.getUserName() + Constants.SPACE + language.get(Lang.STOP_MISSION_HISTORY) + Constants.SPACE + device.getAlias());
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 public void onSuccess(Boolean result) {
@@ -231,27 +241,22 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     @Override
     public void translate() {
+        /*missionInProgressLabel.setText(language.get(Lang.));
+        sutaMissionLabel.setText(language.get(Lang.));
+        wftaLabel.setText(language.get(Lang.));
+        sampleRateLabel.setText(language.get(Lang.));
+        missionStartTimeLabel.setText(language.get(Lang.));
+        rollOverLabel.setText(language.get(Lang.));
+        totalMissionSamplesLabel.setText(language.get(Lang.));
+        totalDeviceSamplesLabel.setText(language.get(Lang.));
+        resolutionLabel.setText(language.get(Lang.));
+        highAlarmLabel.setText(language.get(Lang.));
+        lowAlarmLabel.setText(language.get(Lang.));
+        missionSampleCountLabel.setText(language.get(Lang.));
+        firstSampleTimeLabel.setText(language.get(Lang.));
 
-
-
-        /*TODO
-            @FXML private Label missionInProgressLabel;
-    @FXML private Label sutaMissionLabel;
-    @FXML private Label wftaLabel;
-    @FXML private Label sampleRateLabel;
-    @FXML private Label missionStartTimeLabel;
-    @FXML private Label rollOverLabel;
-    @FXML private Label totalMissionSamplesLabel;
-    @FXML private Label totalDeviceSamplesLabel;
-    @FXML private Label resolutionLabel;
-    @FXML private Label highAlarmLabel;
-    @FXML private Label lowAlarmLabel;
-    @FXML private Label missionSampleCountLabel;
-    @FXML private Label firstSampleTimeLabel;
-
-    @FXML private Button disableMissionButton;
-    @FXML private Button startMissionButton;
-    @FXML private Button temperatureLogButton;
-         */
+        disableMissionButton.setText(language.get(Lang.));
+        startMissionButton.setText(language.get(Lang.));
+        temperatureLogButton.setText(language.get(Lang.));*/
     }
 }

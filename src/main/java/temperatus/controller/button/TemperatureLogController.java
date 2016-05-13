@@ -1,7 +1,9 @@
 package temperatus.controller.button;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -25,6 +27,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
+import temperatus.util.ChartToolTip;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -36,6 +39,7 @@ import java.util.*;
 
 /**
  * Modal window showing a graphic with the data of a selected device
+ * <p>
  * Created by alberto on 24/4/16.
  */
 @Controller
@@ -51,7 +55,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @FXML private DateAxis dateAxis;
     @FXML private NumberAxis temperatureAxis;
 
-    private ObservableList<Measurement> measurements;
+    private List<Measurement> measurements;
     private ObservableList<XYChart.Series<Date, Number>> series;
     private String serial;
     private String defaultPosition;
@@ -62,11 +66,12 @@ public class TemperatureLogController implements Initializable, AbstractControll
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        measurements = FXCollections.observableArrayList();
+        measurements = new ArrayList<>();
         series = FXCollections.observableArrayList();
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
+        lineChart.legendVisibleProperty().setValue(false);
     }
 
     /**
@@ -75,23 +80,43 @@ public class TemperatureLogController implements Initializable, AbstractControll
      * @param measurements list of measurements to show
      */
     public void setData(List<Measurement> measurements, String serial, String defaultPosition) {
-        this.measurements.addAll(measurements);
+        logger.debug("Setting data...");
+        this.measurements = measurements;
         this.serial = serial;
         this.defaultPosition = defaultPosition;
+        drawData();
+    }
 
-        // Show the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
-
+    /**
+     * Draw the measurements in the chart.
+     * Generate them in another thread for performance improvement.
+     */
+    private void drawData() {
         XYChart.Series<Date, Number> serie = new XYChart.Series<>();
-        measurements.stream().forEach((measurement) -> {
-            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
-            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
-        });
 
-        //ChartToolTip.addToolTipOnHover(serie, lineChart); // TODO why is not working?
-        series.add(serie);
+        Task<Void> drawMeasurementsTask = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                // Show the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-        logger.debug("Setting data...");
+                measurements.stream().forEach((measurement) -> {
+                    double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+                    serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+                });
+
+                return null;
+            }
+        };
+
+        drawMeasurementsTask.setOnSucceeded(event -> Platform.runLater(() -> {
+            series.add(serie);
+            ChartToolTip.addToolTipOnHover(serie, lineChart);
+        }));
+
+        Thread thread = new Thread(drawMeasurementsTask);  // start task in a new thread
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -104,7 +129,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         logger.info("Exporting device data...");
 
         // Only allow export if complete version of the application, trial version cannot export data
-        if(Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
 
@@ -115,8 +140,6 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 MissionExporter missionExporter = new MissionExporter();
 
                 Record record = new Record();
-                Set<Measurement> measurementSet = new HashSet<>(measurements);
-                record.setMeasurements(measurementSet);
 
                 if (defaultPosition != null && !defaultPosition.isEmpty()) {
                     record.setPosition(new Position(defaultPosition));
@@ -127,11 +150,14 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 List<Record> records = new ArrayList<>();
                 records.add(record);
 
+                HashMap<Record, List<Measurement>> dataMap = new HashMap<>();
+                dataMap.put(record, measurements);
+
                 // Export the data using the preferred unit
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
                 // period = 1, no formulas and no all records needed
-                missionExporter.setData(1, serial, records, new ArrayList<>(), null, unit);
+                missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
 
                 Workbook workBook = missionExporter.export();
 
@@ -139,9 +165,9 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 workBook.write(fileOut);
                 fileOut.close();
             }
-            back();      // close the window
+            //back();      // close the window
         } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, "");
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
 
@@ -156,7 +182,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @Override
     public void translate() {
         dateAxis.setLabel(language.get(Lang.DATE_AXIS));
-        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+        if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
             temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
         } else {
             temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));

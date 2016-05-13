@@ -70,7 +70,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
-    private static final String EMPTY = "";
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
 
     @Override
@@ -85,7 +84,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
         connectedDevicesTable.setItems(deviceConnectedList.getDevices());
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
-        connectedDevicesTable.setPlaceholder(new Label(EMPTY));    // no placeholder
+        connectedDevicesTable.setPlaceholder(new Label(Constants.EMPTY));    // no placeholder
 
         connectedDevicesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, device) -> {
             infoTabPane.getSelectionModel().clearSelection();   // stop RealTime task if was selected
@@ -107,9 +106,13 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         if (deviceConnectedList.getDevices().size() == 0) {
             searchingIndicator.setVisible(true);
             configureButton.setDisable(true);
+            disableAllButton.setDisable(true);
+            Animation.fadeOutTransition(infoTabPane);
+            infoTabPane.getTabs().clear();      // clear previous selection -> stop all tasks
         } else {
             searchingIndicator.setVisible(false);
             configureButton.setDisable(false);
+            disableAllButton.setDisable(false);
         }
         logger.debug("No devices... showing search indicator");
     }
@@ -232,11 +235,14 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
             startProgressIndicator();
 
+            // TODO check... vamos a ver si este task esta inyectado por spring, es el mismo task en todas las veces que lo llamo?
+            // TODO osea va a tener las mismas propiedades? puede ser por esto por lo que los archivos temporales se guardan en el
+            // TODO mismo fichero aunque el tiempo en el que se les llama sea distinto? se crean en el mismo tiempo?
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
             started.set(started.get()+1);
 
-            history.info(User.getUserName() + " " + language.get(Lang.STOP_MISSION_HISTORY) + "  " + device.getAlias());
+            history.info(User.getUserName() + Constants.SPACE + language.get(Lang.STOP_MISSION_HISTORY) + Constants.SPACE + device.getAlias());
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 public void onSuccess(Boolean result) {

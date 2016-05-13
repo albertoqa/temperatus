@@ -84,6 +84,17 @@ public final class Animation {
     }
 
     /**
+     * Close the given node with an animation
+     *
+     * @param node node to close
+     */
+    public static void fadeOutClose(Node node) {
+        FadeTransition fadeOut = Animation.fadeOut(node, false, false);
+        fadeOut.setOnFinished(actionEvent -> node.getScene().getWindow().hide());
+        fadeOut.play();
+    }
+
+    /**
      * Take one node out and one node in
      *
      * @param node_out node to take out
@@ -101,10 +112,10 @@ public final class Animation {
      */
     public static void fadeInTransition(Node node) {
         if (node.getOpacity() < OPACITY) {
-            FadeTransition fadeOut = new FadeTransition(Duration.millis(LIFESPAN), node);
-            fadeOut.setFromValue(MIN);
-            fadeOut.setToValue(MAX);
-            fadeOut.play();
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(LIFESPAN), node);
+            fadeIn.setFromValue(MIN);
+            fadeIn.setToValue(MAX);
+            fadeIn.play();
         }
     }
 

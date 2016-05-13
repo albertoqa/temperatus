@@ -2,6 +2,7 @@ package temperatus.util;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -32,6 +33,16 @@ public class DateUtils {
      */
     public static Date asUtilDate(LocalDate date) {
         return date == null ? null : Date.from((date).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * Generate a Date from a LocalDateTime object
+     *
+     * @param date LocalDateTime to generate
+     * @return Date
+     */
+    public static Date asUtilDate(LocalDateTime date) {
+        return date == null ? null : Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
