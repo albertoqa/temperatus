@@ -15,11 +15,16 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
@@ -39,10 +44,7 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.model.service.AuthorService;
 import temperatus.model.service.IbuttonService;
-import temperatus.util.Animation;
-import temperatus.util.Constants;
-import temperatus.util.User;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.net.URL;
 import java.util.List;
@@ -106,6 +108,7 @@ public class BaseController implements Initializable, AbstractController, Device
     private ToggleGroup menuGroup = new ToggleGroup();  // only one menu option can be selected at a time
 
     private String actualBaseView = Constants.HOME;  // name of the currently selected view
+    private int newIbuttonStageCount = 0;   // count of how many new ibutton screens are open at a time
 
     private static Logger logger = LoggerFactory.getLogger(BaseController.class.getName());
 
@@ -649,8 +652,8 @@ public class BaseController implements Initializable, AbstractController, Device
 
         if (ibutton == null) {
             Platform.runLater(() -> {
-                // TODO check
-                /*SpringFxmlLoader loader = new SpringFxmlLoader();
+
+                SpringFxmlLoader loader = new SpringFxmlLoader();
                 Parent root = loader.load(VistaNavigator.class.getResource(Constants.NEW_IBUTTON));
 
                 Stage stage = new Stage(StageStyle.TRANSPARENT);
@@ -658,29 +661,62 @@ public class BaseController implements Initializable, AbstractController, Device
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setResizable(false);
-
-                stage.initOwner(VistaNavigator.getMainStage());
                 stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
+                stage.initOwner(VistaNavigator.getMainStage());
 
-                if (VistaNavigator.getParentNode() != null && VistaNavigator.getCurrentStage() == null) {
-                    Animation.blurOut(VistaNavigator.getParentNode());
+                // if userPane is showing: blur user pane
+                if (isShowBottomPane()) {
+                    if (newIbuttonStageCount == 0) {
+                        Animation.blurOut(userPane);
+                        stage.setOnCloseRequest(e -> {
+                            logger.info("Closing stage");
+                            Animation.fadeOutClose(root);
+                            Animation.blurIn(userPane);
+                            newIbuttonStageCount--;
+                        });
+                    } else {
+                        stage.setOnCloseRequest(e -> {
+                            logger.info("Closing stage");
+                            Animation.fadeOutClose(root);
+                            newIbuttonStageCount--;
+                        });
+                    }
+                    newIbuttonStageCount++;
                 }
 
-                // Add listener to the stage so if it is closed by the X button the onCloseModalAction is also called
-                stage.setOnCloseRequest(e -> {
-                    logger.info("Closing stage");
-                    Animation.fadeInOutClose(root);
+                // if another modal window is open: show this over the modal window
+                else if (VistaNavigator.getCurrentStage() != null) {
+                    stage.initOwner(VistaNavigator.getCurrentStage());
+                    stage.setOnCloseRequest(e -> {
+                        logger.info("Closing stage");
+                        Animation.fadeOutClose(root);
+                    });
+                }
 
-                    if (VistaNavigator.getParentNode() != null && VistaNavigator.getCurrentStage() == null) {
-                        Animation.blurIn(VistaNavigator.getParentNode());
+                // if only the base window is open: blur the base controller
+                // if more than one ibutton connected at the same time and new
+                else {
+                    if (newIbuttonStageCount == 0) {
+                        Animation.blurOut(parentPane);
+                        stage.setOnCloseRequest(e -> {
+                            logger.info("Closing stage");
+                            Animation.fadeInOutClose(root);
+                            Animation.blurIn(parentPane);
+                            newIbuttonStageCount--;
+                        });
+                    } else {
+                        stage.setOnCloseRequest(e -> {
+                            logger.info("Closing stage");
+                            Animation.fadeOutClose(root);
+                            newIbuttonStageCount--;
+                        });
                     }
-                });
+                    newIbuttonStageCount++;
+                }
 
+                // common
                 ((NewIButtonController) loader.getController()).setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
-                stage.show();*/
-
-                NewIButtonController newIButtonController = VistaNavigator.openModal(Constants.NEW_IBUTTON, Constants.EMPTY);
-                newIButtonController.setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
+                stage.show();
             });
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());

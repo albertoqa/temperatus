@@ -191,6 +191,8 @@ public class NewRecordController extends AbstractCreationController implements I
                 logger.debug("selected iButton");
                 if (t1 != null) {
                     if (t1.getIbutton() != null) {
+                        keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData()).getStyleClass().clear();
+                        keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData()).getStyleClass().add("kbtn");
                         keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData()).setDisable(false);
                     } else if (t1.getFile() == null) {
                         keepDataBox.getChildren().get((Integer) choiceBoxSource.getUserData()).setDisable(true);
@@ -443,9 +445,9 @@ public class NewRecordController extends AbstractCreationController implements I
                         public void onFailure(Throwable thrown) {
                             logger.error("Error reading data - Future error");
                             Platform.runLater(() -> {
-                                showAlert(Alert.AlertType.ERROR, language.get(Lang.READING_DEVICE_ERROR));
                                 clickedButton.setSelected(false);
-                                setButtonStyleNormal(clickedButton);
+                                enableRow(index);
+                                showAlert(Alert.AlertType.ERROR, language.get(Lang.READING_DEVICE_ERROR));
                             });
                         }
                     });
@@ -467,18 +469,15 @@ public class NewRecordController extends AbstractCreationController implements I
                         getSourceChoiceComboBoxForIndex(index).getItems().remove(sourceChoice);
 
                         enableRow(index);
-                        setButtonStyleNormal(clickedButton);
-
-                        clickedButton.setText(language.get(Lang.KEEPDATA));
-                        clickedButton.setDisable(true);
-                        clickedButton.setSelected(false);
-                        //TODO el boton esta desactivado pero no se pone con el mismo opacity...
+                        setButtonStyleNormalDisabled(clickedButton);
 
                     } else {
                         setButtonStyleRemove(clickedButton);    // keep same state
                     }
                 } else {
                     logger.warn("Error looking for device... is possible that device is no longer connected?");
+                    clickedButton.setSelected(false);
+                    enableRow(index);
                     showAlert(Alert.AlertType.ERROR, language.get(Lang.DEVICE_NOT_FOUND_ERROR));
                 }
             } else {    // allow user to change all data from the row again
@@ -526,6 +525,20 @@ public class NewRecordController extends AbstractCreationController implements I
         button.getStyleClass().clear();
         button.getStyleClass().add("kbtn");
         button.setDisable(false);
+    }
+
+    /**
+     * Set button style to its normal state
+     *
+     * @param button button to modify
+     */
+    private void setButtonStyleNormalDisabled(ToggleButton button) {
+        button.setGraphic(null);
+        button.setText(language.get(Lang.KEEPDATA));
+        button.setSelected(false);
+        button.setDisable(true);
+        button.getStyleClass().clear();
+        button.getStyleClass().add("kbtndis");
     }
 
     /**

@@ -374,6 +374,42 @@
 }
 
 
+/*###########   Keep Data button Disabled State (kbtndis)     ############*/
+
+.kbtndis {
+    -fx-padding: 5 22 5 22;
+    -fx-border-style: none;
+    -fx-border-color : grey grey grey grey;
+    -fx-border-width:0.8;
+/*    -fx-background-color: #16b7bd; */
+/*    -fx-background-color: #299bb4; */
+    -fx-background-color: #f3f3f3;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-font-family: "Avenir Light";
+    -fx-font-size: 11px;
+    -fx-text-fill: black;
+
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-opacity: 0.4;
+}
+
+.kbtndis:pressed, .ibtn:default:hover:pressed {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
+.kbtndis:selected {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
+.kbtndis:selected:focused {
+  -fx-background-color: #8ab48e;
+  -fx-text-fill: white;
+}
+
 
 /*###########   Delete buttons (dbtn)     ############*/
 
