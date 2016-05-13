@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,13 @@ import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewMissionController;
 import temperatus.controller.creation.NewProjectController;
+import temperatus.exporter.ProjectExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Mission;
 import temperatus.model.pojo.Project;
 import temperatus.model.pojo.types.TreeElement;
 import temperatus.model.pojo.types.TreeElementType;
+import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.FilterableTreeItem;
 import temperatus.model.pojo.utils.TreeItemPredicate;
 import temperatus.model.service.MissionService;
@@ -29,6 +33,8 @@ import temperatus.util.Animation;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -230,7 +236,7 @@ public class ArchivedController implements Initializable, AbstractController {
         projectNumberOfMissions.setText(String.valueOf(project.getMissions().size()));
         projectObservations.setText(project.getObservations());
 
-        String authors = "";
+        String authors = Constants.EMPTY;
         for (Mission mission : project.getMissions()) {
             if (!authors.contains(mission.getAuthor().getName())) {
                 authors = authors + mission.getAuthor().getName() + ", ";
@@ -366,7 +372,28 @@ public class ArchivedController implements Initializable, AbstractController {
     private void exportProject() throws IOException {
         // Only allow export if complete version of the application, trial version cannot export data
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
-            // TODO
+            logger.info("Exporting project data...");
+
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls");
+            fileChooser.getExtensionFilters().add(extFilter);   //Set extension filter
+
+            File file = fileChooser.showSaveDialog(projectInfoPane.getScene().getWindow());   //Show save file dialog
+
+            if (file != null) {
+                // Export the data using the preferred unit
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+
+                // create a new project exporter and set the data to export
+                ProjectExporter projectExporter = new ProjectExporter();
+                projectExporter.setData(getSelectedElement().getElement(), unit);
+
+                Workbook workBook = projectExporter.export();
+
+                FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
+                workBook.write(fileOut);
+                fileOut.close();
+            }
         } else {
             VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }

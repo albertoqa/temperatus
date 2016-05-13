@@ -1,5 +1,6 @@
 package temperatus.controller.creation;
 
+import com.dalsemi.onewire.container.MissionContainer;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -207,17 +208,12 @@ public class NewRecordController extends AbstractCreationController implements I
         // Also, if the game has default positions, those positions are pre-selected
 
         // Now we add all detected devices to the source box
-
-        for (Device device : deviceConnectedList.getDevices()) {
-            addiButtonToBoxes(device.getSerial());
-        }
+        deviceConnectedList.getDevices().stream().filter(device -> device.getContainer() instanceof MissionContainer).forEach(device -> addiButtonToBoxes(device.getSerial()));
 
         // listen for changes: arrival/departure events
         deviceConnectedList.getDevices().addListener((ListChangeListener<? super Device>) change -> {
             while (change.next()) {
-                for (Device device : change.getAddedSubList()) {
-                    addiButtonToBoxes(device.getSerial());
-                }
+                change.getAddedSubList().stream().filter(device -> device.getContainer() instanceof MissionContainer).forEach(device -> addiButtonToBoxes(device.getSerial()));
                 for (Device device : change.getRemoved()) {
                     removeiButtonFromBoxes(device.getSerial());
                 }
@@ -262,8 +258,8 @@ public class NewRecordController extends AbstractCreationController implements I
      * When user press back on the RecordConfig screen this must be called
      */
     void comingBackFromRecordConfig() {
-        for(int i = 0; i < mission.getGame().getNumButtons(); i++) {
-            if(getSourceChoiceForIndex(i) != null && getSourceChoiceForIndex(i).getRecord() != null) {
+        for (int i = 0; i < mission.getGame().getNumButtons(); i++) {
+            if (getSourceChoiceForIndex(i) != null && getSourceChoiceForIndex(i).getRecord() != null) {
                 positionBox.getChildren().get(i).setDisable(true);
                 sourceBox.getChildren().get(i).setDisable(true);
                 addSourceBox.getChildren().get(i).setDisable(true);
@@ -555,7 +551,7 @@ public class NewRecordController extends AbstractCreationController implements I
      * @return device with same serial as passed
      */
     private Device getDeviceFromIbutton(Ibutton ibutton) {
-        if(ibutton != null) {
+        if (ibutton != null) {
             for (Device device : deviceConnectedList.getDevices()) {
                 if (device.getSerial().equals(ibutton.getSerial())) {
                     return device;
@@ -890,7 +886,7 @@ public class NewRecordController extends AbstractCreationController implements I
                             FileUtils.copyFile(validatedData.getDataFile(), dest);
 
                             // if file is in temp folder, delete it after copy
-                            if(validatedData.getDataFile().getPath().contains(System.getProperty("java.io.tmpdir"))) {
+                            if (validatedData.getDataFile().getPath().contains(System.getProperty("java.io.tmpdir"))) {
                                 validatedData.getDataFile().delete();
                             }
                             validatedData.setDataFile(dest);

@@ -9,14 +9,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
-import temperatus.calculator.Calculator;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
-import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ import java.util.List;
  * <p>
  * Created by alberto on 8/4/16.
  */
-public class MissionExporter {
+public class MissionExporter extends AbstractExporter{
 
     private int period;
     private String missionName;
@@ -68,41 +66,7 @@ public class MissionExporter {
 
                 List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
-                int col = 1;
-                for (Measurement measurement : toExport) {
-                    Cell data = dataRow.createCell(col);
-
-                    if (unit.equals(Unit.C)) {
-                        data.setCellValue(measurement.getData());
-                    } else {
-                        data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
-                    }
-
-                    col++;
-                }
-
-                // Write the header as Index or DateTime
-                if (row == 1) {
-                    logger.debug("Generating header");
-
-                    boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
-                    int c = 1;  // column
-
-                    if (writeAsIndex) {
-                        for (Measurement measurement : toExport) {
-                            Cell time = headerRow.createCell(c);
-                            time.setCellValue(c);
-                            c++;
-                        }
-                    } else {
-                        for (Measurement measurement : toExport) {
-                            Cell time = headerRow.createCell(c);
-                            time.setCellValue(measurement.getDate().toString());
-                            c++;
-                        }
-                    }
-                }
-
+                exportMission(toExport, dataRow, unit, headerRow, row);
                 row++;
             }
 
@@ -118,22 +82,8 @@ public class MissionExporter {
                 Cell device = dataRow.createCell(0);
                 device.setCellValue(formula.getName());
 
-                int col = 1;
-                for (Measurement measurement : measurements) {
-                    Cell data = dataRow.createCell(col);
-
-                    if (unit.equals(Unit.C)) {
-                        data.setCellValue(measurement.getData());
-                    } else {
-                        data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
-                    }
-
-                    col++;
-
-                    if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
-                        logger.warn("Error in formula: " + formula);
-                        showWarn = true;
-                    }
+                if(exportFormula(measurements, dataRow, unit, row)) {
+                    showWarn = true;
                 }
 
                 row++;
