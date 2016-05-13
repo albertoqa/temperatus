@@ -33,7 +33,7 @@ public class DeviceDetectorTask implements Runnable {
     private List<String> serialsDetected = new ArrayList<>();   // list of device's serials currently connected (already detected)
 
     @Autowired DeviceDetectorSource deviceDetectorSource;   // create event to let all listeners know about what is happening
-    @Autowired DeviceSemaphore deviceSemaphore;             // shared semaphore
+    private DeviceSemaphore deviceSemaphore = DeviceSemaphore.getInstance();             // shared semaphore
 
     @Override
     public void run() {
@@ -69,9 +69,7 @@ public class DeviceDetectorTask implements Runnable {
                     if (adapter.adapterDetected()) {
 
                         // Check if devices previously detected are still connected
-                        Iterator<String> i = serialsDetected.iterator();
-                        while (i.hasNext()) {
-                            String serial = i.next();
+                        for (String serial : serialsDetected) {
                             if (!adapter.isPresent(serial.split("-")[0])) {
                                 serialsDetected.remove(serial);
                                 deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);

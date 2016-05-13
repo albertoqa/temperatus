@@ -67,7 +67,6 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
     @Autowired IbuttonService ibuttonService;
     @Autowired DeviceConnectedList deviceConnectedList;
-    @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private static Logger logger = LoggerFactory.getLogger(ConnectedDevicesController.class.getName());
@@ -235,9 +234,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
             startProgressIndicator();
 
-            // TODO check... vamos a ver si este task esta inyectado por spring, es el mismo task en todas las veces que lo llamo?
-            // TODO osea va a tener las mismas propiedades? puede ser por esto por lo que los archivos temporales se guardan en el
-            // TODO mismo fichero aunque el tiempo en el que se les llama sea distinto? se crean en el mismo tiempo?
+            DeviceMissionDisableTask deviceMissionDisableTask = new DeviceMissionDisableTask();   // read from device task
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
             started.set(started.get()+1);

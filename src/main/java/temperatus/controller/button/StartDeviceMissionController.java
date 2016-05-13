@@ -62,7 +62,6 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @FXML private Label infoArea;
     @FXML private Label preloadLabel;
 
-    @Autowired DeviceMissionStartTask deviceMissionStartTask;   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
     @Autowired DeviceConnectedList deviceConnectedList;
 
@@ -195,6 +194,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         try {
             generateConfiguration(configuration);  // current configuration options
             for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
+                DeviceMissionStartTask deviceMissionStartTask = new DeviceMissionStartTask();   // read from device task
 
                 deviceMissionStartTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
                 deviceMissionStartTask.setConfiguration(configuration);     // current configuration to apply

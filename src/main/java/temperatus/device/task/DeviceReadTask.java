@@ -7,7 +7,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
@@ -16,7 +15,6 @@ import temperatus.util.Constants;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -27,10 +25,8 @@ import java.util.List;
 /**
  * @author aquesada
  */
-@Component
 public class DeviceReadTask extends DeviceTask {
 
-    private static final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
     private static final NumberFormat nf = new DecimalFormat();
 
     private static final String NEW_LINE_SEPARATOR = "\n";                          //Delimiter used in CSV file

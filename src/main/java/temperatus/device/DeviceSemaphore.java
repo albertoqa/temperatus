@@ -1,18 +1,24 @@
 package temperatus.device;
 
-import org.springframework.stereotype.Component;
-
 import java.util.concurrent.Semaphore;
 
 /**
  * Custom semaphore to assure that only one thread is reading from a device at a time.
+ * Singleton class, only one instance allowed.
  *
  * @author aquesada
  */
-@Component
 public class DeviceSemaphore {
 
     private Semaphore semaphore = new Semaphore(1); // Only one access is allowed at a time
+
+    private static class InstanceHolder {
+        private static final DeviceSemaphore instance = new DeviceSemaphore();
+    }
+
+    public static DeviceSemaphore getInstance() {
+        return InstanceHolder.instance;
+    }
 
     public void acquire() throws InterruptedException {
         semaphore.acquire();

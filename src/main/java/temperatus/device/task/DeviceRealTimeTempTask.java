@@ -4,7 +4,6 @@ import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.container.TemperatureContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import temperatus.exception.ControlledTemperatusException;
 
 /**
@@ -13,7 +12,6 @@ import temperatus.exception.ControlledTemperatusException;
  * <p/>
  * Created by alberto on 18/4/16.
  */
-@Component
 public class DeviceRealTimeTempTask extends DeviceTask {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceRealTimeTempTask.class.getName());

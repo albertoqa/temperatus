@@ -3,14 +3,12 @@ package temperatus.device.task;
 import com.dalsemi.onewire.container.MissionContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Disable (if currently active) a device's mission
  * <p>
  * Created by alberto on 18/4/16.
  */
-@Component
 public class DeviceMissionDisableTask extends DeviceTask {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceMissionDisableTask.class.getName());

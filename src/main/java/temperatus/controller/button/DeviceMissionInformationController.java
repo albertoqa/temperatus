@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.calculator.Calculator;
@@ -41,6 +42,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 24/4/16.
  */
 @Controller
+@Scope("prototype")
 public class DeviceMissionInformationController implements Initializable, AbstractController {
 
     @FXML private StackPane stackPane;
@@ -78,8 +80,8 @@ public class DeviceMissionInformationController implements Initializable, Abstra
     @FXML private Button startMissionButton;
     @FXML private Button temperatureLogButton;
 
-    @Autowired DeviceMissionDisableTask deviceMissionDisableTask;   // read from device task
-    @Autowired DeviceReadTask deviceReadTask;   // read from device task
+    private DeviceMissionDisableTask deviceMissionDisableTask = new DeviceMissionDisableTask();   // read from device task
+    private DeviceReadTask deviceReadTask = new DeviceReadTask();   // read from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Device device;

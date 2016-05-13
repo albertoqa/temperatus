@@ -109,7 +109,6 @@ public class NewRecordController extends AbstractCreationController implements I
     @Autowired MissionService missionService;
 
     @Autowired DeviceConnectedList deviceConnectedList;             // List of currently connected devices
-    @Autowired DeviceReadTask deviceReadTask;                       // read from device task - save to temp file
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Mission mission;
@@ -427,6 +426,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 Device device = getDeviceFromIbutton(sourceChoice.getIbutton());    // get its corresponding device
 
                 if (device != null) {
+                    DeviceReadTask deviceReadTask = new DeviceReadTask();   // read from device task - save to temp file
                     deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), true);
                     ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
                     setButtonStyleWithProgressIndicator(clickedButton);     // show infinite progress indicator

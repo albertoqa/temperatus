@@ -4,7 +4,6 @@ import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer41;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import temperatus.model.pojo.Configuration;
 
 /**
@@ -12,7 +11,6 @@ import temperatus.model.pojo.Configuration;
  * <p>
  * Created by alberto on 19/4/16.
  */
-@Component
 public class DeviceMissionStartTask extends DeviceTask {
 
     private Configuration configuration;

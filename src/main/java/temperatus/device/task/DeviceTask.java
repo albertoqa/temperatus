@@ -6,7 +6,6 @@ import com.dalsemi.onewire.adapter.DSPortAdapter;
 import com.dalsemi.onewire.container.OneWireContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import temperatus.device.DeviceSemaphore;
 import temperatus.exception.ControlledTemperatusException;
 
@@ -63,7 +62,7 @@ public abstract class DeviceTask implements Callable {
 
     private static Logger logger = LoggerFactory.getLogger(DeviceTask.class.getName());
 
-    @Autowired DeviceSemaphore deviceSemaphore; // shared semaphore
+    DeviceSemaphore deviceSemaphore = DeviceSemaphore.getInstance(); // shared semaphore
 
     public OneWireContainer container = null;
     private DSPortAdapter adapter = null;

@@ -19,6 +19,7 @@ import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
@@ -41,6 +42,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 18/4/16.
  */
 @Controller
+@Scope("prototype")
 public class RealTimeTemperatureController implements Initializable, AbstractController {
 
     @FXML private LineChart<Date, Number> lineChart;
@@ -51,7 +53,7 @@ public class RealTimeTemperatureController implements Initializable, AbstractCon
     @FXML private RadioButton unitC;
     @FXML private RadioButton unitF;
 
-    @Autowired DeviceRealTimeTempTask deviceRealTimeTempTask;   // read current temperature from device task
+    private DeviceRealTimeTempTask deviceRealTimeTempTask = new DeviceRealTimeTempTask();   // read current temperature from device task
     @Autowired DeviceOperationsManager deviceOperationsManager;
 
     private Timeline readEvery;     // read temperature and show it in the graph every X seconds
