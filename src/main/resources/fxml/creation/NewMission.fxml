@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="609.0" prefWidth="800.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
+<StackPane id="NewMission" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="400.0" prefHeight="582.0" prefWidth="800.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewMissionController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -33,8 +33,8 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="saveButton" layoutX="443.0" layoutY="553.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Continue" AnchorPane.rightAnchor="230.0" />
-            <Button fx:id="cancelButton" layoutX="603.0" layoutY="553.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.rightAnchor="70.0" />
+            <Button fx:id="saveButton" layoutX="443.0" layoutY="542.0" mnemonicParsing="false" onAction="#save" prefWidth="127.0" styleClass="cbtn" text="Continue" AnchorPane.rightAnchor="230.0" />
+            <Button fx:id="cancelButton" layoutX="603.0" layoutY="542.0" mnemonicParsing="false" onAction="#cancel" prefWidth="127.0" styleClass="cbtn" text="Cancel" AnchorPane.rightAnchor="70.0" />
             <Button fx:id="newAuthorButton" layoutX="585.0" layoutY="230.0" mnemonicParsing="false" onAction="#newAuthor" prefWidth="127.0" styleClass="cbtn" text="New Author" AnchorPane.rightAnchor="70.0" />
          </children>
       </AnchorPane>

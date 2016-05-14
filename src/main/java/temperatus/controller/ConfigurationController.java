@@ -44,6 +44,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
     private ToggleGroup unitGroup = new ToggleGroup();
 
     private final String INITIAL_NAME = "TemperatusBackup";
+    private final String ROOT = "./";
 
     private static Logger logger = LoggerFactory.getLogger(ConfigurationController.class.getName());
 
@@ -174,7 +175,7 @@ public class ConfigurationController implements Initializable, AbstractControlle
                 // Copy history, images, missions data and database
                 DirectoryChooser fileChooser = new DirectoryChooser();
                 File f = fileChooser.showDialog(titledPane.getScene().getWindow());
-                File destiny = new File("./");
+                File destiny = new File(ROOT);
                 FileUtils.copyDirectory(f, destiny);
             } catch (IOException e) {
                 logger.error("Error importing application data...");

@@ -6,13 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="660.0" prefWidth="820.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
+<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="530.0" minWidth="-Infinity" prefHeight="560.0" prefWidth="668.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="555.0" prefWidth="675.0">
          <children>
             <ImageView fitHeight="266.0" fitWidth="599.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
                <image>
-                  <Image url="@../images/temperatus.jpg" />
+                  <Image url="@../images/temperatus.png" />
                </image>
             </ImageView>
             <Separator layoutX="200.0" layoutY="199.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />

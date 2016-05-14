@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane id="/fxml/History.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="573.0" minWidth="-Infinity" prefHeight="573.0" prefWidth="668.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.HistoryViewController">
+<StackPane id="/fxml/History.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="491.0" minWidth="-Infinity" prefHeight="491.0" prefWidth="668.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.HistoryViewController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="536.0" prefWidth="782.0" styleClass="grayBack">
          <children>

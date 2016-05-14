@@ -393,6 +393,8 @@ public class ArchivedController implements Initializable, AbstractController {
                 FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
                 workBook.write(fileOut);
                 fileOut.close();
+
+                showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_EXPORTED));
             }
         } else {
             VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);

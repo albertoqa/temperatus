@@ -4,9 +4,9 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<StackPane id="/fxml/Home.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="601.0" prefWidth="820.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
+<StackPane id="/fxml/Home.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="522.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.HomeController">
    <children>
-      <AnchorPane prefHeight="615.0" prefWidth="636.0">
+      <AnchorPane prefHeight="509.0" prefWidth="820.0">
          <children>
             <Separator layoutX="41.0" layoutY="243.0" prefHeight="8.0" prefWidth="761.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
             <HBox alignment="CENTER" layoutX="111.0" layoutY="50.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="110.0">
@@ -18,9 +18,9 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="204.0" layoutY="237.0" prefHeight="358.0" prefWidth="412.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="237.0">
+            <HBox alignment="CENTER" layoutX="204.0" layoutY="233.0" prefHeight="358.0" prefWidth="412.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="233.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <AnchorPane prefHeight="118.0" prefWidth="441.0">
                            <children>

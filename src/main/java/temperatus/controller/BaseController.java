@@ -149,13 +149,12 @@ public class BaseController implements Initializable, AbstractController, Device
          * On first start(BaseController is only loaded once at application start) the user pane is shown
          * and the base controller and home view are disabled because the user is required to select an user.
          */
-
         authors = FXCollections.observableArrayList();
 
         showBottomPaneProperty().addListener((observable, oldValue, newValue) -> animateBottomPane());
         bottomPaneLocation.addListener((observable, oldValue, newValue) -> updateBottomPaneAnchors());
         new AutoCompleteComboBoxListener<>(userBox);
-        getAllElements();
+        getAllUsers();
 
         Animation.blurOut(VistaNavigator.getParentNode());
         parentPane.setDisable(true);
@@ -172,7 +171,7 @@ public class BaseController implements Initializable, AbstractController, Device
      * Fetch all Authors from database and add it to the box.
      * Use a different thread than the UI thread.
      */
-    private void getAllElements() {
+    private void getAllUsers() {
         Task<List<Author>> getAuthorsTask = new Task<List<Author>>() {
             @Override
             public List<Author> call() throws Exception {
@@ -230,6 +229,9 @@ public class BaseController implements Initializable, AbstractController, Device
             try {
                 authorService.saveOrUpdate(author);
                 User.setUser(author);
+                userBox.getItems().add(author);
+                userBox.getSelectionModel().select(author);
+                newUser();
                 setShowBottomPane(false);
                 Animation.blurIn(VistaNavigator.getParentNode());
                 parentPane.setDisable(false);
@@ -629,6 +631,76 @@ public class BaseController implements Initializable, AbstractController, Device
         userLabel.setText(language.get(Lang.USER) + "  " + name);
     }
 
+    /**
+     * Show on screen a window for save a new device connected
+     */
+    private void showNewIbuttonView(DeviceDetector event) {
+        SpringFxmlLoader loader = new SpringFxmlLoader();
+        Parent root = loader.load(VistaNavigator.class.getResource(Constants.NEW_IBUTTON));
+
+        Stage stage = new Stage(StageStyle.TRANSPARENT);
+        stage.setTitle(Constants.EMPTY);
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
+        stage.initOwner(VistaNavigator.getMainStage());
+
+        // if userPane is showing: blur user pane
+        if (isShowBottomPane()) {
+            if (newIbuttonStageCount == 0) {
+                Animation.blurOut(userPane);
+                stage.setOnCloseRequest(e -> {
+                    logger.info("Closing stage");
+                    Animation.fadeOutClose(root);
+                    Animation.blurIn(userPane);
+                    newIbuttonStageCount--;
+                });
+            } else {
+                stage.setOnCloseRequest(e -> {
+                    logger.info("Closing stage");
+                    Animation.fadeOutClose(root);
+                    newIbuttonStageCount--;
+                });
+            }
+            newIbuttonStageCount++;
+        }
+
+        // if another modal window is open: show this over the modal window
+        else if (VistaNavigator.getCurrentStage() != null) {
+            stage.initOwner(VistaNavigator.getCurrentStage());
+            stage.setOnCloseRequest(e -> {
+                logger.info("Closing stage");
+                Animation.fadeOutClose(root);
+            });
+        }
+
+        // if only the base window is open: blur the base controller
+        // if more than one ibutton connected at the same time and new
+        else {
+            if (newIbuttonStageCount == 0) {
+                Animation.blurOut(parentPane);
+                stage.setOnCloseRequest(e -> {
+                    logger.info("Closing stage");
+                    Animation.fadeInOutClose(root);
+                    Animation.blurIn(parentPane);
+                    newIbuttonStageCount--;
+                });
+            } else {
+                stage.setOnCloseRequest(e -> {
+                    logger.info("Closing stage");
+                    Animation.fadeOutClose(root);
+                    newIbuttonStageCount--;
+                });
+            }
+            newIbuttonStageCount++;
+        }
+
+        // common
+        ((NewIButtonController) loader.getController()).setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
+        stage.show();
+    }
+
     //##################################################################//
     //                                                                  //
     //                       Device Detection                           //
@@ -651,73 +723,7 @@ public class BaseController implements Initializable, AbstractController, Device
         Ibutton ibutton = ibuttonService.getBySerial(event.getSerial());    // Search for this serial on DB
 
         if (ibutton == null) {
-            Platform.runLater(() -> {
-
-                SpringFxmlLoader loader = new SpringFxmlLoader();
-                Parent root = loader.load(VistaNavigator.class.getResource(Constants.NEW_IBUTTON));
-
-                Stage stage = new Stage(StageStyle.TRANSPARENT);
-                stage.setTitle(Constants.EMPTY);
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.getIcons().setAll(new javafx.scene.image.Image(Constants.ICON_BAR));
-                stage.initOwner(VistaNavigator.getMainStage());
-
-                // if userPane is showing: blur user pane
-                if (isShowBottomPane()) {
-                    if (newIbuttonStageCount == 0) {
-                        Animation.blurOut(userPane);
-                        stage.setOnCloseRequest(e -> {
-                            logger.info("Closing stage");
-                            Animation.fadeOutClose(root);
-                            Animation.blurIn(userPane);
-                            newIbuttonStageCount--;
-                        });
-                    } else {
-                        stage.setOnCloseRequest(e -> {
-                            logger.info("Closing stage");
-                            Animation.fadeOutClose(root);
-                            newIbuttonStageCount--;
-                        });
-                    }
-                    newIbuttonStageCount++;
-                }
-
-                // if another modal window is open: show this over the modal window
-                else if (VistaNavigator.getCurrentStage() != null) {
-                    stage.initOwner(VistaNavigator.getCurrentStage());
-                    stage.setOnCloseRequest(e -> {
-                        logger.info("Closing stage");
-                        Animation.fadeOutClose(root);
-                    });
-                }
-
-                // if only the base window is open: blur the base controller
-                // if more than one ibutton connected at the same time and new
-                else {
-                    if (newIbuttonStageCount == 0) {
-                        Animation.blurOut(parentPane);
-                        stage.setOnCloseRequest(e -> {
-                            logger.info("Closing stage");
-                            Animation.fadeInOutClose(root);
-                            Animation.blurIn(parentPane);
-                            newIbuttonStageCount--;
-                        });
-                    } else {
-                        stage.setOnCloseRequest(e -> {
-                            logger.info("Closing stage");
-                            Animation.fadeOutClose(root);
-                            newIbuttonStageCount--;
-                        });
-                    }
-                    newIbuttonStageCount++;
-                }
-
-                // common
-                ((NewIButtonController) loader.getController()).setData(event.getSerial(), event.getContainer().getName(), !(event.getContainer() instanceof OneWireSensor));
-                stage.show();
-            });
+            Platform.runLater(() -> showNewIbuttonView(event));
         } else {
             Platform.runLater(() -> Notifications.create().title(language.get(Lang.IBUTTONDETECTED)).text("Serial:  " + ibutton.getSerial()).show());
         }
