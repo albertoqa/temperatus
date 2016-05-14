@@ -48,19 +48,19 @@ public abstract class AbstractStartDeviceMissionController {
 
     @FXML private Spinner<Double> highAlarm;
     @FXML private Spinner<Double> lowAlarm;
-    @FXML private Spinner<Integer> delayInput;
-    @FXML private Spinner<Integer> onAlarmDelayInput;
+    @FXML public Spinner<Integer> delayInput;
+    @FXML public Spinner<Integer> onAlarmDelayInput;
 
     @FXML public TextField nameInput;
-    @FXML private TextField dateInput;
-    @FXML private TextField rateInput;
+    @FXML public TextField dateInput;
+    @FXML public TextField rateInput;
     @FXML private TextArea observationsArea;
 
-    @FXML private ChoiceBox<String> resolutionBox;
+    @FXML public ChoiceBox<String> resolutionBox;
 
     @Autowired ConfigurationService configurationService;
 
-    private ToggleGroup startGroup = new ToggleGroup();
+    ToggleGroup startGroup = new ToggleGroup();
 
     private static final String RESOLUTION_LOW = "0.5 (low)";
     private static final String RESOLUTION_HIGH = "0.0625 (high)";
@@ -159,7 +159,7 @@ public abstract class AbstractStartDeviceMissionController {
             }
 
             configuration.setObservations(observationsArea.getText());
-        } catch (ControlledTemperatusException ex){
+        } catch (ControlledTemperatusException ex) {
             throw ex;
         } catch (Exception e) {
             throw new ControlledTemperatusException(language.get(Lang.INVALID_INPUT_NUMBER));
@@ -180,13 +180,13 @@ public abstract class AbstractStartDeviceMissionController {
         rollOver.setSelected(configuration.isRollover());
         onAlarmCheck.setSelected(configuration.isSuta());
 
-        if(configuration.getStartN() == START_DELAY) {
+        if (configuration.getStartN() == START_DELAY) {
             delayCheck.setSelected(true);
             delayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
-        } else if(configuration.getStartN() == START_DATE) {
+        } else if (configuration.getStartN() == START_DATE) {
             onDateCheck.setSelected(true);
             dateInput.setText(Constants.dateTimeFormat.format(DateUtils.asUtilDate(LocalDateTime.now().plusMinutes(10))));
-        } else if(configuration.getStartN() == START_ALARM) {
+        } else if (configuration.getStartN() == START_ALARM) {
             onAlarmCheck.setSelected(true);
             onAlarmDelayInput.getEditor().setText(String.valueOf(configuration.getDelay()));
         }
@@ -201,9 +201,9 @@ public abstract class AbstractStartDeviceMissionController {
             activateAlarmCheck.setSelected(true);
             try {
                 // Show the data using the preferred unit
-                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C: Unit.F;
+                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-                if(Unit.C.equals(unit)) {
+                if (Unit.C.equals(unit)) {
                     highAlarm.getEditor().setText(String.valueOf(configuration.getHighAlarmC1()).replace(Constants.DOT, Constants.COMMA));
                     lowAlarm.getEditor().setText(String.valueOf(configuration.getLowAlarmC1()).replace(Constants.DOT, Constants.COMMA));
                 } else {
@@ -224,7 +224,7 @@ public abstract class AbstractStartDeviceMissionController {
      *
      * @return start delay in seconds
      */
-    private int getStart() throws ControlledTemperatusException {
+    int getStart() throws ControlledTemperatusException {
         int delay;
         if (immediatelyCheck.isSelected()) {
             delay = 0;
@@ -236,7 +236,7 @@ public abstract class AbstractStartDeviceMissionController {
             delay = onAlarmDelayInput.getValue();
         }
 
-        if(delay < 0) {
+        if (delay < 0) {
             throw new ControlledTemperatusException(language.get(Lang.INVALID_START_DELAY));
         }
         return delay;
@@ -257,6 +257,25 @@ public abstract class AbstractStartDeviceMissionController {
     }
 
     /**
+     * Is the current selected resolution high?
+     *
+     * @return is high res selected?
+     */
+    boolean isResHigh() {
+        return resolutionBox.getSelectionModel().getSelectedItem().equals(RESOLUTION_HIGH);
+    }
+
+    /**
+     * Get the current date of start of the mission
+     *
+     * @return date of start
+     * @throws ParseException
+     */
+    Date getStartDate() throws ParseException {
+        return Constants.dateTimeFormat.parse(dateInput.getText());
+    }
+
+    /**
      * Translate the common elements
      */
     void translateCommon() {
@@ -269,7 +288,7 @@ public abstract class AbstractStartDeviceMissionController {
         highLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
         lowLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
 
-        if(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+        if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
             alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL_C));
         } else {
             alarmLabel.setText(language.get(Lang.SET_ALARM_LABEL_F));

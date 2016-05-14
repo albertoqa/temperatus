@@ -26,6 +26,16 @@ public class DateUtils {
     }
 
     /**
+     * Generate a LocalDateTime object from a Date
+     *
+     * @param date date to generate
+     * @return LocalDateTime
+     */
+    public static LocalDateTime asLocalDateTime(Date date) {
+        return date == null ? null : Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
      * Generate a Date from a LocalDate object
      *
      * @param date LocalDate to generate

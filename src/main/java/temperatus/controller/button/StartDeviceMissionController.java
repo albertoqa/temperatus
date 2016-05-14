@@ -31,10 +31,12 @@ import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.pojo.utils.AutoCompleteComboBoxListener;
 import temperatus.util.Constants;
+import temperatus.util.DateUtils;
 import temperatus.util.User;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -66,6 +68,9 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
     @Autowired DeviceConnectedList deviceConnectedList;
 
     private static final String DEFAULT = "Default";
+    private static final int CAPACITY_LOW = 8192;
+    private static final int CAPACITY_HIGH = 4096;
+
     private static Logger logger = LoggerFactory.getLogger(StartDeviceMissionController.class.getName());
 
     @Override
@@ -94,6 +99,12 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             }
         });
 
+        resolutionBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        dateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        rateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        onAlarmDelayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        delayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        startGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> updateInformation());
         infoArea.setText(Constants.EMPTY);
 
         getAllElements();
@@ -123,9 +134,16 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
 
     /**
      * Update information about how much measurement can the device register with the current configuration
+     * 2048, 4096, 8192
      */
     private void updateInformation() {
-        // TODO
+        try {
+            int capacity = isResHigh() ? CAPACITY_LOW : CAPACITY_HIGH;
+            LocalDateTime dateEnd = DateUtils.asLocalDateTime(getStartDate()).plusSeconds(getStart());
+            infoArea.setText(language.get(Lang.WITH_CURRENT_CONF) + Constants.SPACE + capacity + Constants.SPACE + language.get(Lang.MEMORY_FULL) + Constants.SPACE + dateEnd.toString());
+        } catch (Exception e) {
+            infoArea.setText(language.get(Lang.INVALID_CURRENT_CONF));
+        }
     }
 
     /**

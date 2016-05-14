@@ -223,6 +223,10 @@ public class Lang {
 
     public static final String NEW_CONFIG = "newConfig";
 
+    public static final String WITH_CURRENT_CONF = "withCurrentConf";
+    public static final String MEMORY_FULL = "memoryFull";
+    public static final String INVALID_CURRENT_CONF = "invalidCurrentConf";
+
     // New Button
     public static final String NEWBUTTONTITLE = "newDevice";
     public static final String IBUTTONDETECTED = "iBDetected";
