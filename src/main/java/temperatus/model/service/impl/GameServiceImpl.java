@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.GameDao;
 import temperatus.model.pojo.Game;
 import temperatus.model.service.GameService;
@@ -29,15 +31,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void save(Game game) throws ControlledTemperatusException {
-
-        if(game.getTitle().length() < 1) {
-            throw new ControlledTemperatusException("Name cannot be empty");
-        } else if(game.getTitle().length() > 100) {
-            throw new ControlledTemperatusException("Name cannot be longer than 100");
-        } else if(game.getNumButtons() > 30 || game.getNumButtons() < 1) {
-            throw new ControlledTemperatusException("Invalid number of iButtons");
-        }
-
         gameDao.save(game);
     }
 
@@ -59,15 +52,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void saveOrUpdate(Game game) throws ControlledTemperatusException {
-
-        if(game.getTitle().length() < 1) {
-            throw new ControlledTemperatusException("Name cannot be empty");
-        } else if(game.getTitle().length() > 100) {
-            throw new ControlledTemperatusException("Name cannot be longer than 100");
-        } else if(game.getNumButtons() > 30 || game.getNumButtons() < 1) {
-            throw new ControlledTemperatusException("Invalid number of iButtons");
+        if(game.getTitle() == null || game.getTitle().length() < 1 || game.getTitle().length() > 100) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_GAME_NAME));
         }
-
         gameDao.saveOrUpdate(game);
     }
+
 }

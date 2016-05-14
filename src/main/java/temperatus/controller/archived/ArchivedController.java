@@ -409,7 +409,7 @@ public class ArchivedController implements Initializable, AbstractController {
     @Override
     public void reload(Object object) {
         if (object instanceof Project) {
-            if (getSelectedElement().getType().equals(TreeElementType.Project) && ((Project) object).getId().equals(((Project) getSelectedElement().getElement()).getId())) {
+            if (treeTable.getSelectionModel().getSelectedItem() != null && getSelectedElement().getType().equals(TreeElementType.Project) && ((Project) object).getId().equals(((Project) getSelectedElement().getElement()).getId())) {
                 projectName.setText(((Project) object).getName());
                 projectDate.setText(Constants.dateFormat.format(((Project) object).getDateIni()));
             } else {

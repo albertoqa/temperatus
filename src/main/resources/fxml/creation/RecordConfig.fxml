@@ -61,7 +61,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="252.0" layoutY="356.0" prefHeight="230.0" prefWidth="542.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="355.0">
+            <AnchorPane layoutX="252.0" layoutY="356.0" maxHeight="300.0" prefHeight="230.0" prefWidth="542.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="355.0">
                <children>
                   <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="61.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" />
                   <Label fx:id="timeRangeWarning" layoutX="17.0" layoutY="114.0" styleClass="label-paneinfo" text="* The time not used will be permanently deleted." AnchorPane.leftAnchor="17.0" />

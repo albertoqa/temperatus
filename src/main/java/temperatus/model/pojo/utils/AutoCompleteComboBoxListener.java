@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
  * <p>
  * Created by alberto on 11/2/16.
  */
-public class AutoCompleteComboBoxListener<T> {  // FIXME check with different versions of JAVA - it may not work well
+public class AutoCompleteComboBoxListener<T> {
 
     private ComboBox<T> comboBox;
     private StringBuilder sb;

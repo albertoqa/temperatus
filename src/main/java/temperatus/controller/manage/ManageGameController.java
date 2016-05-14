@@ -68,6 +68,8 @@ public class ManageGameController implements Initializable, AbstractController {
     @Autowired GameService gameService;
 
     private static final String COMMA = ", ";
+    private static final String FILE = "file:";
+
     private static Logger logger = LoggerFactory.getLogger(ManageGameController.class.getName());
 
     @Override

@@ -1,13 +1,19 @@
 package temperatus.model.service.impl;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.MissionDao;
 import temperatus.model.pojo.Mission;
 import temperatus.model.service.MissionService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,9 +38,13 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void delete(Mission mission) {
-
-        // TODO delete files!
-
+        if(mission.getRecords().size() > 0) {
+            try {
+                FileUtils.deleteDirectory(new File(mission.getRecords().iterator().next().getDataPath()).getParentFile());
+            } catch (IOException e) {
+                LoggerFactory.getLogger(MissionServiceImpl.class.getName()).warn("Cannot delete mission files");
+            }
+        }
         missionDao.delete(mission);
     }
 
@@ -45,17 +55,9 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void saveOrUpdate(Mission mission) throws ControlledTemperatusException{
-
-        if(mission.getName().length() < 1 || mission.getName().length() > 100) {
-            throw new ControlledTemperatusException("Invalid name length");
-        } else if(mission.getGame() == null || mission.getAuthor() == null || mission.getProject() == null || mission.getSubject() == null) {
-            throw new ControlledTemperatusException("Project, Game and Subject cannot be null");
-        } else if(mission.getDateIni() == null){
-            throw new ControlledTemperatusException("Date cannot be null");
+        if(mission.getName() == null || mission.getName().length() < 1 || mission.getName().length() > 100) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_MISSION_NAME));
         }
-
-        // TODO translate and check
-
         missionDao.saveOrUpdate(mission);
     }
 

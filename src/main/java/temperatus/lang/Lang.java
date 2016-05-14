@@ -369,6 +369,17 @@ public class Lang {
     public static final String ERROR_EXPORTING_APP_DATA = "errorExportingAppData";
 
     public static final String INVALID_AUTHOR_NAME = "invalidAuthorName";
+    public static final String INVALID_CONFIGURATION_NAME = "invalidConfigurationName";
+    public static final String INVALID_FORMULA_NAME = "invalidFormulaName";
+    public static final String FORMULA_CANNOT_BE_EMPTY = "formulaCannotBeEmpty";
+    public static final String INVALID_DEVICE_NAME = "invalidDeviceName";
+    public static final String INVALID_GAME_NAME = "invalidGameName";
+    public static final String INVALID_MISSION_NAME = "invalidMissionName";
+    public static final String INVALID_POSITION_NAME = "invalidPositionName";
+    public static final String INVALID_PROJECT_NAME = "invalidProjectName";
+    public static final String INVALID_RECORD_NAME = "invalidRecordName";
+    public static final String INVALID_SUBJECT_NAME = "invalidSubjectName";
+
 
     // History
     public static final String DELETE_HISTORY = "deleteHistory";

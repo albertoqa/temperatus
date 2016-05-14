@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.IbuttonDao;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
@@ -42,9 +44,9 @@ public class IbuttonServiceImpl implements IbuttonService {
 
     @Override
     public void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException{
-
-        // TODO check other constraints
-
+        if(ibutton.getAlias() == null || ibutton.getAlias().length() < 1 || ibutton.getAlias().length() > 100) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_DEVICE_NAME));
+        }
         ibuttonDao.saveOrUpdate(ibutton);
     }
 

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.FormulaDao;
 import temperatus.model.pojo.Formula;
 import temperatus.model.service.FormulaService;
@@ -42,15 +44,11 @@ public class FormulaServiceImpl implements FormulaService {
 
     @Override
     public void saveOrUpdate(Formula formula) throws ControlledTemperatusException {
-
-        if(formula.getName().length() < 1) {
-            throw new ControlledTemperatusException("Name cannot be empty");
-        } else if(formula.getName().length() > 100) {
-            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        if(formula.getName() == null || formula.getName().length() < 1 || formula.getName().length() > 100) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_FORMULA_NAME));
+        } else if(formula.getOperation().isEmpty()) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.FORMULA_CANNOT_BE_EMPTY));
         }
-
-        // TODO check other constraints
-
         formulaDao.saveOrUpdate(formula);
     }
 

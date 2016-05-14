@@ -76,10 +76,14 @@ public class ManagePositionController implements Initializable, AbstractControll
             Animation.fadeInTransition(infoPane);
             if (position != null) {
                 nameLabel.setText(position.getPlace());
-                try {
-                    imageView.setImage(new Image(FILE + position.getPicture()));
-                } catch (Exception ex) {
+                if(position.getPicture().equals(DEFAULT_IMAGE)) {
                     imageView.setImage(new Image(DEFAULT_IMAGE));
+                } else {
+                    try {
+                        imageView.setImage(new Image(FILE + position.getPicture()));
+                    } catch (Exception ex) {
+                        imageView.setImage(new Image(DEFAULT_IMAGE));
+                    }
                 }
             }
         });

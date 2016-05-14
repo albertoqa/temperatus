@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,7 +238,13 @@ public class BaseController implements Initializable, AbstractController, Device
                 parentPane.setDisable(false);
                 startDeviceScanTask();
             } catch (ControlledTemperatusException e) {
-                showAlert(Alert.AlertType.INFORMATION, e.getMessage());
+                showAlert(Alert.AlertType.ERROR, e.getMessage());
+            } catch (ConstraintViolationException ex) {
+                logger.warn("Duplicate entry");
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.DUPLICATE_ENTRY));
+            } catch (Exception ex) {
+                logger.warn("Unknown exception" + ex.getMessage());
+                showAlert(Alert.AlertType.ERROR, language.get(Lang.UNKNOWN_ERROR));
             }
         }
     }

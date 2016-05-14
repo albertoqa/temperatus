@@ -1,13 +1,19 @@
 package temperatus.model.service.impl;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.dao.ProjectDao;
 import temperatus.model.pojo.Project;
 import temperatus.model.service.ProjectService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,18 +33,18 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void save(Project project) throws ControlledTemperatusException {
-
-        if(project.getName().length() < 1) {
-            throw new ControlledTemperatusException("Name cannot be empty");
-        } else if(project.getName().length() > 100) {
-            throw new ControlledTemperatusException("Name cannot be longer than 100");
-        }
-
         projectDao.save(project);
     }
 
     @Override
     public void delete(Project project) {
+        project.getMissions().stream().filter(mission -> mission.getRecords().size() > 0).forEach(mission -> {
+            try {
+                FileUtils.deleteDirectory(new File(mission.getRecords().iterator().next().getDataPath()).getParentFile());
+            } catch (IOException e) {
+                LoggerFactory.getLogger(ProjectServiceImpl.class.getName()).warn("Cannot delete mission files");
+            }
+        });
         projectDao.delete(project);
     }
 
@@ -49,13 +55,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void saveOrUpdate(Project project) throws ControlledTemperatusException {
-
-        if(project.getName().length() < 1) {
-            throw new ControlledTemperatusException("Name cannot be empty");
-        } else if(project.getName().length() > 100) {
-            throw new ControlledTemperatusException("Name cannot be longer than 100");
+        if(project.getName() == null ||project.getName().length() < 1 || project.getName().length() > 100) {
+            throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_PROJECT_NAME));
         }
-
         projectDao.saveOrUpdate(project);
     }
 
