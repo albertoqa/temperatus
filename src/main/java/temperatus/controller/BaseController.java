@@ -442,8 +442,7 @@ public class BaseController implements Initializable, AbstractController, Device
      */
     @FXML
     private void goAbout() {
-        VistaNavigator.loadVista(Constants.ABOUT);
-        actualBaseView = Constants.ABOUT;
+        VistaNavigator.openModal(Constants.ABOUT, Constants.EMPTY);
     }
 
     /**

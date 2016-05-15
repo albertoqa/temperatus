@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
  * <p>
  * Created by alberto on 26/4/16.
  */
+@Controller
 public class ActivationController extends AbstractActivationController implements Initializable, AbstractController {
 
     @FXML private Label welcomeLabel;
