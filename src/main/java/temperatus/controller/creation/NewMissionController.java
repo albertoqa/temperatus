@@ -54,6 +54,7 @@ public class NewMissionController extends AbstractCreationController implements 
     @FXML private Button newProjectButton;
     @FXML private Button newGameButton;
     @FXML private Button newSubjectButton;
+    @FXML private Button newAuthorButton;
 
     @FXML private ComboBox<Project> projectBox;
     @FXML private ComboBox<Author> authorBox;
@@ -329,6 +330,7 @@ public class NewMissionController extends AbstractCreationController implements 
         gameLabel.setText(language.get(Lang.GAME_LABEL));
         subjectLabel.setText(language.get(Lang.SUBJECT_LABEL));
         newProjectButton.setText(language.get(Lang.NEW_PROJECT_BUTTON));
+        newAuthorButton.setText(language.get(Lang.NEW_AUTHOR_BUTTON));
         newGameButton.setText(language.get(Lang.NEW_GAME_BUTTON));
         newSubjectButton.setText(language.get(Lang.NEW_SUBJECT_BUTTON));
         projectBox.setPromptText(language.get(Lang.PROJECT_PROMPT));
