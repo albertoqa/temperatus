@@ -44,7 +44,7 @@ public class IbuttonServiceImpl implements IbuttonService {
 
     @Override
     public void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException{
-        if(ibutton.getAlias() == null || ibutton.getAlias().length() < 1 || ibutton.getAlias().length() > 100) {
+        if(ibutton.getAlias() != null && (ibutton.getAlias().length() < 1 || ibutton.getAlias().length() > 100)) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_DEVICE_NAME));
         }
         ibuttonDao.saveOrUpdate(ibutton);

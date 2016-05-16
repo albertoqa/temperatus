@@ -296,11 +296,11 @@ public class RecordConfigController extends AbstractCreationController implement
                     for (ValidatedData validatedData : data) {
                         BufferedReader file = new BufferedReader(new FileReader(validatedData.getDataFile()));
                         String line;
-                        String input = Constants.EMPTY;
+                        StringBuilder input = new StringBuilder(Constants.EMPTY);
 
                         // Write the mission data until we found the Header line
                         while ((line = file.readLine()) != null) {
-                            input += line + System.lineSeparator();
+                            input.append(line).append(System.lineSeparator());
                             if (line.contains(HEADER)) {
                                 break;
                             }
@@ -312,12 +312,12 @@ public class RecordConfigController extends AbstractCreationController implement
                                 updateProgress(actualMeasurement++, totalMeasurements);
                                 String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
                                 toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
-                                input = input.concat(toAdd + System.lineSeparator());
+                                input.append(toAdd).append(System.lineSeparator());
                             }
                         }
 
                         FileOutputStream os = new FileOutputStream(validatedData.getDataFile());
-                        os.write(input.getBytes());
+                        os.write(input.toString().getBytes());
 
                         file.close();
                         os.close();

@@ -12,6 +12,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -58,6 +59,8 @@ public class MissionLineChart implements Initializable, AbstractController {
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
 
+    @FXML private CheckBox showSymbols;
+
     @FXML private Button saveGraphicButton;
 
     @FXML private Spinner<Integer> spinner;
@@ -85,12 +88,13 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
+        lineChart.setCreateSymbols(false);
 
         // Listener for positions, when a position is checked show it on the graph
         positionsList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Record>) c -> {
             c.next();
             if (c.wasAdded()) {
-                addSerieForRecord(c.getAddedSubList().get(0), spinner.getValue());
+                addSerieForRecord(c.getAddedSubList().get(0), spinner.getValue(), showSymbols.isSelected());
             } else if (c.wasRemoved()) {
                 for (XYChart.Series<Date, Number> serie : series) {
                     if (serie.getName().contains(c.getRemoved().get(0).getPosition().getPlace())) {
@@ -105,7 +109,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         formulasList.getCheckModel().getCheckedItems().addListener((ListChangeListener<Formula>) c -> {
             c.next();
             if (c.wasAdded()) {
-                addSerieForFormula(c.getAddedSubList().get(0), spinner.getValue());
+                addSerieForFormula(c.getAddedSubList().get(0), spinner.getValue(), showSymbols.isSelected());
             } else if (c.wasRemoved()) {
                 for (XYChart.Series<Date, Number> serie : series) {
                     if (serie.getName().contains(c.getRemoved().get(0).getName())) {
@@ -119,12 +123,14 @@ public class MissionLineChart implements Initializable, AbstractController {
         // On spinner value change recalculate all the data shown on the graph
         spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
-                reloadSelectedSeriesForPeriod(newValue);
+                reloadSelectedSeriesForPeriod(newValue, showSymbols.isSelected());
             } else {
                 spinner.getEditor().setText("1");
-                reloadSelectedSeriesForPeriod(1);
+                reloadSelectedSeriesForPeriod(1, showSymbols.isSelected());
             }
         });
+
+        showSymbols.selectedProperty().addListener((observable, oldValue, newValue) -> reloadSelectedSeriesForPeriod(spinner.getValue(), newValue));
     }
 
     /**
@@ -133,10 +139,12 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param formula formula to add
      * @param period  period to calculate
      */
-    private void addSerieForFormula(Formula formula, int period) {
+    private void addSerieForFormula(Formula formula, int period, boolean showSymbols) {
         XYChart.Series<Date, Number> serie = createSerieForFormula(formula, period);
         series.add(serie);
-        ChartToolTip.addToolTipOnHover(serie, lineChart);
+        if(showSymbols) {
+            ChartToolTip.addToolTipOnHover(serie, lineChart);
+        }
     }
 
     /**
@@ -145,10 +153,12 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param record related to the position
      * @param period period to calculate
      */
-    private void addSerieForRecord(Record record, int period) {
+    private void addSerieForRecord(Record record, int period, boolean showSymbols) {
         XYChart.Series<Date, Number> serie = createSerieForRecord(record, period);
         series.add(serie);
-        ChartToolTip.addToolTipOnHover(serie, lineChart);
+        if(showSymbols) {
+            ChartToolTip.addToolTipOnHover(serie, lineChart);
+        }
     }
 
     /**
@@ -156,13 +166,15 @@ public class MissionLineChart implements Initializable, AbstractController {
      *
      * @param period new period to calculate
      */
-    private void reloadSelectedSeriesForPeriod(int period) {
+    private void reloadSelectedSeriesForPeriod(int period, boolean showSymbols) {
         series.clear();
+        lineChart.setCreateSymbols(showSymbols);
+
         for (Record record : positionsList.getCheckModel().getCheckedItems()) {
-            addSerieForRecord(record, period);
+            addSerieForRecord(record, period, showSymbols);
         }
         for (Formula formula : formulasList.getCheckModel().getCheckedItems()) {
-            addSerieForFormula(formula, period);
+            addSerieForFormula(formula, period, showSymbols);
         }
     }
 
@@ -236,7 +248,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         this.records.addAll(dataMap.keySet());
 
         positionsList.getCheckModel().check(0);     // select only the first record at the beginning so it load fast
-        reloadSelectedSeriesForPeriod(1);           // necessary to call this on init
+        reloadSelectedSeriesForPeriod(1, false);           // necessary to call this on init
     }
 
     /**
