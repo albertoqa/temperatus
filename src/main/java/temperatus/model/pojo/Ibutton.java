@@ -58,7 +58,7 @@ public class Ibutton implements java.io.Serializable {
         this.defaultPosition = defaultPosition;
     }
 
-    @Column(name = "SERIAL", unique = true, nullable = false, length = 200)
+    @Column(name = "SERIAL", unique = true, nullable = false)
     public String getSerial() {
         return this.serial.getValue();
     }
@@ -67,7 +67,7 @@ public class Ibutton implements java.io.Serializable {
         this.serial.setValue(serial);
     }
 
-    @Column(name = "MODEL", nullable = false, length = 200)
+    @Column(name = "MODEL", nullable = false)
     public String getModel() {
         return this.model.getValue();
     }
@@ -76,7 +76,7 @@ public class Ibutton implements java.io.Serializable {
         this.model.setValue(model);
     }
 
-    @Column(name = "ALIAS", unique = true, length = 30)
+    @Column(name = "ALIAS", unique = true)
     public String getAlias() {
         return this.alias.getValue();
     }

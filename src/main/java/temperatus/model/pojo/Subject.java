@@ -71,7 +71,7 @@ public class Subject implements java.io.Serializable {
         this.isPerson = isPerson;
     }
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 300)
+    @Column(name = "NAME", unique = true, nullable = false)
     public String getName() {
         return this.name.getValue();
     }

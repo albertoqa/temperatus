@@ -60,7 +60,7 @@ public class Game implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "TITLE", unique = true, nullable = false, length = 100)
+    @Column(name = "TITLE", unique = true, nullable = false)
     public String getTitle() {
         return this.title.getValue();
     }

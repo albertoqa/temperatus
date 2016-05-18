@@ -42,7 +42,7 @@ public class Position implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "PLACE", unique = true, nullable = false, length = 100)
+    @Column(name = "PLACE", unique = true, nullable = false)
     public String getPlace() {
         return this.place.getValue();
     }
@@ -51,7 +51,7 @@ public class Position implements java.io.Serializable {
         this.place.setValue(place);
     }
 
-    @Column(name = "PICTURE", length = 200)
+    @Column(name = "PICTURE")
     public String getPicture() {
         return this.picture;
     }

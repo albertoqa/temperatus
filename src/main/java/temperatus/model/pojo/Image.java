@@ -46,7 +46,7 @@ public class Image implements java.io.Serializable {
         this.game = game;
     }
 
-    @Column(name = "PATH", nullable = false, length = 300)
+    @Column(name = "PATH", nullable = false)
     public String getPath() {
         return this.path;
     }

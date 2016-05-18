@@ -56,7 +56,7 @@ public class Project implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 100)
+    @Column(name = "NAME", unique = true, nullable = false)
     public String getName() {
         return this.name.getValue();
     }

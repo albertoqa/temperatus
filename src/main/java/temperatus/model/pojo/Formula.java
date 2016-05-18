@@ -46,7 +46,7 @@ public class Formula implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 50)
+    @Column(name = "NAME", unique = true, nullable = false)
     public String getName() {
         return this.name.getValue();
     }
@@ -55,7 +55,7 @@ public class Formula implements java.io.Serializable {
         this.name.setValue(name);
     }
 
-    @Column(name = "DESCRIPTION", length = 200)
+    @Column(name = "DESCRIPTION")
     public String getDescription() {
         return this.description.getValue();
     }
@@ -64,7 +64,7 @@ public class Formula implements java.io.Serializable {
         this.description.setValue(description);
     }
 
-    @Column(name = "REFERENCE", length = 200)
+    @Column(name = "REFERENCE")
     public String getReference() {
         return this.reference.getValue();
     }
@@ -73,7 +73,7 @@ public class Formula implements java.io.Serializable {
         this.reference.setValue(reference);
     }
 
-    @Column(name = "OPERATION", nullable = false, length = 200)
+    @Column(name = "OPERATION", nullable = false)
     public String getOperation() {
         return this.operation.getValue();
     }

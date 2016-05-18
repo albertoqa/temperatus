@@ -102,7 +102,7 @@ public class Mission implements java.io.Serializable {
         this.subject = subject;
     }
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 100)
+    @Column(name = "NAME", unique = true, nullable = false)
     public String getName() {
         return this.name.getValue();
     }
