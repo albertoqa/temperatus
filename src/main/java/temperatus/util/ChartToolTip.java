@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
 
-import java.util.Date;
-
 /**
  * Show information about on hover in graphics
  * <p>
@@ -25,9 +23,9 @@ public class ChartToolTip {
      * Browsing through the Data and applying ToolTip
      * as well as the class on hover
      */
-    public static void addToolTipOnHover(XYChart.Series<Date, Number> serie, LineChart lineChart) {
+    public static void addToolTipOnHover(XYChart.Series<Object, Number> serie, LineChart lineChart) {
         if (lineChart.getCreateSymbols()) {
-            for (XYChart.Data<Date, Number> d : serie.getData()) {
+            for (XYChart.Data<Object, Number> d : serie.getData()) {
                 Tooltip.install(d.getNode(), new Tooltip(d.getXValue().toString() + Constants.NEW_LINE + Language.getInstance().get(Lang.TEMPERATURE_HOVER) + Constants.SPACE + Constants.decimalFormat.format(d.getYValue())));
 
                 try {

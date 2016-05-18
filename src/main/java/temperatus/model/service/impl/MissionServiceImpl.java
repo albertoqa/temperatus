@@ -55,7 +55,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void saveOrUpdate(Mission mission) throws ControlledTemperatusException{
-        if(mission.getName() == null || mission.getName().length() < 1 || mission.getName().length() > 100) {
+        if(mission.getName() == null || mission.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_MISSION_NAME));
         }
         missionDao.saveOrUpdate(mission);

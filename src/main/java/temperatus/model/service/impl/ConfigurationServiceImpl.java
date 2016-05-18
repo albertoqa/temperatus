@@ -44,7 +44,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void saveOrUpdate(Configuration configuration) throws ControlledTemperatusException {
-        if(configuration.getName() == null || configuration.getName().length() < 1 || configuration.getName().length() > 100) {
+        if(configuration.getName() == null || configuration.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_CONFIGURATION_NAME));
         }
         configurationDao.saveOrUpdate(configuration);

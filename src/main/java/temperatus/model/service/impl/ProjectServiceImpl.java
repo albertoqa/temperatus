@@ -55,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void saveOrUpdate(Project project) throws ControlledTemperatusException {
-        if(project.getName() == null ||project.getName().length() < 1 || project.getName().length() > 100) {
+        if(project.getName() == null ||project.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_PROJECT_NAME));
         }
         projectDao.saveOrUpdate(project);

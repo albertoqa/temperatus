@@ -45,7 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void saveOrUpdate(Author author) throws ControlledTemperatusException {
 
-        if(author.getName() == null || author.getName().length() < 1 || author.getName().length() > 100) {
+        if(author.getName() == null || author.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_AUTHOR_NAME));
         }
 

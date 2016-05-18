@@ -44,7 +44,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public void saveOrUpdate(Position position) throws ControlledTemperatusException {
-        if(position.getPlace() == null || position.getPlace().length() < 1 || position.getPlace().length() > 100) {
+        if(position.getPlace() == null || position.getPlace().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_POSITION_NAME));
         }
         positionDao.saveOrUpdate(position);

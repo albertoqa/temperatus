@@ -92,7 +92,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
      * Generate them in another thread for performance improvement.
      */
     private void drawData() {
-        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
+        XYChart.Series serie = new XYChart.Series<>();
 
         Task<Void> drawMeasurementsTask = new Task<Void>() {
             @Override

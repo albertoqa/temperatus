@@ -52,7 +52,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void saveOrUpdate(Game game) throws ControlledTemperatusException {
-        if(game.getTitle() == null || game.getTitle().length() < 1 || game.getTitle().length() > 100) {
+        if(game.getTitle() == null || game.getTitle().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_GAME_NAME));
         }
         gameDao.saveOrUpdate(game);

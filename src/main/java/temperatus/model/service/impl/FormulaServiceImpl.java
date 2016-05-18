@@ -44,7 +44,7 @@ public class FormulaServiceImpl implements FormulaService {
 
     @Override
     public void saveOrUpdate(Formula formula) throws ControlledTemperatusException {
-        if(formula.getName() == null || formula.getName().length() < 1 || formula.getName().length() > 100) {
+        if(formula.getName() == null || formula.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_FORMULA_NAME));
         } else if(formula.getOperation().isEmpty()) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.FORMULA_CANNOT_BE_EMPTY));

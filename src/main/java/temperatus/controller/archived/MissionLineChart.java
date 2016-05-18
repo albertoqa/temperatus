@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckListView;
 import org.slf4j.Logger;
@@ -40,7 +41,10 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Mission information shown in a graph
@@ -52,9 +56,12 @@ import java.util.*;
 public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private AnchorPane anchorPane;
-    @FXML private LineChart<Date, Number> lineChart;
-    @FXML private DateAxis dateAxis;
-    @FXML private NumberAxis temperatureAxis;
+    @FXML private StackPane stackPane;
+
+    private LineChart lineChart;
+    private DateAxis dateAxis;
+    private NumberAxis indexAxis;
+    private NumberAxis temperatureAxis;
 
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
@@ -65,9 +72,10 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private Spinner<Integer> spinner;
 
-    private ObservableList<XYChart.Series<Date, Number>> series;
+    private ObservableList<XYChart.Series> series;
     private ObservableList<Record> records;
     private ObservableList<Formula> formulas;
+    private boolean writeAsIndex = false;
 
     private HashMap<Record, List<Measurement>> dataMap;
 
@@ -75,7 +83,6 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        translate();
 
         series = FXCollections.observableArrayList();
         records = FXCollections.observableArrayList();
@@ -85,6 +92,18 @@ public class MissionLineChart implements Initializable, AbstractController {
         formulasList.setItems(formulas);
 
         SpinnerFactory.setIntegerSpinner(spinner, 1);
+
+        writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
+        temperatureAxis = new NumberAxis();
+        if(writeAsIndex) {
+            indexAxis = new NumberAxis();
+            lineChart = new LineChart<>(indexAxis, temperatureAxis);
+        } else {
+            dateAxis = new DateAxis();
+            lineChart = new LineChart<>(dateAxis, temperatureAxis);
+        }
+
+        stackPane.getChildren().add(lineChart);
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
@@ -96,7 +115,7 @@ public class MissionLineChart implements Initializable, AbstractController {
             if (c.wasAdded()) {
                 addSerieForRecord(c.getAddedSubList().get(0), spinner.getValue(), showSymbols.isSelected());
             } else if (c.wasRemoved()) {
-                for (XYChart.Series<Date, Number> serie : series) {
+                for (XYChart.Series serie : series) {
                     if (serie.getName().contains(c.getRemoved().get(0).getPosition().getPlace())) {
                         series.remove(serie);
                         break;
@@ -111,7 +130,7 @@ public class MissionLineChart implements Initializable, AbstractController {
             if (c.wasAdded()) {
                 addSerieForFormula(c.getAddedSubList().get(0), spinner.getValue(), showSymbols.isSelected());
             } else if (c.wasRemoved()) {
-                for (XYChart.Series<Date, Number> serie : series) {
+                for (XYChart.Series serie : series) {
                     if (serie.getName().contains(c.getRemoved().get(0).getName())) {
                         series.remove(serie);
                         break;
@@ -131,6 +150,8 @@ public class MissionLineChart implements Initializable, AbstractController {
         });
 
         showSymbols.selectedProperty().addListener((observable, oldValue, newValue) -> reloadSelectedSeriesForPeriod(spinner.getValue(), newValue));
+
+        translate();
     }
 
     /**
@@ -140,7 +161,7 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param period  period to calculate
      */
     private void addSerieForFormula(Formula formula, int period, boolean showSymbols) {
-        XYChart.Series<Date, Number> serie = createSerieForFormula(formula, period);
+        XYChart.Series serie = createSerieForFormula(formula, period);
         series.add(serie);
         if(showSymbols) {
             ChartToolTip.addToolTipOnHover(serie, lineChart);
@@ -154,7 +175,7 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param period period to calculate
      */
     private void addSerieForRecord(Record record, int period, boolean showSymbols) {
-        XYChart.Series<Date, Number> serie = createSerieForRecord(record, period);
+        XYChart.Series serie = createSerieForRecord(record, period);
         series.add(serie);
         if(showSymbols) {
             ChartToolTip.addToolTipOnHover(serie, lineChart);
@@ -186,19 +207,26 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param period period to calculate
      * @return serie to show for the given record
      */
-    private XYChart.Series<Date, Number> createSerieForRecord(Record record, int period) {
+    private XYChart.Series createSerieForRecord(Record record, int period) {
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
-        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
+        XYChart.Series serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
 
         // Show the data using the preferred unit
         Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-        measurements.stream().forEach((measurement) -> {
-            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
-            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
-        });
+        if(writeAsIndex) {
+            for (int i = 0; i < measurements.size(); i++) {
+                double data = Unit.C.equals(unit) ? measurements.get(i).getData() : Calculator.celsiusToFahrenheit(measurements.get(i).getData());
+                serie.getData().add(new XYChart.Data<>(i, data));
+            }
+        } else {
+            measurements.stream().forEach((measurement) -> {
+                double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+                serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+            });
+        }
 
         return serie;
     }
@@ -211,9 +239,9 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @param period  period to calculate
      * @return serie to show for the given formula
      */
-    private XYChart.Series<Date, Number> createSerieForFormula(Formula formula, int period) {
+    private XYChart.Series createSerieForFormula(Formula formula, int period) {
 
-        XYChart.Series<Date, Number> serie = new XYChart.Series<>();
+        XYChart.Series serie = new XYChart.Series<>();
         serie.setName(formula.getName());
 
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
@@ -284,7 +312,11 @@ public class MissionLineChart implements Initializable, AbstractController {
     @Override
     public void translate() {
         saveGraphicButton.setText(language.get(Lang.SAVE_GRAPHIC));
-        dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+        if(writeAsIndex) {
+            indexAxis.setLabel(language.get(Lang.INDEX));
+        } else {
+            dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+        }
         if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
             temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
         } else {
