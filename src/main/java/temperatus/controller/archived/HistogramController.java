@@ -74,8 +74,7 @@ public class HistogramController implements Initializable, AbstractController {
             minTemp = Calculator.celsiusToFahrenheit(minTemp);
         }
 
-        String u = Constants.DEGREE + (unit.equals(Unit.C) ? Constants.UNIT_C : Constants.UNIT_F);
-
+        String u = unit.equals(Unit.C) ? language.get(Lang.CELSIUS) : language.get(Lang.FAHRENHEIT);
         //noinspection unchecked
         XYChart.Data<String, Number>[] series = new XYChart.Data[NUM_BINS];
         for (int i = 0; i < series.length; i++) {

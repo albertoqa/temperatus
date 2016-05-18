@@ -24,7 +24,6 @@ public class Constants {
     static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static final DecimalFormat decimalFormat = new DecimalFormat("#.###;-#.###");
 
-    public static final String DEGREE = "º";
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
     public static final String UNDERSCORE = "_";

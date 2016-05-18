@@ -53,7 +53,7 @@ public class ButtonDataController implements Initializable, AbstractController {
         translate();
 
         // unit of measure preferred by the user
-        unitOfMeasurePreferred = new SimpleStringProperty(Constants.DEGREE + (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Constants.UNIT_C: Constants.UNIT_F));
+        unitOfMeasurePreferred = new SimpleStringProperty(Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? language.get(Lang.CELSIUS) : language.get(Lang.FAHRENHEIT));
 
         measurements = FXCollections.observableArrayList();
 
