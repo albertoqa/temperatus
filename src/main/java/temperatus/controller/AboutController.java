@@ -85,7 +85,8 @@ public class AboutController implements Initializable, AbstractController {
 
     @Override
     public void translate() {
-
+        buyButton.setText(language.get(Lang.BUY_BUTTON));
+        activateButton.setText(language.get(Lang.ACTIVATE_BUTTON));
     }
 
 }
