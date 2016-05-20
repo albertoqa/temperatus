@@ -41,8 +41,8 @@
             <Label fx:id="alarmLabel" alignment="CENTER_RIGHT" layoutX="560.0" layoutY="260.0" styleClass="label-paneinfo" text="Alarm:" AnchorPane.leftAnchor="560.0" />
             <Spinner fx:id="highAlarm" disable="true" layoutX="495.0" layoutY="288.0" AnchorPane.leftAnchor="495.0" />
             <Spinner fx:id="lowAlarm" disable="true" layoutX="496.0" layoutY="332.0" AnchorPane.leftAnchor="496.0" />
-            <Label fx:id="highLabel" alignment="CENTER_RIGHT" layoutX="675.0" layoutY="294.0" text="High" AnchorPane.leftAnchor="675.0" />
-            <Label fx:id="lowLabel" alignment="CENTER_RIGHT" layoutX="675.0" layoutY="338.0" text="Low" AnchorPane.leftAnchor="675.0" />
+            <Label fx:id="highLabel" alignment="CENTER_RIGHT" layoutX="675.0" layoutY="294.0" text="High" />
+            <Label fx:id="lowLabel" alignment="CENTER_RIGHT" layoutX="675.0" layoutY="338.0" text="Low" />
             <TextField fx:id="dateInput" layoutX="266.0" layoutY="316.0" styleClass="form" text="18/12/2016 10:00:00" visible="false" />
             <Spinner fx:id="delayInput" layoutX="266.0" layoutY="281.0" prefHeight="29.0" prefWidth="156.0" visible="false" />
             <Button fx:id="saveButton" layoutX="516.0" layoutY="411.0" mnemonicParsing="false" onAction="#saveConfiguration" prefHeight="27.0" prefWidth="127.0" styleClass="cbtn" text="Save" AnchorPane.leftAnchor="516.0" />
