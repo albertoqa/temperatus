@@ -91,8 +91,10 @@ public class MissionExporter extends AbstractExporter{
 
             // Inform the user of the error/incorrect value
             if (showWarn) {
-                VistaNavigator.showAlert(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
+                VistaNavigator.showAlertAndWait(Alert.AlertType.WARNING, Language.getInstance().get(Lang.ERROR_CALCULATING_FORMULA));
             }
+
+            VistaNavigator.showAlertAndWait(Alert.AlertType.INFORMATION, Language.getInstance().get(Lang.SUCCESSFULLY_EXPORTED));
 
         } catch(Exception ex) {
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));

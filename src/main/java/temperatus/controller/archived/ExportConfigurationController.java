@@ -2,7 +2,10 @@ package temperatus.controller.archived;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.CheckListView;
@@ -136,8 +139,6 @@ public class ExportConfigurationController implements Initializable, AbstractCon
             FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
             workBook.write(fileOut);
             fileOut.close();
-
-            showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_EXPORTED));
         }
         cancel();      // close the window
     }

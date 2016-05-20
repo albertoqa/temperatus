@@ -13,7 +13,6 @@ import temperatus.model.pojo.Mission;
 import temperatus.model.service.MissionService;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class MissionServiceImpl implements MissionService {
         if(mission.getRecords().size() > 0) {
             try {
                 FileUtils.deleteDirectory(new File(mission.getRecords().iterator().next().getDataPath()).getParentFile());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LoggerFactory.getLogger(MissionServiceImpl.class.getName()).warn("Cannot delete mission files");
             }
         }
