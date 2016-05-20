@@ -247,7 +247,11 @@ public class VistaNavigator {
      */
     private static void onCloseModalAction() {
         currentStage = null;
-        Animation.blurIn(parentNode);
+        try {
+            Animation.blurIn(parentNode);
+        } catch (Exception e) {
+            logger.error("Error blur in parentNode");
+        }
         baseController.selectBase();
     }
 

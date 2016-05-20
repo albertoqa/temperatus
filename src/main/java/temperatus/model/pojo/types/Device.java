@@ -122,6 +122,6 @@ public class Device {
 
     @Override
     public String toString() {
-        return getAlias() + " | " + getSerial();
+        return getAlias() != null ? getAlias() : "" + " | " + getSerial();
     }
 }

@@ -1,11 +1,9 @@
 package temperatus.controller.creation;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +54,7 @@ public class NewFormulaController extends AbstractCreationController implements 
 
     private static final String DECIMAL_REGEX = "[0-9.]";
 
-    private SimpleStringProperty operation = new SimpleStringProperty("");  // contains the current formula created
+    //private SimpleStringProperty operation = new SimpleStringProperty("");  // contains the current formula created
 
     private Formula formula;
 
@@ -69,11 +67,11 @@ public class NewFormulaController extends AbstractCreationController implements 
 
         addListenerToList();    // if a position is selected try to add it to the formula
 
-        operationArea.textProperty().bind(operation);
+        //operationArea.textProperty().bind(operation);
 
         // user is not allowed to insert characters directly on the operation, only delete them
         // if character is a number or a . allow it
-        operationArea.setOnKeyPressed(keyEvent -> {
+        /*operationArea.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
                 String value = operation.getValue();
                 if (value.length() > 0) {
@@ -93,7 +91,7 @@ public class NewFormulaController extends AbstractCreationController implements 
                 operation.set(operation.getValue() + value);
             }
             keyEvent.consume();
-        });
+        });*/
 
         getAllElements();
     }
@@ -127,7 +125,8 @@ public class NewFormulaController extends AbstractCreationController implements 
         this.formula = formula;
         nameInput.setText(formula.getName());
         referenceInput.setText(formula.getReference());
-        operation.set(formula.getOperation());
+        //operation.set(formula.getOperation());
+        operationArea.setText(formula.getOperation());
     }
 
     /**
@@ -138,7 +137,7 @@ public class NewFormulaController extends AbstractCreationController implements 
         positionsSelector.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 if (isValidToAddAnOperand()) {
-                    operation.set(operation.getValue() + newValue.getPlace());
+                    operationArea.setText(operationArea.getText() + newValue.getPlace());
                 }
             }
         });
@@ -148,7 +147,7 @@ public class NewFormulaController extends AbstractCreationController implements 
      * @return is valid to add an operand to the formula RIGHT now?
      */
     private boolean isValidToAddAnOperand() {
-        return operation.length().get() < 1 || isLastCharAnOperator();
+        return operationArea.getText().length() < 1 || isLastCharAnOperator();
     }
 
     /**
@@ -162,8 +161,8 @@ public class NewFormulaController extends AbstractCreationController implements 
      * @return the last element of the operation is an operator?
      */
     private boolean isLastCharAnOperator() {
-        if (operation.length().getValue() > 0) {
-            String lastChar = operation.getValue().substring(operation.length().get() - 1);
+        if (operationArea.getText().length() > 0) {
+            String lastChar = operationArea.getText().substring(operationArea.getText().length() - 1);
             return PLUS.equals(lastChar) || MINUS.equals(lastChar) || MULT.equals(lastChar) || DIV.equals(lastChar) || LEFT.equals(lastChar);
         } else {
             return false;
@@ -174,7 +173,7 @@ public class NewFormulaController extends AbstractCreationController implements 
      * @return is valid to add a "(" LEFT bracket to the formula RIGHT now?
      */
     private boolean isValidToAddLeftBracket() {
-        return operation.length().get() == 0 || operation.getValue().substring(operation.length().get() - 1).equals(LEFT) || isValidToAddAnOperand();
+        return operationArea.getText().length() == 0 || operationArea.getText().substring(operationArea.getText().length() - 1).equals(LEFT) || isValidToAddAnOperand();
     }
 
     /**
@@ -184,7 +183,7 @@ public class NewFormulaController extends AbstractCreationController implements 
      */
     private void operator(String operator) {
         if (isValidToAddAnOperator()) {
-            operation.set(operation.getValue() + operator);
+            operationArea.setText(operationArea.getText() + operator);
         }
         positionsSelector.getSelectionModel().clearSelection();
     }
@@ -227,7 +226,7 @@ public class NewFormulaController extends AbstractCreationController implements 
     @FXML
     private void leftOperation() {
         if (isValidToAddLeftBracket()) {
-            operation.set(operation.getValue() + LEFT);
+            operationArea.setText(operationArea.getText() + LEFT);
         }
         positionsSelector.getSelectionModel().clearSelection();
     }
@@ -237,7 +236,7 @@ public class NewFormulaController extends AbstractCreationController implements 
      */
     @FXML
     private void rightOperation() {
-        operation.set(operation.getValue() + RIGHT);
+        operationArea.setText(operationArea.getText() + RIGHT);
         positionsSelector.getSelectionModel().clearSelection();
     }
 
@@ -248,7 +247,7 @@ public class NewFormulaController extends AbstractCreationController implements 
     @FXML
     protected void save() {
 
-        if (!FormulaUtil.isValidFormula(operation.getValue(), positionsSelector.getItems())) {
+        if (!FormulaUtil.isValidFormula(operationArea.getText(), positionsSelector.getItems())) {
             showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_FORMULA));
         } else {
             try {
@@ -260,7 +259,7 @@ public class NewFormulaController extends AbstractCreationController implements 
                 }
 
                 formula.setName(nameInput.getText());
-                formula.setOperation(operation.getValue());
+                formula.setOperation(operationArea.getText());
                 formula.setReference(referenceInput.getText());
 
                 formulaService.saveOrUpdate(formula);
