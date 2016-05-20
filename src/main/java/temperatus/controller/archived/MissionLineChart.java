@@ -213,20 +213,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         XYChart.Series serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
 
-        // Show the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
-
-        if(writeAsIndex) {
-            for (int i = 0; i < measurements.size(); i++) {
-                double data = Unit.C.equals(unit) ? measurements.get(i).getData() : Calculator.celsiusToFahrenheit(measurements.get(i).getData());
-                serie.getData().add(new XYChart.Data<>(i, data));
-            }
-        } else {
-            measurements.stream().forEach((measurement) -> {
-                double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
-                serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
-            });
-        }
+        writeSerie(serie, measurements);
 
         return serie;
     }
@@ -243,16 +230,9 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         XYChart.Series serie = new XYChart.Series<>();
         serie.setName(formula.getName());
-
         List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
 
-        // Show the data using the preferred unit
-        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
-
-        measurements.stream().forEach((measurement) -> {
-            double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
-            serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
-        });
+        writeSerie(serie, measurements);
 
         for (Measurement measurement : measurements) {
             if (Double.isNaN(measurement.getData())) {
@@ -262,6 +242,23 @@ public class MissionLineChart implements Initializable, AbstractController {
         }
 
         return serie;
+    }
+
+    private void writeSerie(XYChart.Series serie, List<Measurement> measurements) {
+        // Show the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+
+        if(writeAsIndex) {
+            for (int i = 0; i < measurements.size(); i++) {
+                double data = Unit.C.equals(unit) ? measurements.get(i).getData() : Calculator.celsiusToFahrenheit(measurements.get(i).getData());
+                serie.getData().add(new XYChart.Data<>(i, data));
+            }
+        } else {
+            measurements.stream().forEach((measurement) -> {
+                double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
+                serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+            });
+        }
     }
 
     /**
