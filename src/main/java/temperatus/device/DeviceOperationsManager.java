@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import temperatus.device.task.DeviceDetectorTask;
 import temperatus.device.task.DeviceTask;
-import temperatus.listener.DaemonThreadFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

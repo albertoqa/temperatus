@@ -1,4 +1,4 @@
-package temperatus.listener;
+package temperatus.device;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;

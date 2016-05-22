@@ -1,4 +1,4 @@
-package temperatus.listener;
+package temperatus.util;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

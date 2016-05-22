@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.lang.Language;
-import temperatus.listener.DatabaseThreadFactory;
+import temperatus.util.DatabaseThreadFactory;
 import temperatus.util.VistaNavigator;
 
 import java.util.concurrent.ExecutorService;
