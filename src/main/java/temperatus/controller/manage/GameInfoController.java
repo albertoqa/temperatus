@@ -1,4 +1,4 @@
-package temperatus.controller.manage.ampliate;
+package temperatus.controller.manage;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

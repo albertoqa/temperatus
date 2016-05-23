@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.controller.AbstractController;
 import temperatus.controller.creation.NewGameController;
-import temperatus.controller.manage.ampliate.GameInfoController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
