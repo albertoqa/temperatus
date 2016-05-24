@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -131,7 +131,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         // Only allow export if complete version of the application, trial version cannot export data
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls"));   //Set extension filter
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
 
             File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
@@ -159,7 +159,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 // period = 1, no formulas and no all records needed
                 missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
 
-                Workbook workBook = missionExporter.export();
+                XSSFWorkbook workBook = missionExporter.export();
 
                 FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
                 workBook.write(fileOut);

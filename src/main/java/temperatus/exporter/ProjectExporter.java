@@ -1,11 +1,10 @@
 package temperatus.exporter;
 
 import javafx.scene.control.Alert;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
@@ -39,20 +38,20 @@ public class ProjectExporter extends AbstractExporter {
      *
      * @return workbook containing formatted data
      */
-    public Workbook export() {
-        Workbook wb = new HSSFWorkbook();
+    public XSSFWorkbook export() {
+        XSSFWorkbook wb = new XSSFWorkbook();
         try {
             for (Mission mission : project.getMissions()) {
-                Sheet missionSheet = wb.createSheet(mission.getName());
-                Row headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
+                XSSFSheet missionSheet = wb.createSheet(mission.getName());
+                XSSFRow headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
 
                 int row = 1;
                 for (Record record : mission.getRecords()) {
                     logger.debug("Exporting data for record: " + record);
 
-                    Row dataRow = missionSheet.createRow(row);
+                    XSSFRow dataRow = missionSheet.createRow(row);
 
-                    Cell device = dataRow.createCell(0);
+                    XSSFCell device = dataRow.createCell(0);
                     device.setCellValue(record.getPosition().getPlace());
 
                     List<Measurement> measurements = new IbuttonDataImporter(new File(record.getDataPath())).getMeasurements();

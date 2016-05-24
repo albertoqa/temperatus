@@ -1,11 +1,10 @@
 package temperatus.exporter;
 
 import javafx.scene.control.Alert;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.IButtonDataAnalysis;
@@ -26,7 +25,7 @@ import java.util.List;
  * <p>
  * Created by alberto on 8/4/16.
  */
-public class MissionExporter extends AbstractExporter{
+public class MissionExporter extends AbstractExporter {
 
     private int period;
     private String missionName;
@@ -44,13 +43,18 @@ public class MissionExporter extends AbstractExporter{
      *
      * @return workbook containing formatted data
      */
-    public Workbook export() {
+    public XSSFWorkbook export() {
         logger.info("Generating data to export excel");
 
-        Workbook wb = new HSSFWorkbook();
+        XSSFWorkbook wb = new XSSFWorkbook();
         try {
-            Sheet missionSheet = wb.createSheet(missionName);
-            Row headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
+            XSSFSheet missionSheet = wb.createSheet(missionName);
+            XSSFRow headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
+
+            XSSFSheet missionSheetOneRow = wb.createSheet(missionName + "OneRow");
+            XSSFRow headerRowOneRow = missionSheetOneRow.createRow(0);      // Date-Time or Index of the measurement
+            XSSFRow dataRowOneRow = missionSheetOneRow.createRow(1);
+            int prevIndex = 0;
 
             /**
              * Calculate independent positions first
@@ -59,14 +63,25 @@ public class MissionExporter extends AbstractExporter{
             for (Record record : records) {
                 logger.debug("Exporting data for record: " + record);
 
-                Row dataRow = missionSheet.createRow(row);
+                XSSFRow dataRow = missionSheet.createRow(row);
 
-                Cell device = dataRow.createCell(0);
+                XSSFCell device = dataRow.createCell(0);
                 device.setCellValue(record.getPosition().getPlace());
 
                 List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
 
                 exportMission(toExport, dataRow, unit, headerRow, row);
+
+                // in this case create another sheet and write all the data in only one row
+                if (dataMap.size() > 1) {
+                    XSSFCell deviceOneRow = dataRowOneRow.createCell(prevIndex);
+                    deviceOneRow.setCellValue(record.getPosition().getPlace());
+                    prevIndex++;
+
+                    exportMission(toExport, headerRowOneRow, dataRowOneRow, unit, prevIndex);
+                    prevIndex += toExport.size() + 2;
+                }
+
                 row++;
             }
 
@@ -78,12 +93,21 @@ public class MissionExporter extends AbstractExporter{
 
                 List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
 
-                Row dataRow = missionSheet.createRow(row);
-                Cell device = dataRow.createCell(0);
+                XSSFRow dataRow = missionSheet.createRow(row);
+                XSSFCell device = dataRow.createCell(0);
                 device.setCellValue(formula.getName());
 
-                if(exportFormula(measurements, dataRow, unit, row)) {
+                if (exportFormula(measurements, dataRow, unit, row)) {
                     showWarn = true;
+                }
+
+                if (dataMap.size() > 1) {
+                    XSSFCell deviceOneRow = dataRowOneRow.createCell(prevIndex);
+                    deviceOneRow.setCellValue(formula.getName());
+                    prevIndex++;
+
+                    exportMission(measurements, headerRowOneRow, dataRowOneRow, unit, prevIndex);
+                    prevIndex += measurements.size() + 2;
                 }
 
                 row++;
@@ -96,7 +120,7 @@ public class MissionExporter extends AbstractExporter{
 
             VistaNavigator.showAlertAndWait(Alert.AlertType.INFORMATION, Language.getInstance().get(Lang.SUCCESSFULLY_EXPORTED));
 
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
         }
         return wb;
@@ -109,7 +133,7 @@ public class MissionExporter extends AbstractExporter{
      * @param missionName name of the mission -- name of the excel sheet
      * @param records     records selected by the user to export
      * @param formulas    formulas related to the mission and selected to export
-     * @param dataMap  all records-measurements of the mission
+     * @param dataMap     all records-measurements of the mission
      */
     public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, HashMap<Record, List<Measurement>> dataMap, Unit unit) {
         this.period = period;

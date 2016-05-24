@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.controlsfx.control.CheckListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +111,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         logger.info("Exporting mission data...");
 
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx");
         fileChooser.getExtensionFilters().add(extFilter);   //Set extension filter
 
         File file = fileChooser.showSaveDialog(titledPane.getScene().getWindow());   //Show save file dialog
@@ -134,10 +134,11 @@ public class ExportConfigurationController implements Initializable, AbstractCon
             MissionExporter missionExporter = new MissionExporter();
             missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
 
-            Workbook workBook = missionExporter.export();
+            XSSFWorkbook workBook = missionExporter.export();
 
             FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
             workBook.write(fileOut);
+            fileOut.flush();
             fileOut.close();
         }
         cancel();      // close the window

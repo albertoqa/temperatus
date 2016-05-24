@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -375,7 +375,7 @@ public class ArchivedController implements Initializable, AbstractController {
             logger.info("Exporting project data...");
 
             FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS (*.xls)", "*.xls");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx");
             fileChooser.getExtensionFilters().add(extFilter);   //Set extension filter
 
             File file = fileChooser.showSaveDialog(projectInfoPane.getScene().getWindow());   //Show save file dialog
@@ -388,10 +388,11 @@ public class ArchivedController implements Initializable, AbstractController {
                 ProjectExporter projectExporter = new ProjectExporter();
                 projectExporter.setData(getSelectedElement().getElement(), unit);
 
-                Workbook workBook = projectExporter.export();
+                XSSFWorkbook workBook = projectExporter.export();
 
                 FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
                 workBook.write(fileOut);
+                fileOut.flush();
                 fileOut.close();
 
                 showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_EXPORTED));
