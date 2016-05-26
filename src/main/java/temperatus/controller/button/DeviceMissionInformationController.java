@@ -243,22 +243,22 @@ public class DeviceMissionInformationController implements Initializable, Abstra
 
     @Override
     public void translate() {
-        /*missionInProgressLabel.setText(language.get(Lang.));
-        sutaMissionLabel.setText(language.get(Lang.));
-        wftaLabel.setText(language.get(Lang.));
-        sampleRateLabel.setText(language.get(Lang.));
-        missionStartTimeLabel.setText(language.get(Lang.));
-        rollOverLabel.setText(language.get(Lang.));
-        totalMissionSamplesLabel.setText(language.get(Lang.));
-        totalDeviceSamplesLabel.setText(language.get(Lang.));
-        resolutionLabel.setText(language.get(Lang.));
-        highAlarmLabel.setText(language.get(Lang.));
-        lowAlarmLabel.setText(language.get(Lang.));
-        missionSampleCountLabel.setText(language.get(Lang.));
-        firstSampleTimeLabel.setText(language.get(Lang.));
+        missionInProgressLabel.setText(language.get(Lang.MISSION_IN_PROGRESS));
+        sutaMissionLabel.setText(language.get(Lang.SUTA_LABEL));
+        wftaLabel.setText(language.get(Lang.WFTA));
+        sampleRateLabel.setText(language.get(Lang.RATE_LABEL));
+        missionStartTimeLabel.setText(language.get(Lang.START_DATE_LABEL));
+        rollOverLabel.setText(language.get(Lang.ROLL_OVER_LABEL));
+        totalMissionSamplesLabel.setText(language.get(Lang.TOTAL_MISSION_SAMPLES_LABEL));
+        totalDeviceSamplesLabel.setText(language.get(Lang.TOTAL_DEVICE_SAMPLES_LABEL));
+        resolutionLabel.setText(language.get(Lang.RESOLUTION_LABEL));
+        highAlarmLabel.setText(language.get(Lang.HIGH_ALARM_LABEL));
+        lowAlarmLabel.setText(language.get(Lang.LOW_ALARM_LABEL));
+        missionSampleCountLabel.setText(language.get(Lang.MISSION_SAMPLE_COUNT_LABEL));
+        firstSampleTimeLabel.setText(language.get(Lang.FIRST_SAMPLE_TIME_LABEL));
 
-        disableMissionButton.setText(language.get(Lang.));
-        startMissionButton.setText(language.get(Lang.));
-        temperatureLogButton.setText(language.get(Lang.));*/
+        disableMissionButton.setText(language.get(Lang.DISABLE_MISSION));
+        startMissionButton.setText(language.get(Lang.START_DEVICE_MISSION));
+        temperatureLogButton.setText(language.get(Lang.SAVE_DATA));
     }
 }

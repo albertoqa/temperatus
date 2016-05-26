@@ -380,6 +380,15 @@ public class Lang {
     public static final String INVALID_RECORD_NAME = "invalidRecordName";
     public static final String INVALID_SUBJECT_NAME = "invalidSubjectName";
 
+    // Configure iButton
+    public static final String MISSION_IN_PROGRESS = "missionInProgress";
+    public static final String WFTA = "wfta";
+    public static final String TOTAL_MISSION_SAMPLES_LABEL = "totalMissionSamplesLabel";
+    public static final String TOTAL_DEVICE_SAMPLES_LABEL = "totalDeviceSamplesLabel";
+    public static final String MISSION_SAMPLE_COUNT_LABEL = "missionSampleCountLabel";
+    public static final String FIRST_SAMPLE_TIME_LABEL = "firstSampleTimeLabel";
+    public static final String DISABLE_MISSION = "disableMission";
+    public static final String SAVE_DATA = "saveData";
 
     // History
     public static final String DELETE_HISTORY = "deleteHistory";
