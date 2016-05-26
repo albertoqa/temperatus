@@ -79,7 +79,7 @@ public class MissionExporter extends AbstractExporter {
                     prevIndex++;
 
                     exportMission(toExport, headerRowOneRow, dataRowOneRow, unit, prevIndex);
-                    prevIndex += toExport.size() + 2;
+                    prevIndex += toExport.size();
                 }
 
                 row++;
@@ -107,7 +107,7 @@ public class MissionExporter extends AbstractExporter {
                     prevIndex++;
 
                     exportMission(measurements, headerRowOneRow, dataRowOneRow, unit, prevIndex);
-                    prevIndex += measurements.size() + 2;
+                    prevIndex += measurements.size();
                 }
 
                 row++;

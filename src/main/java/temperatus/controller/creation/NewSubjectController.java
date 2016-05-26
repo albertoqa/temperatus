@@ -139,9 +139,15 @@ public class NewSubjectController extends AbstractCreationController implements 
             // if subject is not a person only set the name and observations
             if (person.getSelectedToggle() == isPerson) {
                 subject.setIsPerson(true);
-                subject.setAge(DateUtils.asUtilDate(ageInput.getValue()));
-                subject.setWeight(Double.valueOf(weightInput.getText()));
-                subject.setHeight(Double.valueOf(heightInput.getText()));
+                if(ageInput.getValue() != null) {
+                    subject.setAge(DateUtils.asUtilDate(ageInput.getValue()));
+                }
+                if(weightInput.getText() != null && !weightInput.getText().isEmpty()) {
+                    subject.setWeight(Double.valueOf(weightInput.getText()));
+                }
+                if(heightInput.getText() != null && !heightInput.getText().isEmpty()) {
+                    subject.setHeight(Double.valueOf(heightInput.getText()));
+                }
                 subject.setSex(gender.getSelectedToggle() == isMale);   // true = male, false = female
             } else {
                 subject.setIsPerson(false);
