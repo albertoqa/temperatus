@@ -332,6 +332,8 @@ public class Lang {
     public static final String MUST_SELECT_ALL_ROW = "mustSelectAllRow";
     public static final String MUST_SELECT_USER = "mustSelectUser";
 
+    public static final String EMPTY_FILES_LAST = "emptyFilesLast";
+
     public static final String INVALID_NAME_FORMULA = "invalidNameFormula";
     public static final String REMOVE_FORMULA_CONFIRMATION = "removeFormulaConfirmation";
     public static final String INVALID_NUMBER_BUTTONS = "invalidNumberButtons";

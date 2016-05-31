@@ -11,15 +11,14 @@ import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.importer.IbuttonDataImporter;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
-import temperatus.model.pojo.Measurement;
-import temperatus.model.pojo.Mission;
-import temperatus.model.pojo.Project;
-import temperatus.model.pojo.Record;
+import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Export all project data to excel
@@ -44,13 +43,14 @@ public class ProjectExporter extends AbstractExporter {
             for (Mission mission : project.getMissions()) {
                 XSSFSheet missionSheet = wb.createSheet(mission.getName());
                 XSSFRow headerRow = missionSheet.createRow(0);      // Date-Time or Index of the measurement
+                HashMap<Record, List<Measurement>> dataMap = new HashMap<>();
 
                 int row = 1;
-                for (Record record : mission.getRecords()) {
+                List<Record> records = mission.getRecords().stream().sorted((o1, o2) -> o1.getPosition().getPlace().compareTo(o2.getPosition().getPlace())).collect(Collectors.toList());
+                for (Record record : records) {
                     logger.debug("Exporting data for record: " + record);
 
                     XSSFRow dataRow = missionSheet.createRow(row);
-
                     XSSFCell device = dataRow.createCell(0);
                     device.setCellValue(record.getPosition().getPlace());
 
@@ -58,6 +58,25 @@ public class ProjectExporter extends AbstractExporter {
                     List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(measurements, 1);
 
                     exportMission(toExport, dataRow, unit, headerRow, row);
+                    row++;
+                    dataMap.put(record, toExport);
+                }
+
+                /**
+                 * Calculate formulas
+                 */
+                List<Formula> formulas = mission.getFormulas().stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList());
+                for (Formula formula : formulas) {
+                    logger.debug("Exporting data for formula: " + formula);
+
+                    List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, 1);
+
+                    XSSFRow dataRow = missionSheet.createRow(row);
+                    XSSFCell device = dataRow.createCell(0);
+                    device.setCellValue(formula.getName());
+
+                    exportFormula(measurements, dataRow, unit, row);
+
                     row++;
                 }
             }

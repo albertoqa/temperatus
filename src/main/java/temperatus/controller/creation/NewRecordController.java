@@ -166,6 +166,10 @@ public class NewRecordController extends AbstractCreationController implements I
         defaultPositions = FXCollections.observableArrayList(game.getPositions());   // Get default positions fot the game
         positions = FXCollections.observableArrayList(positionService.getAll());     // Pre-load all positions from db
 
+        // Sort positions and defaultPositions
+        defaultPositions.sort((o1, o2) -> o1.getPlace().compareTo(o2.getPlace()));
+        positions.sort((o1, o2) -> o1.getPlace().compareTo(o2.getPlace()));
+
         // We need to save as many files as numOfButtons has the game
         filesToSave = new File[game.getNumButtons()];
 
@@ -918,7 +922,11 @@ public class NewRecordController extends AbstractCreationController implements I
                 } catch (Exception e) {
                     logger.error("Error saving or analyzing data: " + e.getMessage());
                     Platform.runLater(() -> {
-                        showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        if(e.getMessage() != null) {
+                            showAlert(Alert.AlertType.ERROR, e.getMessage());
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, language.get(Lang.EMPTY_FILES_LAST));
+                        }
                         stackPane.getChildren().remove(stackPane.getChildren().size() - 1); // remove the progress indicator
                         anchorPane.setDisable(false);
                         mission.getRecords().clear();

@@ -59,6 +59,8 @@ public class MissionExporter extends AbstractExporter {
             /**
              * Calculate independent positions first
              */
+            records.sort((o1, o2) -> o1.getPosition().getPlace().compareTo(o2.getPosition().getPlace()));
+
             int row = 1;
             for (Record record : records) {
                 logger.debug("Exporting data for record: " + record);
@@ -88,6 +90,8 @@ public class MissionExporter extends AbstractExporter {
             /**
              * Calculate formulas
              */
+            formulas.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
             for (Formula formula : formulas) {
                 logger.debug("Exporting data for formula: " + formula);
 
