@@ -16,6 +16,7 @@ import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.VistaNavigator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,9 +91,10 @@ public class MissionExporter extends AbstractExporter {
             /**
              * Calculate formulas
              */
-            formulas.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            List<Formula> f = new ArrayList<>(formulas);
+            f.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
-            for (Formula formula : formulas) {
+            for (Formula formula : f) {
                 logger.debug("Exporting data for formula: " + formula);
 
                 List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
@@ -125,7 +127,8 @@ public class MissionExporter extends AbstractExporter {
             VistaNavigator.showAlertAndWait(Alert.AlertType.INFORMATION, Language.getInstance().get(Lang.SUCCESSFULLY_EXPORTED));
 
         } catch (Exception ex) {
-            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
+            logger.error("Error exporting data: " + ex);
+            VistaNavigator.showAlertAndWait(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
         }
         return wb;
     }

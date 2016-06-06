@@ -81,7 +81,7 @@ public class ProjectExporter extends AbstractExporter {
                 }
             }
         } catch (Exception ex) {
-            VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
+            VistaNavigator.showAlertAndWait(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_EXPORTING_DATA));
         }
         return wb;
 
