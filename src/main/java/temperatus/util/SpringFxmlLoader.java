@@ -1,6 +1,8 @@
 package temperatus.util;
 
 import javafx.fxml.FXMLLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -15,6 +17,7 @@ import java.net.URL;
 public class SpringFxmlLoader {
 
     private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringApplicationConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(SpringFxmlLoader.class.getName());
 
     private Object controller = null;       // controller of the last loaded view
 
@@ -33,6 +36,7 @@ public class SpringFxmlLoader {
             controller = loader.getController();
             return r;
         } catch (IOException ioException) {
+            logger.error("Error loading controller: " + url);
             throw new RuntimeException(ioException);
         }
     }

@@ -23,6 +23,7 @@ public class DeviceMissionDisableTask extends DeviceTask {
             return disableMission();
 
         } catch (InterruptedException e) {
+            logger.error("Error with the semaphore in DeviceMissionDisableTask");
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();

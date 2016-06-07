@@ -59,6 +59,7 @@ public class HistoryViewController implements Initializable, AbstractController 
                 historyContent.appendText(line + Constants.NEW_LINE);
             }
         } catch (IOException e) {
+            logger.error("Error reading history file.");
             VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_READING_HISTORY));
         }
     }

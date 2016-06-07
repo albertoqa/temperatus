@@ -45,6 +45,7 @@ public class DeviceDetectorTask implements Runnable {
             searchForDevices();
 
         } catch (InterruptedException e) {
+            logger.error("Error with the semaphore in DeviceDetectorTask");
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();

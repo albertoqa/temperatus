@@ -298,6 +298,7 @@ public class MissionLineChart implements Initializable, AbstractController {
                 try {
                     ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
                 } catch (IOException e) {
+                    logger.error("Error saving image of the chart - Mission Line Chart");
                     showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_SAVING_IMAGE));
                 }
             }

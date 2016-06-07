@@ -142,6 +142,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             LocalDateTime dateEnd = DateUtils.asLocalDateTime(getStartDate()).plusSeconds(getStart());
             infoArea.setText(language.get(Lang.WITH_CURRENT_CONF) + Constants.SPACE + capacity + Constants.SPACE + language.get(Lang.MEMORY_FULL) + Constants.SPACE + dateEnd.toString());
         } catch (Exception e) {
+            logger.error("Mission configuration is not valid. " + Lang.INVALID_CURRENT_CONF);
             infoArea.setText(language.get(Lang.INVALID_CURRENT_CONF));
         }
     }

@@ -90,6 +90,7 @@ abstract class AbstractActivationController {
             url = new URL(Constants.PROJECT_WEB);
             Browser.openWebPage(url.toURI());
         } catch (MalformedURLException | URISyntaxException e) {
+            logger.error("Error opening the browser to activate the program.");
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
         }
     }

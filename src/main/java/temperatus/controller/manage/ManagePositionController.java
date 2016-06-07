@@ -82,6 +82,7 @@ public class ManagePositionController implements Initializable, AbstractControll
                     try {
                         imageView.setImage(new Image(FILE + position.getPicture()));
                     } catch (Exception ex) {
+                        logger.error("Error loading image for position.");
                         imageView.setImage(new Image(DEFAULT_IMAGE));
                     }
                 }

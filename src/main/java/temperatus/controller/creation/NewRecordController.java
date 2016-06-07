@@ -758,6 +758,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 return new IbuttonDataImporter(filesToSave[index]);
             } catch (ControlledTemperatusException e) {
                 int row = index + 1;
+                logger.error("Error importing data for row " + row);
                 throw new ControlledTemperatusException(language.get(Lang.INDEX) + ": " + row + "   " + language.get(Lang.PROCESSING_ERROR) + "  " + e.getMessage());
             }
         }
@@ -828,6 +829,7 @@ public class NewRecordController extends AbstractCreationController implements I
             IbuttonDataImporter ibuttonDataImporter = new IbuttonDataImporter(new File(record.getDataPath()));
             measurements = ibuttonDataImporter.getMeasurements();
         } catch (ControlledTemperatusException e) {
+            logger.error("Error reading data... for already saved record");
             throw new ControlledTemperatusException(language.get(Lang.ERROR_READING_DATA));
         }
 

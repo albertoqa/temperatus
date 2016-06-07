@@ -3,6 +3,8 @@ package temperatus.controller.button;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import temperatus.calculator.Calculator;
 import temperatus.exception.ControlledTemperatusException;
@@ -73,6 +75,8 @@ public abstract class AbstractStartDeviceMissionController {
     private static final int START_NOW = 4;
 
     private static final int MAX_NUMBER_FOR_RATE_INPUT = 20;
+
+    private static Logger logger = LoggerFactory.getLogger(AbstractStartDeviceMissionController.class.getName());
 
     /**
      * Initialize all the elements of the view
@@ -160,8 +164,10 @@ public abstract class AbstractStartDeviceMissionController {
 
             configuration.setObservations(observationsArea.getText());
         } catch (ControlledTemperatusException ex) {
+            logger.error("ControlledTemperatusException in line 167 of AbstractStartDeviceMissionController");
             throw ex;
         } catch (Exception e) {
+            logger.error("Invalid input number in AbstractStartDeviceMissionController");
             throw new ControlledTemperatusException(language.get(Lang.INVALID_INPUT_NUMBER));
         }
     }
@@ -212,6 +218,7 @@ public abstract class AbstractStartDeviceMissionController {
                 }
 
             } catch (Exception ex) {
+                logger.error("Error loading configuration: " + ex);
                 ex.printStackTrace();
             }
         } else {
@@ -252,6 +259,7 @@ public abstract class AbstractStartDeviceMissionController {
         try {
             return (int) (Constants.dateTimeFormat.parse(d).getTime() - new Date().getTime()) / 1000;
         } catch (ParseException e) {
+            logger.error("Error parsing date: " + e);
             throw new ControlledTemperatusException(language.get(Lang.ERROR_PARSE_DATE));
         }
     }

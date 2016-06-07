@@ -91,6 +91,7 @@ public abstract class DeviceTask implements Callable {
             logger.debug("Adapter is exclusive now");
 
         } catch (OneWireException e) {
+            logger.error("Error while setting up Container/Adapter: " + e.getMessage());
             throw new ControlledTemperatusException("Error while setting up Container/Adapter.  " + e.getMessage());
         }
 

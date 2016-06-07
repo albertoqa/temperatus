@@ -238,6 +238,7 @@ public class BaseController implements Initializable, AbstractController, Device
                 parentPane.setDisable(false);
                 startDeviceScanTask();
             } catch (ControlledTemperatusException e) {
+                logger.error("BaseController: " + e.getMessage());
                 showAlert(Alert.AlertType.ERROR, e.getMessage());
             } catch (ConstraintViolationException ex) {
                 logger.warn("Duplicate entry");

@@ -84,6 +84,7 @@ public class DeviceReadTask extends DeviceTask {
             }
 
         } catch (InterruptedException e) {
+            logger.error("Error with the semaphore in DeviceReadTask");
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();

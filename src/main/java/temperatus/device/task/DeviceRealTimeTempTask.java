@@ -26,6 +26,7 @@ public class DeviceRealTimeTempTask extends DeviceTask {
             return getCurrentTemperature();
 
         } catch (InterruptedException e) {
+            logger.error("Error with the semaphore in DeviceRealTimeTempTask");
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();

@@ -116,6 +116,7 @@ public class SpinnerFactory {
                     // Perform the requested parsing
                     return df.parse(value).doubleValue();
                 } catch (ParseException ex) {
+                    logger.error("Error converting string to double");
                     throw new RuntimeException(ex);
                 }
             }

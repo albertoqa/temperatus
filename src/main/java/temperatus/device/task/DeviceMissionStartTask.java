@@ -27,6 +27,7 @@ public class DeviceMissionStartTask extends DeviceTask {
             return startMission();
 
         } catch (InterruptedException e) {
+            logger.error("Error with the semaphore in DeviceMissionStartTask");
             throw new IllegalStateException(e);
         } finally {
             deviceSemaphore.release();

@@ -7,6 +7,7 @@ import javafx.scene.control.IndexRange;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.slf4j.LoggerFactory;
 
 /**
  * Make Combobox editable and auto-completable
@@ -53,6 +54,7 @@ public class AutoCompleteComboBoxListener<T> {
             try {
                 sb.delete(ir.getStart(), sb.length());
             } catch (Exception ignored) {
+                LoggerFactory.getLogger(AutoCompleteComboBoxListener.class.getName()).warn("Error in AutocompleteComboBox");
             }
 
             ObservableList<T> items = comboBox.getItems();
@@ -105,6 +107,7 @@ public class AutoCompleteComboBoxListener<T> {
                     found = true;
                     break;
                 } catch (Exception ignored) {
+                    LoggerFactory.getLogger(AutoCompleteComboBoxListener.class.getName()).warn("Error in AutocompleteComboBox");
                 }
             }
         }

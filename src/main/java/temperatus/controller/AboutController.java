@@ -61,6 +61,7 @@ public class AboutController implements Initializable, AbstractController {
             url = new URL(Constants.PROJECT_WEB);
             Browser.openWebPage(url.toURI());
         } catch (MalformedURLException | URISyntaxException e) {
+            logger.error("Error opening browser to buy the program...");
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
         }
     }
