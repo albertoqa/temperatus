@@ -247,7 +247,10 @@ public class NewFormulaController extends AbstractCreationController implements 
     @FXML
     protected void save() {
 
-        if (!FormulaUtil.isValidFormula(operationArea.getText(), positionsSelector.getItems())) {
+        String operation = operationArea.getText();
+        operation = operation.replace(",", ".");
+
+        if (!FormulaUtil.isValidFormula(operation, positionsSelector.getItems())) {
             showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_FORMULA));
         } else {
             try {
@@ -259,7 +262,7 @@ public class NewFormulaController extends AbstractCreationController implements 
                 }
 
                 formula.setName(nameInput.getText());
-                formula.setOperation(operationArea.getText());
+                formula.setOperation(operation);
                 formula.setReference(referenceInput.getText());
 
                 formulaService.saveOrUpdate(formula);

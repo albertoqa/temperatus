@@ -1,8 +1,12 @@
 package temperatus.analysis;
 
+import javafx.scene.control.Alert;
+import org.slf4j.LoggerFactory;
 import temperatus.calculator.Calculator;
-import temperatus.exception.ControlledTemperatusException;
+import temperatus.lang.Lang;
+import temperatus.lang.Language;
 import temperatus.model.pojo.Position;
+import temperatus.util.VistaNavigator;
 
 import java.util.List;
 
@@ -72,7 +76,9 @@ public class FormulaUtil {
         try {
             Calculator.eval(toEval);
             return true;
-        } catch (ControlledTemperatusException ex) {
+        } catch (Exception ex) {
+            VistaNavigator.showAlertAndWait(Alert.AlertType.ERROR, Language.getInstance().get(Lang.INVALID_FORMULA));
+            LoggerFactory.getLogger(FormulaUtil.class.getName()).warn("Invalid formula: " + ex);
             return false;
         }
     }
