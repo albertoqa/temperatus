@@ -153,7 +153,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             logger.error("Error while reading the file");
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.READING_ERROR));
         } catch (ParseException e) {
-            logger.error("Error parsing the file");
+            logger.error("Error parsing the file" + e);
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.PARSE_ERROR));
         } finally {
             try {

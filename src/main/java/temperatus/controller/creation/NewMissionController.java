@@ -231,7 +231,7 @@ public class NewMissionController extends AbstractCreationController implements 
             logger.warn("Invalid input date: " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_DATE));
         } catch (ControlledTemperatusException ex) {
-            logger.warn("Exception while saving project: " + ex.getMessage());
+            logger.warn("Exception while saving mission: " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");
