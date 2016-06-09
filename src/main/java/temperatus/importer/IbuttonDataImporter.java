@@ -12,6 +12,7 @@ import temperatus.lang.Language;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
+import temperatus.util.DateUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -102,7 +103,7 @@ public class IbuttonDataImporter extends AbstractImporter {
             while (line < csvRecords.size()) {
                 CSVRecord record = csvRecords.get(line);
 
-                Date measurementDate = Constants.dateTimeCSVFormat.parse(record.get(TIMESTAMP_HEADER));
+                Date measurementDate = DateUtils.tryParse(record.get(TIMESTAMP_HEADER));
                 String unit = record.get(UNIT_HEADER);
                 Unit u = unit.equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 

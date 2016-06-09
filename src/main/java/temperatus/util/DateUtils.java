@@ -1,5 +1,7 @@
 package temperatus.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +16,11 @@ import java.util.Date;
  * Created by alberto on 23/4/16.
  */
 public class DateUtils {
+
+    /**
+     * Valid dates that the application supports.
+     */
+    private static String[] formats = {"dd/MM/yy H:mm:ss", "d-M-yy H:mm:ss", "dd-MM-yy HH:mm:ss", "d/M/yy H:mm:ss"};
 
     /**
      * Generate a LocalDate object from a Date
@@ -53,6 +60,23 @@ public class DateUtils {
      */
     public static Date asUtilDate(LocalDateTime date) {
         return date == null ? null : Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * Parse a given date. Try with all valid formats until one match, if no one match throw exception.
+     *
+     * @param date date to parse
+     * @return date element parsed
+     * @throws ParseException
+     */
+    public static Date tryParse(String date) throws ParseException {
+        for (String formatString : formats) {
+            try {
+                return new SimpleDateFormat(formatString).parse(date);
+            } catch (ParseException e) {
+            }
+        }
+        throw new ParseException("Invalid date format", 0);
     }
 
 }
