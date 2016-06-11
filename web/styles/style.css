@@ -2,6 +2,11 @@ body {
     font: 400 15px Lato, sans-serif;
     line-height: 1.8;
     color: #303840;
+    position:relative;
+}
+
+#homePage {
+  position:relative;
 }
 
 h2 {
@@ -55,14 +60,14 @@ h2 {
 
 .thumbnail {
   background-color:transparent;
-    padding: 0 0 0 0;
-    border: none;
-    border-radius: 0;
+  padding: 0 0 0 0;
+  border: none;
+  border-radius: 0;
 }
 
 .thumbnail img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .navbar {
@@ -263,9 +268,12 @@ bottom: 0;
   padding-left: 150px;
 }
 
-.content-boxes-v3 i.icon-custom {
+#customIcon {
 	margin-right: 8px;
   color: #ffffff;
+  padding: 15px 0 0 0;
+  border: none;
+  border-radius: 0;
 }
 
 .icon-background {
