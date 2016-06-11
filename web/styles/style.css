@@ -1,0 +1,289 @@
+body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #303840;
+}
+
+h2 {
+  font-size: 2.8em;
+}
+
+#intro {
+  padding: 0 0 36px 38px;
+	margin: 50px 0 20px;
+	position: relative;
+}
+
+#tex {
+  margin-top: 30px;
+  padding-left: 15px;
+  border-left: 2.5px solid #303840;
+}
+
+.jumbotron {
+    font-family: Montserrat, sans-serif;
+}
+
+.navbar {
+    font-family: Montserrat, sans-serif;
+}
+
+.jumbotron {
+    background-color: #303840;
+    color: #ffffff;
+    padding: 160px 25px 120px;
+}
+
+.container-fluid {
+    padding: 60px 50px;
+}
+
+#aboutT {
+  padding: 0px 150px 0px;
+}
+
+.bg-grey {
+    background-color: #f3f3f3;
+}
+
+@media screen and (max-width: 768px) {
+    .col-sm-4 {
+        text-align: center;
+        margin: 25px 0;
+    }
+}
+
+.thumbnail {
+  background-color:transparent;
+    padding: 0 0 0 0;
+    border: none;
+    border-radius: 0;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar {
+    margin-bottom: 0;
+    background-color: rgba(106,123,141,0.98);
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+}
+
+.navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #ef4919 !important;
+    background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+
+#customers {
+  padding: 20px 50px;
+}
+
+#customersText {
+  padding: 0px 0px 30px 0px;
+}
+
+.carousel-control.right, .carousel-control.left {
+    background-image: none;
+    color: #303840;
+}
+
+.carousel-indicators li {
+    border-color: #303840;
+}
+
+.carousel-indicators li.active {
+    background-color: #303840;
+}
+
+.carousel-indicators {
+  bottom:-40px;
+}
+
+.carousel-inner {
+   margin-bottom:45px;
+}
+
+.item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 30px 0;
+}
+
+.item span {
+    font-style: normal;
+}
+
+#contact {
+  padding: 50px 150px 50px;
+}
+
+#contactUs {
+  padding: 0px 20px 36px 38px;
+	margin: 50px 0px 20px;
+	position: relative;
+}
+
+#form {
+  padding: 0px 0px 0px 20px;
+}
+
+.panel {
+    border: 1px solid #f4511e;
+    border-radius:0;
+    transition: box-shadow 0.5s;
+}
+
+.panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+.panel-footer .btn:hover {
+    border: 1px solid #f4511e;
+    background-color: #fff !important;
+    color: #f4511e;
+}
+
+.panel-heading {
+    color: #fff !important;
+    background-color: #f4511e !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.panel-footer {
+    background-color: #fff !important;
+}
+
+.panel-footer h3 {
+    font-size: 32px;
+}
+
+.panel-footer h4 {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.panel-footer .btn {
+    margin: 15px 0;
+    background-color: #f4511e;
+    color: #fff;
+}
+
+div.circle-avatar{
+/* make it responsive */
+
+width:120px;
+height:120px;
+display:block;
+/* div height to be the same as width*/
+
+/* make it a cirkle */
+border-radius:50%;
+
+/* Centering on image`s center*/
+background-position-y: center;
+background-position-x: center;
+background-repeat: no-repeat;
+
+/* it makes the clue thing, takes smaller dimention to fill div */
+background-size: cover;
+
+/* it is optional, for making this div centered in parent*/
+margin: 0 auto;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+}
+
+#footer {
+  background-color: rgba(106,123,141,0.98);
+}
+
+#footer, #footer a, #footer a:visited {
+  font-size: 13px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 2px;
+  font-family: Lato, sans-serif;
+  padding: 0px;
+  color: #ffffff;
+  padding: 20px;
+}
+
+#footer a:hover {
+  opacity: 0.7;
+}
+
+.btn {
+  width: 200px;
+    margin: 0px;
+    background-color: #ef4919;
+    color: #fff;
+}
+
+.btn:hover {
+    border: 1px solid #303840;
+    background-color: #fff !important;
+    color: #ef4919;
+}
+
+.btn-default {
+  background-color: #303840;
+}
+
+
+#dbuttons {
+  margin-top: 40px;
+}
+
+#features {
+  padding-right: 150px;
+  padding-left: 150px;
+}
+
+.content-boxes-v3 i.icon-custom {
+	margin-right: 8px;
+  color: #ffffff;
+}
+
+.icon-background {
+    color: #6A7B8D;
+}
+
+#ff {
+  font-size: 10px;
+}
+
+.content-boxes-v3 h2 {
+	font-size: 15px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.content-boxes-v3 {
+	padding: 20px;
+  font-size: 13px;
+}
