@@ -1,4 +1,3 @@
-<div id="homePage" data-spy="scroll" data-target="#navbarA" data-offset="300">
   <nav class="navbar navbar-default navbar-fixed-top" id="navbarA">
     <div class="container">
       <div class="navbar-header">
@@ -214,7 +213,7 @@
     <script>
     $(document).ready(function(){
       // Add smooth scrolling to all links in navbar + footer link
-      $(".navbar a").on('click', function(event) {
+      $("#navbarA a").on('click', function(event) {
 
         // Make sure this.hash has a value before overriding default behavior
         if (this.hash !== "") {
@@ -238,4 +237,3 @@
       });
     })
     </script>
-  </div>

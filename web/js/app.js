@@ -1,30 +1,13 @@
 (function () {
 
-  angular.module('temperatusApp', ['ngRoute']);
+  angular.module('temperatusApp', []);
 
-  function config($routeProvider) {
-    $routeProvider
-    .when('/', {
-      templateUrl : '/web/views/main.view.html',
-      controller: 'mainCtrl',
-      controllerAs: 'vm'
-    })
-    .otherwise({redirectTo: '/'});
-  }
-
-  angular
-    .module('temperatusApp')
-    .config(['$routeProvider', config]);
-
-})();
-
-(function () {
   angular
     .module('temperatusApp')
     .controller('mainCtrl', mainCtrl);
 
-  mainCtrl.$inject = ['$scope', '$http'];
-  function mainCtrl ($scope, $http) {
+  mainCtrl.$inject = ['$scope', '$http', '$timeout'];
+  function mainCtrl ($scope, $http, $timeout) {
     var vm = this;
 
     vm.credentials = {
@@ -51,9 +34,20 @@
 
     vm.doSubmit = function() {
       vm.formError = "";
-      vm.formSuccess = "Thanks. We will get back to you as soon as possible."
-      console.log(vm.credentials);
-      $http.post('https://formspree.io/qa.alberto@gmail.com', vm.credentials);
+      $http.post('https://formspree.io/qa.alberto@gmail.com', vm.credentials)
+      .then(function successCallback(response) {
+        vm.formSuccess = "Thanks. We will get back to you as soon as possible.";
+        $timeout(function(){vm.clear()}, 7000);
+      }, function errorCallback(response) {
+        vm.formError = "Error sending the form.";
+      });
+    };
+
+    vm.clear = function() {
+      vm.formSuccess = "";
+      vm.credentials.name = "";
+      vm.credentials._replyto = "";
+      vm.credentials.comment = "";
     };
   }
 })();
