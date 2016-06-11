@@ -4,10 +4,6 @@ body {
     color: #303840;
 }
 
-#homePage {
-  position:relative;
-}
-
 h2 {
   font-size: 2.8em;
 }
@@ -50,11 +46,94 @@ h2 {
     background-color: #f3f3f3;
 }
 
-@media screen and (max-width: 768px) {
-    .col-sm-4 {
-        text-align: center;
-        margin: 25px 0;
-    }
+#windows {
+  margin-left:15px;
+}
+
+@media (max-width: 1000px) {
+  .container-fluid {
+    padding: 0px;
+  }
+  #intro {
+    padding: 0px;
+  	margin: 0px;
+  }
+  #aboutT {
+    padding: 0px 50px 0px;
+  }
+  #download {
+    padding: 0px 50px 0px;
+  }
+  #features {
+    padding: 0px 50px 0px;
+  }
+  #windows {
+    margin-left: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  #contact {
+    padding: 0px 50px 0px;
+  }
+
+  #contactUs {
+    text-align: left;
+    padding: 0px 0px 0px 0px;
+  	margin: 0px 0px 0px;
+  }
+  #form {
+    padding: 0px 0px 0px 20px;
+  }
+  #footer, #footer a {
+    font-size: 8px !important;
+    letter-spacing: 1px;
+    padding: 0px;
+  }
+  .thumbnail {
+    background-color:transparent;
+    margin: 50px 0px 50px 0px;
+    border: none;
+    border-radius: 0;
+  }
+  .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+  }
+  .navbar-header {
+      float: none;
+  }
+  .navbar-left,.navbar-right {
+      float: none !important;
+  }
+  .navbar-toggle {
+      display: block;
+  }
+  .navbar-collapse {
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .navbar-fixed-top {
+      top: 0;
+      border-width: 0 0 1px;
+  }
+  .navbar-collapse.collapse {
+      display: none!important;
+  }
+  .navbar-nav {
+      float: none!important;
+      margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+      float: none;
+  }
+  .navbar-nav>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .collapse.in{
+      display:block !important;
+  }
+
 }
 
 .thumbnail {
@@ -74,7 +153,7 @@ h2 {
     background-color: rgba(106,123,141,0.98);
     z-index: 9999;
     border: 0;
-    font-size: 12px !important;
+    font-size: 0.8em !important;
     line-height: 1.42857143 !important;
     letter-spacing: 4px;
     border-radius: 0;
@@ -242,9 +321,9 @@ bottom: 0;
 
 .btn {
   width: 200px;
-    margin: 0px;
-    background-color: #ef4919;
-    color: #fff;
+  margin: 0px;
+  background-color: #ef4919;
+  color: #fff;
 }
 
 .btn:hover {
