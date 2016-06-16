@@ -62,3 +62,6 @@ crashlytics-build.properties
 
 *.DS_STORE
 /target/*
+.sonar/*
+history.txt
+logigng.log
