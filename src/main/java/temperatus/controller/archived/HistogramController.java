@@ -8,6 +8,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.IButtonDataAnalysis;
 import temperatus.calculator.Calculator;
@@ -27,6 +28,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 6/5/16.
  */
 @Controller
+@Scope("prototype")
 public class HistogramController implements Initializable, AbstractController {
 
     @FXML private BarChart<String, Number> barChart;

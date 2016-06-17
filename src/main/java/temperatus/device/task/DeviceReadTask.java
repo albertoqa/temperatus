@@ -206,6 +206,8 @@ public class DeviceReadTask extends DeviceTask {
         deviceMissionData.setWaitingForTempAlarm(info[MISSION_WFTA]);
         deviceMissionData.setTotalMissionSamples(info[TOTAL_SAMPLES]);
         deviceMissionData.setTotalDeviceSamples(info[DEVICE_SAMPLES]);
+        deviceMissionData.setPartNumber(info[PART_NUMBER]);
+        deviceMissionData.setSerial(info[SERIAL]);
 
         return deviceMissionData;
     }
