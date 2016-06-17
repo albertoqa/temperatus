@@ -65,3 +65,4 @@ crashlytics-build.properties
 .sonar/*
 history.txt
 logigng.log
+/data/*
