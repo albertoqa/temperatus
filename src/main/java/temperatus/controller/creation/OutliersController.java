@@ -12,6 +12,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.analysis.pojo.ValidatedData;
 import temperatus.controller.AbstractController;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
  * Created by alberto on 1/5/16.
  */
 @Controller
+@Scope("prototype")
 public class OutliersController implements Initializable, AbstractController {
 
     @FXML private TableView<Measurement> tableView;

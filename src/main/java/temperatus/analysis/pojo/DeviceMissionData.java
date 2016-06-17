@@ -24,6 +24,8 @@ public class DeviceMissionData {
     private String highAlarm;               // high alarm value (if set)
     private String lowAlarm;                // low alarm value (if set)
     private String resolution;              // resolution of measurement
+    private String partNumber;              // name of the device
+    private String serial;                  // serial of the device
     private List<Measurement> measurements; // list of samples measured by the device
 
     public String getInProgress() {
@@ -136,5 +138,21 @@ public class DeviceMissionData {
 
     public void setMeasurements(List<Measurement> measurements) {
         this.measurements = measurements;
+    }
+
+    public String getPartNumber() {
+        return partNumber;
+    }
+
+    public void setPartNumber(String partNumber) {
+        this.partNumber = partNumber;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 }

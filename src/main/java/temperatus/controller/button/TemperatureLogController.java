@@ -13,11 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
 import temperatus.exporter.MissionExporter;
@@ -33,6 +36,7 @@ import temperatus.util.VistaNavigator;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -55,7 +59,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     @FXML private DateAxis dateAxis;
     @FXML private NumberAxis temperatureAxis;
 
-    private List<Measurement> measurements;
+    private DeviceMissionData deviceMissionData;
     private ObservableList<XYChart.Series<Date, Number>> series;
     private String serial;
     private String defaultPosition;
@@ -66,7 +70,6 @@ public class TemperatureLogController implements Initializable, AbstractControll
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        measurements = new ArrayList<>();
         series = FXCollections.observableArrayList();
 
         lineChart.setData(series);
@@ -75,13 +78,15 @@ public class TemperatureLogController implements Initializable, AbstractControll
     }
 
     /**
-     * Set the data to show on this view
+     * Set data to show in this view
      *
-     * @param measurements list of measurements to show
+     * @param deviceMissionData information of the device's mission
+     * @param serial serial of the device
+     * @param defaultPosition position of the device
      */
-    public void setData(List<Measurement> measurements, String serial, String defaultPosition) {
+    public void setData(DeviceMissionData deviceMissionData, String serial, String defaultPosition) {
         logger.debug("Setting data...");
-        this.measurements = measurements;
+        this.deviceMissionData = deviceMissionData;
         this.serial = serial;
         this.defaultPosition = defaultPosition;
         drawData();
@@ -100,7 +105,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 // Show the data using the preferred unit
                 Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-                measurements.stream().forEach((measurement) -> {
+                deviceMissionData.getMeasurements().stream().forEach((measurement) -> {
                     double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
                     serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
                 });
@@ -131,45 +136,127 @@ public class TemperatureLogController implements Initializable, AbstractControll
         // Only allow export if complete version of the application, trial version cannot export data
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             FileChooser fileChooser = new FileChooser();
+
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));      //Set extension filter
 
             File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
             if (file != null) {
-                // create a new mission exporter and set the data to export
-                MissionExporter missionExporter = new MissionExporter();
-
-                Record record = new Record();
-
-                if (defaultPosition != null && !defaultPosition.isEmpty()) {
-                    record.setPosition(new Position(defaultPosition));
+                // Check if user wants to export to csv or excel
+                if (file.getName().contains("csv") || file.getName().contains("CSV")) {
+                    exportToCsv(file);
                 } else {
-                    record.setPosition(new Position(serial));
+                    exportToExcel(file);
                 }
-
-                List<Record> records = new ArrayList<>();
-                records.add(record);
-
-                HashMap<Record, List<Measurement>> dataMap = new HashMap<>();
-                dataMap.put(record, measurements);
-
-                // Export the data using the preferred unit
-                Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
-
-                // period = 1, no formulas and no all records needed
-                missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
-
-                XSSFWorkbook workBook = missionExporter.export();
-
-                FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
-                workBook.write(fileOut);
-                fileOut.close();
             }
             //back();      // close the window
         } else {
             VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
+
+    /**
+     * Export the device information to excel
+     *
+     * @param file file to write to
+     * @throws IOException
+     */
+    private void exportToExcel(File file) throws IOException {
+        // create a new mission exporter and set the data to export
+        MissionExporter missionExporter = new MissionExporter();
+
+        Record record = new Record();
+
+        if (defaultPosition != null && !defaultPosition.isEmpty()) {
+            record.setPosition(new Position(defaultPosition));
+        } else {
+            record.setPosition(new Position(serial));
+        }
+
+        List<Record> records = new ArrayList<>();
+        records.add(record);
+
+        HashMap<Record, List<Measurement>> dataMap = new HashMap<>();
+        dataMap.put(record, deviceMissionData.getMeasurements());
+
+        // Export the data using the preferred unit
+        Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
+
+        // period = 1, no formulas and no all records needed
+        missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
+
+        XSSFWorkbook workBook = missionExporter.export();
+
+        FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
+        workBook.write(fileOut);
+        fileOut.close();
+    }
+
+    /**
+     * Export device's data to csv
+     *
+     * @param file file to write to
+     */
+    private void exportToCsv(File file) {
+        FileWriter fileWriter = null;
+        CSVPrinter csvFilePrinter = null;
+        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");
+
+        try {
+            logger.info("Writing csv");
+
+            fileWriter = new FileWriter(file);
+            csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
+
+            csvFilePrinter.printRecord("1-Wire/iButton Part Number: " + deviceMissionData.getPartNumber());
+            csvFilePrinter.printRecord("1-Wire/iButton Registration Number: " + deviceMissionData.getSerial());
+            csvFilePrinter.printRecord("Mission in Progress?  " + deviceMissionData.getInProgress());
+            csvFilePrinter.printRecord("SUTA Mission?  " + deviceMissionData.getIsSuta());
+            csvFilePrinter.printRecord("Waiting for Temperature Alarm?  " + deviceMissionData.getWaitingForTempAlarm());
+            csvFilePrinter.printRecord("Sample Rate:  " + deviceMissionData.getSampleRate());
+            csvFilePrinter.printRecord("Mission Start Time:  " + deviceMissionData.getMissionStartTime());
+            csvFilePrinter.printRecord("Mission Sample Count:  " + deviceMissionData.getMissionSampleCount());
+            csvFilePrinter.printRecord("Roll Over Enabled?  " + deviceMissionData.getRollOverEnabled());
+            csvFilePrinter.printRecord("First Sample Timestamp:  " + deviceMissionData.getFirstSampleTime());
+            csvFilePrinter.printRecord("Total Mission Samples:  " + deviceMissionData.getTotalMissionSamples());
+            csvFilePrinter.printRecord("Total Device Samples:  " + deviceMissionData.getTotalDeviceSamples());
+            csvFilePrinter.printRecord("Temperature Logging:  " + deviceMissionData.getResolution());
+            csvFilePrinter.printRecord("Temperature High Alarm:  " + deviceMissionData.getLowAlarm());
+            csvFilePrinter.printRecord("Temperature Low Alarm:  " + deviceMissionData.getHighAlarm());
+
+            csvFilePrinter.println();
+
+            Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
+            csvFilePrinter.printRecord(FILE_HEADER);
+
+            if (deviceMissionData.getMeasurements() != null) {
+                for (Measurement measurement : deviceMissionData.getMeasurements()) {
+                    List<String> m = new ArrayList<>();
+                    m.add(Constants.dateTimeFormat.format(measurement.getDate()));
+                    m.add(String.valueOf(Unit.C));
+                    m.add(String.valueOf(measurement.getData()));
+                    csvFilePrinter.printRecord(m);
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error("Error in CsvFileWriter: " + e.getMessage());
+        } finally {
+            try {
+                if (fileWriter != null) {
+                    fileWriter.flush();
+                    fileWriter.close();
+                }
+                if (csvFilePrinter != null) {
+                    csvFilePrinter.close();
+                }
+            } catch (IOException e) {
+                logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
+            }
+        }
+    }
+
 
     /**
      * Close the window and go back to the previous screen
