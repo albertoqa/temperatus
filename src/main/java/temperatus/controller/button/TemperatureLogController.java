@@ -137,8 +137,10 @@ public class TemperatureLogController implements Initializable, AbstractControll
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             FileChooser fileChooser = new FileChooser();
 
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));      //Set extension filter
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
+
+            fileChooser.setInitialFileName(deviceMissionData.getSerial());
 
             File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
