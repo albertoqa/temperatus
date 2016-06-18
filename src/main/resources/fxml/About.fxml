@@ -4,45 +4,59 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="506.0" minWidth="-Infinity" prefHeight="506.0" prefWidth="675.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
+<?import javafx.scene.text.*?>
+<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="397.0" minWidth="-Infinity" prefHeight="497.0" prefWidth="437.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
    <children>
-      <AnchorPane prefHeight="560.0" prefWidth="741.0">
+      <AnchorPane prefHeight="472.0" prefWidth="437.0">
          <children>
-            <AnchorPane prefHeight="139.0" prefWidth="675.0" styleClass="grayBack" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="buyPane" layoutY="157.0" prefHeight="73.0" prefWidth="437.0" style="-fx-border-color: #cccccc;" styleClass="grayBack" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ImageView fitHeight="103.0" fitWidth="310.0" layoutX="351.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="351.0">
-                     <image>
-                        <Image url="@../images/temperatus.png" />
-                     </image>
-                  </ImageView>
-                  <Hyperlink layoutX="33.0" layoutY="70.0" text="www.temperatus.com" />
-                  <Hyperlink layoutX="33.0" layoutY="96.0" text="suport@temperatus.com" />
+                  <Label fx:id="statusLabel" layoutX="20.0" layoutY="26.0" text="You are using the trial version.">
+                     <font>
+                        <Font name="Avenir Roman" size="13.0" />
+                     </font></Label>
+                  <Button fx:id="buyButton" layoutX="232.0" layoutY="21.0" mnemonicParsing="false" onAction="#buy" styleClass="cbtn" text="Buy" />
+                  <Button fx:id="activateButton" layoutX="324.0" layoutY="21.0" mnemonicParsing="false" onAction="#activate" styleClass="cbtn" text="Activate" />
                </children>
             </AnchorPane>
-            <Label layoutX="47.0" layoutY="179.0" text="Temperatus Version:">
+            <Hyperlink fx:id="linkToWeb" layoutX="21.0" layoutY="392.0" text="www.temperatus.albertoquesada.com">
                <font>
-                  <Font name="Avenir Heavy" size="13.0" />
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Hyperlink>
+            <ImageView fitHeight="151.0" fitWidth="368.0" layoutX="39.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="39.0">
+               <image>
+                  <Image url="@../images/temperatus.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="contactLabel" layoutX="21.0" layoutY="373.0" text="To contact us please use the contact form in the web page.">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="187.0" layoutY="179.0" text="1.0">
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="70.0" layoutY="264.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons/help.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="21.0" layoutY="442.0" text="Temperatus Version:">
                <font>
-                  <Font name="Avenir Heavy" size="13.0" />
+                  <Font name="Avenir Roman" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="39.0" layoutY="467.0" text="Copyright © 2016-2017 by Alberto Quesada. All rights reserved.">
+            <Label layoutX="152.0" layoutY="442.0" text="1.0">
                <font>
-                  <Font name="Avenir Heavy" size="13.0" />
+                  <Font name="Avenir Roman" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="534.0" layoutY="463.0" mnemonicParsing="false" prefWidth="127.0" styleClass="cbtn" text="Close" />
-            <AnchorPane layoutX="39.0" layoutY="314.0" prefHeight="139.0" prefWidth="396.0" style="-fx-border-color: #cccccc;">
-               <children>
-                  <Label layoutX="20.0" layoutY="26.0" text="You are using the trial version." />
-                  <Button fx:id="buyButton" onAction="#buy" layoutX="232.0" layoutY="21.0" mnemonicParsing="false" text="Buy" />
-                  <Button fx:id="activateButton" onAction="#activate" layoutX="232.0" layoutY="51.0" mnemonicParsing="false" text="Activate" />
-               </children>
-            </AnchorPane>
+            <Label layoutX="21.0" layoutY="461.0" text="Copyright © 2016-2017 Alberto Quesada. All rights reserved.">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Label>
+            <Separator layoutY="353.0" prefHeight="8.0" prefWidth="437.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label layoutX="67.0" layoutY="309.0" text="Manual" />
+            <Button fx:id="openManual" onAction="#openUserManual" layoutX="62.0" layoutY="265.0" mnemonicParsing="false" opacity="0.0" prefHeight="62.0" prefWidth="55.0" />
          </children>
       </AnchorPane>
    </children>

@@ -299,6 +299,10 @@ public class Lang {
     public static final String EMPTY_TABLE_POSITIONS = "emptyTablePositions";
     public static final String EMPTY_TABLE_SUBJECTS = "emptyTableSubjects";
 
+    public static final String STATUS_INACTIVE = "statusInactive";
+    public static final String STATUS_ACTIVATED = "statusActivated";
+    public static final String CONTACT_LABEL = "contactLabel";
+
     // Mission exporter
     public static final String ERROR_CALCULATING_FORMULA = "errorCalcFormula";
     public static final String ERROR_EXPORTING_DATA = "errorExportingData";

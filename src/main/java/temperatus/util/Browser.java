@@ -1,13 +1,18 @@
 package temperatus.util;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.lang.Lang;
 import temperatus.lang.Language;
 
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Open the default web browser and load a url
@@ -36,6 +41,22 @@ public class Browser {
             logger.error("Error opening default browser... desktop is null or not supported.");
             VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
         }
+    }
+
+    /**
+     * Set an action to the given hyperlink to open the project web page
+     *
+     * @param linkToWeb hyperlink
+     */
+    public static void openTemperatusPage(Hyperlink linkToWeb) {
+        linkToWeb.setOnAction((ActionEvent e) -> {
+            try {
+                Browser.openWebPage(new URL(Constants.PROJECT_WEB).toURI());
+            } catch (URISyntaxException | MalformedURLException e1) {
+                logger.warn("Malformed URL");
+                VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
+            }
+        });
     }
 
 }

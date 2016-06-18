@@ -1,9 +1,7 @@
 package temperatus.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
@@ -12,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.lang.Lang;
 import temperatus.util.Browser;
 import temperatus.util.Constants;
-import temperatus.util.VistaNavigator;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,15 +37,7 @@ public class HomeController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        linkToWeb.setOnAction((ActionEvent e) -> {
-            try {
-                Browser.openWebPage(new URL(Constants.PROJECT_WEB).toURI());
-            } catch (URISyntaxException | MalformedURLException e1) {
-                logger.warn("Malformed URL");
-                VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.ERROR_BROWSER));
-            }
-        });
-
+        Browser.openTemperatusPage(linkToWeb);
         //Constants.prefs.putBoolean(Constants.ACTIVATED, false);
     }
 

@@ -13,7 +13,7 @@
             <Image url="@../images/splash.png" />
          </image>
       </ImageView>
-      <Label fx:id="webPage" layoutX="440.0" layoutY="257.0" text="www.temperatus.com" textFill="WHITE">
+      <Label fx:id="webPage" layoutX="313.0" layoutY="257.0" prefHeight="19.0" prefWidth="252.0" text="www.temperatus.com" textAlignment="RIGHT" textFill="WHITE">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Label>

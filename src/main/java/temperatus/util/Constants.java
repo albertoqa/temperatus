@@ -13,8 +13,8 @@ import java.util.prefs.Preferences;
 public class Constants {
 
     public static final String VERSION = "Version 1.0";
-    public static final String WEB = "www.temperatus.com";
-    public static final String PROJECT_WEB = "http://albertoqa.github.io/temperatusWeb/";
+    public static final String WEB = "www.temperatus.albertoquesada.com";
+    public static final String PROJECT_WEB = "http://temperatus.albertoquesada.com";
 
     public static final String ICON_BAR = "/images/icon_bar.png";
 
