@@ -37,7 +37,7 @@ public class HomeController implements Initializable, AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         translate();
 
-        Browser.openTemperatusPage(linkToWeb);
+        Browser.openWebPage(linkToWeb, Constants.PROJECT_WEB);
         //Constants.prefs.putBoolean(Constants.ACTIVATED, false);
     }
 

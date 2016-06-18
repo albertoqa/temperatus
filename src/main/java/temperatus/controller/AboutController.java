@@ -44,6 +44,10 @@ public class AboutController implements Initializable, AbstractController {
 
     @FXML private Button openManual;
 
+    @FXML private Hyperlink icons8;
+    @FXML private Hyperlink human;
+    @FXML private Hyperlink license;
+
     private static final String CHECKOUT_IMAGE = "/images/icon/checkout.png";
 
     private static Logger logger = LoggerFactory.getLogger(AboutController.class.getName());
@@ -68,7 +72,10 @@ public class AboutController implements Initializable, AbstractController {
             statusLabel.setText(language.get(Lang.STATUS_INACTIVE));
         }
 
-        Browser.openTemperatusPage(linkToWeb);
+        Browser.openWebPage(linkToWeb, Constants.PROJECT_WEB);
+        Browser.openWebPage(icons8, "https://icons8.com");
+        Browser.openWebPage(human, "https://clara.io/view/d49ee603-8e6c-4720-bd20-9e3d7b13978a/image");
+        Browser.openWebPage(license, "http://creativecommons.org/licenses/by/3.0/");
     }
 
     /**

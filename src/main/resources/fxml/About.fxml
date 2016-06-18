@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="397.0" minWidth="-Infinity" prefHeight="497.0" prefWidth="437.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
+<StackPane id="/fxml/About.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="397.0" minWidth="-Infinity" prefHeight="598.0" prefWidth="437.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.AboutController">
    <children>
       <AnchorPane prefHeight="472.0" prefWidth="437.0">
          <children>
@@ -56,7 +56,14 @@
             </Label>
             <Separator layoutY="353.0" prefHeight="8.0" prefWidth="437.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label layoutX="67.0" layoutY="309.0" text="Manual" />
-            <Button fx:id="openManual" onAction="#openUserManual" layoutX="62.0" layoutY="265.0" mnemonicParsing="false" opacity="0.0" prefHeight="62.0" prefWidth="55.0" />
+            <Button fx:id="openManual" layoutX="62.0" layoutY="265.0" mnemonicParsing="false" onAction="#openUserManual" opacity="0.0" prefHeight="62.0" prefWidth="55.0" />
+            <Separator layoutX="5.0" layoutY="500.0" prefHeight="8.0" prefWidth="437.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label layoutX="30.0" layoutY="517.0" text="Icons where obtained from" AnchorPane.leftAnchor="30.0" />
+            <Label layoutX="30.0" layoutY="541.0" text="Human 3D model where obtained from" AnchorPane.leftAnchor="30.0" />
+            <Label layoutX="30.0" layoutY="567.0" text="Human 3D model is released under the CC license. " />
+            <Hyperlink fx:id="icons8" layoutX="197.0" layoutY="513.0" text="Icons8." />
+            <Hyperlink fx:id="human" layoutX="269.0" layoutY="537.0" text="here." />
+            <Hyperlink fx:id="license" layoutX="347.0" layoutY="563.0" text="License." />
          </children>
       </AnchorPane>
    </children>

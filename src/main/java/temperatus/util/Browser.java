@@ -44,14 +44,14 @@ public class Browser {
     }
 
     /**
-     * Set an action to the given hyperlink to open the project web page
+     * Set an action to the given hyperlink to open the given url
      *
      * @param linkToWeb hyperlink
      */
-    public static void openTemperatusPage(Hyperlink linkToWeb) {
+    public static void openWebPage(Hyperlink linkToWeb, String url) {
         linkToWeb.setOnAction((ActionEvent e) -> {
             try {
-                Browser.openWebPage(new URL(Constants.PROJECT_WEB).toURI());
+                Browser.openWebPage(new URL(url).toURI());
             } catch (URISyntaxException | MalformedURLException e1) {
                 logger.warn("Malformed URL");
                 VistaNavigator.showAlert(Alert.AlertType.ERROR, Language.getInstance().get(Lang.ERROR_BROWSER));
