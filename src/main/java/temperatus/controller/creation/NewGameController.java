@@ -93,11 +93,13 @@ public class NewGameController extends AbstractCreationController implements Ini
     private static final String FRONT_IMAGE = "/images/frontBody.png";
     private static final String BACK_IMAGE = "/images/backBody.png";
     private static final String LAT_IMAGE = "/images/lateralBody.png";
+    private static final String LAT_IMAGER = "/images/lateralBodyR.png";
     private static final String DEFAULT_IMAGE = "/images/noimage.jpg";
 
     private static final String BACK = "back";
     private static final String FRONT = "front";
-    private static final String LAT = "lateral";
+    private static final String LAT = "lateralL";
+    private static final String LATR = "lateralR";
 
     private static final int MAX_DIGITS_FOR_NUM_BUTTONS = 3;
 
@@ -110,6 +112,7 @@ public class NewGameController extends AbstractCreationController implements Ini
         images.add(new Image(FRONT_IMAGE));
         images.add(new Image(BACK_IMAGE));
         images.add(new Image(LAT_IMAGE));
+        images.add(new Image(LAT_IMAGER));
 
         imageView.setImage(images.get(0));
         selectedImage = 0;
@@ -327,6 +330,9 @@ public class NewGameController extends AbstractCreationController implements Ini
             case 2:
                 fileName = fileName.replace("$", LAT);
                 break;
+            case 3:
+                fileName = fileName.replace("$", LATR);
+                break;
             default:
                 break;
         }
@@ -360,6 +366,9 @@ public class NewGameController extends AbstractCreationController implements Ini
                 break;
             case 2:
                 imageView.setImage(new Image(LAT_IMAGE));
+                break;
+            case 3:
+                imageView.setImage(new Image(LAT_IMAGER));
                 break;
             default:
                 imageView.setImage(new Image(DEFAULT_IMAGE));

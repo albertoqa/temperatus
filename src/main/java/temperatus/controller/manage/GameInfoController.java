@@ -51,8 +51,8 @@ public class GameInfoController implements Initializable, AbstractController {
 
     private static final String BACK = "back";
     private static final String FRONT = "front";
-    private static final String LAT_R = "lateral";
     private static final String LAT_L = "lateralL";
+    private static final String LAT_R = "lateralR";
 
     private static final String COMMA = ", ";
     private static final String FILE = "file:";
@@ -87,6 +87,8 @@ public class GameInfoController implements Initializable, AbstractController {
                         imFront.setImage(im);
                     } else if (image.getPath().contains(LAT_R)) {
                         imLat.setImage(im);
+                    } else if(image.getPath().contains(LAT_L)) {
+                        imLat2.setImage(im);
                     } else {
                         imBack.setImage(im);
                     }
