@@ -142,7 +142,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             LocalDateTime dateEnd = DateUtils.asLocalDateTime(getStartDate()).plusSeconds(getStart());
             infoArea.setText(language.get(Lang.WITH_CURRENT_CONF) + Constants.SPACE + capacity + Constants.SPACE + language.get(Lang.MEMORY_FULL) + Constants.SPACE + dateEnd.toString());
         } catch (Exception e) {
-            logger.error("Mission configuration is not valid. " + Lang.INVALID_CURRENT_CONF);
+            logger.error("Mission configuration is not valid. " + e.getMessage());
             infoArea.setText(language.get(Lang.INVALID_CURRENT_CONF));
         }
     }
@@ -212,6 +212,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
         Configuration configuration = new Configuration();
         try {
             generateConfiguration(configuration);  // current configuration options
+            logger.warn("Generate configuration valid  " + configuration.getDelay());
             for (Device device : deviceCheckListView.getCheckModel().getCheckedItems()) {     // apply configuration to all selected devices
                 DeviceMissionStartTask deviceMissionStartTask = new DeviceMissionStartTask();   // read from device task
 
@@ -220,6 +221,7 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
                 ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionStartTask);
                 startProgressIndicator();
 
+                logger.warn("Right now we are at history point" + configuration.getDelay());
                 history.info(User.getUserName() + Constants.SPACE + language.get(Lang.START_MISSION_HISTORY) + Constants.SPACE + device.getAlias());
 
                 Futures.addCallback(future, new FutureCallback<Boolean>() {

@@ -164,7 +164,7 @@ public abstract class AbstractStartDeviceMissionController {
 
             configuration.setObservations(observationsArea.getText());
         } catch (ControlledTemperatusException ex) {
-            logger.error("ControlledTemperatusException in line 167 of AbstractStartDeviceMissionController");
+            logger.error("ControlledTemperatusException in line 167 of AbstractStartDeviceMissionController" + ex.getMessage());
             throw ex;
         } catch (Exception e) {
             logger.error("Invalid input number in AbstractStartDeviceMissionController");
@@ -239,6 +239,7 @@ public abstract class AbstractStartDeviceMissionController {
             delay = delayInput.getValue();
         } else if (onDateCheck.isSelected()) {
             delay = calculateDateDelay(dateInput.getText());
+            logger.warn("Configured device for start at: " + dateInput.getText() + "\nThe current date is: " + new Date().getTime() + "\nThe calculated delay is: " + delay);
         } else {
             delay = onAlarmDelayInput.getValue();
         }

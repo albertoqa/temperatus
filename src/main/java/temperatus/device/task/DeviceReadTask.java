@@ -181,7 +181,7 @@ public class DeviceReadTask extends DeviceTask {
             info[SERIAL] = ((OneWireContainer41) mContainer).getAddressAsString();
 
         } catch (Exception e) {
-            logger.error("Cannot start mission: " + e.getMessage());
+            logger.error("Cannot read mission: " + e.getMessage());
         } finally {
             releaseAdapter();
         }
