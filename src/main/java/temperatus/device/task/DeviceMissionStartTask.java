@@ -83,6 +83,20 @@ public class DeviceMissionStartTask extends DeviceTask {
 
             boolean[] channelEnabled = {configuration.getChannelEnabledC1(), configuration.getChannelEnabledC2()};
 
+            logger.warn("Information prev to start mission: ");
+            logger.warn("Rate: " + configuration.getRate());
+            logger.warn("Delay: " + configuration.getDelay());
+            logger.warn("RollOver: " + configuration.isRollover());
+            logger.warn("SyncTime: " + configuration.isSyncTime());
+            logger.warn("ChannelEnabled: " + channelEnabled);
+            logger.warn("EnableAlarmC1: " + configuration.getEnableAlarmC1());
+            logger.warn("HighAlarmC1: " + configuration.getHighAlarmC1());
+            logger.warn("LowArarmC1: " + configuration.getLowAlarmC1());
+            logger.warn("ResolutionC1: " + configuration.getResolutionC1());
+            logger.warn("EnableAlarmC2: " + configuration.getEnableAlarmC2());
+            logger.warn("HighAlarmC2: " + configuration.getHighAlarmC2());
+            logger.warn("LowArarmC2: " + configuration.getLowAlarmC2());
+            logger.warn("ResolutionC2: " + configuration.getResolutionC2());
             ((OneWireContainer41) missionContainer).setStartUponTemperatureAlarmEnable(configuration.isSuta() && anyAlarmsEnabled);
             missionContainer.startNewMission(configuration.getRate(), configuration.getDelay(), configuration.isRollover(), configuration.isSyncTime(), channelEnabled);
 

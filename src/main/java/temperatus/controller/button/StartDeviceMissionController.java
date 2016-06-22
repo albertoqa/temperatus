@@ -99,12 +99,12 @@ public class StartDeviceMissionController extends AbstractStartDeviceMissionCont
             }
         });
 
-        resolutionBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateInformation());
-        dateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
-        rateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
-        onAlarmDelayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
-        delayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
-        startGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //resolutionBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //dateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //rateInput.textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //onAlarmDelayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //delayInput.getEditor().textProperty().addListener((observable, oldValue, newValue) -> updateInformation());
+        //startGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> updateInformation());
         infoArea.setText(Constants.EMPTY);
 
         getAllElements();
