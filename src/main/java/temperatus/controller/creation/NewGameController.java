@@ -147,8 +147,18 @@ public class NewGameController extends AbstractCreationController implements Ini
             }
         };
 
-        getPositionsTask.setOnSucceeded(e -> positionsList.getItems().addAll(getPositionsTask.getValue()));
-        getFormulasTask.setOnSucceeded(e -> formulasList.getItems().addAll(getFormulasTask.getValue()));
+        getPositionsTask.setOnSucceeded(e -> {
+            positionsList.getItems().addAll(getPositionsTask.getValue());
+            for (Position position : game.getPositions()) {
+                positionsList.getCheckModel().check(position);    // check game's positions
+            }
+        });
+        getFormulasTask.setOnSucceeded(e -> {
+            formulasList.getItems().addAll(getFormulasTask.getValue());
+            for (Formula formula : game.getFormulas()) {
+                formulasList.getCheckModel().check(formula);    // check game's formulas
+            }
+        });
 
         // run the tasks using a thread from the thread pool:
         databaseExecutor.submit(getPositionsTask);
