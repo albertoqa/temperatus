@@ -80,7 +80,15 @@ public class GameInfoController implements Initializable, AbstractController {
     private void loadData() {
         try {
             for (Image image : game.getImages()) {
-                javafx.scene.image.Image im = new javafx.scene.image.Image(FILE + image.getPath());
+
+                String path = image.getPath();
+                javafx.scene.image.Image im;
+
+                if(path.startsWith("/images/")) {
+                    im = new javafx.scene.image.Image(path);
+                } else {
+                    im = new javafx.scene.image.Image(FILE + image.getPath());
+                }
 
                 if (!im.errorProperty().getValue()) {
                     if (image.getPath().contains(FRONT)) {
