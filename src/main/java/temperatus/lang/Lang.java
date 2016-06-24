@@ -347,6 +347,7 @@ public class Lang {
 
     public static final String CANNOT_SAVE_IMAGE = "cannotSaveImage";
     public static final String CANNOT_DELETE_DEFAULT_CONF = "cannotDeleteDefaultConf";
+    public static final String CANNOT_DELETE_DEFAULT_GAME = "cannotDeleteDefaultGame";
 
     public static final String CANNOT_READ_TEMPERATURE_MISSION_ACTIVE = "cannotReadTemperatureMissionActive";
     public static final String CANNOT_READ_TEMPERATURE_UNKNOWN_ERROR = "cannotReadTemperatureUnknownError";

@@ -69,6 +69,8 @@ public class ManageGameController implements Initializable, AbstractController {
     private static final String COMMA = ", ";
     private static final String FILE = "file:";
 
+    private static final String DEF_TITLE = "14 ISO STANDARD 9886:2004";
+
     private static Logger logger = LoggerFactory.getLogger(ManageGameController.class.getName());
 
     @Override
@@ -136,8 +138,13 @@ public class ManageGameController implements Initializable, AbstractController {
      */
     @FXML
     private void editGame() {
-        NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
-        newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
+        if(!table.getSelectionModel().getSelectedItem().getTitle().equals(DEF_TITLE)) {
+            NewGameController newGameController = VistaNavigator.openModal(Constants.NEW_GAME, Constants.EMPTY);
+            newGameController.setGameForUpdate(table.getSelectionModel().getSelectedItem());
+        } else {
+            logger.warn("Cannot edit default game");
+            VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.CANNOT_DELETE_DEFAULT_GAME));
+        }
     }
 
     /**
