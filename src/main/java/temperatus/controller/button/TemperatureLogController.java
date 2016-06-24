@@ -63,6 +63,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
     private ObservableList<XYChart.Series<Date, Number>> series;
     private String serial;
     private String defaultPosition;
+    private String alias;
 
     private static Logger logger = LoggerFactory.getLogger(TemperatureLogController.class.getName());
 
@@ -84,11 +85,12 @@ public class TemperatureLogController implements Initializable, AbstractControll
      * @param serial serial of the device
      * @param defaultPosition position of the device
      */
-    public void setData(DeviceMissionData deviceMissionData, String serial, String defaultPosition) {
+    public void setData(DeviceMissionData deviceMissionData, String serial, String defaultPosition, String alias) {
         logger.debug("Setting data...");
         this.deviceMissionData = deviceMissionData;
         this.serial = serial;
         this.defaultPosition = defaultPosition;
+        this.alias = alias;
         drawData();
     }
 
@@ -140,7 +142,11 @@ public class TemperatureLogController implements Initializable, AbstractControll
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));      //Set extension filter
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
 
-            fileChooser.setInitialFileName(deviceMissionData.getSerial());
+            if(alias != null && !alias.isEmpty()) {
+                fileChooser.setInitialFileName(alias);
+            } else {
+                fileChooser.setInitialFileName(deviceMissionData.getSerial());
+            }
 
             File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
