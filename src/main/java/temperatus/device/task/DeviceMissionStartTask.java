@@ -100,12 +100,6 @@ public class DeviceMissionStartTask extends DeviceTask {
             ((OneWireContainer41) missionContainer).setStartUponTemperatureAlarmEnable(configuration.isSuta() && anyAlarmsEnabled);
             missionContainer.startNewMission(configuration.getRate(), configuration.getDelay(), configuration.isRollover(), configuration.isSyncTime(), channelEnabled);
 
-            logger.debug("Rate of container: " + missionContainer.getMissionSampleRate(0));
-            logger.debug("Delay of container: " + missionContainer.getMissionTimeStamp(0));
-
-            byte[] state = missionContainer.readDevice();
-            logger.debug("SyncTime of container: " + missionContainer.getClock(state));
-
             return true;
         } catch (Exception e) {
             logger.error("Cannot start mission: " + e.getMessage());
