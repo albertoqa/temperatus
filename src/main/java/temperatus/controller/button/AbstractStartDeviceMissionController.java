@@ -258,7 +258,7 @@ public abstract class AbstractStartDeviceMissionController {
      */
     private int calculateDateDelay(String d) throws ControlledTemperatusException {
         try {
-            return (int) (Constants.dateTimeFormat.parse(d).getTime() - new Date().getTime()) / 1000;
+            return (int) (Constants.dateTimeFormat.parse(d).getTime() - new Date().getTime()) / 60000;
         } catch (ParseException e) {
             logger.error("Error parsing date: " + e);
             throw new ControlledTemperatusException(language.get(Lang.ERROR_PARSE_DATE));
