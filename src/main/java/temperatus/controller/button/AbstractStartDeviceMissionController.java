@@ -236,12 +236,12 @@ public abstract class AbstractStartDeviceMissionController {
         if (immediatelyCheck.isSelected()) {
             delay = 0;
         } else if (delayCheck.isSelected()) {
-            delay = delayInput.getValue();
+            delay = Integer.valueOf(delayInput.getEditor().getText());
         } else if (onDateCheck.isSelected()) {
             delay = calculateDateDelay(dateInput.getText());
             logger.warn("Configured device for start at: " + dateInput.getText() + "\nThe current date is: " + new Date().getTime() + "\nThe calculated delay is: " + delay);
         } else {
-            delay = onAlarmDelayInput.getValue();
+            delay = Integer.valueOf(onAlarmDelayInput.getEditor().getText());
         }
 
         if (delay < 0) {

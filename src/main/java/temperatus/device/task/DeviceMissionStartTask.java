@@ -83,28 +83,8 @@ public class DeviceMissionStartTask extends DeviceTask {
 
             boolean[] channelEnabled = {configuration.getChannelEnabledC1(), configuration.getChannelEnabledC2()};
 
-            logger.debug("Information prev to start mission: ");
-            logger.debug("Rate: " + configuration.getRate());
-            logger.debug("Delay: " + configuration.getDelay());
-            logger.debug("RollOver: " + configuration.isRollover());
-            logger.debug("SyncTime: " + configuration.isSyncTime());
-            logger.debug("EnableAlarmC1: " + configuration.getEnableAlarmC1());
-            logger.debug("HighAlarmC1: " + configuration.getHighAlarmC1());
-            logger.debug("LowArarmC1: " + configuration.getLowAlarmC1());
-            logger.debug("ResolutionC1: " + configuration.getResolutionC1());
-            logger.debug("EnableAlarmC2: " + configuration.getEnableAlarmC2());
-            logger.debug("HighAlarmC2: " + configuration.getHighAlarmC2());
-            logger.debug("LowArarmC2: " + configuration.getLowAlarmC2());
-            logger.debug("ResolutionC2: " + configuration.getResolutionC2());
-
             ((OneWireContainer41) missionContainer).setStartUponTemperatureAlarmEnable(configuration.isSuta() && anyAlarmsEnabled);
             missionContainer.startNewMission(configuration.getRate(), configuration.getDelay(), configuration.isRollover(), configuration.isSyncTime(), channelEnabled);
-
-            logger.debug("Rate of container: " + missionContainer.getMissionSampleRate(0));
-            logger.debug("Delay of container: " + missionContainer.getMissionTimeStamp(0));
-
-            byte[] state = missionContainer.readDevice();
-            logger.debug("SyncTime of container: " + missionContainer.getClock(state));
 
             return true;
         } catch (Exception e) {
