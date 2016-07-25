@@ -148,6 +148,11 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 fileChooser.setInitialFileName(deviceMissionData.getSerial());
             }
 
+            // if default directory, load it
+            if(VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
+                fileChooser.setInitialDirectory(new File(VistaNavigator.directory));
+            }
+
             File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
 
             if (file != null) {
@@ -157,6 +162,9 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 } else {
                     exportToExcel(file);
                 }
+
+                // set default directory to current
+                VistaNavigator.directory = file.getParent();
             }
             //back();      // close the window
         } else {

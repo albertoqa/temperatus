@@ -35,6 +35,8 @@ public class VistaNavigator {
 
     private static Logger logger = LoggerFactory.getLogger(VistaNavigator.class.getName());
 
+    public static String directory = "";            // initial directory for fileChoosers
+
     // Don't allow to instantiate this class
     private VistaNavigator() {
     }
