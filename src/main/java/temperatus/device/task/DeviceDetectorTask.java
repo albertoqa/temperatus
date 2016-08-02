@@ -65,8 +65,6 @@ public class DeviceDetectorTask implements Runnable {
             for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
                 String port_name = (String) port_name_enum.nextElement();
 
-                logger.info("PORT: " + port_name);  // FIXME remove
-
                 if(port_name.toLowerCase().contains("usb")) {
                     try {
                         adapter.selectPort(port_name);
