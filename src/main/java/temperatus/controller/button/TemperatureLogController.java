@@ -136,7 +136,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         logger.info("Exporting device data...");
 
         // Only allow export if complete version of the application, trial version cannot export data
-        //if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
             FileChooser fileChooser = new FileChooser();
 
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));      //Set extension filter
@@ -167,9 +167,9 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 VistaNavigator.directory = file.getParent();
             }
             //back();      // close the window
-        //} else {
-        //    VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
-        //}
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
+        }
     }
 
     /**
