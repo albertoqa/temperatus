@@ -1,3 +1,7 @@
+
+# install onewireapi library to mvn locally
+mvn install:install-file -Dfile=./temperatus/temperatus/lib/OneWireAPI.jar -DgroupId=com.dalsemi.onewire -DartifactId=onewire -Dversion=1.0 -Dpackaging=jar
+
 -------------------------
 -       SONARQUBE       -
 -------------------------
