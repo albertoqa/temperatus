@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import temperatus.device.task.DeviceDetectorTask;
 import temperatus.device.task.DeviceTask;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Control all operations related to devices.
@@ -39,7 +37,20 @@ public class DeviceOperationsManager {
         operationsExecutor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor(daemonThreadFactory));
 
         scanSchedulerExecutor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
-        scanSchedulerExecutor.scheduleAtFixedRate(scanTask, DELAY, PERIOD, TimeUnit.SECONDS);
+
+        scanSchedulerExecutor.scheduleAtFixedRate(new Runnable() {
+            private final ExecutorService executor = Executors.newSingleThreadExecutor();
+            private Future<?> lastExecution;
+            @Override
+            public void run() {
+                if (lastExecution != null && !lastExecution.isDone()) {
+                    return;
+                }
+                lastExecution = executor.submit(scanTask);
+            }
+        }, DELAY, PERIOD, TimeUnit.MINUTES);
+
+        //scanSchedulerExecutor.scheduleAtFixedRate(scanTask, DELAY, PERIOD, TimeUnit.SECONDS);
     }
 
     /**
