@@ -35,6 +35,13 @@ h2 {
   color: #ef4919;
 }
 
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
 
 /* Navigation bar */
 .navbar {
@@ -59,6 +66,20 @@ h2 {
   border-color: transparent;
   color: #fff !important;
 }
+
+.footer-img {
+  max-width: 400px;
+}
+
+/*.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 150%;
+  padding: 0;
+  width: auto;
+  margin: -10px 0px 0px 0px;
+}*/
 
 /* Jumbotron - Init of the page */
 .jumbotron {
