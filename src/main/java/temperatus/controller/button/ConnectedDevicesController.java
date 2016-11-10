@@ -44,7 +44,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConnectedDevicesController implements Initializable, AbstractController {
 
     @FXML private StackPane stackPane;
-    @FXML private Button disableAllButton;
 
     @FXML private Label headerLabel;
     @FXML private Label searchingLabel;
@@ -56,6 +55,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
     @FXML private HBox searchingIndicator;
 
     @FXML private Button configureButton;
+    @FXML private Button disableAllButton;
+    @FXML private Button exportAllButton;
 
     private TableColumn<Device, String> modelColumn = new TableColumn<>();
     private TableColumn<Device, String> serialColumn = new TableColumn<>();
@@ -104,12 +105,14 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         if (deviceConnectedList.getDevices().size() == 0) {
             searchingIndicator.setVisible(true);
             configureButton.setDisable(true);
+            exportAllButton.setDisable(true);
             disableAllButton.setDisable(true);
             Animation.fadeOutTransition(infoTabPane);
             infoTabPane.getTabs().clear();      // clear previous selection -> stop all tasks
         } else {
             searchingIndicator.setVisible(false);
             configureButton.setDisable(false);
+            exportAllButton.setDisable(false);
             disableAllButton.setDisable(false);
         }
         logger.debug("No devices... showing search indicator");
@@ -258,6 +261,22 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             });
 
         });
+    }
+
+    /**
+     * Export mission's data for all connected devices.
+     */
+    @FXML
+    private void exportAllMissions() {
+        // Only allow export if complete version of the application, trial version cannot export data
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            logger.info("Exporting device's data...");
+
+            // TODO
+
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
+        }
     }
 
     /**
