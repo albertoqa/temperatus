@@ -81,6 +81,10 @@ public class DeviceMissionStartTask extends DeviceTask {
                 missionContainer.setMissionResolution(1, configuration.getResolutionC2());
             }
 
+            // force set the resolution TODO CHECK
+            missionContainer.setMissionResolution(0, configuration.getResolutionC1());
+            missionContainer.setMissionResolution(1, configuration.getResolutionC1());
+
             boolean[] channelEnabled = {configuration.getChannelEnabledC1(), configuration.getChannelEnabledC2()};
 
             ((OneWireContainer41) missionContainer).setStartUponTemperatureAlarmEnable(configuration.isSuta() && anyAlarmsEnabled);
