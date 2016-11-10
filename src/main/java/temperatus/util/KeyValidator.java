@@ -46,4 +46,19 @@ public class KeyValidator {
         }
     }
 
+    /**
+     * Check if the program has already been activated. It not, open the modal window that allows the user to buy it.
+     * If this function is called is because the caller function requires of the premium version of the software to run.
+     *
+     * @return activation status of the program
+     */
+    public static boolean checkActivationStatus() {
+        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+            return true;
+        } else {
+            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
+            return false;
+        }
+    }
+
 }
