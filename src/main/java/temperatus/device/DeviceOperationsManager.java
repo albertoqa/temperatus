@@ -38,6 +38,7 @@ public class DeviceOperationsManager {
 
         scanSchedulerExecutor = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
 
+        // don't submit a scan task until the last execution is completed
         scanSchedulerExecutor.scheduleAtFixedRate(new Runnable() {
             private final ExecutorService executor = Executors.newSingleThreadExecutor();
             private Future<?> lastExecution;
