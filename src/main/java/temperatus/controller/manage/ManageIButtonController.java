@@ -24,6 +24,7 @@ import temperatus.model.pojo.Ibutton;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
+import temperatus.util.NaturalOrderComparator;
 import temperatus.util.VistaNavigator;
 
 import java.net.URL;
@@ -111,6 +112,7 @@ public class ManageIButtonController implements Initializable, AbstractControlle
 
         SortedList<Ibutton> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(table.comparatorProperty());
+        alias.setComparator(new NaturalOrderComparator());
 
         table.getColumns().addAll(model, serial, alias, defaultPosition);
         table.setItems(sortedData);

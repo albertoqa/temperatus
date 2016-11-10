@@ -28,10 +28,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
-import temperatus.util.Animation;
-import temperatus.util.Constants;
-import temperatus.util.User;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -80,6 +77,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         serialColumn.setCellValueFactory(cellData -> cellData.getValue().serialProperty());
         aliasColumn.setCellValueFactory(cellData -> cellData.getValue().aliasProperty());
         positionColumn.setCellValueFactory(cellData -> cellData.getValue().defaultPositionProperty());
+
+        aliasColumn.setComparator(new NaturalOrderComparator());
 
         connectedDevicesTable.setItems(deviceConnectedList.getDevices());
         connectedDevicesTable.getColumns().addAll(modelColumn, serialColumn, aliasColumn, positionColumn);
