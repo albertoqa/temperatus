@@ -268,14 +268,11 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      */
     @FXML
     private void exportAllMissions() {
-        // Only allow export if complete version of the application, trial version cannot export data
-        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+        if (KeyValidator.checkActivationStatus()) {
             logger.info("Exporting device's data...");
 
             // TODO
 
-        } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
 

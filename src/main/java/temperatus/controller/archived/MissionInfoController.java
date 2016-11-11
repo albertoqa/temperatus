@@ -20,6 +20,7 @@ import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.service.MissionService;
 import temperatus.util.Constants;
+import temperatus.util.KeyValidator;
 import temperatus.util.VistaNavigator;
 
 import java.io.File;
@@ -175,13 +176,10 @@ public class MissionInfoController implements Initializable, AbstractController 
      */
     @FXML
     private void exportData() throws IOException {
-        // Only allow export if complete version of the application, trial version cannot export data
-        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
+        if(KeyValidator.checkActivationStatus()) {
             ExportConfigurationController exportConfigurationController = VistaNavigator.openModal(Constants.EXPORT_CONFIG, Constants.EMPTY);
             exportConfigurationController.setMission(mission);
             exportConfigurationController.setDataMap(dataMap);
-        } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
 

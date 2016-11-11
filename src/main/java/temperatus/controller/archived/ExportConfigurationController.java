@@ -18,9 +18,7 @@ import temperatus.exporter.MissionExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.*;
 import temperatus.model.pojo.types.Unit;
-import temperatus.util.Constants;
-import temperatus.util.SpinnerFactory;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -110,12 +108,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
     private void export() throws IOException {
         logger.info("Exporting mission data...");
 
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx");
-        fileChooser.getExtensionFilters().add(extFilter);   //Set extension filter
-
-        File file = fileChooser.showSaveDialog(titledPane.getScene().getWindow());   //Show save file dialog
-
+        File file = FileUtils.saveExcelDialog(titledPane.getScene().getWindow());
         if (file != null) {
             List<Record> records = new ArrayList<>();
             for (Position position : positionCheckListView.getCheckModel().getCheckedItems()) {
@@ -134,12 +127,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
             MissionExporter missionExporter = new MissionExporter();
             missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
 
-            XSSFWorkbook workBook = missionExporter.export();
-
-            FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
-            workBook.write(fileOut);
-            fileOut.flush();
-            fileOut.close();
+            FileUtils.writeDataToFile(file, missionExporter.export());
         }
         cancel();      // close the window
     }

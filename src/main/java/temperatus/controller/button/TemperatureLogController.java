@@ -30,9 +30,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
-import temperatus.util.ChartToolTip;
-import temperatus.util.Constants;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -136,25 +134,22 @@ public class TemperatureLogController implements Initializable, AbstractControll
         logger.info("Exporting device data...");
 
         // Only allow export if complete version of the application, trial version cannot export data
-        if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
-            FileChooser fileChooser = new FileChooser();
-
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));      //Set extension filter
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX (*.xlsx)", "*.xlsx"));   //Set extension filter
+        if (KeyValidator.checkActivationStatus()) {
+            String name;
+            File directory = null;
 
             if(alias != null && !alias.isEmpty()) {
-                fileChooser.setInitialFileName(alias);
+                name = alias;
             } else {
-                fileChooser.setInitialFileName(deviceMissionData.getSerial());
+                name = deviceMissionData.getSerial();
             }
 
             // if default directory, load it
             if(VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
-                fileChooser.setInitialDirectory(new File(VistaNavigator.directory));
+                directory = new File(VistaNavigator.directory);
             }
 
-            File file = fileChooser.showSaveDialog(stackPane.getScene().getWindow());   //Show save file dialog
-
+            File file = FileUtils.saveCSVAndExcelDialog(name, directory, stackPane.getScene().getWindow());
             if (file != null) {
                 // Check if user wants to export to csv or excel
                 if (file.getName().contains("csv") || file.getName().contains("CSV")) {
@@ -167,8 +162,6 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 VistaNavigator.directory = file.getParent();
             }
             //back();      // close the window
-        } else {
-            VistaNavigator.openModal(Constants.BUY_COMPLETE, Constants.EMPTY);
         }
     }
 
@@ -202,11 +195,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         // period = 1, no formulas and no all records needed
         missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
 
-        XSSFWorkbook workBook = missionExporter.export();
-
-        FileOutputStream fileOut = new FileOutputStream(file);  // write generated data to a file
-        workBook.write(fileOut);
-        fileOut.close();
+        FileUtils.writeDataToFile(file, missionExporter.export());
     }
 
     /**
