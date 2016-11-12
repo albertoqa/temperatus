@@ -16,20 +16,25 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.controller.AbstractController;
 import temperatus.device.DeviceConnectedList;
 import temperatus.device.DeviceOperationsManager;
 import temperatus.device.task.DeviceMissionDisableTask;
+import temperatus.device.task.DeviceReadTask;
+import temperatus.exporter.CSVExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Ibutton;
 import temperatus.model.pojo.types.Device;
 import temperatus.model.service.IbuttonService;
 import temperatus.util.*;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -239,14 +244,14 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             DeviceMissionDisableTask deviceMissionDisableTask = new DeviceMissionDisableTask();   // read from device task
             deviceMissionDisableTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
             ListenableFuture future = deviceOperationsManager.submitTask(deviceMissionDisableTask);
-            started.set(started.get()+1);
+            started.set(started.get() + 1);
 
             history.info(User.getUserName() + Constants.SPACE + language.get(Lang.STOP_MISSION_HISTORY) + Constants.SPACE + device.getAlias());
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 public void onSuccess(Boolean result) {
-                    finished.set(finished.get()+1);
-                    if(started.get() == finished.get()) {
+                    finished.set(finished.get() + 1);
+                    if (started.get() == finished.get()) {
                         Platform.runLater(() -> stopProgressIndicator());
                     }
                 }
@@ -271,8 +276,57 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         if (KeyValidator.checkActivationStatus()) {
             logger.info("Exporting device's data...");
 
-            // TODO
+            File defDir = null;
+            // if default directory, load it
+            if (VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
+                defDir = new File(VistaNavigator.directory);
+            }
 
+            // choose a directory to save all files
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(defDir);
+            File directory = directoryChooser.showDialog(stackPane.getScene().getWindow());
+
+            if (directory != null) {
+                // startProgressIndicator(); TODO
+
+                // export data for each connected device (only buttons)
+                deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
+
+                    // submit a new read task for each device
+                    DeviceReadTask deviceReadTask = new DeviceReadTask();
+                    deviceReadTask.setDeviceData(device.getContainer(), device.getAdapterName(), device.getAdapterPort(), false);  // device connection data
+                    ListenableFuture future = deviceOperationsManager.submitTask(deviceReadTask);
+
+                    Futures.addCallback(future, new FutureCallback<Object>() {
+                        public void onSuccess(Object result) {
+                            Platform.runLater(() -> {
+                                //stopProgressIndicator();    // TODO
+
+                                String name = null;
+                                DeviceMissionData deviceMissionData = (DeviceMissionData) result;
+                                if (device.getAlias() != null && !device.getAlias().isEmpty()) {
+                                    name = device.getAlias();
+                                } else {
+                                    name = deviceMissionData.getSerial();
+                                }
+
+                                CSVExporter.exportToCsv(new File(directory, name), deviceMissionData);
+                                logger.info("Device data exported correctly");
+                            });
+                        }
+
+                        public void onFailure(Throwable thrown) {
+                            Platform.runLater(() -> {
+                                //stopProgressIndicator();    // TODO
+                                // TODO show error alert
+                                logger.error("Error reading mission info from device - Future error:  " + thrown.getMessage());
+                            });
+                        }
+                    });
+
+                });
+            }
         }
     }
 
@@ -280,7 +334,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
      * Start the progress indicator and blur the pane
      */
     private void startProgressIndicator() {
-        if(!stackPane.isDisable()) {
+        if (!stackPane.isDisable()) {
             stackPane.setDisable(true);    // blur pane
             VBox box = new VBox(new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS)); // add a progress indicator to the view
             box.setAlignment(Pos.CENTER);

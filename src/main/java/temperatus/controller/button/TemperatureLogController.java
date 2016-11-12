@@ -12,10 +12,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import temperatus.analysis.pojo.DeviceMissionData;
 import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
+import temperatus.exporter.CSVExporter;
 import temperatus.exporter.MissionExporter;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Measurement;
@@ -33,8 +30,6 @@ import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -80,8 +75,8 @@ public class TemperatureLogController implements Initializable, AbstractControll
      * Set data to show in this view
      *
      * @param deviceMissionData information of the device's mission
-     * @param serial serial of the device
-     * @param defaultPosition position of the device
+     * @param serial            serial of the device
+     * @param defaultPosition   position of the device
      */
     public void setData(DeviceMissionData deviceMissionData, String serial, String defaultPosition, String alias) {
         logger.debug("Setting data...");
@@ -138,14 +133,14 @@ public class TemperatureLogController implements Initializable, AbstractControll
             String name;
             File directory = null;
 
-            if(alias != null && !alias.isEmpty()) {
+            if (alias != null && !alias.isEmpty()) {
                 name = alias;
             } else {
                 name = deviceMissionData.getSerial();
             }
 
             // if default directory, load it
-            if(VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
+            if (VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
                 directory = new File(VistaNavigator.directory);
             }
 
@@ -204,64 +199,8 @@ public class TemperatureLogController implements Initializable, AbstractControll
      * @param file file to write to
      */
     private void exportToCsv(File file) {
-        FileWriter fileWriter = null;
-        CSVPrinter csvFilePrinter = null;
-        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");
-
-        try {
-            logger.info("Writing csv");
-
-            fileWriter = new FileWriter(file);
-            csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
-
-            csvFilePrinter.printRecord("1-Wire/iButton Part Number: " + deviceMissionData.getPartNumber());
-            csvFilePrinter.printRecord("1-Wire/iButton Registration Number: " + deviceMissionData.getSerial());
-            csvFilePrinter.printRecord("Mission in Progress?  " + deviceMissionData.getInProgress());
-            csvFilePrinter.printRecord("SUTA Mission?  " + deviceMissionData.getIsSuta());
-            csvFilePrinter.printRecord("Waiting for Temperature Alarm?  " + deviceMissionData.getWaitingForTempAlarm());
-            csvFilePrinter.printRecord("Sample Rate:  " + deviceMissionData.getSampleRate());
-            csvFilePrinter.printRecord("Mission Start Time:  " + deviceMissionData.getMissionStartTime());
-            csvFilePrinter.printRecord("Mission Sample Count:  " + deviceMissionData.getMissionSampleCount());
-            csvFilePrinter.printRecord("Roll Over Enabled?  " + deviceMissionData.getRollOverEnabled());
-            csvFilePrinter.printRecord("First Sample Timestamp:  " + deviceMissionData.getFirstSampleTime());
-            csvFilePrinter.printRecord("Total Mission Samples:  " + deviceMissionData.getTotalMissionSamples());
-            csvFilePrinter.printRecord("Total Device Samples:  " + deviceMissionData.getTotalDeviceSamples());
-            csvFilePrinter.printRecord("Temperature Logging:  " + deviceMissionData.getResolution());
-            csvFilePrinter.printRecord("Temperature High Alarm:  " + deviceMissionData.getLowAlarm());
-            csvFilePrinter.printRecord("Temperature Low Alarm:  " + deviceMissionData.getHighAlarm());
-
-            csvFilePrinter.println();
-
-            Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
-            csvFilePrinter.printRecord(FILE_HEADER);
-
-            if (deviceMissionData.getMeasurements() != null) {
-                for (Measurement measurement : deviceMissionData.getMeasurements()) {
-                    List<String> m = new ArrayList<>();
-                    m.add(Constants.dateTimeFormat.format(measurement.getDate()));
-                    m.add(String.valueOf(Unit.C));
-                    m.add(String.valueOf(measurement.getData()));
-                    csvFilePrinter.printRecord(m);
-                }
-            }
-
-        } catch (Exception e) {
-            logger.error("Error in CsvFileWriter: " + e.getMessage());
-        } finally {
-            try {
-                if (fileWriter != null) {
-                    fileWriter.flush();
-                    fileWriter.close();
-                }
-                if (csvFilePrinter != null) {
-                    csvFilePrinter.close();
-                }
-            } catch (IOException e) {
-                logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
-            }
-        }
+        CSVExporter.exportToCsv(file, deviceMissionData);
     }
-
 
     /**
      * Close the window and go back to the previous screen
