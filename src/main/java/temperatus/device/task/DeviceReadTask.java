@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.pojo.DeviceMissionData;
+import temperatus.exporter.CSVExporter;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
@@ -20,7 +21,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author aquesada
@@ -77,7 +77,7 @@ public class DeviceReadTask extends DeviceTask {
             deviceSemaphore.acquire();
             logger.debug("Read Semaphore acquired!");
 
-            if(saveToFile) {
+            if (saveToFile) {
                 return readDataAndSaveToFile();
             } else {
                 return readDataAsObject();
@@ -239,11 +239,7 @@ public class DeviceReadTask extends DeviceTask {
 
             if (measurements != null) {
                 for (Measurement measurement : measurements) {
-                    List<String> m = new ArrayList<>();
-                    m.add(Constants.dateTimeFormat.format(measurement.getDate()));
-                    m.add(String.valueOf(Unit.C));
-                    m.add(String.valueOf(measurement.getData()));
-                    csvFilePrinter.printRecord(m);
+                    csvFilePrinter.printRecord(CSVExporter.generateRow(measurement.getDate(), Unit.C, measurement.getData()));
                 }
             }
 
@@ -251,13 +247,9 @@ public class DeviceReadTask extends DeviceTask {
             logger.error("Error in CsvFileWriter: " + e.getMessage());
         } finally {
             try {
-                if (fileWriter != null) {
-                    fileWriter.flush();
-                    fileWriter.close();
-                }
-                if (csvFilePrinter != null) {
-                    csvFilePrinter.close();
-                }
+                CSVExporter.flush(fileWriter);
+                CSVExporter.close(fileWriter);
+                CSVExporter.close(csvFilePrinter);
             } catch (IOException e) {
                 logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
             }
