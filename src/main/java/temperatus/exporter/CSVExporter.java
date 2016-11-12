@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class CSVExporter {
 
+    private static final String NEW_LINE_SEPARATOR = "\n";                          //Delimiter used in CSV file
+    private static final Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
+
     private static Logger logger = LoggerFactory.getLogger(CSVExporter.class.getName());
 
     /**
@@ -30,9 +33,10 @@ public class CSVExporter {
      * @param deviceMissionData data of the mission to export
      */
     public static void exportToCsv(File file, DeviceMissionData deviceMissionData) {
+
         FileWriter fileWriter = null;
         CSVPrinter csvFilePrinter = null;
-        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");
+        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
 
         try {
             logger.info("Writing csv");
@@ -57,13 +61,11 @@ public class CSVExporter {
             csvFilePrinter.printRecord("Temperature Low Alarm:  " + deviceMissionData.getHighAlarm());
 
             csvFilePrinter.println();
-
-            Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
-            csvFilePrinter.printRecord(FILE_HEADER);
+            csvFilePrinter.printRecord(FILE_HEADER);    // CSV file Header
 
             if (deviceMissionData.getMeasurements() != null) {
                 for (Measurement measurement : deviceMissionData.getMeasurements()) {
-                    csvFilePrinter.printRecord(generateRow(measurement.getDate(), Unit.C, measurement.getData()));
+                    csvFilePrinter.printRecord(CSVExporter.generateRow(measurement.getDate(), Unit.C, measurement.getData()));
                 }
             }
 
@@ -71,9 +73,12 @@ public class CSVExporter {
             logger.error("Error in CsvFileWriter: " + e.getMessage());
         } finally {
             try {
-                flush(fileWriter);
-                close(fileWriter);
-                close(csvFilePrinter);
+                if(fileWriter != null) {
+                    fileWriter.close();
+                    fileWriter.close();
+                } if(csvFilePrinter != null) {
+                    csvFilePrinter.close();
+                }
             } catch (IOException e) {
                 logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
             }
@@ -88,36 +93,12 @@ public class CSVExporter {
      * @param data value
      * @return list of value for the row
      */
-    public static List<String> generateRow(Date d, Unit u, double data) {
+    private static List<String> generateRow(Date d, Unit u, double data) {
         List<String> m = new ArrayList<>();
         m.add(Constants.dateTimeFormat.format(d));
         m.add(String.valueOf(u));
         m.add(String.valueOf(data));
         return m;
-    }
-
-    /**
-     * Close element
-     *
-     * @param closeable
-     * @throws IOException
-     */
-    public static void close(Closeable closeable) throws IOException {
-        if (closeable != null) {
-            closeable.close();
-        }
-    }
-
-    /**
-     * Flush element
-     *
-     * @param flushable
-     * @throws IOException
-     */
-    public static void flush(Flushable flushable) throws IOException {
-        if (flushable != null) {
-            flushable.flush();
-        }
     }
 
 }

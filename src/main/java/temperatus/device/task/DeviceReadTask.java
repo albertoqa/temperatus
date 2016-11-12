@@ -3,8 +3,6 @@ package temperatus.device.task;
 import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer41;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temperatus.analysis.pojo.DeviceMissionData;
@@ -14,8 +12,6 @@ import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -28,9 +24,6 @@ import java.util.Date;
 public class DeviceReadTask extends DeviceTask {
 
     private static final NumberFormat nf = new DecimalFormat();
-
-    private static final String NEW_LINE_SEPARATOR = "\n";                          //Delimiter used in CSV file
-    private static final Object[] FILE_HEADER = {"Date/Time", "Unit", "Value"};     // CSV file Header
 
     private static final String[] INFO_TO_WRITE = {"1-Wire/iButton Part Number: ", "1-Wire/iButton Registration Number: ",
             "Mission in Progress?  ", "SUTA Mission?  ", "Waiting for Temperature Alarm?  ", "Sample Rate:  ",
@@ -213,49 +206,16 @@ public class DeviceReadTask extends DeviceTask {
     }
 
     private File readDataAndSaveToFile() {
-        readData();
 
         if (fileName == null) {
             fileName = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".csv";
         }
         logger.info("Filename: " + fileName);
 
-        FileWriter fileWriter = null;
-        CSVPrinter csvFilePrinter = null;
-        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
+        File file = new File(fileName);
+        CSVExporter.exportToCsv(file, readDataAsObject());
 
-        try {
-            logger.info("Writing csv");
-
-            fileWriter = new FileWriter(fileName);
-            csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
-
-            for (int i = 0; i < TOTAL_FEATURES; i++) {
-                csvFilePrinter.printRecord(INFO_TO_WRITE[i] + info[i]);
-            }
-
-            csvFilePrinter.println();
-            csvFilePrinter.printRecord(FILE_HEADER);
-
-            if (measurements != null) {
-                for (Measurement measurement : measurements) {
-                    csvFilePrinter.printRecord(CSVExporter.generateRow(measurement.getDate(), Unit.C, measurement.getData()));
-                }
-            }
-
-        } catch (Exception e) {
-            logger.error("Error in CsvFileWriter: " + e.getMessage());
-        } finally {
-            try {
-                CSVExporter.flush(fileWriter);
-                CSVExporter.close(fileWriter);
-                CSVExporter.close(csvFilePrinter);
-            } catch (IOException e) {
-                logger.error("Error while flushing/closing fileWriter/csvPrinter: " + e.getMessage());
-            }
-        }
-
-        return new File(fileName);
+        return file;
     }
 
     public void setFileName(String fileName) {
