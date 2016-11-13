@@ -288,10 +288,16 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             File directory = directoryChooser.showDialog(stackPane.getScene().getWindow());
 
             if (directory != null) {
-                // startProgressIndicator(); TODO
+                final int[] indicator = {0};
 
                 // export data for each connected device (only buttons)
                 deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
+
+                    // start progress indicator only one time
+                    if(indicator[0] == 0) {
+                        startProgressIndicator();
+                    }
+                    indicator[0]++;
 
                     // submit a new read task for each device
                     DeviceReadTask deviceReadTask = new DeviceReadTask();
@@ -301,7 +307,11 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                     Futures.addCallback(future, new FutureCallback<Object>() {
                         public void onSuccess(Object result) {
                             Platform.runLater(() -> {
-                                //stopProgressIndicator();    // TODO
+
+                                indicator[0]--;
+                                if(indicator[0] == 0) {
+                                    stopProgressIndicator();
+                                }
 
                                 String name = null;
                                 DeviceMissionData deviceMissionData = (DeviceMissionData) result;
@@ -318,13 +328,17 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
 
                         public void onFailure(Throwable thrown) {
                             Platform.runLater(() -> {
-                                //stopProgressIndicator();    // TODO
+
+                                indicator[0]--;
+                                if(indicator[0] == 0) {
+                                    stopProgressIndicator();
+                                }
+
                                 // TODO show error alert
                                 logger.error("Error reading mission info from device - Future error:  " + thrown.getMessage());
                             });
                         }
                     });
-
                 });
             }
         }
