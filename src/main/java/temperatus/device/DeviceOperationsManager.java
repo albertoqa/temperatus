@@ -49,7 +49,7 @@ public class DeviceOperationsManager {
                 }
                 lastExecution = executor.submit(scanTask);
             }
-        }, DELAY, PERIOD, TimeUnit.MINUTES);
+        }, DELAY, PERIOD, TimeUnit.SECONDS);
 
         //scanSchedulerExecutor.scheduleAtFixedRate(scanTask, DELAY, PERIOD, TimeUnit.SECONDS);
     }
