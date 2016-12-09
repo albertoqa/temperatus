@@ -23,6 +23,7 @@ import temperatus.model.pojo.Position;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.PositionService;
 import temperatus.util.Constants;
+import temperatus.util.FileUtils;
 import temperatus.util.VistaNavigator;
 
 import javax.imageio.ImageIO;
@@ -118,7 +119,7 @@ public class NewPositionController extends AbstractCreationController implements
                     position = new Position();
                 }
 
-                if(saveImage) {
+                if (saveImage) {
                     File outputFile = new File(Constants.IMAGES_PATH + name + PNG);
                     outputFile.getParentFile().mkdir();
                     BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
@@ -192,14 +193,7 @@ public class NewPositionController extends AbstractCreationController implements
      */
     @FXML
     private void selectImage() {
-        FileChooser fileChooser = new FileChooser();
-
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterImage = new FileChooser.ExtensionFilter("Image files (jpg/png)", "*.JPG", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterImage);
-
-        //Show open file dialog
-        File file = fileChooser.showOpenDialog(titledPane.getScene().getWindow());
+        File file = FileUtils.openDialog(titledPane.getScene().getWindow(), new FileChooser.ExtensionFilter("Image files (jpg/png)", "*.JPG", "*.PNG"));
 
         if (file != null) {
             try {

@@ -32,10 +32,7 @@ import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
 import temperatus.model.pojo.utils.DateAxis;
-import temperatus.util.ChartToolTip;
-import temperatus.util.Constants;
-import temperatus.util.SpinnerFactory;
-import temperatus.util.VistaNavigator;
+import temperatus.util.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -95,7 +92,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
         temperatureAxis = new NumberAxis();
-        if(writeAsIndex) {
+        if (writeAsIndex) {
             indexAxis = new NumberAxis();
             lineChart = new LineChart<>(indexAxis, temperatureAxis);
         } else {
@@ -163,7 +160,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     private void addSerieForFormula(Formula formula, int period, boolean showSymbols) {
         XYChart.Series serie = createSerieForFormula(formula, period);
         series.add(serie);
-        if(showSymbols) {
+        if (showSymbols) {
             ChartToolTip.addToolTipOnHover(serie, lineChart);
         }
     }
@@ -177,7 +174,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     private void addSerieForRecord(Record record, int period, boolean showSymbols) {
         XYChart.Series serie = createSerieForRecord(record, period);
         series.add(serie);
-        if(showSymbols) {
+        if (showSymbols) {
             ChartToolTip.addToolTipOnHover(serie, lineChart);
         }
     }
@@ -248,7 +245,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         // Show the data using the preferred unit
         Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
-        if(writeAsIndex) {
+        if (writeAsIndex) {
             for (int i = 0; i < measurements.size(); i++) {
                 double data = Unit.C.equals(unit) ? measurements.get(i).getData() : Calculator.celsiusToFahrenheit(measurements.get(i).getData());
                 serie.getData().add(new XYChart.Data<>(i, data));
@@ -264,7 +261,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     /**
      * Set the mission data for the controller
      *
-     * @param dataMap record and measurements for the mission
+     * @param dataMap  record and measurements for the mission
      * @param formulas formulas selected for the mission
      */
     public void setData(HashMap<Record, List<Measurement>> dataMap, Set<Formula> formulas) {
@@ -283,14 +280,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     public void saveAsPng() {
         // Only allow export if complete version of the application, trial version cannot export data
         if (Constants.prefs.getBoolean(Constants.ACTIVATED, false)) {
-            FileChooser fileChooser = new FileChooser();
-
-            //Set extension filter
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG (*.png)", "*.png");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-            //Show save file dialog
-            File file = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
+            File file = FileUtils.saveDialog(null, anchorPane.getScene().getWindow(), new FileChooser.ExtensionFilter("PNG (*.png)", "*.png"));
 
             if (file != null) {
                 WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
@@ -310,7 +300,7 @@ public class MissionLineChart implements Initializable, AbstractController {
     @Override
     public void translate() {
         saveGraphicButton.setText(language.get(Lang.SAVE_GRAPHIC));
-        if(writeAsIndex) {
+        if (writeAsIndex) {
             indexAxis.setLabel(language.get(Lang.INDEX));
         } else {
             dateAxis.setLabel(language.get(Lang.DATE_AXIS));

@@ -3,7 +3,6 @@ package temperatus.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -127,40 +126,37 @@ public class ConfigurationController implements Initializable, AbstractControlle
     @FXML
     private void exportApplicationData() {
         // Copy history, images, missions data and database
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(INITIAL_NAME);
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-        File f = fileChooser.showSaveDialog(titledPane.getScene().getWindow());
-        f.mkdir();
+        File file = temperatus.util.FileUtils.saveDialog(INITIAL_NAME, titledPane.getScene().getWindow(), new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
+        file.mkdir();
 
         boolean showWarn = false;
 
         try {
-            FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), f);
+            FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), file);
         } catch (IOException e) {
             showWarn = true;
             logger.warn("History cannot be exported");
         }
         try {
-            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), f);
+            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), file);
         } catch (IOException e) {
             showWarn = true;
             logger.warn("Database cannot be exported");
         }
         try {
-            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), f);
+            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), file);
         } catch (IOException e) {
             showWarn = true;
             logger.warn("Images cannot be exported");
         }
         try {
-            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), f);
+            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), file);
         } catch (IOException e) {
             showWarn = true;
             logger.warn("Missions data cannot be exported");
         }
 
-        if(showWarn) {
+        if (showWarn) {
             VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_EXPORTING_APP_DATA));
         }
     }
@@ -173,10 +169,9 @@ public class ConfigurationController implements Initializable, AbstractControlle
         if (VistaNavigator.confirmationAlert(Alert.AlertType.CONFIRMATION, language.get(Lang.CONFIRMATION_IMPORT))) {
             try {
                 // Copy history, images, missions data and database
-                DirectoryChooser fileChooser = new DirectoryChooser();
-                File f = fileChooser.showDialog(titledPane.getScene().getWindow());
+                File file = temperatus.util.FileUtils.showDirectoryDialog(titledPane.getScene().getWindow());
                 File destiny = new File(ROOT);
-                FileUtils.copyDirectory(f, destiny);
+                FileUtils.copyDirectory(file, destiny);
             } catch (IOException e) {
                 logger.error("Error importing application data...");
                 VistaNavigator.showAlert(Alert.AlertType.ERROR, language.get(Lang.IMPORT_ERROR));

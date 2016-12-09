@@ -16,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -276,16 +275,8 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
         if (KeyValidator.checkActivationStatus()) {
             logger.info("Exporting device's data...");
 
-            File defDir = null;
-            // if default directory, load it
-            if (VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
-                defDir = new File(VistaNavigator.directory);
-            }
-
             // choose a directory to save all files
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setInitialDirectory(defDir);
-            File directory = directoryChooser.showDialog(stackPane.getScene().getWindow());
+            File directory = FileUtils.showDirectoryDialog(stackPane.getScene().getWindow());
 
             if (directory != null) {
                 final int[] indicator = {0};
@@ -294,7 +285,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                 deviceConnectedList.getDevices().stream().filter(device -> missionContainerSupported(device.getContainer())).forEach(device -> {
 
                     // start progress indicator only one time
-                    if(indicator[0] == 0) {
+                    if (indicator[0] == 0) {
                         startProgressIndicator();
                     }
                     indicator[0]++;
@@ -309,7 +300,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                             Platform.runLater(() -> {
 
                                 indicator[0]--;
-                                if(indicator[0] == 0) {
+                                if (indicator[0] == 0) {
                                     stopProgressIndicator();
                                 }
 
@@ -330,7 +321,7 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                             Platform.runLater(() -> {
 
                                 indicator[0]--;
-                                if(indicator[0] == 0) {
+                                if (indicator[0] == 0) {
                                     stopProgressIndicator();
                                 }
 

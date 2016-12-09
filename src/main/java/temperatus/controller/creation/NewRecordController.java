@@ -120,8 +120,6 @@ public class NewRecordController extends AbstractCreationController implements I
     private File[] filesToSave;                         // Files where temp data is temporary stored
     private boolean isUpdate;
 
-    private File lastOpenedDirectory;        // Save the last directory opened to reopen if more imports
-
     private static final Double PREF_HEIGHT = 30.0;     // Preferred height for "rows"
     private static final Double PREF_WIDTH = 180.0;     // Preferred width for combo-box
     private static final Double BOX_PREF_WIDTH = 230.0;     // Preferred width for box
@@ -590,7 +588,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
             if (file != null) {
                 SourceChoice sourceChoice = new SourceChoice(file);
-                lastOpenedDirectory = file.getParentFile();
+                VistaNavigator.directory = file.getParent();
 
                 Button clickedButton = (Button) event.getSource();
                 Integer index = (Integer) clickedButton.getUserData();
@@ -619,9 +617,9 @@ public class NewRecordController extends AbstractCreationController implements I
         final EventHandler<Event> myHandler = event -> {
 
             FileChooser fileChooser = new FileChooser();
-
-            if (lastOpenedDirectory != null) {
-                fileChooser.setInitialDirectory(lastOpenedDirectory);
+            // if default directory, load it
+            if (VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
+                fileChooser.setInitialDirectory(new File(VistaNavigator.directory));
             }
 
             //Set extension filter
@@ -644,7 +642,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
                     if (actual != null) {
                         SourceChoice sourceChoice = new SourceChoice(actual);
-                        lastOpenedDirectory = actual.getParentFile();
+                        VistaNavigator.directory = actual.getParent();
 
                         if (sourceBox.getChildren().get(index) instanceof ComboBox) {
                             // check if already added this same file to the combo-box
@@ -675,18 +673,7 @@ public class NewRecordController extends AbstractCreationController implements I
      */
     @Ignore
     private File importDataFromSource() {
-        FileChooser fileChooser = new FileChooser();
-
-        if (lastOpenedDirectory != null) {
-            fileChooser.setInitialDirectory(lastOpenedDirectory);
-        }
-
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterCSV = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.CSV");
-        fileChooser.getExtensionFilters().add(extFilterCSV);
-
-        //Show open file dialog
-        return fileChooser.showOpenDialog(stackPane.getScene().getWindow());
+        return temperatus.util.FileUtils.openDialog(stackPane.getScene().getWindow(), new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.CSV"));
     }
 
     /**
@@ -924,7 +911,7 @@ public class NewRecordController extends AbstractCreationController implements I
                 } catch (Exception e) {
                     logger.error("Error saving or analyzing data: " + e.getMessage());
                     Platform.runLater(() -> {
-                        if(e.getMessage() != null) {
+                        if (e.getMessage() != null) {
                             showAlert(Alert.AlertType.ERROR, e.getMessage());
                         } else {
                             showAlert(Alert.AlertType.ERROR, language.get(Lang.EMPTY_FILES_LAST));

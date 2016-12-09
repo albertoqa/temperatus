@@ -131,7 +131,6 @@ public class TemperatureLogController implements Initializable, AbstractControll
         // Only allow export if complete version of the application, trial version cannot export data
         if (KeyValidator.checkActivationStatus()) {
             String name;
-            File directory = null;
 
             if (alias != null && !alias.isEmpty()) {
                 name = alias;
@@ -139,12 +138,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
                 name = deviceMissionData.getSerial();
             }
 
-            // if default directory, load it
-            if (VistaNavigator.directory != null && !VistaNavigator.directory.isEmpty()) {
-                directory = new File(VistaNavigator.directory);
-            }
-
-            File file = FileUtils.saveCSVAndExcelDialog(name, directory, stackPane.getScene().getWindow());
+            File file = FileUtils.saveCSVAndExcelDialog(name, stackPane.getScene().getWindow());
             if (file != null) {
                 // Check if user wants to export to csv or excel
                 if (file.getName().contains("csv") || file.getName().contains("CSV")) {
