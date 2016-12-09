@@ -127,37 +127,43 @@ public class ConfigurationController implements Initializable, AbstractControlle
     private void exportApplicationData() {
         // Copy history, images, missions data and database
         File file = temperatus.util.FileUtils.saveDialog(INITIAL_NAME, titledPane.getScene().getWindow(), new FileChooser.ExtensionFilter("TemperatusBackup (*.tb)", "*.tb"));
-        file.mkdir();
 
-        boolean showWarn = false;
+        if(file != null) {
+            file.mkdir();
 
-        try {
-            FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), file);
-        } catch (IOException e) {
-            showWarn = true;
-            logger.warn("History cannot be exported");
-        }
-        try {
-            FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), file);
-        } catch (IOException e) {
-            showWarn = true;
-            logger.warn("Database cannot be exported");
-        }
-        try {
-            FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), file);
-        } catch (IOException e) {
-            showWarn = true;
-            logger.warn("Images cannot be exported");
-        }
-        try {
-            FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), file);
-        } catch (IOException e) {
-            showWarn = true;
-            logger.warn("Missions data cannot be exported");
-        }
+            // set default directory to current
+            VistaNavigator.directory = file.getParent();
 
-        if (showWarn) {
-            VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_EXPORTING_APP_DATA));
+            boolean showWarn = false;
+
+            try {
+                FileUtils.copyFileToDirectory(new File(Constants.HISTORY_PATH), file);
+            } catch (IOException e) {
+                showWarn = true;
+                logger.warn("History cannot be exported");
+            }
+            try {
+                FileUtils.copyFileToDirectory(new File(Constants.DATABASE_PATH), file);
+            } catch (IOException e) {
+                showWarn = true;
+                logger.warn("Database cannot be exported");
+            }
+            try {
+                FileUtils.copyDirectoryToDirectory(new File(Constants.IMAGES_PATH), file);
+            } catch (IOException e) {
+                showWarn = true;
+                logger.warn("Images cannot be exported");
+            }
+            try {
+                FileUtils.copyDirectoryToDirectory(new File(Constants.MISSIONS_PATH), file);
+            } catch (IOException e) {
+                showWarn = true;
+                logger.warn("Missions data cannot be exported");
+            }
+
+            if (showWarn) {
+                VistaNavigator.showAlert(Alert.AlertType.WARNING, language.get(Lang.ERROR_EXPORTING_APP_DATA));
+            }
         }
     }
 
