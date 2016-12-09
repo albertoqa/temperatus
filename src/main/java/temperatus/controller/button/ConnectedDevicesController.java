@@ -311,9 +311,9 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
                                 String name = null;
                                 DeviceMissionData deviceMissionData = (DeviceMissionData) result;
                                 if (device.getAlias() != null && !device.getAlias().isEmpty()) {
-                                    name = device.getAlias();
+                                    name = device.getAlias() + ".csv";
                                 } else {
-                                    name = deviceMissionData.getSerial();
+                                    name = deviceMissionData.getSerial() + ".csv";
                                 }
 
                                 CSVExporter.exportToCsv(new File(directory, name), deviceMissionData);
