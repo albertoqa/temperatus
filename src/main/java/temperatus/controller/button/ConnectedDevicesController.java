@@ -279,6 +279,10 @@ public class ConnectedDevicesController implements Initializable, AbstractContro
             File directory = FileUtils.showDirectoryDialog(stackPane.getScene().getWindow());
 
             if (directory != null) {
+
+                // set default directory to current
+                VistaNavigator.directory = directory.getAbsolutePath();
+
                 final int[] indicator = {0};
 
                 // export data for each connected device (only buttons)

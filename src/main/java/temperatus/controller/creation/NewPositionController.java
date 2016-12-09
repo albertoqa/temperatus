@@ -202,6 +202,9 @@ public class NewPositionController extends AbstractCreationController implements
                 imageView.setImage(image);
                 imagePath = file.getAbsolutePath();
                 saveImage = true;
+
+                // set default directory to current
+                VistaNavigator.directory = file.getParent();
             } catch (IOException ex) {
                 logger.warn("Invalid image:" + ex.getMessage());
                 showAlert(Alert.AlertType.ERROR, ex.getMessage());

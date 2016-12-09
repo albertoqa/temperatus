@@ -128,6 +128,9 @@ public class ExportConfigurationController implements Initializable, AbstractCon
             missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
 
             FileUtils.writeDataToFile(file, missionExporter.export());
+
+            // set default directory to current
+            VistaNavigator.directory = file.getParent();
         }
         cancel();      // close the window
     }

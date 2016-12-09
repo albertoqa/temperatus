@@ -588,6 +588,8 @@ public class NewRecordController extends AbstractCreationController implements I
 
             if (file != null) {
                 SourceChoice sourceChoice = new SourceChoice(file);
+
+                // set default directory to current
                 VistaNavigator.directory = file.getParent();
 
                 Button clickedButton = (Button) event.getSource();

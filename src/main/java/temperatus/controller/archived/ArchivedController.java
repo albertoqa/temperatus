@@ -378,6 +378,10 @@ public class ArchivedController implements Initializable, AbstractController {
                 projectExporter.setData(getSelectedElement().getElement(), unit);
 
                 FileUtils.writeDataToFile(file, projectExporter.export());
+
+                // set default directory to current
+                VistaNavigator.directory = file.getParent();
+
                 showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_EXPORTED));
             }
         }

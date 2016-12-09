@@ -285,6 +285,9 @@ public class MissionLineChart implements Initializable, AbstractController {
             if (file != null) {
                 WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
 
+                // set default directory to current
+                VistaNavigator.directory = file.getParent();
+
                 try {
                     ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
                 } catch (IOException e) {

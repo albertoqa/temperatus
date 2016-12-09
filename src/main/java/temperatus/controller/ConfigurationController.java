@@ -176,6 +176,10 @@ public class ConfigurationController implements Initializable, AbstractControlle
             try {
                 // Copy history, images, missions data and database
                 File file = temperatus.util.FileUtils.showDirectoryDialog(titledPane.getScene().getWindow());
+
+                // set default directory to current
+                VistaNavigator.directory = file.getParent();
+
                 File destiny = new File(ROOT);
                 FileUtils.copyDirectory(file, destiny);
             } catch (IOException e) {
