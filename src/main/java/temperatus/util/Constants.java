@@ -20,7 +20,6 @@ public class Constants {
 
     public static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public static final DateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    public static final DateFormat dateTimeCSVFormat = new SimpleDateFormat("dd/MM/yy H:mm:ss");
     static final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static final DecimalFormat decimalFormat = new DecimalFormat("#.###;-#.###");
 

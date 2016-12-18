@@ -76,8 +76,8 @@ public class OutliersController implements Initializable, AbstractController {
      * @param measurement measurement to update
      */
     private void updateMeasurementInFile(Measurement measurement, Double newValue) {
-        String lineToChange = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + measurement.getData();
-        String updatedLine = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + newValue;
+        String lineToChange = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + measurement.getData();
+        String updatedLine = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + newValue;
 
         lineToChange = lineToChange.replace(Constants.DOT, Constants.COMMA);  // if measurement is like 3.3, change it to 3,3
         updatedLine = updatedLine.replace(Constants.DOT, Constants.COMMA);

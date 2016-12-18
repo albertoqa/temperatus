@@ -310,7 +310,7 @@ public class RecordConfigController extends AbstractCreationController implement
                         for (Measurement measurement : validatedData.getMeasurements()) {
                             if ((measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) || measurement.getDate().equals(endDate) || measurement.getDate().equals(startDate)) {
                                 updateProgress(actualMeasurement++, totalMeasurements);
-                                String toAdd = Constants.dateTimeCSVFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
+                                String toAdd = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
                                 toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
                                 input.append(toAdd).append(System.lineSeparator());
                             }

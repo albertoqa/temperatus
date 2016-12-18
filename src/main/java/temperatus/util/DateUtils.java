@@ -20,7 +20,7 @@ public class DateUtils {
     /**
      * Valid dates that the application supports.
      */
-    private static String[] formats = {"dd/MM/yy H:mm:ss", "d-M-yy H:mm:ss", "dd-MM-yy HH:mm:ss", "d/M/yy H:mm:ss"};
+    private static String[] formats = {"MM/dd/yy HH:mm:ss", "dd/MM/yy H:mm:ss", "d-M-yy H:mm:ss", "dd-MM-yy HH:mm:ss", "d/M/yy H:mm:ss"};
 
     /**
      * Generate a LocalDate object from a Date
