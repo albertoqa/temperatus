@@ -1,4 +1,4 @@
-package temperatus.controller.button;
+package temperatus.controller.device;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;

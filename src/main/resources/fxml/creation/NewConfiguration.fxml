@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titledPane" animated="false" collapsible="false" prefHeight="494.0" prefWidth="810.0" stylesheets="@../../styles/titlePane.css" text="untitled" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.NewConfigurationController">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" prefHeight="494.0" prefWidth="810.0" stylesheets="@../../styles/titlePane.css" text="untitled" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.device.NewConfigurationController">
    <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.calculator.Calculator;
 import temperatus.controller.AbstractController;
-import temperatus.controller.button.NewConfigurationController;
+import temperatus.controller.device.NewConfigurationController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Configuration;
 import temperatus.model.pojo.types.Unit;

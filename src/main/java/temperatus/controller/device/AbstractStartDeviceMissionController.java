@@ -1,4 +1,4 @@
-package temperatus.controller.button;
+package temperatus.controller.device;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

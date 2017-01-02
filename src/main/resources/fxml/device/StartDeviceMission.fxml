@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
-<StackPane id="/fxml/StartDeviceMission.fxml" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="603.0" prefWidth="824.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.StartDeviceMissionController">
+<StackPane id="/fxml/StartDeviceMission.fxml" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="-Infinity" prefHeight="603.0" prefWidth="824.0" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.device.StartDeviceMissionController">
    <children>
       <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="686.0" prefWidth="819.0" styleClass="grayBack">
          <children>

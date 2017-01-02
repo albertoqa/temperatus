@@ -133,6 +133,7 @@ public class Constants {
     public static final String LANG_EN = "English";
     public static final String LANG_SP = "Spanish";
 
+    // don't allow to instantiate this class
     private Constants() {
     }
 

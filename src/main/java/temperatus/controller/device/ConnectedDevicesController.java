@@ -1,4 +1,4 @@
-package temperatus.controller.button;
+package temperatus.controller.device;
 
 import com.dalsemi.onewire.container.MissionContainer;
 import com.dalsemi.onewire.container.OneWireContainer;

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import temperatus.model.pojo.utils.DateAxis?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.button.RealTimeTemperatureController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.device.RealTimeTemperatureController">
    <children>
       <RadioButton fx:id="unitC" layoutX="446.0" layoutY="26.0" mnemonicParsing="false" text="ºC" AnchorPane.rightAnchor="120.0" />
       <RadioButton fx:id="unitF" layoutX="502.0" layoutY="26.0" mnemonicParsing="false" text="ºF" AnchorPane.rightAnchor="66.0" />

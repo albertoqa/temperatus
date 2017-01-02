@@ -1,4 +1,4 @@
-package temperatus.controller.button;
+package temperatus.controller.device;
 
 import com.dalsemi.onewire.container.OneWireSensor;
 import com.google.common.util.concurrent.FutureCallback;
