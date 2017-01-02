@@ -30,7 +30,7 @@ public class ProjectDaoImpl extends GenericDaoImpl implements ProjectDao{
     }
 
     @Override
-    public List<String> getAllProjectNames() {
+    public List getAllProjectNames() {
         return this.sessionFactory.getCurrentSession()
                 .createSQLQuery("select PROJECT.NAME from PROJECT")
                 .list();

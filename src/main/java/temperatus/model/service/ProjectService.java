@@ -24,6 +24,6 @@ public interface ProjectService {
 
     int getIdByName(String name);
 
-    List<String> getAllProjectNames();
+    List getAllProjectNames();
 
 }

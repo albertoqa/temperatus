@@ -11,6 +11,6 @@ public interface ProjectDao extends GenericDao {
 
     Project getByName(String name);
     int getIdByName(String name);
-    List<String> getAllProjectNames();
+    List getAllProjectNames();
 
 }

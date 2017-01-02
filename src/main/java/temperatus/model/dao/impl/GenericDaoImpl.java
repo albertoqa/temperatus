@@ -50,7 +50,7 @@ public class GenericDaoImpl {
         }
     }
 
-    public <T> List<T> getAll(final Class<T> type) {
+    public <T> List getAll(final Class<T> type) {
         return sessionFactory.getCurrentSession().createCriteria(type).list();
     }
 
