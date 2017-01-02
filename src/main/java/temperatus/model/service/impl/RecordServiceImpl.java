@@ -16,8 +16,12 @@ import java.util.List;
 @Transactional
 public class RecordServiceImpl implements RecordService {
 
+    private final RecordDao recordDao;
+
     @Autowired
-    private RecordDao recordDao;
+    public RecordServiceImpl(RecordDao recordDao) {
+        this.recordDao = recordDao;
+    }
 
     @Override
     public Record getById(int id) {

@@ -19,8 +19,12 @@ import java.util.List;
 @Transactional
 public class IbuttonServiceImpl implements IbuttonService {
 
+    private final IbuttonDao ibuttonDao;
+
     @Autowired
-    private IbuttonDao ibuttonDao;
+    public IbuttonServiceImpl(IbuttonDao ibuttonDao) {
+        this.ibuttonDao = ibuttonDao;
+    }
 
     @Override
     public Ibutton getById(int id) {
@@ -43,8 +47,8 @@ public class IbuttonServiceImpl implements IbuttonService {
     }
 
     @Override
-    public void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException{
-        if(ibutton.getAlias() != null && (ibutton.getAlias().length() < 1)) {
+    public void saveOrUpdate(Ibutton ibutton) throws ControlledTemperatusException {
+        if (ibutton.getAlias() != null && (ibutton.getAlias().length() < 1)) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_DEVICE_NAME));
         }
         ibuttonDao.saveOrUpdate(ibutton);

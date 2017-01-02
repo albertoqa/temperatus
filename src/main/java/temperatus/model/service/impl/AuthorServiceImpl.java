@@ -19,8 +19,12 @@ import java.util.List;
 @Transactional
 public class AuthorServiceImpl implements AuthorService {
 
+    private final AuthorDao authorDao;
+
     @Autowired
-    AuthorDao authorDao;
+    public AuthorServiceImpl(final AuthorDao authorDao) {
+        this.authorDao = authorDao;
+    }
 
     @Override
     public Author getById(int id) {
@@ -45,7 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void saveOrUpdate(Author author) throws ControlledTemperatusException {
 
-        if(author.getName() == null || author.getName().length() < 1) {
+        if (author.getName() == null || author.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_AUTHOR_NAME));
         }
 

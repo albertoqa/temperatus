@@ -19,8 +19,12 @@ import java.util.List;
 @Transactional
 public class PositionServiceImpl implements PositionService {
 
+    private final PositionDao positionDao;
+
     @Autowired
-    private PositionDao positionDao;
+    public PositionServiceImpl(PositionDao positionDao) {
+        this.positionDao = positionDao;
+    }
 
     @Override
     public Position getById(int id) {
@@ -44,7 +48,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public void saveOrUpdate(Position position) throws ControlledTemperatusException {
-        if(position.getPlace() == null || position.getPlace().length() < 1) {
+        if (position.getPlace() == null || position.getPlace().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_POSITION_NAME));
         }
         positionDao.saveOrUpdate(position);

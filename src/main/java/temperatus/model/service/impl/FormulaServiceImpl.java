@@ -18,9 +18,13 @@ import java.util.List;
 @Service
 @Transactional
 public class FormulaServiceImpl implements FormulaService {
-    
+
+    private final FormulaDao formulaDao;
+
     @Autowired
-    FormulaDao formulaDao;
+    public FormulaServiceImpl(FormulaDao formulaDao) {
+        this.formulaDao = formulaDao;
+    }
 
     @Override
     public Formula getById(int id) {
@@ -44,9 +48,9 @@ public class FormulaServiceImpl implements FormulaService {
 
     @Override
     public void saveOrUpdate(Formula formula) throws ControlledTemperatusException {
-        if(formula.getName() == null || formula.getName().length() < 1) {
+        if (formula.getName() == null || formula.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_FORMULA_NAME));
-        } else if(formula.getOperation().isEmpty()) {
+        } else if (formula.getOperation().isEmpty()) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.FORMULA_CANNOT_BE_EMPTY));
         }
         formulaDao.saveOrUpdate(formula);

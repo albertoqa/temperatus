@@ -23,8 +23,12 @@ import java.util.List;
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
 
+    private final ProjectDao projectDao;
+
     @Autowired
-    private ProjectDao projectDao;
+    public ProjectServiceImpl(ProjectDao projectDao) {
+        this.projectDao = projectDao;
+    }
 
     @Override
     public Project getById(int id) {
@@ -55,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void saveOrUpdate(Project project) throws ControlledTemperatusException {
-        if(project.getName() == null ||project.getName().length() < 1) {
+        if (project.getName() == null || project.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_PROJECT_NAME));
         }
         projectDao.saveOrUpdate(project);

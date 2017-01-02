@@ -19,8 +19,12 @@ import java.util.List;
 @Transactional
 public class ConfigurationServiceImpl implements ConfigurationService {
 
+    private final ConfigurationDao configurationDao;
+
     @Autowired
-    ConfigurationDao configurationDao;
+    public ConfigurationServiceImpl(ConfigurationDao configurationDao) {
+        this.configurationDao = configurationDao;
+    }
 
     @Override
     public Configuration getById(int id) {
@@ -44,7 +48,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void saveOrUpdate(Configuration configuration) throws ControlledTemperatusException {
-        if(configuration.getName() == null || configuration.getName().length() < 1) {
+        if (configuration.getName() == null || configuration.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_CONFIGURATION_NAME));
         }
         configurationDao.saveOrUpdate(configuration);

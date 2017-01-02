@@ -19,8 +19,12 @@ import java.util.List;
 @Transactional
 public class SubjectServiceImpl implements SubjectService {
 
+    private final SubjectDao subjectDao;
+
     @Autowired
-    private SubjectDao subjectDao;
+    public SubjectServiceImpl(SubjectDao subjectDao) {
+        this.subjectDao = subjectDao;
+    }
 
     @Override
     public Subject getById(int id) {
@@ -44,7 +48,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void saveOrUpdate(Subject subject) throws ControlledTemperatusException {
-        if(subject.getName() == null || subject.getName().length() < 1) {
+        if (subject.getName() == null || subject.getName().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_SUBJECT_NAME));
         }
         subjectDao.saveOrUpdate(subject);

@@ -22,8 +22,12 @@ import java.util.List;
 @Transactional
 public class MissionServiceImpl implements MissionService {
 
+    private final MissionDao missionDao;
+
     @Autowired
-    private MissionDao missionDao;
+    public MissionServiceImpl(MissionDao missionDao) {
+        this.missionDao = missionDao;
+    }
 
     @Override
     public Mission getById(int id) {
@@ -37,7 +41,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void delete(Mission mission) {
-        if(mission.getRecords().size() > 0) {
+        if (mission.getRecords().size() > 0) {
             try {
                 FileUtils.deleteDirectory(new File(mission.getRecords().iterator().next().getDataPath()).getParentFile());
             } catch (Exception e) {
@@ -53,8 +57,8 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void saveOrUpdate(Mission mission) throws ControlledTemperatusException{
-        if(mission.getName() == null || mission.getName().length() < 1) {
+    public void saveOrUpdate(Mission mission) throws ControlledTemperatusException {
+        if (mission.getName() == null || mission.getName().length() < 1) {
             LoggerFactory.getLogger(MissionServiceImpl.class.getName()).warn("Invalid mission name");
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_MISSION_NAME));
         }

@@ -21,8 +21,12 @@ import java.util.Set;
 @Transactional
 public class GameServiceImpl implements GameService {
 
+    private final GameDao gameDao;
+
     @Autowired
-    private GameDao gameDao;
+    public GameServiceImpl(GameDao gameDao) {
+        this.gameDao = gameDao;
+    }
 
     @Override
     public Game getById(int id) {
@@ -52,7 +56,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void saveOrUpdate(Game game) throws ControlledTemperatusException {
-        if(game.getTitle() == null || game.getTitle().length() < 1) {
+        if (game.getTitle() == null || game.getTitle().length() < 1) {
             throw new ControlledTemperatusException(Language.getInstance().get(Lang.INVALID_GAME_NAME));
         }
         gameDao.saveOrUpdate(game);
