@@ -56,7 +56,6 @@ public class ExcelExporter {
     public XSSFWorkbook export(String templatePath) throws ControlledTemperatusException {
 
         int groupBy = 0;
-        String timeFormat = "dd/mm/yy";
         boolean printIndexInsteadOfTime = false;
 
         XSSFWorkbook wb = new XSSFWorkbook();
@@ -69,6 +68,17 @@ public class ExcelExporter {
                 throw new ControlledTemperatusException("");
             }
 
+            // at this point we know that the template file is valid so lets start parsing it
+            int grouping = getGroupingFromTemplate(template);
+            boolean printTime = getIsPrintTimeTemplate(template);
+
+            String timeFormat = ""; // TODO set default value
+            if(printTime) {
+                timeFormat = getTimeFormatFromTemplate(template);
+            }
+
+            // calculate needed data
+
 
 
         } catch (InvalidFormatException e) {
@@ -78,6 +88,18 @@ public class ExcelExporter {
         }
 
         return wb;
+    }
+
+    private String getTimeFormatFromTemplate(XSSFWorkbook template) {
+        return null;
+    }
+
+    private boolean getIsPrintTimeTemplate(XSSFWorkbook template) {
+        return false;
+    }
+
+    private int getGroupingFromTemplate(XSSFWorkbook template) {
+        return 0;
     }
 
     private boolean isValidTemplate(XSSFWorkbook template) {
