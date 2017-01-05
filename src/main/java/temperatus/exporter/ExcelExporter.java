@@ -77,7 +77,13 @@ public class ExcelExporter {
                 timeFormat = getTimeFormatFromTemplate(template);
             }
 
-            // calculate needed data
+            // calculate the positions/formulas to print
+
+            // for each of the pos/form calculate the values for the given grouping
+
+            // print the time/index in all the needed places
+
+            // print the values on the template
 
 
 
