@@ -77,15 +77,21 @@ public class ExcelExporter {
                 timeFormat = getTimeFormatFromTemplate(template);
             }
 
+            // for each sheet do the following
+
             // calculate the positions/formulas to print
 
             // for each of the pos/form calculate the values for the given grouping
+            // TODO try to do it with the lowest memory usage possible
+
+            // create a new named sheet on the exported file
+            // wb.createSheet(currentSheet.getSheetName());
 
             // print the time/index in all the needed places
 
             // print the values on the template
 
-
+            // end of the export
 
         } catch (InvalidFormatException e) {
             e.printStackTrace();
@@ -132,9 +138,6 @@ public class ExcelExporter {
                     return false;
                 }
             }
-
-            // create a new named sheet on the exported file
-            // wb.createSheet(currentSheet.getSheetName());
 
             // iterate through each row from current sheet
             for (Row row : currentSheet) {
