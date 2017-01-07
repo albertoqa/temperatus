@@ -151,7 +151,17 @@ public class ExcelExporter {
                     // grouping = .split()
                     // checkGrouping = false }
 
-
+                    switch(cell.getCellType()) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.print(cell.getBooleanCellValue() + "\t\t");
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.print(cell.getNumericCellValue() + "\t\t");
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.print(cell.getStringCellValue() + "\t\t");
+                            break;
+                    }
 
 
                 }
