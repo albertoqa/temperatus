@@ -3,6 +3,7 @@ package temperatus.device.task;
 import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.adapter.DSPortAdapter;
+import com.dalsemi.onewire.adapter.PDKAdapterUSB;
 import com.dalsemi.onewire.container.OneWireContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,8 @@ public class DeviceDetectorTask implements Runnable {
     @Autowired DeviceDetectorSource deviceDetectorSource;   // create event to let all listeners know about what is happening
     private DeviceSemaphore deviceSemaphore = DeviceSemaphore.getInstance();             // shared semaphore
 
+    private static PDKAdapterUSB pdk = new PDKAdapterUSB();
+
     @Override
     public void run() {
         try {
@@ -59,75 +62,88 @@ public class DeviceDetectorTask implements Runnable {
     private void searchForDevices() {
         logger.debug("Semaphore acquired...Performing search");
 
-        for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
-            DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
-
-            for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
-                String port_name = (String) port_name_enum.nextElement();
-
-                if(port_name.toLowerCase().contains("usb")) {
-                    try {
-                        adapter.selectPort(port_name);
-                        if (adapter.adapterDetected()) {
-
-                            // Check if devices previously detected are still connected
-                            for (String serial : serialsDetected) {
-                                if (!adapter.isPresent(serial.split("-")[0])) {
-                                    serialsDetected.remove(serial);
-                                    deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
-                                }
-                            }
-
-                            adapter.beginExclusive(true);
-                            adapter.setSearchAllDevices();
-                            adapter.targetAllFamilies();
-                            for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
-                                OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
-                                String serial = ibutton.getAddressAsString() + "-" + port_name;
-
-                                // New device detected, add it to the list and warn the listeners
-                                boolean alreadyIn = false;
-                                if (!serialsDetected.contains(serial)) {
-                                    for (String s : serialsDetected) {
-                                        if (s.contains(serial.split("-")[0])) {
-                                            alreadyIn = true;
-                                        }
-                                    }
-                                    if (!alreadyIn) {
-                                        serialsDetected.add(serial);
-                                        deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
-                                    }
-                                }
-                            }
-                            adapter.endExclusive();
-                        }
-
-                        adapter.freePort();
-
-                    } catch (Exception e) {
-                        Iterator<String> i = serialsDetected.iterator();
-                        while (i.hasNext()) {
-                            String serial = i.next();
-                            if (serial.contains(port_name)) {
-                                i.remove();
-                                deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
-                            }
-                        }
-                        // only prevent exception, not manage it at all... ¿NetAdapter?
-                        // logger.debug("Exception in scan...  " + e.getMessage());
-                    } finally {
-                        try {
-                            adapter.endExclusive();
-                            adapter.freePort();
-                        } catch (OneWireException e) {
-                            logger.debug("Error closing ports... " + e.getMessage());
-                        }
+        if (!System.getProperty("os.name").contains("Windows")) {
+            // TODO remember to add as a dependency the special version of the OneWireAPI_pdk
+            scan(pdk, "USB1");
+        } else {
+            for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
+                DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
+                for (Enumeration port_name_enum = adapter.getPortNames(); port_name_enum.hasMoreElements(); ) {
+                    String port_name = (String) port_name_enum.nextElement();
+                    if (port_name.toLowerCase().contains("usb")) {
+                        scan(adapter, port_name);
                     }
                 }
             }
         }
 
         logger.debug("Search finished");
+    }
+
+    /**
+     * Scan for connected devices
+     *
+     * @param adapter   the adapter
+     * @param port_name port name
+     */
+    private void scan(DSPortAdapter adapter, String port_name) {
+        try {
+            adapter.selectPort(port_name);
+            if (adapter.adapterDetected()) {
+
+                // Check if devices previously detected are still connected
+                for (String serial : serialsDetected) {
+                    if (!adapter.isPresent(serial.split("-")[0])) {
+                        serialsDetected.remove(serial);
+                        deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
+                    }
+                }
+
+                adapter.beginExclusive(true);
+                adapter.setSearchAllDevices();
+                adapter.targetAllFamilies();
+                for (Enumeration ibutton_enum = adapter.getAllDeviceContainers(); ibutton_enum.hasMoreElements(); ) {
+                    OneWireContainer ibutton = (OneWireContainer) ibutton_enum.nextElement();
+                    String serial = ibutton.getAddressAsString() + "-" + port_name;
+
+                    // New device detected, add it to the list and warn the listeners
+                    boolean alreadyIn = false;
+                    if (!serialsDetected.contains(serial)) {
+                        for (String s : serialsDetected) {
+                            if (s.contains(serial.split("-")[0])) {
+                                alreadyIn = true;
+                            }
+                        }
+                        if (!alreadyIn) {
+                            serialsDetected.add(serial);
+                            deviceDetectorSource.arrivalEvent(ibutton, adapter.getAdapterName(), adapter.getPortName());
+                        }
+                    }
+                }
+                adapter.endExclusive();
+            }
+
+            adapter.freePort();
+
+        } catch (Exception e) {
+            Iterator<String> i = serialsDetected.iterator();
+            while (i.hasNext()) {
+                String serial = i.next();
+                if (serial.contains(port_name)) {
+                    i.remove();
+                    deviceDetectorSource.departureEvent(serial.split("-")[0], adapter.getAddressAsString(), port_name);
+                }
+            }
+            // only prevent exception, not manage it at all... ¿NetAdapter?
+            // logger.debug("Exception in scan...  " + e.getMessage());
+        } finally {
+            try {
+                adapter.endExclusive();
+                adapter.freePort();
+            } catch (OneWireException e) {
+                logger.debug("Error closing ports... " + e.getMessage());
+            }
+        }
     }
 
 
