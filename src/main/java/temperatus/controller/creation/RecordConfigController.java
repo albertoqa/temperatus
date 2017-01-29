@@ -14,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.CheckListView;
-import org.controlsfx.control.RangeSlider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,17 @@ import temperatus.model.service.RecordService;
 import temperatus.util.Constants;
 import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
+import temperatus.util.multirange.MultiRange;
+import temperatus.util.multirange.Range;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -63,7 +67,7 @@ public class RecordConfigController extends AbstractCreationController implement
     @FXML private Button backButton;
     @FXML private CheckListView<Formula> listViewFormulas;
 
-    @FXML private RangeSlider rangeSlider;
+    @FXML private MultiRange multiRange;
     @FXML private TextField initTime;
     @FXML private TextField endTime;
     @FXML private Label timeRangeWarning;
@@ -179,24 +183,30 @@ public class RecordConfigController extends AbstractCreationController implement
     }
 
     /**
-     * Set rangeSlider and textInputs to init and end date
+     * Set multiRange and textInputs to init and end date
      */
     private void loadTimeRange() {
-        rangeSlider.setMax(generalData.getEndDate().getTime());
-        rangeSlider.setMin(generalData.getStartDate().getTime());
-        rangeSlider.setHighValue(generalData.getEndDate().getTime());
-        rangeSlider.setLowValue(generalData.getStartDate().getTime());
-        rangeSlider.setLabelFormatter(new DateStringConverter(true));   // timeFormat
-        rangeSlider.setShowTickMarks(true);
-        rangeSlider.setShowTickLabels(true);
+
+        long max = generalData.getEndDate().getTime();
+        long min = generalData.getStartDate().getTime();
+
+        multiRange.setMin(min);
+        multiRange.setMax(max);
+        multiRange.setHighRangeValue(max);
+        multiRange.setLowRangeValue(min);
+        multiRange.setLabelFormatter(new DateStringConverter(true));   // timeFormat
+        multiRange.setShowTickMarks(true);
+        multiRange.setShowTickLabels(true);
 
         long timeInBetween = generalData.getEndDate().getTime() - generalData.getStartDate().getTime();
         int majorTickUnit = (int) timeInBetween / NUMBER_OF_TICKS;
 
-        rangeSlider.setMajorTickUnit(majorTickUnit);
+        multiRange.setMajorTickUnit(majorTickUnit);
 
-        Bindings.bindBidirectional(initTime.textProperty(), rangeSlider.lowValueProperty(), new DateStringConverter(false));    // dateTimeFormat
-        Bindings.bindBidirectional(endTime.textProperty(), rangeSlider.highValueProperty(), new DateStringConverter(false));
+        initTime.editableProperty().setValue(false);
+        endTime.editableProperty().setValue(false);
+        Bindings.bindBidirectional(initTime.textProperty(), multiRange.lowValueProperty(), new DateStringConverter(false));    // dateTimeFormat
+        Bindings.bindBidirectional(endTime.textProperty(), multiRange.highValueProperty(), new DateStringConverter(false));
     }
 
     /**
@@ -279,16 +289,19 @@ public class RecordConfigController extends AbstractCreationController implement
             public Void call() throws InterruptedException {
 
                 try {
-                    final Date startDate;
-                    final Date endDate;
-
-                    startDate = Constants.dateTimeFormat.parse(initTime.getText());
-                    endDate = Constants.dateTimeFormat.parse(endTime.getText());
+                    List<Range> ranges = multiRange.getRanges();
 
                     // Calculate total number of measurements to update the progress indicator
                     long totalMeasurements = 0;
                     for (ValidatedData validatedData : data) {
-                        totalMeasurements += validatedData.getMeasurements().stream().filter(measurement -> measurement.getDate().before(endDate) && measurement.getDate().after(startDate)).count();
+                        for (Measurement measurement : validatedData.getMeasurements()) {
+                            for (Range range : ranges) {
+                                if (measurement.getDate().getTime() < range.getHigh() && measurement.getDate().getTime() > range.getLow()) {
+                                    totalMeasurements++;
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     // Save measurements + check if is in the range
@@ -308,11 +321,14 @@ public class RecordConfigController extends AbstractCreationController implement
 
                         // insert only measurements in the range >= startDate and <= endDate
                         for (Measurement measurement : validatedData.getMeasurements()) {
-                            if ((measurement.getDate().after(startDate) && measurement.getDate().before(endDate)) || measurement.getDate().equals(endDate) || measurement.getDate().equals(startDate)) {
-                                updateProgress(actualMeasurement++, totalMeasurements);
-                                String toAdd = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
-                                toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
-                                input.append(toAdd).append(System.lineSeparator());
+                            for (Range range : ranges) {
+                                if (measurement.getDate().getTime() < range.getHigh() && measurement.getDate().getTime() > range.getLow()) {
+                                    updateProgress(actualMeasurement++, totalMeasurements);
+                                    String toAdd = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
+                                    toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
+                                    input.append(toAdd).append(System.lineSeparator());
+                                    break;
+                                }
                             }
                         }
 
@@ -349,7 +365,7 @@ public class RecordConfigController extends AbstractCreationController implement
 
         saveMeasurementsAndFormulasForMissionTask.setOnSucceeded(event -> {
             MissionInfoController missionInfoController = VistaNavigator.loadVista(Constants.MISSION_INFO);
-            if(missionInfoController != null) {
+            if (missionInfoController != null) {
                 missionInfoController.setData(mission.getId());
             }
 

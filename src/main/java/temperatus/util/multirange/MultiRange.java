@@ -111,7 +111,6 @@ public class MultiRange extends Control {
 
     private List<Range> ranges = new ArrayList<>();     // ranges in the slider
     private IntegerProperty currentRangeId = new SimpleIntegerProperty(0);  // id of the thumb pressed
-    private BooleanProperty valueChanging;      // whether a value has changed or not
     private double thumbWidth = 0.5;    // TODO
 
 
@@ -162,11 +161,15 @@ public class MultiRange extends Control {
 
             if (isLow && isValidValue(true, range, value)) {
                 range.setLow(value);
+                setLowValue(value);
             } else if (!isLow && isValidValue(false, range, value)) {
                 range.setHigh(value);
+                setHighValue(value);
             }
 
-            valueChangingProperty().setValue(true);
+            if(getSkin() != null) {
+                requestLayout();
+            }
         }
     }
 
@@ -179,7 +182,6 @@ public class MultiRange extends Control {
                 double value = snapValueToTicks(newValue);
                 if (isLow && isValidValue(true, range, value)) range.setLow(value);
                 else if (!isLow && isValidValue(false, range, value)) range.setHigh(value);
-                valueChangingProperty().setValue(true);
                 return;
             }
         }
@@ -457,7 +459,7 @@ public class MultiRange extends Control {
         if (rangeOptional.isPresent()) {
             int index = ranges.indexOf(rangeOptional.get());
             ranges.set(index, range);
-            valueChangingProperty().setValue(true);
+            requestLayout();
         }
     }
 
@@ -470,7 +472,45 @@ public class MultiRange extends Control {
      */
     public void createNewRange(double low, double high) {
         ranges.add(new Range(currentRangeId.get(), low, high));
-        valueChangingProperty().setValue(true);
+        requestLayout();
+    }
+
+    /**
+     * Ensures that min is always < max, that value is always
+     * somewhere between the two, and that if snapToTicks is set then the
+     * value will always be set to align with a tick mark.
+     */
+    private void adjustValues() {
+        adjustLowValues();
+        adjustHighValues();
+    }
+
+    private void adjustLowValues() {
+        /*
+         * We first look if the LowValue is between the min and max.
+         */
+        if (getLowValue() < getMin() || getLowValue() > getMax()) {
+            double value = Utils.clamp(getMin(), getLowValue(), getMax());
+            setValue(value, true);
+            /*
+             * If the LowValue seems right, we check if it's not superior to
+             * HighValue ONLY if the highValue itself is right. Because it may
+             * happen that the highValue has not yet been computed and is
+             * wrong, and therefore force the lowValue to change in a wrong way
+             * which may end up in an infinite loop.
+             */
+        } else if (getLowValue() >= getHighValue() && (getHighValue() >= getMin() && getHighValue() <= getMax())) {
+            double value = Utils.clamp(getMin(), getLowValue(), getHighValue());
+            setValue(value, true);
+        }
+    }
+
+    private void adjustHighValues() {
+        if (getHighValue() < getMin() || getHighValue() > getMax()) {
+            setValue(Utils.clamp(getMin(), getHighValue(), getMax()), false);
+        } else if (getHighValue() < getLowValue() && (getLowValue() >= getMin() && getLowValue() <= getMax())) {
+            setValue(Utils.clamp(getLowValue(), getHighValue(), getMax()), false);
+        }
     }
 
     /***************************************************************************
@@ -478,17 +518,6 @@ public class MultiRange extends Control {
      * Setters/Getters for the properties (slightly edited)                    *
      *                                                                         *
      **************************************************************************/
-
-    public BooleanProperty valueChangingProperty() {
-        if (valueChanging == null) {
-            valueChanging = new SimpleBooleanProperty(false);
-        }
-        return valueChanging;
-    }
-
-    public void setValueChanging(boolean valueChanging) {
-        this.valueChanging.set(valueChanging);
-    }
 
     public void setLowRangeValue(double newValue) {
         setValue(newValue, true);
@@ -555,6 +584,7 @@ public class MultiRange extends Control {
                     if (get() < getMin()) {
                         setMin(get());
                     }
+                    adjustValues();
                 }
 
                 @Override
@@ -600,6 +630,7 @@ public class MultiRange extends Control {
                     if (get() > getMax()) {
                         setMax(get());
                     }
+                    adjustValues();
                 }
 
                 @Override
@@ -614,6 +645,48 @@ public class MultiRange extends Control {
             };
         }
         return min;
+    }
+
+    // --- low value
+    /**
+     * The low value property represents the current position of the low value
+     * thumb, and is within the allowable range as specified by the
+     * {@link #minProperty() min} and {@link #maxProperty() max} properties. By
+     * default this value is 0.
+     */
+    public final DoubleProperty lowValueProperty() {
+        return lowValue;
+    }
+    private DoubleProperty lowValue = new SimpleDoubleProperty(this, "lowValue", 0.0D);
+
+    /**
+     * Sets the low value for the range slider, which may or may not be clamped
+     * to be within the allowable range as specified by the
+     * {@link #minProperty() min} and {@link #maxProperty() max} properties.
+     */
+    public final void setLowValue(double d) {
+        lowValueProperty().set(d);
+    }
+
+    // --- high value
+    /**
+     * The high value property represents the current position of the high value
+     * thumb, and is within the allowable range as specified by the
+     * {@link #minProperty() min} and {@link #maxProperty() max} properties. By
+     * default this value is 100.
+     */
+    public final DoubleProperty highValueProperty() {
+        return highValue;
+    }
+    private DoubleProperty highValue = new SimpleDoubleProperty(this, "highValue", 100D);
+
+    /**
+     * Sets the high value for the range slider, which may or may not be clamped
+     * to be within the allowable range as specified by the
+     * {@link #minProperty() min} and {@link #maxProperty() max} properties.
+     */
+    public final void setHighValue(double d) {
+        if (!highValueProperty().isBound()) highValueProperty().set(d);
     }
 
     /**
@@ -953,7 +1026,7 @@ public class MultiRange extends Control {
      */
     @Override
     public String getUserAgentStylesheet() {
-        return MultiRange.class.getResource("/multirange/multirange.css").toExternalForm();
+        return MultiRange.class.getResource("/styles/multirange.css").toExternalForm();
     }
 
     /**

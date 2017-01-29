@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
-<?import org.controlsfx.control.RangeSlider?>
+<?import temperatus.util.multirange.MultiRange?>
 <StackPane id="RecordConfig" fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="568.0" minWidth="-Infinity" prefHeight="568.0" prefWidth="820.0" styleClass="grayBack" stylesheets="@../../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.RecordConfigController">
    <children>
       <AnchorPane fx:id="anchorPane" prefHeight="684.0" prefWidth="730.0">
@@ -63,7 +63,7 @@
             </AnchorPane>
             <AnchorPane layoutX="252.0" layoutY="356.0" maxHeight="300.0" prefHeight="230.0" prefWidth="542.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="355.0">
                <children>
-                  <RangeSlider fx:id="rangeSlider" layoutX="17.0" layoutY="61.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" />
+                  <MultiRange fx:id="multiRange" layoutX="17.0" layoutY="61.0" prefHeight="27.0" prefWidth="418.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" stylesheets="@../../styles/multirange.css"/>
                   <Label fx:id="timeRangeWarning" layoutX="17.0" layoutY="114.0" styleClass="label-paneinfo" text="* The time not used will be permanently deleted." AnchorPane.leftAnchor="17.0" />
                   <TextField fx:id="initTime" alignment="CENTER" layoutX="84.0" layoutY="18.0" styleClass="form" AnchorPane.leftAnchor="84.0" />
                   <TextField fx:id="endTime" alignment="CENTER" layoutX="383.0" layoutY="18.0" styleClass="form" AnchorPane.rightAnchor="17.0" />
