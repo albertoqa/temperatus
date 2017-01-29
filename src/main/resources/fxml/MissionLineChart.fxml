@@ -7,14 +7,13 @@
 <?import org.controlsfx.control.CheckListView?>
 <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="750.0" stylesheets="@../styles/temperatus.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.archived.MissionLineChart">
    <children>
-      <!--<LineChart fx:id="lineChart" layoutX="9.0" layoutY="31.0" prefHeight="420.0" prefWidth="568.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="15.0">-->
-        <!--<xAxis>-->
-          <!--<DateAxis fx:id="dateAxis" side="BOTTOM" />-->
-          <!--&lt;!&ndash;<NumberAxis side="BOTTOM" />&ndash;&gt;-->
-        <!--</xAxis>-->
-        <!--<yAxis>-->
-          <!--<NumberAxis fx:id="temperatureAxis" side="LEFT" />-->
-        <!--</yAxis>-->
+      <!--<LineChart fx:id="lineChart" layoutX="14.0" layoutY="16.0" prefHeight="432.0" prefWidth="495.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="15.0">-->
+         <!--<xAxis>-->
+            <!--<StableTicksAxis animated="true" side="BOTTOM" />-->
+         <!--</xAxis>-->
+         <!--<yAxis>-->
+            <!--<StableTicksAxis animated="true" side="LEFT" />-->
+         <!--</yAxis>-->
       <!--</LineChart>-->
       <CheckListView fx:id="positionsList" layoutX="595.0" layoutY="57.0" prefHeight="150.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />
       <CheckListView fx:id="formulasList" layoutX="522.0" layoutY="216.0" prefHeight="150.0" prefWidth="214.0" stylesheets="@../styles/formulasListView.css" AnchorPane.rightAnchor="14.0" />

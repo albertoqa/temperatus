@@ -8,13 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -31,13 +31,17 @@ import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.Record;
 import temperatus.model.pojo.types.Unit;
-import temperatus.model.pojo.utils.DateAxis;
 import temperatus.util.*;
+import temperatus.util.jfxutils.chart.ChartPanManager;
+import temperatus.util.jfxutils.chart.FixedFormatTickFormatter;
+import temperatus.util.jfxutils.chart.JFXChartUtil;
+import temperatus.util.jfxutils.chart.StableTicksAxis;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -56,9 +60,6 @@ public class MissionLineChart implements Initializable, AbstractController {
     @FXML private StackPane stackPane;
 
     private LineChart lineChart;
-    private DateAxis dateAxis;
-    private NumberAxis indexAxis;
-    private NumberAxis temperatureAxis;
 
     @FXML private CheckListView<Record> positionsList;
     @FXML private CheckListView<Formula> formulasList;
@@ -69,7 +70,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
     @FXML private Spinner<Integer> spinner;
 
-    private ObservableList<XYChart.Series> series;
+    private ObservableList<XYChart.Series<Number, Number>> series;
     private ObservableList<Record> records;
     private ObservableList<Formula> formulas;
     private boolean writeAsIndex = false;
@@ -90,17 +91,22 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         SpinnerFactory.setIntegerSpinner(spinner, 1);
 
+        lineChart = new LineChart<>(new StableTicksAxis(), new StableTicksAxis());
+        stackPane.getChildren().add(lineChart);
+
         writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
-        temperatureAxis = new NumberAxis();
-        if (writeAsIndex) {
-            indexAxis = new NumberAxis();
-            lineChart = new LineChart<>(indexAxis, temperatureAxis);
-        } else {
-            dateAxis = new DateAxis();
-            lineChart = new LineChart<>(dateAxis, temperatureAxis);
+        if (!writeAsIndex) {
+            //Set chart to format dates on the X axis
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM HH:mm:ss");
+            ((StableTicksAxis) lineChart.getXAxis()).setAxisTickFormatter(
+                    new FixedFormatTickFormatter(format));
         }
 
-        stackPane.getChildren().add(lineChart);
+        lineChart.getXAxis().setAutoRanging(true);
+        lineChart.getXAxis().setAnimated(true);
+        lineChart.getYAxis().setAutoRanging(true);
+        lineChart.getYAxis().setAnimated(true);
+        ((StableTicksAxis) lineChart.getXAxis()).setForceZeroInRange(false);
 
         lineChart.setData(series);
         lineChart.setAnimated(false);
@@ -149,6 +155,28 @@ public class MissionLineChart implements Initializable, AbstractController {
         showSymbols.selectedProperty().addListener((observable, oldValue, newValue) -> reloadSelectedSeriesForPeriod(spinner.getValue(), newValue));
 
         translate();
+
+        //Panning works via either secondary (right) mouse or primary with ctrl held down
+        ChartPanManager panner = new ChartPanManager(lineChart);
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.SECONDARY ||
+                    (mouseEvent.getButton() == MouseButton.PRIMARY &&
+                            mouseEvent.isShortcutDown())) {
+                //let it through
+            } else {
+                mouseEvent.consume();
+            }
+        });
+        panner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming(lineChart, mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown())
+                mouseEvent.consume();
+        });
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler(lineChart);
     }
 
     /**
@@ -253,7 +281,7 @@ public class MissionLineChart implements Initializable, AbstractController {
         } else {
             measurements.stream().forEach((measurement) -> {
                 double data = Unit.C.equals(unit) ? measurement.getData() : Calculator.celsiusToFahrenheit(measurement.getData());
-                serie.getData().add(new XYChart.Data<>(measurement.getDate(), data));
+                serie.getData().add(new XYChart.Data<>(measurement.getDate().getTime(), data));
             });
         }
     }
@@ -303,15 +331,15 @@ public class MissionLineChart implements Initializable, AbstractController {
     @Override
     public void translate() {
         saveGraphicButton.setText(language.get(Lang.SAVE_GRAPHIC));
-        if (writeAsIndex) {
-            indexAxis.setLabel(language.get(Lang.INDEX));
-        } else {
-            dateAxis.setLabel(language.get(Lang.DATE_AXIS));
-        }
-        if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
-            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
-        } else {
-            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
-        }
+//        if (writeAsIndex) {
+//            indexAxis.setLabel(language.get(Lang.INDEX));
+//        } else {
+//            dateAxis.setLabel(language.get(Lang.DATE_AXIS));
+//        }
+//        if (Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C)) {
+//            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_C));
+//        } else {
+//            temperatureAxis.setLabel(language.get(Lang.TEMPERATURE_AXIS_F));
+//        }
     }
 }

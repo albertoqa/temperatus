@@ -26,7 +26,7 @@ public class ChartToolTip {
     public static void addToolTipOnHover(XYChart.Series<Object, Number> serie, LineChart lineChart) {
         if (lineChart.getCreateSymbols()) {
             for (XYChart.Data<Object, Number> d : serie.getData()) {
-                Tooltip.install(d.getNode(), new Tooltip(d.getXValue().toString() + Constants.NEW_LINE + Language.getInstance().get(Lang.TEMPERATURE_HOVER) + Constants.SPACE + Constants.decimalFormat.format(d.getYValue())));
+                Tooltip.install(d.getNode(), new Tooltip(Constants.dateTimeFormat.format(d.getXValue()) + Constants.NEW_LINE + Language.getInstance().get(Lang.TEMPERATURE_HOVER) + Constants.SPACE + Constants.decimalFormat.format(d.getYValue())));
 
                 try {
                     d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add(HOVER_STYLE)); //Adding class on hover
