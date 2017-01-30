@@ -40,7 +40,7 @@ public class DeviceOperationsManager {
 
         // don't submit a scan task until the last execution is completed
         scanSchedulerExecutor.scheduleAtFixedRate(new Runnable() {
-            private final ExecutorService executor = Executors.newSingleThreadExecutor();
+            private final ExecutorService executor = Executors.newSingleThreadExecutor(daemonThreadFactory);
             private Future<?> lastExecution;
             @Override
             public void run() {
