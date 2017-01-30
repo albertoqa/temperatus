@@ -28,7 +28,7 @@ public class AppLoader {
 
     private static final String AppDirName = "Temperatus";
     private static final String JarName = "Temperatus.jar";
-    private static final String JarURL = "http://localhost:8899/Temperatus.jar.pack.gz";
+    private static final String JarURL = "http://albertoquesada.com/temperatus/temperatus_windows.jar.pack.gz";
     private static final String MainClass = "temperatus.Main";
 
     private static Logger logger = LoggerFactory.getLogger(AppLoader.class.getName());
