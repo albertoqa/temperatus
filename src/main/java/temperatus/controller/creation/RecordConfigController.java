@@ -2,6 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -10,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -108,6 +110,10 @@ public class RecordConfigController extends AbstractCreationController implement
 
     private NewRecordController newRecordController;
 
+    private DateStringConverter dateStringConverter;
+    private DoubleProperty previousLowProperty;     // used to bind the textInput to the current selected range
+    private DoubleProperty previousHighProperty;
+
     private static final int NUMBER_OF_TICKS = 8;    // ticks to show on the slider
     private static final String HEADER = "Date/Time,Unit,Value";    // Header line where the measurements start in the csv
 
@@ -115,6 +121,7 @@ public class RecordConfigController extends AbstractCreationController implement
     public void initialize(URL location, ResourceBundle resources) {
         VistaNavigator.setController(this);
         translate();
+        dateStringConverter = new DateStringConverter(false);
     }
 
     /**
@@ -203,10 +210,54 @@ public class RecordConfigController extends AbstractCreationController implement
 
         multiRange.setMajorTickUnit(majorTickUnit);
 
-        initTime.editableProperty().setValue(false);
-        endTime.editableProperty().setValue(false);
-        Bindings.bindBidirectional(initTime.textProperty(), multiRange.lowValueProperty(), new DateStringConverter(false));    // dateTimeFormat
-        Bindings.bindBidirectional(endTime.textProperty(), multiRange.highValueProperty(), new DateStringConverter(false));
+        initTime.editableProperty().setValue(true);
+        endTime.editableProperty().setValue(true);
+
+        initTime.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                multiRange.validateValues();
+                multiRange.requestLayout();
+            }
+        });
+
+        endTime.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                multiRange.validateValues();
+                multiRange.requestLayout();
+            }
+        });
+
+        Bindings.bindBidirectional(initTime.textProperty(), multiRange.getLowValueProperty(), dateStringConverter);    // dateTimeFormat
+        Bindings.bindBidirectional(endTime.textProperty(), multiRange.getHighValueProperty(), dateStringConverter);
+
+        previousLowProperty = multiRange.getLowValueProperty();
+        previousHighProperty = multiRange.getHighValueProperty();
+
+        multiRange.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            bindTextToCurrentLowValue();
+        });
+
+        multiRange.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            bindTextToCurrentHighValue();
+        });
+    }
+
+    /**
+     * Unbind the text input of its previous binded property and bind it to the current low property
+     */
+    private void bindTextToCurrentLowValue() {
+        initTime.textProperty().unbindBidirectional(previousLowProperty);
+        previousLowProperty = multiRange.getLowValueProperty();
+        initTime.textProperty().bindBidirectional(multiRange.getLowValueProperty(), dateStringConverter);
+    }
+
+    /**
+     * Unbind the text input of its previous binded property and bind it to the current high property
+     */
+    private void bindTextToCurrentHighValue() {
+        endTime.textProperty().unbindBidirectional(previousHighProperty);
+        previousHighProperty = multiRange.getHighValueProperty();
+        endTime.textProperty().bindBidirectional(multiRange.getHighValueProperty(), dateStringConverter);
     }
 
     /**

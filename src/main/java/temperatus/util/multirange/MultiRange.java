@@ -235,6 +235,13 @@ public class MultiRange extends Control {
     }
 
     /**
+     *
+     */
+    public void validateValues() {
+
+    }
+
+    /**
      * Get the low/high value of the range currently selected.
      *
      * @param isLow whether the value to retrieve is the low or the high
