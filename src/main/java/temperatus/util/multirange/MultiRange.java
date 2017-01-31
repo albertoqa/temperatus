@@ -200,6 +200,9 @@ public class MultiRange extends Control {
      * @see #isValidValueNS(boolean, Range, double) for a version without streams (may be faster...)
      */
     private boolean isValidValue(boolean isLow, Range range, double newValue) {
+        if (newValue < getMin() || newValue > getMax()) {
+            return false;
+        }
         if (isLow && newValue < range.getHigh() - thumbWidth) {
             return ranges.stream().filter(r -> r.getId() != range.getId())
                     .filter(r -> r.getHigh() < range.getHigh())
@@ -218,6 +221,9 @@ public class MultiRange extends Control {
      * Works like {@link #isValidValue(boolean, Range, double)} function without using streams.
      */
     private boolean isValidValueNS(boolean isLow, Range range, double newValue) {
+        if (newValue < getMin() || newValue > getMax()) {
+            return false;
+        }
         if (isLow && newValue < range.getHigh()) {
             for (Range r : ranges) {
                 if (r.getId() != range.getId() && r.getHigh() < range.getHigh() && r.getHigh() >= newValue) {
@@ -235,10 +241,18 @@ public class MultiRange extends Control {
     }
 
     /**
-     *
+     * Check if all ranges are valid and if any of them is not valid, try to correct it!
+     * TODO this is working but... is not a good solution!
      */
     public void validateValues() {
-
+        for (Range r : ranges) {
+            if (!isValidValue(true, r, r.getLow())) {
+                r.setLow(r.getHigh() - 300000);
+            }
+            if (!isValidValue(false, r, r.getHigh())) {
+                r.setHigh(r.getLow() + 300000);
+            }
+        }
     }
 
     /**
