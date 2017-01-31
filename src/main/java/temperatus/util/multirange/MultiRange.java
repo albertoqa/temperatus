@@ -45,35 +45,35 @@ import java.util.*;
  * for multiple 'thumbs', rather than one. A thumb is the non-technical name for the
  * draggable area inside the Slider / MultiRange that allows for a value to be
  * set.
- *
+ * <p>
  * <p>Because the MultiRange has multiple thumbs, it also has a few additional rules
  * and user interactions:
- *
+ * <p>
  * <ol>
- *   <li>The 'lower value' thumb can not move past the 'higher value' thumb of any range.
- *   <li>The 'high value' of any thumb cannot move past the 'low value' of any range.
- *   <li>The 'low value' of any thumb cannot move below the 'high value' of any range.
- *   <li>The area between any low and high values represents the allowable range.
- *       For example, if the low value is 2 and the high value is 8, then the
- *       allowable range is between 2 and 8.
- *   <li>The allowable range area is rendered differently.
- *   <li>A range can be removed by a right click over the itself. A minimum of one range
- *       must be in the slider at any time.
+ * <li>The 'lower value' thumb can not move past the 'higher value' thumb of any range.
+ * <li>The 'high value' of any thumb cannot move past the 'low value' of any range.
+ * <li>The 'low value' of any thumb cannot move below the 'high value' of any range.
+ * <li>The area between any low and high values represents the allowable range.
+ * For example, if the low value is 2 and the high value is 8, then the
+ * allowable range is between 2 and 8.
+ * <li>The allowable range area is rendered differently.
+ * <li>A range can be removed by a right click over the itself. A minimum of one range
+ * must be in the slider at any time.
  * </ol>
- *
- *
+ * <p>
+ * <p>
  * <h3>Code Samples</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * final MultiRange multiRange = new MultiRange(0, 100);
  * multiRange.setShowTickMarks(true);
  * multiRange.setShowTickLabels(true);
  * multiRange.setBlockIncrement(10);}</pre>
- *
+ * <p>
  * <p>This code creates a MultiRange with a min value of 0, a max value of 100,
- *
- *
+ * <p>
+ * <p>
  * Created by alberto on 09/01/2017.
  */
 public class MultiRange extends Control {
@@ -167,7 +167,7 @@ public class MultiRange extends Control {
                 setHighValue(value);
             }
 
-            if(getSkin() != null) {
+            if (getSkin() != null) {
                 requestLayout();
             }
         }
@@ -251,6 +251,24 @@ public class MultiRange extends Control {
             }
         }
         return -1;
+    }
+
+    /**
+     * Get the low/high property of the range currently selected.
+     *
+     * @param isLow whether the value to retrieve is the low or the high
+     * @return the property
+     */
+    private DoubleProperty getValueProperty(boolean isLow) {
+        Optional<Range> rangeOptional = ranges.stream().filter(r -> r.getId() == currentRangeId.get()).findAny();
+        if (rangeOptional.isPresent()) {
+            if (isLow) {
+                return rangeOptional.get().lowProperty();
+            } else {
+                return rangeOptional.get().highProperty();
+            }
+        }
+        return null;
     }
 
     /**
@@ -555,6 +573,14 @@ public class MultiRange extends Control {
         this.ranges = ranges;
     }
 
+    public DoubleProperty getLowValueProperty() {
+        return getValueProperty(true);
+    }
+
+    public DoubleProperty getHighValueProperty() {
+        return getValueProperty(false);
+    }
+
     /**
      * Sets the maximum value for this Slider.
      *
@@ -648,6 +674,7 @@ public class MultiRange extends Control {
     }
 
     // --- low value
+
     /**
      * The low value property represents the current position of the low value
      * thumb, and is within the allowable range as specified by the
@@ -657,6 +684,7 @@ public class MultiRange extends Control {
     public final DoubleProperty lowValueProperty() {
         return lowValue;
     }
+
     private DoubleProperty lowValue = new SimpleDoubleProperty(this, "lowValue", 0.0D);
 
     /**
@@ -669,6 +697,7 @@ public class MultiRange extends Control {
     }
 
     // --- high value
+
     /**
      * The high value property represents the current position of the high value
      * thumb, and is within the allowable range as specified by the
@@ -678,6 +707,7 @@ public class MultiRange extends Control {
     public final DoubleProperty highValueProperty() {
         return highValue;
     }
+
     private DoubleProperty highValue = new SimpleDoubleProperty(this, "highValue", 100D);
 
     /**
