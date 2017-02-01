@@ -242,7 +242,7 @@ public class MultiRange extends Control {
 
     /**
      * Check if all ranges are valid and if any of them is not valid, try to correct it!
-     * TODO this is working but... is not a good solution!
+     * TODO this is working but... it is not a good solution!
      */
     public void validateValues() {
         for (Range r : ranges) {

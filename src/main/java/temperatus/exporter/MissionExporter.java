@@ -17,6 +17,7 @@ import temperatus.model.pojo.types.Unit;
 import temperatus.util.VistaNavigator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class MissionExporter extends AbstractExporter {
             /**
              * Calculate independent positions first
              */
-            records.sort((o1, o2) -> o1.getPosition().getPlace().compareTo(o2.getPosition().getPlace()));
+            records.sort(Comparator.comparing(o -> o.getPosition().getPlace()));
 
             int row = 1;
             for (Record record : records) {
