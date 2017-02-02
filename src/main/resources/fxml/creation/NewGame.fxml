@@ -22,9 +22,9 @@
                <children>
                   <CheckListView fx:id="formulasList" layoutX="281.0" layoutY="29.0" prefHeight="180.0" prefWidth="230.0" />
                   <Separator layoutX="261.0" layoutY="29.0" orientation="VERTICAL" prefHeight="180.0" prefWidth="4.0" />
-                  <CheckListView fx:id="positionsList" layoutX="14.0" layoutY="29.0" prefHeight="180.0" prefWidth="187.0" stylesheets="@../../styles/hideScrollBars.css" styleClass="listNoScroll"/>
-                  <ListView fx:id="orderList" layoutX="201.0" layoutY="29.0" prefHeight="180.0" prefWidth="29.0" stylesheets="@../../styles/hideScrollBars.css" styleClass="listNoScroll"/>
-                  <Label layoutX="206.0" layoutY="15.0" text="Order">
+                  <CheckListView fx:id="positionsList" layoutX="14.0" layoutY="29.0" prefHeight="180.0" prefWidth="187.0" styleClass="listNoScroll" stylesheets="@../../styles/hideScrollBars.css" />
+                  <ListView fx:id="orderList" layoutX="201.0" layoutY="29.0" prefHeight="180.0" prefWidth="29.0" styleClass="listNoScroll" stylesheets="@../../styles/hideScrollBars.css" />
+                  <Label layoutX="201.0" layoutY="15.0" text="Order">
                      <font>
                         <Font name="Avenir Light" size="10.0" />
                      </font>

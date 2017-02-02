@@ -68,6 +68,8 @@ public class NewGameController extends AbstractCreationController implements Ini
     @FXML private Label defaultPositionsLabel;
     @FXML private Label defaultFormulasLabel;
 
+    @FXML private ListView<String> orderList;
+    @FXML private ScrollBar scrollBar;
     @FXML private CheckListView<Formula> formulasList;
     @FXML private CheckListView<Position> positionsList;
 
@@ -123,6 +125,14 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         numButtonsInput.addEventFilter(KeyEvent.KEY_TYPED, TextValidation.numeric(MAX_DIGITS_FOR_NUM_BUTTONS));
 
+        scrollBar.valueProperty().addListener((ov, t, t1) -> {
+            //Scroll according to the table row index
+            positionsList.scrollTo(t1.intValue());
+            orderList.scrollTo(t1.intValue());
+        });
+
+        orderList.setEditable(true);
+
         translate();
 
         getAllElements();
@@ -149,14 +159,26 @@ public class NewGameController extends AbstractCreationController implements Ini
 
         getPositionsTask.setOnSucceeded(e -> {
             positionsList.getItems().addAll(getPositionsTask.getValue());
-            for (Position position : game.getPositions()) {
-                positionsList.getCheckModel().check(position);    // check game's positions
+
+            scrollBar.setMax(positionsList.getItems().size()); //make sure the max is equal to the size of the table row data.
+            scrollBar.setMin(0);
+
+            for (Position p : positionsList.getItems()) {
+                orderList.getItems().add("0");
+            }
+
+            if (game != null) {
+                for (Position position : game.getPositions()) {
+                    positionsList.getCheckModel().check(position);    // check game's positions
+                }
             }
         });
         getFormulasTask.setOnSucceeded(e -> {
             formulasList.getItems().addAll(getFormulasTask.getValue());
-            for (Formula formula : game.getFormulas()) {
-                formulasList.getCheckModel().check(formula);    // check game's formulas
+            if (game != null) {
+                for (Formula formula : game.getFormulas()) {
+                    formulasList.getCheckModel().check(formula);    // check game's formulas
+                }
             }
         });
 
