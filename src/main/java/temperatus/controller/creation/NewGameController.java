@@ -9,6 +9,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -132,6 +133,7 @@ public class NewGameController extends AbstractCreationController implements Ini
         });
 
         orderList.setEditable(true);
+        orderList.setCellFactory(TextFieldListCell.forListView());
 
         translate();
 
