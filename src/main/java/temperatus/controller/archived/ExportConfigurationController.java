@@ -2,10 +2,7 @@ package temperatus.controller.archived;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import org.controlsfx.control.CheckListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +46,8 @@ public class ExportConfigurationController implements Initializable, AbstractCon
     @FXML private Label periodLabel;
     @FXML private Label positionsLabel;
     @FXML private Label formulasLabel;
+
+    @FXML private CheckBox separateWithTags;
 
     private Mission mission;
     private HashMap<Record, List<Measurement>> dataMap;
@@ -125,7 +124,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
 
             // create a new mission exporter and set the data to export
             MissionExporter missionExporter = new MissionExporter();
-            missionExporter.setData(periodSpinner.getValue(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
+            missionExporter.setData(periodSpinner.getValue(), separateWithTags.isSelected(), mission.getName(), records, formulaCheckListView.getCheckModel().getCheckedItems(), dataMap, unit);
 
             FileUtils.writeDataToFile(file, missionExporter.export());
 
@@ -143,5 +142,6 @@ public class ExportConfigurationController implements Initializable, AbstractCon
         periodLabel.setText(language.get(Lang.PERIOD));
         positionsLabel.setText(language.get(Lang.POSITIONS));
         formulasLabel.setText(language.get(Lang.FORMULAS));
+        separateWithTags.setText(language.get(Lang.SEPARATE_WITH_TAGS));
     }
 }
