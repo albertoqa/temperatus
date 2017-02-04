@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="855.0" stylesheets="@../../styles/titlePane.css" text="New Game" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewGameController">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="855.0" stylesheets="@../../styles/titlePane.css" text="New Game" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="temperatus.controller.creation.NewGameController">
     <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="888.0" style="-fx-background-color: #FFFFFF;">
             <children>
@@ -22,9 +22,9 @@
                <children>
                   <CheckListView fx:id="formulasList" layoutX="281.0" layoutY="29.0" prefHeight="180.0" prefWidth="230.0" />
                   <Separator layoutX="261.0" layoutY="29.0" orientation="VERTICAL" prefHeight="180.0" prefWidth="4.0" />
-                  <CheckListView fx:id="positionsList" layoutX="14.0" layoutY="29.0" prefHeight="180.0" prefWidth="187.0" styleClass="listNoScroll" stylesheets="@../../styles/hideScrollBars.css" />
-                  <ListView fx:id="orderList" layoutX="201.0" layoutY="29.0" prefHeight="180.0" prefWidth="29.0" styleClass="listNoScroll" stylesheets="@../../styles/hideScrollBars.css" />
-                  <Label layoutX="201.0" layoutY="15.0" text="Order">
+                  <CheckListView fx:id="positionsList" layoutX="14.0" layoutY="29.0" prefHeight="180.0" prefWidth="170.0" styleClass="listNoScroll, orderList" stylesheets="@../../styles/hideScrollBars.css" />
+                  <ListView fx:id="orderList" layoutX="183.0" layoutY="29.0" prefHeight="180.0" prefWidth="47.0" styleClass="listNoScroll, orderList, centerList" stylesheets="@../../styles/hideScrollBars.css"/>
+                  <Label layoutX="192.0" layoutY="15.0" text="Order">
                      <font>
                         <Font name="Avenir Light" size="10.0" />
                      </font>

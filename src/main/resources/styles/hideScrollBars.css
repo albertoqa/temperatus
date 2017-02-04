@@ -34,3 +34,48 @@
     -fx-padding:0px;
 
 }
+
+/* The main scrollbar **track** CSS class  horizontal*/
+
+.listNoScroll .scroll-bar:horizontal .track{
+    -fx-padding:0px;
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.listNoScroll .scroll-bar:horizontal .increment-button ,
+.listNoScroll .scroll-bar:horizontal .decrement-button {
+
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 0 0;
+}
+
+.listNoScroll  .scroll-bar:horizontal .increment-arrow,
+.listNoScroll  .scroll-bar:horizontal  .decrement-arrow
+{
+    -fx-shape: " ";
+    -fx-padding:0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.listNoScroll .scroll-bar:horizontal .thumb {
+    -fx-background-color:transparent;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 2em;
+    -fx-padding:0px;
+
+}
+
+.orderList .list-cell {
+    -fx-cell-size: 21px;
+}
+
+.centerList .list-cell {
+    -fx-alignment: center;
+}
