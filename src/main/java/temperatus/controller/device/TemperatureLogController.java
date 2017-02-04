@@ -182,7 +182,7 @@ public class TemperatureLogController implements Initializable, AbstractControll
         Unit unit = Constants.prefs.get(Constants.UNIT, Constants.UNIT_C).equals(Constants.UNIT_C) ? Unit.C : Unit.F;
 
         // period = 1, no formulas and no all records needed
-        missionExporter.setData(1, serial, records, new ArrayList<>(), dataMap, unit);
+        missionExporter.setData(1, false, serial, records, new ArrayList<>(), dataMap, unit);
 
         FileUtils.writeDataToFile(file, missionExporter.export());
     }

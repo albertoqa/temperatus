@@ -130,6 +130,8 @@ public class NewGameController extends AbstractCreationController implements Ini
             orderList.scrollTo(t1.intValue());
         });
 
+        // TODO bind scroll of the two lists!
+
         orderList.setEditable(true);
         orderList.setCellFactory(TextFieldListCell.forListView());
 

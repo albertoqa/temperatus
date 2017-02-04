@@ -233,7 +233,7 @@ public class MissionLineChart implements Initializable, AbstractController {
      * @return serie to show for the given record
      */
     private XYChart.Series createSerieForRecord(Record record, int period) {
-        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
+        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period, false);
 
         XYChart.Series serie = new XYChart.Series<>();
         serie.setName(record.getPosition().getPlace());
@@ -255,7 +255,7 @@ public class MissionLineChart implements Initializable, AbstractController {
 
         XYChart.Series serie = new XYChart.Series<>();
         serie.setName(formula.getName());
-        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
+        List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period, false);
 
         writeSerie(serie, measurements);
 
