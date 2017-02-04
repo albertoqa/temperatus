@@ -23,7 +23,8 @@ public class Game implements java.io.Serializable {
     private SimpleIntegerProperty numButtons = new SimpleIntegerProperty();
     private String observations;
     private Set<Formula> formulas = new HashSet<Formula>(0);
-    private Set<Position> positions = new HashSet<Position>(0);
+    //    private Set<Position> positions = new HashSet<Position>(0);
+    private Set<GamePosition> gamePositions = new HashSet<GamePosition>(0);
     private Set<Image> images = new HashSet<Image>(0);
 
     public Game() {
@@ -40,12 +41,12 @@ public class Game implements java.io.Serializable {
         this.observations = observations;
     }
 
-    public Game(String title, int numButtons, String observations, Set<Formula> formulas, Set<Position> positions) {
+    public Game(String title, int numButtons, String observations, Set<Formula> formulas, Set<GamePosition> positions) {
         this.title.setValue(title);
         this.numButtons.setValue(numButtons);
         this.observations = observations;
         this.formulas = formulas;
-        this.positions = positions;
+        this.gamePositions = positions;
     }
 
     @Id
@@ -99,16 +100,25 @@ public class Game implements java.io.Serializable {
         this.formulas = formulas;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "GAME_POSITION", schema = "PUBLIC", catalog = "DATABASE", joinColumns = {
-            @JoinColumn(name = "GAME_ID", nullable = false, updatable = false)}, inverseJoinColumns = {
-            @JoinColumn(name = "POSITION_ID", nullable = false, updatable = false)})
-    public Set<Position> getPositions() {
-        return this.positions;
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    @JoinTable(name = "GAME_POSITION", schema = "PUBLIC", catalog = "DATABASE", joinColumns = {
+//            @JoinColumn(name = "GAME_ID", nullable = false, updatable = false)}, inverseJoinColumns = {
+//            @JoinColumn(name = "POSITION_ID", nullable = false, updatable = false)})
+//    public Set<Position> getPositions() {
+//        return this.positions;
+//    }
+//
+//    public void setPositions(Set<Position> positions) {
+//        this.positions = positions;
+//    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
+    public Set<GamePosition> getGamePositions() {
+        return this.gamePositions;
     }
 
-    public void setPositions(Set<Position> positions) {
-        this.positions = positions;
+    public void setGamePositions(Set<GamePosition> gamePositions) {
+        this.gamePositions = gamePositions;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
@@ -137,7 +147,7 @@ public class Game implements java.io.Serializable {
 
     @Transient
     public SimpleStringProperty getNumberOfDefaultPositionsProperty() {
-        return new SimpleStringProperty(String.valueOf(getPositions().size()));
+        return new SimpleStringProperty(String.valueOf(getGamePositions().size()));
     }
 
     @Transient
