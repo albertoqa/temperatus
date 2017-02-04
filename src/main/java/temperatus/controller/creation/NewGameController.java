@@ -25,9 +25,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import temperatus.exception.ControlledTemperatusException;
 import temperatus.lang.Lang;
-import temperatus.model.pojo.Formula;
-import temperatus.model.pojo.Game;
-import temperatus.model.pojo.Position;
+import temperatus.model.pojo.*;
 import temperatus.model.service.FormulaService;
 import temperatus.model.service.GameService;
 import temperatus.model.service.PositionService;
@@ -135,6 +133,10 @@ public class NewGameController extends AbstractCreationController implements Ini
         orderList.setEditable(true);
         orderList.setCellFactory(TextFieldListCell.forListView());
 
+        orderList.setOnEditCommit(t -> {
+            orderList.getItems().set(t.getIndex(), t.getNewValue());
+        });
+
         translate();
 
         getAllElements();
@@ -162,16 +164,26 @@ public class NewGameController extends AbstractCreationController implements Ini
         getPositionsTask.setOnSucceeded(e -> {
             positionsList.getItems().addAll(getPositionsTask.getValue());
 
-            scrollBar.setMax(positionsList.getItems().size()); //make sure the max is equal to the size of the table row data.
+            // 8 is the number of elements that fits on screen without the need of scrolling!
+            scrollBar.setMax(positionsList.getItems().size() - 8); //make sure the max is equal to the size of the table row data.
             scrollBar.setMin(0);
 
-            for (Position p : positionsList.getItems()) {
-                orderList.getItems().add("0");
-            }
-
             if (game != null) {
-                for (Position position : game.getPositions()) {
-                    positionsList.getCheckModel().check(position);    // check game's positions
+                for(int i = 1; i <= positionsList.getItems().size(); i++) {
+                    orderList.getItems().add("0");
+                }
+                for (GamePosition gamePosition : game.getGamePositions()) {
+                    positionsList.getCheckModel().check(gamePosition.getPosition());    // check game's positions
+                    int index = positionsList.getCheckModel().getItemIndex(gamePosition.getPosition());
+                    String order = String.valueOf(gamePosition.getOrdering());
+                    if(order == null || "".equals(order)) {
+                        order = "0";
+                    }
+                    orderList.getItems().set(index, order);
+                }
+            } else {
+                for(int i = 1; i <= positionsList.getItems().size(); i++) {
+                    orderList.getItems().add(String.valueOf(i));
                 }
             }
         });
@@ -222,8 +234,8 @@ public class NewGameController extends AbstractCreationController implements Ini
             formulasList.getCheckModel().check(formula);    // check game's formulas
         }
 
-        for (Position position : game.getPositions()) {
-            positionsList.getCheckModel().check(position);    // check game's positions
+        for (GamePosition gamePosition : game.getGamePositions()) {
+            positionsList.getCheckModel().check(gamePosition.getPosition());    // check game's positions
         }
 
         List<temperatus.model.pojo.Image> imagesPaths = new ArrayList<>(game.getImages());
@@ -263,9 +275,6 @@ public class NewGameController extends AbstractCreationController implements Ini
             game.setNumButtons(Integer.parseInt(numButtonsInput.getText()));
             game.setObservations(observationsInput.getText());
 
-            game.getPositions().clear();
-            game.getPositions().addAll(positionsList.getCheckModel().getCheckedItems()); // default positions
-
             game.getFormulas().clear();
             game.getFormulas().addAll(formulasList.getCheckModel().getCheckedItems());  // default formulas
 
@@ -283,6 +292,15 @@ public class NewGameController extends AbstractCreationController implements Ini
 
             gameService.saveOrUpdate(game);
 
+            game.getGamePositions().clear();
+            for(Position position: positionsList.getCheckModel().getCheckedItems()) {
+                GamePositionId gamePositionId = new GamePositionId(game.getId(), position.getId());
+                GamePosition gamePosition = new GamePosition(gamePositionId, game, position, Integer.parseInt(orderList.getItems().get(positionsList.getCheckModel().getItemIndex(position))));
+                game.getGamePositions().add(gamePosition);
+            }
+
+            gameService.saveOrUpdate(game);
+
             showAlertAndWait(Alert.AlertType.INFORMATION, language.get(Lang.SUCCESSFULLY_SAVED));
 
             VistaNavigator.closeModal(titledPane);
@@ -296,7 +314,7 @@ public class NewGameController extends AbstractCreationController implements Ini
             logger.warn("Exception: " + ex.getMessage());
             showAlert(Alert.AlertType.ERROR, ex.getMessage());
         } catch (NumberFormatException ex) {
-            logger.warn("Invalid input for number of buttons");
+            logger.warn("Invalid input for number of buttons or order");
             showAlert(Alert.AlertType.ERROR, language.get(Lang.INVALID_NUMBER_BUTTONS));
         } catch (ConstraintViolationException ex) {
             logger.warn("Duplicate entry");

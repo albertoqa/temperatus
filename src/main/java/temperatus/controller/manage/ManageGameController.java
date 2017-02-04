@@ -19,8 +19,8 @@ import temperatus.controller.creation.NewGameController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
+import temperatus.model.pojo.GamePosition;
 import temperatus.model.pojo.Image;
-import temperatus.model.pojo.Position;
 import temperatus.model.service.GameService;
 import temperatus.util.Animation;
 import temperatus.util.Constants;
@@ -98,8 +98,8 @@ public class ManageGameController implements Initializable, AbstractController {
                 for (Formula formula : game.getFormulas()) {
                     formulasInfo.setText(formulasInfo.getText() + formula.getName() + COMMA);
                 }
-                for (Position position : game.getPositions()) {
-                    positionsInfo.setText(positionsInfo.getText() + position.getPlace() + COMMA);
+                for (GamePosition gamePosition : game.getGamePositions()) {
+                    positionsInfo.setText(positionsInfo.getText() + gamePosition.getPosition().getPlace() + COMMA);
                 }
             }
         });

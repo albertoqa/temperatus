@@ -114,7 +114,7 @@ public class NewRecordController extends AbstractCreationController implements I
 
     private Mission mission;
     private Game game;                                      // Game assigned to the mission
-    private ObservableList<Position> defaultPositions;                // Default positions for selected game
+    private ObservableList<GamePosition> defaultPositions;                // Default positions for selected game
     private ObservableList<Position> positions;                       // All positions saved to the db
 
     private File[] filesToSave;                         // Files where temp data is temporary stored
@@ -161,12 +161,12 @@ public class NewRecordController extends AbstractCreationController implements I
 
         this.mission = mission;
         game = mission.getGame();   // Get game assigned to this mission
-        defaultPositions = FXCollections.observableArrayList(game.getPositions());   // Get default positions fot the game
+        defaultPositions = FXCollections.observableArrayList(game.getGamePositions());   // Get default positions fot the game
         positions = FXCollections.observableArrayList(positionService.getAll());     // Pre-load all positions from db
 
         // Sort positions and defaultPositions
-        defaultPositions.sort((o1, o2) -> o1.getPlace().compareTo(o2.getPlace()));
-        positions.sort((o1, o2) -> o1.getPlace().compareTo(o2.getPlace()));
+        defaultPositions.sort(Comparator.comparing(GamePosition::getOrdering));
+        positions.sort(Comparator.comparing(Position::getPlace));
 
         // We need to save as many files as numOfButtons has the game
         filesToSave = new File[game.getNumButtons()];
@@ -182,7 +182,7 @@ public class NewRecordController extends AbstractCreationController implements I
             new AutoCompleteComboBoxListener<>(choiceBoxPositions); // Allow write and autocomplete
 
             if (defaultPositions.size() > index) {
-                choiceBoxPositions.getSelectionModel().select(defaultPositions.get(index)); // preselect default position
+                choiceBoxPositions.getSelectionModel().select(defaultPositions.get(index).getPosition()); // preselect default position
             }
 
             // SOURCE -> all detected iButtons
@@ -701,9 +701,12 @@ public class NewRecordController extends AbstractCreationController implements I
         if (defaultPositionForIbutton != null) {
             // If game default positions contains the same position as ibutton default position
             // Set that ibutton to that position
-            if (defaultPositions.contains(defaultPositionForIbutton)) {
-                int index = getRowForPosition(defaultPositionForIbutton);
-                getSourceChoiceComboBoxForIndex(index).getSelectionModel().select(sourceChoice);
+            for(GamePosition gamePosition: defaultPositions) {
+                if(gamePosition.getPosition().equals(defaultPositionForIbutton)) {
+                    int index = getRowForPosition(defaultPositionForIbutton);
+                    getSourceChoiceComboBoxForIndex(index).getSelectionModel().select(sourceChoice);
+                    break;
+                }
             }
         }
     }

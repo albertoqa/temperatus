@@ -14,8 +14,8 @@ import temperatus.controller.AbstractController;
 import temperatus.lang.Lang;
 import temperatus.model.pojo.Formula;
 import temperatus.model.pojo.Game;
+import temperatus.model.pojo.GamePosition;
 import temperatus.model.pojo.Image;
-import temperatus.model.pojo.Position;
 import temperatus.util.Constants;
 import temperatus.util.VistaNavigator;
 
@@ -113,8 +113,8 @@ public class GameInfoController implements Initializable, AbstractController {
         for (Formula formula : game.getFormulas()) {
             formulasInfo.setText(formulasInfo.getText() + formula.getName() + COMMA);
         }
-        for (Position position : game.getPositions()) {
-            positionsInfo.setText(positionsInfo.getText() + position.getPlace() + COMMA);
+        for (GamePosition gamePosition : game.getGamePositions()) {
+            positionsInfo.setText(positionsInfo.getText() + gamePosition.getPosition().getPlace() + COMMA);
         }
     }
 
