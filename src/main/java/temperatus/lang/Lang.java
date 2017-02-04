@@ -178,6 +178,8 @@ public class Lang {
     public static final String SAVE_GRAPHIC = "saveGraphic";
     public static final String TEMPERATURE_HOVER = "temperatureHover";
 
+    public static final String SEPARATE_WITH_TAGS = "separateWithTags";
+
     // New Configuration
     public static final String SET_ALARM_LABEL_C = "setAlarmC";
     public static final String SET_ALARM_LABEL_F = "setAlarmF";
