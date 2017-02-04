@@ -3,7 +3,6 @@ package temperatus.device.task;
 import com.dalsemi.onewire.OneWireAccessProvider;
 import com.dalsemi.onewire.OneWireException;
 import com.dalsemi.onewire.adapter.DSPortAdapter;
-import com.dalsemi.onewire.adapter.PDKAdapterUSB;
 import com.dalsemi.onewire.container.OneWireContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,7 @@ public class DeviceDetectorTask implements Runnable {
     @Autowired DeviceDetectorSource deviceDetectorSource;   // create event to let all listeners know about what is happening
     private DeviceSemaphore deviceSemaphore = DeviceSemaphore.getInstance();             // shared semaphore
 
-    private static PDKAdapterUSB pdk = new PDKAdapterUSB();
+    //private static PDKAdapterUSB pdk = new PDKAdapterUSB();
 
     @Override
     public void run() {
@@ -64,7 +63,7 @@ public class DeviceDetectorTask implements Runnable {
 
         if (!System.getProperty("os.name").contains("Windows")) {
             // TODO remember to add as a dependency the special version of the OneWireAPI_pdk
-            scan(pdk, "USB1");
+        //    scan(pdk, "USB1");
         } else {
             for (Enumeration adapter_enum = OneWireAccessProvider.enumerateAllAdapters(); adapter_enum.hasMoreElements(); ) {
                 DSPortAdapter adapter = (DSPortAdapter) adapter_enum.nextElement();
