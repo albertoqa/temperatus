@@ -9,6 +9,7 @@ import temperatus.model.pojo.Measurement;
 import temperatus.model.pojo.types.Unit;
 import temperatus.util.Constants;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,13 +31,13 @@ abstract class AbstractExporter {
      * @param headerRow header row (date-time or index)
      * @param row       actual row
      */
-    void exportMission(List<Measurement> toExport, XSSFRow dataRow, Unit unit, XSSFRow headerRow, int row) {
-        exportMeasurements(toExport, dataRow, unit, 1);
+    void exportMission(List<Measurement> toExport, XSSFRow dataRow, Unit unit, XSSFRow headerRow, int row, boolean separateWithTags) {
+        exportMeasurements(toExport, dataRow, unit, 1, separateWithTags);
 
         // Write the header as Index or DateTime
         if (row == 1) {
             logger.debug("Generating header");
-            exportHeader(toExport, headerRow, 1);
+            exportHeader(toExport, headerRow, 1, separateWithTags);
         }
     }
 
@@ -49,9 +50,9 @@ abstract class AbstractExporter {
      * @param unit      unit of measurement
      * @param prevIndex index to start writing
      */
-    void exportMission(List<Measurement> toExport, XSSFRow headerRow, XSSFRow dataRow, Unit unit, int prevIndex) {
-        exportMeasurements(toExport, dataRow, unit, prevIndex);
-        exportHeader(toExport, headerRow, prevIndex);
+    int exportMission(List<Measurement> toExport, XSSFRow headerRow, XSSFRow dataRow, Unit unit, int prevIndex, boolean separateWithTags) {
+        exportMeasurements(toExport, dataRow, unit, prevIndex, separateWithTags);
+        return exportHeader(toExport, headerRow, prevIndex, separateWithTags);
     }
 
     /**
@@ -60,26 +61,61 @@ abstract class AbstractExporter {
      * @param toExport  list of measurements to export
      * @param headerRow row
      * @param prevIndex index where we should start to write
+     * @return the number of ranges in the list
      */
-    private void exportHeader(List<Measurement> toExport, XSSFRow headerRow, int prevIndex) {
+    private int exportHeader(List<Measurement> toExport, XSSFRow headerRow, int prevIndex, boolean separateWithTags) {
         boolean writeAsIndex = Constants.prefs.getBoolean(Constants.WRITE_AS_INDEX, Constants.WRITE_INDEX);
         int c = prevIndex;
+        int range = 0;
 
         int index = 1;
-        if (writeAsIndex) {
-            for (Measurement measurement : toExport) {
-                XSSFCell time = headerRow.createCell(c);
-                time.setCellValue(index);
-                index++;
-                c++;
+        if (!separateWithTags || toExport.size() < 2) {
+            if (writeAsIndex) {
+                for (Measurement measurement : toExport) {
+                    XSSFCell time = headerRow.createCell(c);
+                    time.setCellValue(index);
+                    index++;
+                    c++;
+                }
+            } else {
+                for (Measurement measurement : toExport) {
+                    XSSFCell time = headerRow.createCell(c);
+                    time.setCellValue(measurement.getDate().toString());
+                    c++;
+                }
             }
         } else {
-            for (Measurement measurement : toExport) {
-                XSSFCell time = headerRow.createCell(c);
-                time.setCellValue(measurement.getDate().toString());
-                c++;
+            range = 1;
+            Date prevDate = toExport.get(0).getDate();
+            long rate = toExport.get(1).getDate().getTime() - toExport.get(0).getDate().getTime();
+            if (writeAsIndex) {
+                for (Measurement measurement : toExport) {
+                    if (measurement.getDate().getTime() - prevDate.getTime() > rate) {
+                        headerRow.createCell(c++);  // empty cell
+                        XSSFCell rangeTag = headerRow.createCell(c++);
+                        rangeTag.setCellValue("R" + range++);
+                    }
+                    XSSFCell time = headerRow.createCell(c);
+                    time.setCellValue(index);
+                    index++;
+                    c++;
+                    prevDate = measurement.getDate();
+                }
+            } else {
+                for (Measurement measurement : toExport) {
+                    if (measurement.getDate().getTime() - prevDate.getTime() > rate) {
+                        headerRow.createCell(c++);  // empty cell
+                        XSSFCell rangeTag = headerRow.createCell(c++);
+                        rangeTag.setCellValue("R" + range++);
+                    }
+                    XSSFCell time = headerRow.createCell(c);
+                    time.setCellValue(measurement.getDate().toString());
+                    c++;
+                    prevDate = measurement.getDate();
+                }
             }
         }
+        return range;
     }
 
     /**
@@ -90,18 +126,42 @@ abstract class AbstractExporter {
      * @param unit      unit of measurement
      * @param prevIndex column of the row where we should start writing
      */
-    private void exportMeasurements(List<Measurement> toExport, XSSFRow dataRow, Unit unit, int prevIndex) {
+    private void exportMeasurements(List<Measurement> toExport, XSSFRow dataRow, Unit unit, int prevIndex, boolean separateWithTags) {
         int c = prevIndex;
-        for (Measurement measurement : toExport) {
-            XSSFCell data = dataRow.createCell(c);
 
-            if (unit.equals(Unit.C)) {
-                data.setCellValue(measurement.getData());
-            } else {
-                data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+        if (!separateWithTags || toExport.size() < 2) {
+            for (Measurement measurement : toExport) {
+                XSSFCell data = dataRow.createCell(c);
+
+                if (unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+
+                c++;
             }
+        } else {
+            Date prevDate = toExport.get(0).getDate();
+            long rate = toExport.get(1).getDate().getTime() - toExport.get(0).getDate().getTime();
 
-            c++;
+            for (Measurement measurement : toExport) {
+                if (measurement.getDate().getTime() - prevDate.getTime() > rate) {
+                    dataRow.createCell(c++);  // empty cell
+                    dataRow.createCell(c++);
+                }
+
+                XSSFCell data = dataRow.createCell(c);
+
+                if (unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+
+                c++;
+                prevDate = measurement.getDate();
+            }
         }
     }
 
@@ -114,24 +174,52 @@ abstract class AbstractExporter {
      * @param row          actual row
      * @return true if an error occurred
      */
-    boolean exportFormula(List<Measurement> measurements, XSSFRow dataRow, Unit unit, int row) {
+    boolean exportFormula(List<Measurement> measurements, XSSFRow dataRow, Unit unit, int row, boolean separateWithTags) {
         boolean showWarn = false;
         int col = 1;
-        for (Measurement measurement : measurements) {
-            XSSFCell data = dataRow.createCell(col);
 
-            if (unit.equals(Unit.C)) {
-                data.setCellValue(measurement.getData());
-            } else {
-                data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+        if (!separateWithTags || measurements.size() < 2) {
+            for (Measurement measurement : measurements) {
+                XSSFCell data = dataRow.createCell(col);
+
+                if (unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+                col++;
+
+                if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
+                    logger.warn("Error in formula...");
+                    showWarn = true;
+                }
             }
-            col++;
+        } else {
+            Date prevDate = measurements.get(0).getDate();
+            long rate = measurements.get(1).getDate().getTime() - measurements.get(0).getDate().getTime();
 
-            if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
-                logger.warn("Error in formula...");
-                showWarn = true;
+            for (Measurement measurement : measurements) {
+                if (measurement.getDate().getTime() - prevDate.getTime() > rate) {
+                    dataRow.createCell(col++);  // empty cell
+                    dataRow.createCell(col++);
+                }
+
+                XSSFCell data = dataRow.createCell(col);
+
+                if (unit.equals(Unit.C)) {
+                    data.setCellValue(measurement.getData());
+                } else {
+                    data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
+                }
+                col++;
+
+                if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
+                    logger.warn("Error in formula...");
+                    showWarn = true;
+                }
             }
         }
+
         return showWarn;
     }
 

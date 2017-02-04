@@ -55,9 +55,9 @@ public class ProjectExporter extends AbstractExporter {
                     device.setCellValue(record.getPosition().getPlace());
 
                     List<Measurement> measurements = new IbuttonDataImporter(new File(record.getDataPath())).getMeasurements();
-                    List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(measurements, 1);
+                    List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(measurements, 1, false);
 
-                    exportMission(toExport, dataRow, unit, headerRow, row);
+                    exportMission(toExport, dataRow, unit, headerRow, row, false);
                     row++;
                     dataMap.put(record, toExport);
                 }
@@ -69,13 +69,13 @@ public class ProjectExporter extends AbstractExporter {
                 for (Formula formula : formulas) {
                     logger.debug("Exporting data for formula: " + formula);
 
-                    List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, 1);
+                    List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, 1, false);
 
                     XSSFRow dataRow = missionSheet.createRow(row);
                     XSSFCell device = dataRow.createCell(0);
                     device.setCellValue(formula.getName());
 
-                    exportFormula(measurements, dataRow, unit, row);
+                    exportFormula(measurements, dataRow, unit, row, false);
 
                     row++;
                 }

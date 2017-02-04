@@ -38,7 +38,7 @@ public class IButtonDataAnalysis {
      * @param periodInput     generate a measurement withe the average temperature of each <<period>> measurements
      * @return the list of generated measurements
      */
-    public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int periodInput) {
+    public static List<Measurement> getListOfMeasurementsForPeriod(List<Measurement> measurementList, int periodInput, boolean separateWithTags) {
         logger.debug("Generating average measurements for period " + periodInput);
 
         List<Measurement> toExport = new ArrayList<>();
@@ -94,11 +94,11 @@ public class IButtonDataAnalysis {
      * @param period  number of measurements of each group
      * @return list of measurements in groups and with the operation performed
      */
-    public static List<Measurement> getListOfMeasurementsForFormulaAndPeriod(HashMap<Record, List<Measurement>> dataMap, Formula formula, int period) {
+    public static List<Measurement> getListOfMeasurementsForFormulaAndPeriod(HashMap<Record, List<Measurement>> dataMap, Formula formula, int period, boolean separateWithTags) {
         logger.debug("Performing formula [" + formula.getOperation() + "] and average measurements with period " + period);
 
         String operation = formula.getOperation();
-        List<Measurement> measurements = getListOfMeasurementsForPeriod(dataMap.values().iterator().next(), period).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());
+        List<Measurement> measurements = getListOfMeasurementsForPeriod(dataMap.values().iterator().next(), period, separateWithTags).stream().map(measurement -> new Measurement(measurement.getDate(), 0.0, measurement.getUnit())).collect(Collectors.toList());
 
         // Split operation in all its elements and save it one time for each group of measurements
         List<String[]> operations = new ArrayList<>();
@@ -110,7 +110,7 @@ public class IButtonDataAnalysis {
         for (Record record : dataMap.keySet()) {
             String position = record.getPosition().getPlace();
             if (operation.contains(position)) {
-                List<Measurement> recordMeasurements = getListOfMeasurementsForPeriod(dataMap.get(record), period);
+                List<Measurement> recordMeasurements = getListOfMeasurementsForPeriod(dataMap.get(record), period, separateWithTags);
                 int index = 0;
                 for (Measurement measurement : recordMeasurements) {
                     String[] elements = operations.get(index);

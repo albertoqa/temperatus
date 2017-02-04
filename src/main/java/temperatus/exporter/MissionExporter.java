@@ -35,6 +35,7 @@ public class MissionExporter extends AbstractExporter {
     private HashMap<Record, List<Measurement>> dataMap;     // All the records-measurements of the mission - used to calculate values of formulas
     private List<Formula> formulas;     // Formulas selected to export
     private Unit unit;                  // Unit to use in the export
+    private boolean separateWithTags;   // Separate the mission with tags for the ranges
 
     private boolean showWarn = false;   // Show alert if formula cannot be computed
 
@@ -57,6 +58,7 @@ public class MissionExporter extends AbstractExporter {
             XSSFRow headerRowOneRow = missionSheetOneRow.createRow(0);      // Date-Time or Index of the measurement
             XSSFRow dataRowOneRow = missionSheetOneRow.createRow(1);
             int prevIndex = 0;
+            int ranges = 0;
 
             /**
              * Calculate independent positions first
@@ -72,9 +74,9 @@ public class MissionExporter extends AbstractExporter {
                 XSSFCell device = dataRow.createCell(0);
                 device.setCellValue(record.getPosition().getPlace());
 
-                List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period);
+                List<Measurement> toExport = IButtonDataAnalysis.getListOfMeasurementsForPeriod(dataMap.get(record), period, separateWithTags);
 
-                exportMission(toExport, dataRow, unit, headerRow, row);
+                exportMission(toExport, dataRow, unit, headerRow, row, separateWithTags);
 
                 // in this case create another sheet and write all the data in only one row
                 if (dataMap.size() > 1) {
@@ -82,8 +84,8 @@ public class MissionExporter extends AbstractExporter {
                     deviceOneRow.setCellValue(record.getPosition().getPlace());
                     prevIndex++;
 
-                    exportMission(toExport, headerRowOneRow, dataRowOneRow, unit, prevIndex);
-                    prevIndex += toExport.size();
+                    ranges = exportMission(toExport, headerRowOneRow, dataRowOneRow, unit, prevIndex, separateWithTags);
+                    prevIndex += toExport.size() + ranges + 3;
                 }
 
                 row++;
@@ -93,18 +95,18 @@ public class MissionExporter extends AbstractExporter {
              * Calculate formulas
              */
             List<Formula> f = new ArrayList<>(formulas);
-            f.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            f.sort(Comparator.comparing(Formula::getName));
 
             for (Formula formula : f) {
                 logger.debug("Exporting data for formula: " + formula);
 
-                List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period);
+                List<Measurement> measurements = IButtonDataAnalysis.getListOfMeasurementsForFormulaAndPeriod(dataMap, formula, period, separateWithTags);
 
                 XSSFRow dataRow = missionSheet.createRow(row);
                 XSSFCell device = dataRow.createCell(0);
                 device.setCellValue(formula.getName());
 
-                if (exportFormula(measurements, dataRow, unit, row)) {
+                if (exportFormula(measurements, dataRow, unit, row, separateWithTags)) {
                     showWarn = true;
                 }
 
@@ -113,8 +115,8 @@ public class MissionExporter extends AbstractExporter {
                     deviceOneRow.setCellValue(formula.getName());
                     prevIndex++;
 
-                    exportMission(measurements, headerRowOneRow, dataRowOneRow, unit, prevIndex);
-                    prevIndex += measurements.size();
+                    exportMission(measurements, headerRowOneRow, dataRowOneRow, unit, prevIndex, separateWithTags);
+                    prevIndex += measurements.size() + ranges;
                 }
 
                 row++;
@@ -137,14 +139,16 @@ public class MissionExporter extends AbstractExporter {
     /**
      * Set mission data to export
      *
-     * @param period      calculate average of <<period>> measurements
-     * @param missionName name of the mission -- name of the excel sheet
-     * @param records     records selected by the user to export
-     * @param formulas    formulas related to the mission and selected to export
-     * @param dataMap     all records-measurements of the mission
+     * @param period           calculate average of <<period>> measurements
+     * @param separateWithTags separate the mission with tags for each range
+     * @param missionName      name of the mission -- name of the excel sheet
+     * @param records          records selected by the user to export
+     * @param formulas         formulas related to the mission and selected to export
+     * @param dataMap          all records-measurements of the mission
      */
-    public void setData(int period, String missionName, List<Record> records, List<Formula> formulas, HashMap<Record, List<Measurement>> dataMap, Unit unit) {
+    public void setData(int period, boolean separateWithTags, String missionName, List<Record> records, List<Formula> formulas, HashMap<Record, List<Measurement>> dataMap, Unit unit) {
         this.period = period;
+        this.separateWithTags = separateWithTags;
         this.missionName = missionName;
         this.records = records;
         this.formulas = formulas;
