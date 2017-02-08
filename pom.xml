@@ -205,6 +205,11 @@
             <version>2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.albertoquesada</groupId>
+            <artifactId>multi-range</artifactId>
+            <version>0.1</version>
+        </dependency>
 
     </dependencies>
 

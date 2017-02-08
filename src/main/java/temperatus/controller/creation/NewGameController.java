@@ -2,6 +2,7 @@ package temperatus.controller.creation;
 
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.CheckListView;
 import org.hibernate.exception.ConstraintViolationException;
@@ -131,6 +133,11 @@ public class NewGameController extends AbstractCreationController implements Ini
         });
 
         // TODO bind scroll of the two lists!
+        positionsList.setOnScroll(Event::consume);
+        positionsList.addEventHandler(ScrollEvent.ANY, e -> { e.consume(); System.out.println("hola"); });
+        positionsList.addEventHandler(ScrollEvent.SCROLL_STARTED, e -> { e.consume(); System.out.println("start"); });
+        positionsList.addEventHandler(ScrollEvent.SCROLL_FINISHED, e -> { e.consume(); System.out.println("end"); });
+        positionsList.addEventHandler(ScrollEvent.SCROLL, e -> { e.consume(); System.out.println("scroll"); });
 
         orderList.setEditable(true);
         orderList.setCellFactory(TextFieldListCell.forListView());

@@ -15,6 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import multirange.MultiRange;
+import multirange.Range;
 import org.controlsfx.control.CheckListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +40,6 @@ import temperatus.model.service.RecordService;
 import temperatus.util.Constants;
 import temperatus.util.DateStringConverter;
 import temperatus.util.VistaNavigator;
-import temperatus.util.multirange.MultiRange;
-import temperatus.util.multirange.Range;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
