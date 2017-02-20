@@ -97,6 +97,7 @@ public class ExportConfigurationController implements Initializable, AbstractCon
             positionCheckListView.getItems().add(record.getPosition());
         }
         positionCheckListView.getCheckModel().checkAll();
+        formulaCheckListView.getCheckModel().checkAll();
     }
 
     /**
