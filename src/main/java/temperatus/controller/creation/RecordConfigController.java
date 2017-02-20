@@ -347,7 +347,7 @@ public class RecordConfigController extends AbstractCreationController implement
                     for (ValidatedData validatedData : data) {
                         for (Measurement measurement : validatedData.getMeasurements()) {
                             for (Range range : ranges) {
-                                if (measurement.getDate().getTime() < range.getHigh() && measurement.getDate().getTime() > range.getLow()) {
+                                if (measurement.getDate().getTime() <= range.getHigh() && measurement.getDate().getTime() >= range.getLow()) {
                                     totalMeasurements++;
                                     break;
                                 }
@@ -373,7 +373,7 @@ public class RecordConfigController extends AbstractCreationController implement
                         // insert only measurements in the range >= startDate and <= endDate
                         for (Measurement measurement : validatedData.getMeasurements()) {
                             for (Range range : ranges) {
-                                if (measurement.getDate().getTime() < range.getHigh() && measurement.getDate().getTime() > range.getLow()) {
+                                if (measurement.getDate().getTime() <= range.getHigh() && measurement.getDate().getTime() >= range.getLow()) {
                                     updateProgress(actualMeasurement++, totalMeasurements);
                                     String toAdd = Constants.dateTimeFormat.format(measurement.getDate()) + Constants.COMMA + Constants.UNIT_C + Constants.COMMA + Constants.decimalFormat.format(measurement.getData());
                                     toAdd = toAdd.replace(Constants.DOT, Constants.COMMA);
