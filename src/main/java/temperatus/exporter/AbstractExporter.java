@@ -212,6 +212,7 @@ abstract class AbstractExporter {
                     data.setCellValue(Calculator.celsiusToFahrenheit(measurement.getData()));
                 }
                 col++;
+                prevDate = measurement.getDate();
 
                 if (measurement.getData() == Double.NaN) {  // error calculating value, show warn to user
                     logger.warn("Error in formula...");

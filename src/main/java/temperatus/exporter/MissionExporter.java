@@ -116,7 +116,7 @@ public class MissionExporter extends AbstractExporter {
                     prevIndex++;
 
                     exportMission(measurements, headerRowOneRow, dataRowOneRow, unit, prevIndex, separateWithTags);
-                    prevIndex += measurements.size() + ranges;
+                    prevIndex += measurements.size() + ranges + 3;
                 }
 
                 row++;
