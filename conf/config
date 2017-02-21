@@ -230,6 +230,8 @@ cd /Users/alberto/Desktop/temperatus/temperatus && mvn package && cd ./loader &&
 # Loader maven
 cd /Users/alberto/Desktop/temperatus/temperatus/loader && mvn package && cp /Users/alberto/Desktop/temperatus/temperatus/loader/target/loader.jar /Users/alberto/Desktop/deploy/Loader.jar
 
+# Generate jar & pack200 & copy to server folder!
+cd /Users/alberto/Developer/temperatus/temperatus && mvn package && pack200 ./target/Temperatus.jar.pack.gz ./target/temperatus.jar && cp ./target/Temperatus.jar.pack.gz /Users/alberto/Developer/albertoquesada/updates/temperatus_windows.jar.pack.gz
 
 -------------------------
 -   Deployment  WIN     -
