@@ -233,6 +233,9 @@ cd /Users/alberto/Desktop/temperatus/temperatus/loader && mvn package && cp /Use
 # Generate jar & pack200 & copy to server folder!
 cd /Users/alberto/Developer/temperatus/temperatus && mvn package && pack200 ./target/Temperatus.jar.pack.gz ./target/temperatus.jar && cp ./target/Temperatus.jar.pack.gz /Users/alberto/Developer/albertoquesada/updates/temperatus_windows.jar.pack.gz
 
+# NOT WORKING: NATIVE DEPLOY MUST BE DONE IN THE SAME SYSTEM AS THE BUILD. -- Complete generation of the windows installer
+cd /Users/alberto/Developer/temperatus/temperatus && mvn package && cd ./loader && mvn package && cp /Users/alberto/Developer/temperatus/temperatus/target/temperatus.jar /Users/alberto/Developer/temperatus/deploy/windows/Temperatus.jar && cp /Users/alberto/Developer/temperatus/temperatus/loader/target/loader.jar /Users/alberto/Developer/temperatus/deploy/windows/Loader.jar && javapackager -deploy -native exe -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/Loader.jar -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/Temperatus.jar -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/database.h2.db -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/IB97E32.dll -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/IB97U32.dll -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/IBTMJAVA.dll -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/IBUSB32.dll -srcfiles /Users/alberto/Developer/temperatus/deploy/windows/IBFS32.dll -outdir /Users/alberto/Developer/temperatus/packages -name Temperatus -title "Temperatus" -appclass loader.AppLoader -outfile Temperatus -Bruntime=/Users/alberto/Developer/temperatus/deploy/windows/jre1.8.0_66/ -native exe -Bicon=/Users/alberto/Developer/temperatus/deploy/windows/icon.ico -BshortcutHint=true
+
 -------------------------
 -   Deployment  WIN     -
 -------------------------
